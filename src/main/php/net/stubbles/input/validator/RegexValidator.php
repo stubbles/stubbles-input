@@ -17,6 +17,8 @@ use net\stubbles\lang\exception\RuntimeException;
  * one time. Please make sure that the supplied regular expresion contains
  * correct delimiters, they will not be applied automatically. The validate()
  * method throws a runtime exception in case the regular expression is invalid.
+ *
+ * @api
  */
 class RegexValidator extends BaseObject implements Validator
 {

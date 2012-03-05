@@ -14,6 +14,8 @@ namespace net\stubbles\input\validator;
  * If no validator or more than one validator returns false the stubXorValidator
  * will return false as well. It only returns true if one validator returns true
  * and any other validator returns false.
+ *
+ * @api
  */
 class XorValidator extends AbstractCompositeValidator
 {

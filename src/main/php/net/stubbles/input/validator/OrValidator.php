@@ -13,6 +13,8 @@ namespace net\stubbles\input\validator;
  *
  * If any of the combined validators returns true the stubOrValidator
  * will return true as well.
+ *
+ * @api
  */
 class OrValidator extends AbstractCompositeValidator
 {

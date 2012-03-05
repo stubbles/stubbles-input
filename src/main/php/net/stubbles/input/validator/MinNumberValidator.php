@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a value is not smaller than a given minimum value.
+ *
+ * @api
  */
 class MinNumberValidator extends BaseObject implements Validator
 {

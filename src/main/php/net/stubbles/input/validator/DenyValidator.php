@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator that denies validaty of values.
+ *
+ * @api
  */
 class DenyValidator extends BaseObject implements Validator
 {
