@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a string is not shorter than a given minimum length.
+ *
+ * @api
  */
 class MinLengthValidator extends BaseObject implements Validator
 {

@@ -13,6 +13,8 @@ namespace net\stubbles\input\validator;
  *
  * Composite validators can be used to combine two or more validators
  * into a single validator.
+ *
+ * @api
  */
 interface CompositeValidator extends Validator
 {

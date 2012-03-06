@@ -13,6 +13,8 @@ use net\stubbles\lang\Object;
  * Interface for validators.
  *
  * Validators allow simple checks whether a value fulfils a set of criteria.
+ *
+ * @api
  */
 interface Validator extends Object
 {

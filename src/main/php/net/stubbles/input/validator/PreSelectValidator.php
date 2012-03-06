@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to validate a value against a list of allowed values.
+ *
+ * @api
  */
 class PreSelectValidator extends BaseObject implements Validator
 {

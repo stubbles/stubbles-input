@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a string is a mail address.
+ *
+ * @api
  */
 class MailValidator extends BaseObject implements Validator
 {

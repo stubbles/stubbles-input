@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a value is not greater than a given maximum value.
+ *
+ * @api
  */
 class MaxNumberValidator extends BaseObject implements Validator
 {

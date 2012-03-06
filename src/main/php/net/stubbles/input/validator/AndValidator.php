@@ -14,6 +14,8 @@ namespace net\stubbles\input\validator;
  *
  * If any of the combined validators returns false the stubAndValidator
  * will return false as well.
+ *
+ * @api
  */
 class AndValidator extends AbstractCompositeValidator
 {
