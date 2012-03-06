@@ -13,6 +13,8 @@ use net\stubbles\peer\MalformedUrlException;
 use net\stubbles\peer\http\HttpUrl;
 /**
  * Validator to ensure that a string is a http uri.
+ *
+ * @api
  */
 class HttpUriValidator extends BaseObject implements Validator
 {

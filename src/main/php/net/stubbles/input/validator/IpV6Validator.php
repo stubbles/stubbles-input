@@ -13,6 +13,7 @@ use net\stubbles\lang\BaseObject;
  * Class for validating that something is an ip v6 address.
  *
  * @since  1.7.0
+ * @api
  */
 class IpV6Validator extends BaseObject implements Validator
 {

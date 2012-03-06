@@ -16,6 +16,8 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  * This class can compare any scalar value with an expected value. The
  * value to validate has to be of the same type and should have the same
  * content as the expected value.
+ *
+ * @api
  */
 class ContainsValidator extends BaseObject implements Validator
 {

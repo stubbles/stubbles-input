@@ -11,6 +11,8 @@ namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a string is not longer than a given maximum length.
+ *
+ * @api
  */
 class MaxLengthValidator extends BaseObject implements Validator
 {
