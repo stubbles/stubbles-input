@@ -40,16 +40,6 @@ class RegexValidator extends BaseObject implements Validator
     }
 
     /**
-     * returns the regular expression to use for validation
-     *
-     * @return  string
-     */
-    public function getValue()
-    {
-        return $this->regex;
-    }
-
-    /**
      * validate that the given value complies with the regular expression
      *
      * @param   mixed  $value

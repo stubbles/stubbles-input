@@ -34,16 +34,6 @@ class MaxNumberValidator extends BaseObject implements Validator
     }
 
     /**
-     * returns the minimum value to use for validation
-     *
-     * @return  double
-     */
-    public function getValue()
-    {
-        return $this->maxValue;
-    }
-
-    /**
      * validate that the given value is smaller than or equal to the maximum value
      *
      * @param   int|double  $value

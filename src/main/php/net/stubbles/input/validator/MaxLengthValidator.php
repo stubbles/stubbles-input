@@ -34,16 +34,6 @@ class MaxLengthValidator extends BaseObject implements Validator
     }
 
     /**
-     * returns the maximum length to use for validation
-     *
-     * @return  int
-     */
-    public function getValue()
-    {
-        return $this->maxLength;
-    }
-
-    /**
      * validate that the given value is not longer than the maximum length
      *
      * @param   string  $value
