@@ -12,8 +12,8 @@ namespace net\stubbles\input\validator;
  * Class that combines differant validators that all have to be true in order
  * that this validator also reports true.
  *
- * If any of the combined validators returns false the stubAndValidator
- * will return false as well.
+ * If any of the combined validators returns false the AndValidator will return
+ * false as well.
  *
  * @api
  */
