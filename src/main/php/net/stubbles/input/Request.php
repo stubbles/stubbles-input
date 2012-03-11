@@ -11,6 +11,8 @@ namespace net\stubbles\input;
 use net\stubbles\lang\Object;
 /**
  * Interface for handling input data.
+ *
+ * @api
  */
 interface Request extends Object
 {
