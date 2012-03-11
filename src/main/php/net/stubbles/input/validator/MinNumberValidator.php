@@ -53,19 +53,5 @@ class MinNumberValidator extends BaseObject implements Validator
     {
         return ($value >= $this->minValue);
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('minNumber' => [minimum_value]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('minNumber' => $this->minValue);
-    }
 }
 ?>

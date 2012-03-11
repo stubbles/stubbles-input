@@ -86,16 +86,5 @@ class EqualValidatorTestCase extends \PHPUnit_Framework_TestCase
         $validator = new EqualValidator($contained);
         $this->assertFalse($validator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsExpected()
-    {
-        $containsValidator = new EqualValidator('foo');
-        $this->assertEquals(array('expected' => 'foo'),
-                            $containsValidator->getCriteria()
-        );
-    }
 }
 ?>

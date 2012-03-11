@@ -83,14 +83,6 @@ class MailValidatorTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     */
-    public function hasNoCriteria()
-    {
-        $this->assertEquals(array(), $this->mailValidator->getCriteria());
-    }
-
-    /**
-     * @test
      * @group  bug223
      * @link  http://stubbles.net/ticket/223
      */

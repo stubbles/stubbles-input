@@ -65,19 +65,5 @@ class ContainsValidator extends BaseObject implements Validator
 
         return false;
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('contained' => [contained_value]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('contained' => $this->contained);
-    }
 }
 ?>

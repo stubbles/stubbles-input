@@ -83,13 +83,5 @@ class HttpUriValidatorTestCase extends \PHPUnit_Framework_TestCase
                                                   ->validate('http://stubbles.doesNotExist/')
         );
     }
-
-    /**
-     * @test
-     */
-    public function hasNoCriterion()
-    {
-        $this->assertEquals(array(), $this->httpUrlValidator->getCriteria());
-    }
 }
 ?>

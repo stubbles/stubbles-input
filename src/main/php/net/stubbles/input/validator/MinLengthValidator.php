@@ -53,19 +53,5 @@ class MinLengthValidator extends BaseObject implements Validator
     {
         return (iconv_strlen($value) >= $this->minLength);
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('minLength' => [min_length_of_string]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('minLength' => $this->minLength);
-    }
 }
 ?>
