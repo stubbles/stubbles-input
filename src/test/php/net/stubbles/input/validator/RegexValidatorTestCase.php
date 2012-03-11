@@ -16,15 +16,6 @@ namespace net\stubbles\input\validator;
 class RegexValidatorTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @test
-     */
-    public function returnsRegexValue()
-    {
-        $regexValidator = new RegexValidator('^([a-z]{3})$');
-        $this->assertEquals('^([a-z]{3})$', $regexValidator->getValue());
-    }
-
-    /**
      * @return  array
      */
     public function getValidValues()

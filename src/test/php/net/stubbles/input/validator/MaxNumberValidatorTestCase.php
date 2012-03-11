@@ -31,14 +31,6 @@ class MaxNumberValidatorTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     */
-    public function returnsMaxNumberValue()
-    {
-        $this->assertEquals(5, $this->maxNumberValidator->getValue());
-    }
-
-    /**
      * @return  array
      */
     public function getValidValues()

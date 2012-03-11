@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\input\filter\FilterError;
+use net\stubbles\input\error\ParamError;
 use net\stubbles\lang\BaseObject;
 /**
  * Container for a parameter and its value.
@@ -30,7 +30,7 @@ class Param extends BaseObject
     /**
      * list of error ids for this param
      *
-     * @type  FilterError[]
+     * @type  ParamError[]
      */
     private $errors = array();
 
@@ -103,20 +103,20 @@ class Param extends BaseObject
      *
      * @param   string  $errorId
      * @param   array   $details  details of what caused the error
-     * @return  FilterError
+     * @return  ParamError
      */
     public function addErrorWithId($errorId, array $details = array())
     {
-        return $this->addError(new FilterError($errorId, $details));
+        return $this->addError(new ParamError($errorId, $details));
     }
 
     /**
      * adds error with given id
      *
-     * @param   FilterError  $error
-     * @return  FilterError
+     * @param   ParamError  $error
+     * @return  ParamError
      */
-    public function addError(FilterError $error)
+    public function addError(ParamError $error)
     {
         $this->errors[$error->getId()] = $error;
         return $error;
@@ -146,7 +146,7 @@ class Param extends BaseObject
     /**
      * returns list of error ids
      *
-     * @return  FilterError[]
+     * @return  ParamError[]
      */
     public function getErrors()
     {

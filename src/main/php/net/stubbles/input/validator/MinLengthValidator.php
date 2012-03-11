@@ -34,16 +34,6 @@ class MinLengthValidator extends BaseObject implements Validator
     }
 
     /**
-     * returns the minimum length to use for validation
-     *
-     * @return  int
-     */
-    public function getValue()
-    {
-        return $this->minLength;
-    }
-
-    /**
      * validate that the given value is not shorter than the minimum length
      *
      * @param   string  $value

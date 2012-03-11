@@ -10,7 +10,8 @@
     },
     "autoload": {
         "psr-0": {
-            "net\\stubbles\\input": "src/main/php"
+            "net\\stubbles\\input": "src/main/php",
+            "org\\stubbles\\input": "src/main/php"
         }
     },
     "scripts": {
