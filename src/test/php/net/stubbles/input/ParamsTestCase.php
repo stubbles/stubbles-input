@@ -13,7 +13,7 @@ namespace net\stubbles\input;
  *
  * @group  core
  */
-class ParamTestCase extends \PHPUnit_Framework_TestCase
+class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
