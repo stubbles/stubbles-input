@@ -31,14 +31,6 @@ class MinNumberValidatorTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     */
-    public function returnsMinNumberValue()
-    {
-        $this->assertEquals(5, $this->minNumberValidator->getValue());
-    }
-
-    /**
      * @return  array
      */
     public function getValidValues()

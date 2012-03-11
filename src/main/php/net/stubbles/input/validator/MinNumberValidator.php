@@ -34,16 +34,6 @@ class MinNumberValidator extends BaseObject implements Validator
     }
 
     /**
-     * returns the minimum value to use for validation
-     *
-     * @return  double
-     */
-    public function getValue()
-    {
-        return $this->minValue;
-    }
-
-    /**
      * validate that the given value is greater than or equal to the minimum value
      *
      * @param   int|double  $value

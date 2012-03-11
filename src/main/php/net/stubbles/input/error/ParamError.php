@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace net\stubbles\input\error;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\LocalizedString;
 /**
@@ -15,10 +15,10 @@ use net\stubbles\lang\types\LocalizedString;
  *
  * @XmlTag(tagName='error')
  */
-class FilterError extends BaseObject
+class ParamError extends BaseObject
 {
     /**
-     * id of the current value error
+     * id of the current param error
      *
      * @type  string
      */
@@ -39,7 +39,7 @@ class FilterError extends BaseObject
     /**
      * constructor
      *
-     * @param  string  $id       id of the current value error
+     * @param  string  $id       id of the current param error
      * @param  array   $details  details of what caused the error
      */
     public function __construct($id, array $details = array())
@@ -49,7 +49,7 @@ class FilterError extends BaseObject
     }
 
     /**
-     * returns the id of the current value error
+     * returns the id of the current param error
      *
      * @XmlAttribute(attributeName='id')
      * @return  string
@@ -92,7 +92,7 @@ class FilterError extends BaseObject
     }
 
     /**
-     * flattens the given detail to be used within the message
+     * flattens the given detail to be used within a message
      *
      * @param   mixed   $detail
      * @return  string

@@ -13,7 +13,7 @@ namespace net\stubbles\input;
  *
  * @group  core
  */
-class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
+class ParamTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -106,6 +106,5 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
         $error = $param->addErrorWithId('SOME_ERROR', array('some' => 'detail'));
         $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
     }
-
 }
 ?>
