@@ -7,28 +7,28 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace net\stubbles\input\error;
 use net\stubbles\lang\types\LocalizedString;
 /**
- * Tests for net\stubbles\input\filter\FilterError.
+ * Tests for net\stubbles\input\error\ParamError.
  *
- * @group  filter
+ * @group  error
  */
-class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
+class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  FilterError
+     * @type  ParamError
      */
-    private $filterError;
+    private $paramError;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->filterError = new FilterError('id', array('foo' => 'bar'));
+        $this->paramError = new ParamError('id', array('foo' => 'bar'));
     }
 
     /**
@@ -36,7 +36,7 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenId()
     {
-        $this->assertEquals('id', $this->filterError->getId());
+        $this->assertEquals('id', $this->paramError->getId());
     }
 
     /**
@@ -44,7 +44,7 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function hasNoMessagesByDefault()
     {
-        $this->assertEquals(array(), $this->filterError->getMessages());
+        $this->assertEquals(array(), $this->paramError->getMessages());
     }
 
     /**
@@ -56,11 +56,11 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type bar occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
                             ),
-                            $this->filterError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                            )
-                                                )
-                                              ->getMessages()
+                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                           )
+                                               )
+                                             ->getMessages()
         );
     }
 
@@ -69,15 +69,15 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function replacesPlaceHolderInAddedMessagesWithFlattenedArrayDetails()
     {
-        $this->filterError = new FilterError('id', array('foo' => array('bar', 'baz')));
+        $this->paramError = new ParamError('id', array('foo' => array('bar', 'baz')));
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type bar, baz occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
                             ),
-                            $this->filterError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                            )
-                                                )
-                                              ->getMessages()
+                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                           )
+                                               )
+                                             ->getMessages()
         );
     }
 
@@ -86,15 +86,15 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function replacesPlaceHolderInAddedMessagesWithObjectDetails()
     {
-        $this->filterError = new FilterError('id', array('foo' => new \stdClass()));
+        $this->paramError = new ParamError('id', array('foo' => new \stdClass()));
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type stdClass occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
                             ),
-                            $this->filterError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                            )
-                                                )
-                                              ->getMessages()
+                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                           )
+                                               )
+                                             ->getMessages()
         );
     }
 
@@ -103,15 +103,15 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function doesNotReplacePlaceHolderInAddedMessagesIfDetailsNotSet()
     {
-        $this->filterError = new FilterError('id');
+        $this->paramError = new ParamError('id');
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type {foo} occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
                             ),
-                            $this->filterError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                            )
-                                                )
-                                              ->getMessages()
+                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                           )
+                                               )
+                                             ->getMessages()
         );
     }
 
@@ -120,7 +120,7 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue($this->filterError->getClass()->hasAnnotation('XmlTag'));
+        $this->assertTrue($this->paramError->getClass()->hasAnnotation('XmlTag'));
     }
 
     /**
@@ -128,7 +128,7 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnGetIdMethod()
     {
-        $this->assertTrue($this->filterError->getClass()
+        $this->assertTrue($this->paramError->getClass()
                                             ->getMethod('getId')
                                             ->hasAnnotation('XmlAttribute')
         );
@@ -139,7 +139,7 @@ class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnGetMessagesMethod()
     {
-        $this->assertTrue($this->filterError->getClass()
+        $this->assertTrue($this->paramError->getClass()
                                             ->getMethod('getMessages')
                                             ->hasAnnotation('XmlTag')
         );

@@ -7,17 +7,17 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace net\stubbles\input\error;
 use net\stubbles\lang\BaseObject;
 /**
  * Container for a filter error list.
  *
  * @since  1.3.0
  */
-class FilterErrors extends BaseObject implements \IteratorAggregate
+class ParamErrors extends BaseObject implements \IteratorAggregate
 {
     /**
-     * list of errors that occurred while applying a filter on a request value
+     * list of errors that occurred while applying a filter on a param
      *
      * @type  array
      */
@@ -30,7 +30,7 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
      * @param   string       $paramName  name of parameter to add error for
      * @return  FilterError
      */
-    public function add(FilterError $error, $paramName)
+    public function add(ParamError $error, $paramName)
     {
         if (isset($this->errors[$paramName]) === false) {
             $this->errors[$paramName] = array($error->getId() => $error);
@@ -62,7 +62,7 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
     }
 
     /**
-     * checks whether a request value has any error
+     * checks whether a param has any error
      *
      * @param   string  $paramName  name of parameter
      * @return  bool
@@ -73,7 +73,7 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
     }
 
     /**
-     * checks whether a request value has a specific error
+     * checks whether a param has a specific error
      *
      * @param   string  $paramName  name of parameter
      * @param   string  $errorId    id of error
@@ -85,7 +85,7 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
     }
 
     /**
-     * returns list of all errors for all request values
+     * returns list of all errors for all parameters
      *
      * @return  array
      */
@@ -95,7 +95,7 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
     }
 
     /**
-     * returns a list of errors for given request value
+     * returns a list of errors for given param
      *
      * @param   string  $paramName
      * @return  FilterError[]
@@ -110,11 +110,11 @@ class FilterErrors extends BaseObject implements \IteratorAggregate
     }
 
     /**
-     * returns the error for given request value and error id
+     * returns the error for given param and error id
      *
-     * @param   string  $paramName  name of request value
+     * @param   string  $paramName  name of param
      * @param   string  $errorId    id of error
-     * @return  FilterError
+     * @return  ParamError
      */
     public function getForWithId($paramName, $errorId)
     {

@@ -9,103 +9,73 @@
  */
 namespace net\stubbles\input;
 /**
- * Tests for net\stubbles\input\Param.
+ * Tests for net\stubbles\input\Params.
  *
  * @group  core
  */
-class FilterErrorTestCase extends \PHPUnit_Framework_TestCase
+class ParamsTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @test
+     * instanct to test
+     *
+     * @type  Params
      */
-    public function returnsGivenName()
+    private $params;
+
+    /**
+     * set up test environment
+     */
+    public function setUp()
     {
-        $param = new Param('foo', 'bar');
-        $this->assertEquals('foo', $param->getName());
+        $this->params = new Params(array('foo' => 'bar', 'baz' => 'value'));
     }
 
     /**
      * @test
      */
-    public function returnsGivenValue()
+    public function returnsFalseIfParamDoesNotExist()
     {
-        $param = new Param('foo', 'bar');
-        $this->assertEquals('bar', $param->getValue());
+        $this->assertFalse($this->params->has('doesNotExist'));
     }
 
     /**
      * @test
      */
-    public function isNullIfValueIsNull()
+    public function returnsTrueIfParamDoesExist()
     {
-        $param = new Param('foo', null);
-        $this->assertTrue($param->isNull());
+        $this->assertTrue($this->params->has('foo'));
     }
 
     /**
      * @test
      */
-    public function isEmptyIfValueIsNull()
+    public function returnsNullParamIfParamDoesNotExist()
     {
-        $param = new Param('foo', null);
-        $this->assertTrue($param->isEmpty());
+        $this->assertTrue($this->params->get('doesNotExist')->isNull());
     }
 
     /**
      * @test
      */
-    public function isEmptyIfValueIsEmptyString()
+    public function returnsParamWithValueIfParamExists()
     {
-        $param = new Param('foo', '');
-        $this->assertTrue($param->isEmpty());
+        $this->assertEquals('bar', $this->params->get('foo')->getValue());
     }
 
     /**
      * @test
      */
-    public function returnsValueLength()
+    public function returnsListOfParamNames()
     {
-        $param = new Param('foo', 'bar');
-        $this->assertEquals(3, $param->length());
+        $this->assertEquals(array('foo', 'baz'), $this->params->getNames());
     }
 
     /**
      * @test
      */
-    public function hasNoErrorByDefault()
+    public function listOfParamErrorsIsInitiallyEmpty()
     {
-        $param = new Param('foo', 'bar');
-        $this->assertFalse($param->hasErrors());
+        $this->assertFalse($this->params->errors()->exist());
     }
-
-    /**
-     * @test
-     */
-    public function hasEmptyErrorListByDefault()
-    {
-        $param = new Param('foo', 'bar');
-        $this->assertEquals(array(), $param->getErrors());
-    }
-
-    /**
-     * @test
-     */
-    public function hasErrorIfAdded()
-    {
-        $param = new Param('foo', 'bar');
-        $param->addErrorWithId('SOME_ERROR');
-        $this->assertTrue($param->hasErrors());
-    }
-
-    /**
-     * @test
-     */
-    public function hasNonEmptyErrorListIfErrorAdded()
-    {
-        $param = new Param('foo', 'bar');
-        $error = $param->addErrorWithId('SOME_ERROR', array('some' => 'detail'));
-        $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
-    }
-
 }
 ?>
