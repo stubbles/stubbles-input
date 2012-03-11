@@ -61,20 +61,5 @@ abstract class AbstractCompositeValidator extends BaseObject implements Composit
      * @return  bool   true if value is ok, else false
      */
     protected abstract function doValidate($value);
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        $criterias = array();
-        foreach ($this->validators as $validator) {
-            $criterias = array_merge($criterias, $validator->getCriteria());
-        }
-
-        return $criterias;
-    }
 }
 ?>

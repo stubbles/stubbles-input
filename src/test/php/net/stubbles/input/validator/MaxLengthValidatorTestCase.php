@@ -82,15 +82,5 @@ class MaxLengthValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->maxLengthValidator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsMaxLength()
-    {
-        $this->assertEquals(array('maxLength' => 5),
-                            $this->maxLengthValidator->getCriteria()
-        );
-    }
 }
 ?>

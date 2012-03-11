@@ -27,15 +27,5 @@ class DenyValidator extends BaseObject implements Validator
         return false;
     }
 
-    /**
-     * returns a list of criteria for the validator
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array();
-    }
-
 }
 ?>

@@ -80,15 +80,5 @@ class MaxNumberValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->maxNumberValidator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsMaxNumber()
-    {
-        $this->assertEquals(array('maxNumber' => 5),
-                            $this->maxNumberValidator->getCriteria()
-        );
-    }
 }
 ?>

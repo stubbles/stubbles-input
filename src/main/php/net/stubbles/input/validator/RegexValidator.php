@@ -65,19 +65,5 @@ class RegexValidator extends BaseObject implements Validator
 
         return ((1 != $check) ? (false) : (true));
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('regex' => [regular_expression]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('regex' => $this->regex);
-    }
 }
 ?>

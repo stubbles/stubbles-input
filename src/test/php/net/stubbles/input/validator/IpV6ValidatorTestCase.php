@@ -177,13 +177,5 @@ class sIpV6ValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->ipV6Validator->validate('febc:a574:382b:23c1:aa49::'));
     }
-
-    /**
-     * @test
-     */
-    public function hasNoCriteria()
-    {
-        $this->assertEquals(array(), $this->ipV6Validator->getCriteria());
-    }
 }
 ?>

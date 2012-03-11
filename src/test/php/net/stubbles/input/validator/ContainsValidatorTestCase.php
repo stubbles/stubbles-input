@@ -94,16 +94,5 @@ class ContainsValidatorTestCase extends \PHPUnit_Framework_TestCase
         $validator = new ContainsValidator($contained);
         $this->assertFalse($validator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsContained()
-    {
-        $containsValidator = new ContainsValidator('foo');
-        $this->assertEquals(array('contained' => 'foo'),
-                            $containsValidator->getCriteria()
-        );
-    }
 }
 ?>

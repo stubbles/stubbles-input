@@ -113,13 +113,5 @@ class IpV4ValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->ipV4Validator->validate('1.2.3.4'));
     }
-
-    /**
-     * @test
-     */
-    public function hasNoCriteria()
-    {
-        $this->assertEquals(array(), $this->ipV4Validator->getCriteria());
-    }
 }
 ?>

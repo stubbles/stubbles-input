@@ -45,19 +45,6 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     */
-    public function getCriteriaMergesAllCriteriasOfAddedValidators()
-    {
-
-        $this->assertEquals(array('foo' => 'bar', 'bar' => 'baz'),
-                            $this->compositeValidator->addValidator($this->createMockValidatorWhichReturnsCriteria(array('foo' => 'bar')))
-                                                     ->addValidator($this->createMockValidatorWhichReturnsCriteria(array('bar' => 'baz')))
-                                                     ->getCriteria()
-        );
-    }
-
-    /**
      * creates mocked validator instance
      *
      * @param   bool  $validateResult
@@ -82,21 +69,6 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
         $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
         $mockValidator->expects($this->never())
                       ->method('validate');
-        return $mockValidator;
-    }
-
-    /**
-     * creates mocked validator instance
-     *
-     * @param   array  $criteria
-     * @return  \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createMockValidatorWhichReturnsCriteria(array $criteria)
-    {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
-        $mockValidator->expects($this->once())
-                      ->method('getCriteria')
-                      ->will($this->returnValue($criteria));
         return $mockValidator;
     }
 }

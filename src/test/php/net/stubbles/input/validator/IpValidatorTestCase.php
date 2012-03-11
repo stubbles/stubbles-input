@@ -215,13 +215,5 @@ class IpValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->ipValidator->validate('febc:a574:382b:23c1:aa49::'));
     }
-
-    /**
-     * @test
-     */
-    public function hasNoCriteria()
-    {
-        $this->assertEquals(array(), $this->ipValidator->getCriteria());
-    }
 }
 ?>
