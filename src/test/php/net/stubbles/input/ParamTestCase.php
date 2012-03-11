@@ -106,6 +106,5 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
         $error = $param->addErrorWithId('SOME_ERROR', array('some' => 'detail'));
         $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
     }
-
 }
 ?>

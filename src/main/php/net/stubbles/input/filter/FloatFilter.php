@@ -18,7 +18,7 @@ use net\stubbles\lang\BaseObject;
  * operations for accuracy. If no value for x is given the value to filter is
  * returned as is after the cast.
  */
-class FloatFilter extends BaseObject implements Filter
+class FloatFilter extends BaseObject implements NumberFilter
 {
     /**
      * number of decimals
