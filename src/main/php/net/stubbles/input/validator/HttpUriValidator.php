@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\lang\BaseObject;
-use net\stubbles\peer\MalformedUrlException;
-use net\stubbles\peer\http\HttpUrl;
+use net\stubbles\peer\MalformedUriException;
+use net\stubbles\peer\http\HttpUri;
 /**
  * Validator to ensure that a string is a http uri.
  *
@@ -52,11 +52,11 @@ class HttpUriValidator extends BaseObject implements Validator
         }
 
         try {
-            $url = HttpUrl::fromString($value);
+            $uri = HttpUri::fromString($value);
             if (true === $this->checkDns) {
-                return $url->hasDnsRecord();
+                return $uri->hasDnsRecord();
             }
-        } catch (MalformedUrlException $murle) {
+        } catch (MalformedUriException $murle) {
             return false;
         }
 
