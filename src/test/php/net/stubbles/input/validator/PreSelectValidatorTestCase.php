@@ -71,15 +71,5 @@ class PreSelectValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->preSelectValidator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsAllowedValues()
-    {
-        $this->assertEquals(array('allowedValues' => array('foo', 'bar')),
-                            $this->preSelectValidator->getCriteria()
-        );
-    }
 }
 ?>

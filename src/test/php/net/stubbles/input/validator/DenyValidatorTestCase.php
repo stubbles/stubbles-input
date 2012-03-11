@@ -38,14 +38,5 @@ class DenyValidatorTestCase extends \PHPUnit_Framework_TestCase
         $denyValidator = new DenyValidator();
         $this->assertFalse($denyValidator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function hasNoCriteria()
-    {
-        $denyValidator = new DenyValidator();
-        $this->assertEquals(array(), $denyValidator->getCriteria());
-    }
 }
 ?>

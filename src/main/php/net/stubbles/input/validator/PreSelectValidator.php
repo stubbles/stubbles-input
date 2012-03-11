@@ -53,19 +53,5 @@ class PreSelectValidator extends BaseObject implements Validator
 
         return true;
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('allowedValues' => [array_of_allowed_values]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('allowedValues' => $this->allowedValues);
-    }
 }
 ?>

@@ -53,19 +53,5 @@ class MaxLengthValidator extends BaseObject implements Validator
     {
         return (iconv_strlen($value) <= $this->maxLength);
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('maxLength' => [max_length_of_string]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('maxLength' => $this->maxLength);
-    }
 }
 ?>

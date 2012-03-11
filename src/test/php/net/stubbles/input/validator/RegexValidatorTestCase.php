@@ -81,16 +81,5 @@ class RegexValidatorTestCase extends \PHPUnit_Framework_TestCase
         $regexValidator = new RegexValidator('^([a-z]{3})$');
         $regexValidator->validate('foo');
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsRegex()
-    {
-        $regexValidator = new RegexValidator('/^([a-z]{3})$/');
-        $this->assertEquals(array('regex' => '/^([a-z]{3})$/'),
-                            $regexValidator->getCriteria()
-        );
-    }
 }
 ?>

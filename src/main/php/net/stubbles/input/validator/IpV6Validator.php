@@ -60,19 +60,5 @@ class IpV6Validator extends BaseObject implements Validator
     {
         return self::validateAddress($value);
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('expected' => [expected_value]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array();
-    }
 }
 ?>

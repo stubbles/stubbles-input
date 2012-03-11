@@ -82,15 +82,5 @@ class MinLengthValidatorTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->minLengthValidator->validate($value));
     }
-
-    /**
-     * @test
-     */
-    public function getCriteriaReturnsMinLength()
-    {
-        $this->assertEquals(array('minLength' => 5),
-                            $this->minLengthValidator->getCriteria()
-        );
-    }
 }
 ?>

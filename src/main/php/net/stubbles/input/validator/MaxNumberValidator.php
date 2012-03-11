@@ -53,19 +53,5 @@ class MaxNumberValidator extends BaseObject implements Validator
     {
         return ($value <= $this->maxValue);
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array('maxNumber' => [maximum_value]);
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array('maxNumber' => $this->maxValue);
-    }
 }
 ?>

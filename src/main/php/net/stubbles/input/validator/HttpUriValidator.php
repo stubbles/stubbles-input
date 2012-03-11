@@ -62,19 +62,5 @@ class HttpUriValidator extends BaseObject implements Validator
 
         return true;
     }
-
-    /**
-     * returns a list of criteria for the validator
-     *
-     * <code>
-     * array();
-     * </code>
-     *
-     * @return  array  key is criterion name, value is criterion value
-     */
-    public function getCriteria()
-    {
-        return array();
-    }
 }
 ?>
