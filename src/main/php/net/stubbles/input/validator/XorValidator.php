@@ -11,7 +11,7 @@ namespace net\stubbles\input\validator;
 /**
  * Class that combines differant validators where one has to be true.
  *
- * If no validator or more than one validator returns false the stubXorValidator
+ * If no validator or more than one validator returns false the XorValidator
  * will return false as well. It only returns true if one validator returns true
  * and any other validator returns false.
  *

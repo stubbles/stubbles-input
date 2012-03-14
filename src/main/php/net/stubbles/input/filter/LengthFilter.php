@@ -87,7 +87,7 @@ class LengthFilter extends BaseObject implements Filter
             return false;
         }
 
-        return (strlen($value) < $this->minLength);
+        return (iconv_strlen($value) < $this->minLength);
     }
 
     /**
@@ -102,7 +102,7 @@ class LengthFilter extends BaseObject implements Filter
             return false;
         }
 
-        return (strlen($value) > $this->maxLength);
+        return (iconv_strlen($value) > $this->maxLength);
     }
 }
 ?>

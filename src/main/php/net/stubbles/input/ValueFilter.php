@@ -62,6 +62,7 @@ class ValueFilter extends BaseObject
     /**
      * read as boolean value
      *
+     * @api
      * @param   bool  $default  default value to fall back to
      * @return  bool
      * @since   1.7.0
@@ -78,6 +79,7 @@ class ValueFilter extends BaseObject
     /**
      * read as integer value
      *
+     * @api
      * @param   int   $min       minimum allowed value
      * @param   int   $max       maximum allowed value
      * @param   int   $default   default value to fall back to
@@ -101,6 +103,7 @@ class ValueFilter extends BaseObject
     /**
      * read as float value
      *
+     * @api
      * @param   int    $min       minimum allowed value
      * @param   int    $max       maximum allowed value
      * @param   float  $default   default value to fall back to
@@ -126,6 +129,7 @@ class ValueFilter extends BaseObject
     /**
      * read as string value
      *
+     * @api
      * @param   int     $minLength  minimum length of string
      * @param   int     $maxLength  maximum length of string
      * @param   string  $default    default value to fall back to
@@ -149,6 +153,7 @@ class ValueFilter extends BaseObject
     /**
      * read as text value
      *
+     * @api
      * @param   int       $minLength    minimum length of string
      * @param   int       $maxLength    maximum length of string
      * @param   string    $default      default value to fall back to
@@ -174,6 +179,7 @@ class ValueFilter extends BaseObject
     /**
      * read as json value
      *
+     * @api
      * @param   string  $default   default value to fall back to
      * @param   bool    $required  if a value is required, defaults to false
      * @return  string
@@ -190,6 +196,7 @@ class ValueFilter extends BaseObject
     /**
      * read as password value
      *
+     * @api
      * @param   int       $minDiffChars      minimum amount of different characters within password
      * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
      * @param   bool      $required          if a value is required, defaults to true
@@ -207,6 +214,7 @@ class ValueFilter extends BaseObject
     /**
      * read as http url
      *
+     * @api
      * @param   bool     $checkDns  whether url should be checked via DNS
      * @param   HttpUri  $default   default value to fall back to
      * @param   bool     $required  if a value is required, defaults to false
@@ -229,6 +237,7 @@ class ValueFilter extends BaseObject
     /**
      * read as mail address
      *
+     * @api
      * @param   bool  $required  if a value is required, defaults to false
      * @return  string
      */
@@ -240,6 +249,7 @@ class ValueFilter extends BaseObject
     /**
      * read as date value
      *
+     * @api
      * @param   Date  $minDate    smallest allowed date
      * @param   Date  $maxDate    greatest allowed date
      * @param   Date  $default    default value to fall back to
@@ -266,8 +276,8 @@ class ValueFilter extends BaseObject
      *
      * If value does not satisfy given filter return value will be null.
      *
+     * @api
      * @param   Filter  $filter
-     * @param   mixed   $default  default value to fall back to
      * @param   bool    $required  if a value is required, defaults to false
      * @return  mixed
      */
@@ -293,6 +303,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it contains given string, and null otherwise
      *
+     * @api
      * @param   string  $contained  byte sequence the value must contain
      * @param   string  $default    default value to fall back to
      * @return  string
@@ -305,6 +316,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it eqals an expected value, and null otherwise
      *
+     * @api
      * @param   string  $expected  byte sequence the value must be equal to
      * @param   string  $default   default value to fall back to
      * @return  bool
@@ -317,6 +329,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it is an http url, and null otherwise
      *
+     * @api
      * @param   bool    $checkDns  whether to verify url via DNS
      * @param   string  $default   default value to fall back to
      * @return  string
@@ -329,6 +342,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it is an ip address, and null otherwise
      *
+     * @api
      * @param   string  $default  default value to fall back to
      * @return  string
      */
@@ -340,6 +354,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it is a mail address, and null otherwise
      *
+     * @api
      * @param   string  $default  default value to fall back to
      * @return  string
      */
@@ -351,8 +366,9 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it is an allowed value according to list of allowed values, and null otherwise
      *
-     * @param   array<string>  $allowedValues  list of allowed values
-     * @param   string         $default        default value to fall back to
+     * @api
+     * @param   string[]  $allowedValues  list of allowed values
+     * @param   string    $default        default value to fall back to
      * @return  string
      */
     public function ifIsOneOf(array $allowedValues, $default = null)
@@ -363,6 +379,7 @@ class ValueFilter extends BaseObject
     /**
      * returns value if it complies to a given regular expression, and null otherwise
      *
+     * @api
      * @param   string  $regex    regular expression to apply
      * @param   string  $default  default value to fall back to
      * @return  string
@@ -377,6 +394,7 @@ class ValueFilter extends BaseObject
      *
      * If value does not satisfy the validator return value will be null.
      *
+     * @api
      * @param   Validator  $validator  validator to use
      * @param   string     $default    default value to fall back to
      * @return  string
@@ -399,6 +417,7 @@ class ValueFilter extends BaseObject
      *
      * This should be used with greatest care.
      *
+     * @api
      * @return  string
      */
     public function unsecure()
