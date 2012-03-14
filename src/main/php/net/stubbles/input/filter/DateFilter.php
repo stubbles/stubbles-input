@@ -20,6 +20,8 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  * - If given value is not a valid date the returned value is null.
  * - If given value is a valid date the returned value is an instance of
  *   net\stubbles\lang\types\Date.
+ *
+ * @see  http://php.net/manual/de/datetime.formats.php
  */
 class DateFilter extends BaseObject implements Filter
 {

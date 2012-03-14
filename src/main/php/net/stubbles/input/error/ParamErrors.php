@@ -14,7 +14,7 @@ use net\stubbles\lang\BaseObject;
  *
  * @since  1.3.0
  */
-class ParamErrors extends BaseObject implements \IteratorAggregate
+class ParamErrors extends BaseObject implements \IteratorAggregate, \Countable
 {
     /**
      * list of errors that occurred while applying a filter on a param
@@ -26,9 +26,9 @@ class ParamErrors extends BaseObject implements \IteratorAggregate
     /**
      * adds error with given id for given parameter name
      *
-     * @param   FilterError  $error      error to add
-     * @param   string       $paramName  name of parameter to add error for
-     * @return  FilterError
+     * @param   ParamError  $error      error to add
+     * @param   string      $paramName  name of parameter to add error for
+     * @return  ParamError
      */
     public function add(ParamError $error, $paramName)
     {
@@ -54,6 +54,7 @@ class ParamErrors extends BaseObject implements \IteratorAggregate
     /**
      * checks whether there are any errors at all
      *
+     * @api
      * @return  bool
      */
     public function exist()
@@ -64,6 +65,7 @@ class ParamErrors extends BaseObject implements \IteratorAggregate
     /**
      * checks whether a param has any error
      *
+     * @api
      * @param   string  $paramName  name of parameter
      * @return  bool
      */
@@ -75,6 +77,7 @@ class ParamErrors extends BaseObject implements \IteratorAggregate
     /**
      * checks whether a param has a specific error
      *
+     * @api
      * @param   string  $paramName  name of parameter
      * @param   string  $errorId    id of error
      * @return  bool

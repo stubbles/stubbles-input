@@ -15,6 +15,8 @@ use net\stubbles\lang\Object;
  *
  * Filters can be used to take request values, validate them and change them
  * into any other value.
+ *
+ * @api
  */
 interface Filter extends Object
 {
