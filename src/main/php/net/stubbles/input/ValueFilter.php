@@ -11,6 +11,10 @@ namespace net\stubbles\input;
 use net\stubbles\input\error\ParamError;
 use net\stubbles\input\error\ParamErrors;
 use net\stubbles\input\filter\Filter;
+use net\stubbles\input\filter\range\DateRange;
+use net\stubbles\input\filter\range\LengthRange;
+use net\stubbles\input\filter\range\NumberRange;
+use net\stubbles\input\filter\range\Range;
 use net\stubbles\input\validator\Validator;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\Date;
@@ -80,21 +84,19 @@ class ValueFilter extends BaseObject
      * read as integer value
      *
      * @api
-     * @param   int   $min       minimum allowed value
-     * @param   int   $max       maximum allowed value
-     * @param   int   $default   default value to fall back to
-     * @param   bool  $required  if a value is required, defaults to false
+     * @param   NumberRange  $range     range where value has to be inside
+     * @param   int          $default   default value to fall back to
+     * @param   bool         $required  if a value is required, defaults to false
      * @return  int
      */
-    public function asInt($min = null, $max = null, $default = null, $required = false)
+    public function asInt(NumberRange $range = null, $default = null, $required = false)
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
-        return $this->withFilter(new \net\stubbles\input\filter\RangeFilter(new \net\stubbles\input\filter\IntegerFilter(),
-                                                                            $min,
-                                                                            $max
+        return $this->withFilter($this->wrapRange(new \net\stubbles\input\filter\IntegerFilter(),
+                                                  $range
                                  ),
                                  $required
         );
@@ -104,23 +106,21 @@ class ValueFilter extends BaseObject
      * read as float value
      *
      * @api
-     * @param   int    $min       minimum allowed value
-     * @param   int    $max       maximum allowed value
-     * @param   float  $default   default value to fall back to
-     * @param   bool   $required  if a value is required, defaults to false
-     * @param   int    $decimals  number of decimals
+     * @param   NumberRange  $range     range where value has to be inside
+     * @param   float        $default   default value to fall back to
+     * @param   bool         $required  if a value is required, defaults to false
+     * @param   int          $decimals  number of decimals
      * @return  float
      */
-    public function asFloat($min = null, $max = null, $default = null, $required = false, $decimals = null)
+    public function asFloat(NumberRange $range = null, $default = null, $required = false, $decimals = null)
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
         $floatFilter = new \net\stubbles\input\filter\FloatFilter();
-        return $this->withFilter(new \net\stubbles\input\filter\RangeFilter($floatFilter->setDecimals($decimals),
-                                                                            $min,
-                                                                            $max
+        return $this->withFilter($this->wrapRange($floatFilter->setDecimals($decimals),
+                                                  $range
                                  ),
                                  $required
         );
@@ -130,21 +130,19 @@ class ValueFilter extends BaseObject
      * read as string value
      *
      * @api
-     * @param   int     $minLength  minimum length of string
-     * @param   int     $maxLength  maximum length of string
-     * @param   string  $default    default value to fall back to
-     * @param   bool    $required   if a value is required, defaults to false
+     * @param   LengthRange  $range     length definition for string
+     * @param   string       $default   default value to fall back to
+     * @param   bool         $required  if a value is required, defaults to false
      * @return  string
      */
-    public function asString($minLength = null, $maxLength = null, $default = null, $required = false)
+    public function asString(LengthRange $range = null, $default = null, $required = false)
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
-        return $this->withFilter(new \net\stubbles\input\filter\LengthFilter(new \net\stubbles\input\filter\StringFilter(),
-                                                                             $minLength,
-                                                                             $maxLength
+        return $this->withFilter($this->wrapRange(new \net\stubbles\input\filter\StringFilter(),
+                                                  $range
                                  ),
                                  $required
         );
@@ -154,23 +152,21 @@ class ValueFilter extends BaseObject
      * read as text value
      *
      * @api
-     * @param   int       $minLength    minimum length of string
-     * @param   int       $maxLength    maximum length of string
-     * @param   string    $default      default value to fall back to
-     * @param   bool      $required     if a value is required, defaults to false
-     * @param   string[]  $allowedTags  list of allowed tags
+     * @param   LengthRange  $range        length definition for text
+     * @param   string       $default      default value to fall back to
+     * @param   bool         $required     if a value is required, defaults to false
+     * @param   string[]     $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText($minLength = null, $maxLength = null, $default = null, $required = false, $allowedTags = array())
+    public function asText(LengthRange $range = null, $default = null, $required = false, $allowedTags = array())
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
         $textFilter = new \net\stubbles\input\filter\TextFilter();
-        return $this->withFilter(new \net\stubbles\input\filter\LengthFilter($textFilter->allowTags($allowedTags),
-                                                                             $minLength,
-                                                                             $maxLength
+        return $this->withFilter($this->wrapRange($textFilter->allowTags($allowedTags),
+                                                  $range
                                  ),
                                  $required
         );
@@ -182,7 +178,7 @@ class ValueFilter extends BaseObject
      * @api
      * @param   string  $default   default value to fall back to
      * @param   bool    $required  if a value is required, defaults to false
-     * @return  string
+     * @return  \stdClass|array
      */
     public function asJson($default = null, $required = false)
     {
@@ -212,26 +208,38 @@ class ValueFilter extends BaseObject
     }
 
     /**
-     * read as http url
+     * read as http uri
      *
      * @api
-     * @param   bool     $checkDns  whether url should be checked via DNS
      * @param   HttpUri  $default   default value to fall back to
      * @param   bool     $required  if a value is required, defaults to false
      * @return  HttpUri
      */
-    public function asHttpUri($checkDns = false, HttpUri $default = null, $required = false)
+    public function asHttpUri(HttpUri $default = null, $required = false)
+    {
+        if ($this->useDefault($required)) {
+            return $default;
+        }
+
+        return $this->withFilter(new \net\stubbles\input\filter\HttpUriFilter(), $required);
+    }
+
+    /**
+     * read as http uri if it does exist
+     *
+     * @api
+     * @param   HttpUri  $default   default value to fall back to
+     * @param   bool     $required  if a value is required, defaults to false
+     * @return  HttpUri
+     */
+    public function asExistingHttpUri(HttpUri $default = null, $required = false)
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
         $httpUriFilter = new \net\stubbles\input\filter\HttpUriFilter();
-        if (true === $checkDns) {
-            $httpUriFilter->enforceDnsRecord();
-        }
-
-        return $this->withFilter($httpUriFilter, $required);
+        return $this->withFilter($httpUriFilter->enforceDnsRecord(), $required);
     }
 
     /**
@@ -250,22 +258,20 @@ class ValueFilter extends BaseObject
      * read as date value
      *
      * @api
-     * @param   Date  $minDate    smallest allowed date
-     * @param   Date  $maxDate    greatest allowed date
-     * @param   Date  $default    default value to fall back to
-     * @param   bool  $required   if a value is required, defaults to false
+     * @param   DateRange  $range     validity range for date
+     * @param   Date       $default   default value to fall back to
+     * @param   bool       $required  if a value is required, defaults to false
      * @return  Date
 
      */
-    public function asDate(Date $minDate = null, Date $maxDate = null, Date $default = null, $required = false)
+    public function asDate(DateRange $range = null, Date $default = null, $required = false)
     {
         if ($this->useDefault($required)) {
             return $default;
         }
 
-        return $this->withFilter(new \net\stubbles\input\filter\PeriodFilter(new \net\stubbles\input\filter\DateFilter(),
-                                                                             $minDate,
-                                                                             $maxDate
+        return $this->withFilter($this->wrapRange(new \net\stubbles\input\filter\DateFilter(),
+                                                  $range
                                  ),
                                  $required
         );
@@ -330,13 +336,25 @@ class ValueFilter extends BaseObject
      * returns value if it is an http url, and null otherwise
      *
      * @api
-     * @param   bool    $checkDns  whether to verify url via DNS
      * @param   string  $default   default value to fall back to
      * @return  string
      */
-    public function ifIsHttpUri($checkDns = false, $default = null)
+    public function ifIsHttpUri($default = null)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\HttpUriValidator($checkDns), $default);
+        return $this->withValidator(new \net\stubbles\input\validator\HttpUriValidator(), $default);
+    }
+
+    /**
+     * returns value if it is an http url, and null otherwise
+     *
+     * @api
+     * @param   string  $default   default value to fall back to
+     * @return  string
+     */
+    public function ifIsExistingHttpUri($default = null)
+    {
+        $httpUriValidator = new \net\stubbles\input\validator\HttpUriValidator();
+        return $this->withValidator($httpUriValidator->enableDnsCheck(), $default);
     }
 
     /**
@@ -434,6 +452,22 @@ class ValueFilter extends BaseObject
     private function useDefault($required = false)
     {
         return ($this->param->isNull() && false === $required);
+    }
+
+    /**
+     * wraps filter into range filter if range given
+     *
+     * @param   Filter  $filter  filter to wrap
+     * @param   Range   $range   range to be used
+     * @return  Filter
+     */
+    private function wrapRange(Filter $filter, Range $range = null)
+    {
+        if (null === $range) {
+            return $filter;
+        }
+
+        return new \net\stubbles\input\filter\RangeFilter($filter, $range);
     }
 }
 ?>
