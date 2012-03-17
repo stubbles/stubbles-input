@@ -63,17 +63,24 @@ class ValueValidator extends BaseObject
      * checks whether value is an http uri
      *
      * @api
-     * @param   bool    $checkDns  optional  whether to verify uri via DNS
      * @return  bool
      */
-    public function isHttpUri($checkDns = false)
+    public function isHttpUri()
+    {
+        return $this->withValidator(new \net\stubbles\input\validator\HttpUriValidator());
+    }
+
+    /**
+     * checks whether value is an existing http uri
+     *
+     * @api
+     * @return  bool
+     * @since   2.0.0
+     */
+    public function isExistingHttpUri()
     {
         $validator = new \net\stubbles\input\validator\HttpUriValidator();
-        if (true === $checkDns) {
-            $validator->enableDnsCheck();
-        }
-
-        return $this->withValidator($validator);
+        return $this->withValidator($validator->enableDnsCheck());
     }
 
     /**
