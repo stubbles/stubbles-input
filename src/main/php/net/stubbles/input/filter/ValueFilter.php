@@ -47,7 +47,7 @@ class ValueFilter extends BaseObject
     public function __construct(ParamErrors $paramErrors, Param $param)
     {
         $this->paramErrors = $paramErrors;
-        $this->param        = $param;
+        $this->param       = $param;
     }
 
     /**
