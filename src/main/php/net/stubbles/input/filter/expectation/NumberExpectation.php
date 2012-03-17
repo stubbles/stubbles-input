@@ -7,15 +7,16 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
-use net\stubbles\input\error\ParamError;
-use net\stubbles\lang\BaseObject;
+namespace net\stubbles\input\filter\expectation;
+use net\stubbles\input\ParamError;
+use net\stubbles\input\filter\Range;
 /**
- * Range definition for numbers.
+ * Description of a number expectation.
  *
+ * @api
  * @since  2.0.0
  */
-class NumberRange extends BaseObject implements Range
+class NumberExpectation extends ValueExpectation implements Range
 {
     /**
      * minimum value
@@ -31,37 +32,73 @@ class NumberRange extends BaseObject implements Range
     private $maxValue;
 
     /**
-     * constructor
+     * creates an expectation where a value is required
      *
-     * @param  number  $minValue  minimum value
-     * @param  number  $maxValue  maximum value
+     * @return  NumberExpectation
      */
-    public function __construct($minValue, $maxValue)
+    public static function createAsRequired()
+    {
+        return new self(true);
+    }
+
+    /**
+     * creates an expectation where no value is required
+     *
+     * @return  NumberExpectation
+     */
+    public static function create()
+    {
+        return new self(false);
+    }
+
+    /**
+     * use default value if no value available
+     *
+     * @param   number  $default
+     * @return  NumberExpectation
+     */
+    public function useDefault($default)
+    {
+        $this->default = $default;
+        return $this;
+    }
+
+    /**
+     * sets minimum value
+     *
+     * @param   number  $minValue
+     * @return  NumberExpectation
+     */
+    public function minValue($minValue)
+    {
+        $this->minValue = $minValue;
+        return $this;
+    }
+
+    /**
+     * sets maximum value
+     *
+     * @param   number  $minValue
+     * @return  NumberExpectation
+     */
+    public function maxValue($maxValue)
+    {
+        $this->maxValue = $maxValue;
+        return $this;
+    }
+
+    /**
+     * sets range in which value is expected
+     *
+     * @param   number  $min
+     * @param   number  $max
+     * @return  NumberExpectation
+     */
+    public function inRange($minValue, $maxValue)
     {
         $this->minValue = $minValue;
         $this->maxValue = $maxValue;
-    }
-
-    /**
-     * creates number range with lower border only
-     *
-     * @param   number  $minValue
-     * @return  NumberRange
-     */
-    public static function minOnly($minValue)
-    {
-        return new self($minValue, null);
-    }
-
-    /**
-     * creates number range with upper border only
-     *
-     * @param   number  $maxValue
-     * @return  NumberRange
-     */
-    public static function maxOnly($maxValue)
-    {
-        return new self(null, $maxValue);
+        return $this;
     }
 
     /**

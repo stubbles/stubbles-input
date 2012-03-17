@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\input\error\ParamErrors;
 use net\stubbles\lang\BaseObject;
 /**
  * Interface for handling input data.

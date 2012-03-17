@@ -7,15 +7,16 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
-use net\stubbles\input\error\ParamError;
-use net\stubbles\lang\BaseObject;
+namespace net\stubbles\input\filter\expectation;
+use net\stubbles\input\ParamError;
+use net\stubbles\input\filter\Range;
 /**
- * Range definition for length.
+ * Description of a number expectation.
  *
+ * @api
  * @since  2.0.0
  */
-class LengthRange extends BaseObject implements Range
+class StringExpectation extends ValueExpectation implements Range
 {
     /**
      * minimum length
@@ -31,37 +32,59 @@ class LengthRange extends BaseObject implements Range
     private $maxLength;
 
     /**
-     * constructor
+     * creates an expectation where a value is required
      *
-     * @param  int  $minLength  minimum length
-     * @param  int  $maxLength  maximum length
+     * @return  StringExpectation
      */
-    public function __construct($minLength, $maxLength)
+    public static function createAsRequired()
     {
-        $this->minLength = $minLength;
-        $this->maxLength = $maxLength;
+        return new self(true);
     }
 
     /**
-     * creates length range with lower border only
+     * creates an expectation where no value is required
+     *
+     * @return  StringExpectation
+     */
+    public static function create()
+    {
+        return new self(false);
+    }
+
+    /**
+     * use default value if no value available
+     *
+     * @param   string  $default
+     * @return  StringExpectation
+     */
+    public function useDefault($default)
+    {
+        $this->default = $default;
+        return $this;
+    }
+
+    /**
+     * sets minimum value
      *
      * @param   int  $minLength
-     * @return  LengthRange
+     * @return  StringExpectation
      */
-    public static function minOnly($minLength)
+    public function minLength($minLength)
     {
-        return new self($minLength, null);
+        $this->minLength = $minLength;
+        return $this;
     }
 
     /**
-     * creates length range with upper border only
+     * sets maximum value
      *
      * @param   int  $maxLength
-     * @return  LengthRange
+     * @return  StringExpectation
      */
-    public static function maxOnly($maxLength)
+    public function maxLength($maxLength)
     {
-        return new self(null, $maxLength);
+        $this->maxLength = $maxLength;
+        return $this;
     }
 
     /**

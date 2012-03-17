@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
+namespace net\stubbles\input\filter;
 use net\stubbles\lang\Object;
 /**
  * Interface for range definitions.

@@ -7,29 +7,31 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
+namespace net\stubbles\input\filter\expectation;
 /**
- * Tests for net\stubbles\input\filter\range\LengthRange.
+ * Tests for net\stubbles\input\filter\expectation\StringExpectation.
  *
  * @since  2.0.0
  * @group  filter
- * @group  filter_range
+ * @group  filter_expectation
  */
-class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
+class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  LengthRange
+     * @type  StringExpectation
      */
-    private $lengthRange;
+    private $stringExpectation;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->lengthRange = new LengthRange(1, 10);
+        $this->stringExpectation = StringExpectation::create()
+                                                    ->minLength(1)
+                                                    ->maxLength(10);
     }
 
     /**
@@ -37,7 +39,10 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
     {
-        $this->assertFalse(LengthRange::maxOnly(10)->belowMinBorder(''));
+        $this->assertFalse(StringExpectation::create()
+                                            ->maxLength(10)
+                                            ->belowMinBorder('')
+        );
     }
 
     /**
@@ -45,7 +50,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
     {
-        $this->assertTrue($this->lengthRange->belowMinBorder(''));
+        $this->assertTrue($this->stringExpectation->belowMinBorder(''));
     }
 
     /**
@@ -53,7 +58,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueIsNull()
     {
-        $this->assertTrue($this->lengthRange->belowMinBorder(null));
+        $this->assertTrue($this->stringExpectation->belowMinBorder(null));
     }
 
     /**
@@ -61,7 +66,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
     {
-        $this->assertFalse($this->lengthRange->belowMinBorder('a'));
+        $this->assertFalse($this->stringExpectation->belowMinBorder('a'));
     }
 
     /**
@@ -69,7 +74,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
     {
-        $this->assertFalse($this->lengthRange->belowMinBorder('ab'));
+        $this->assertFalse($this->stringExpectation->belowMinBorder('ab'));
     }
 
     /**
@@ -77,7 +82,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
     {
-        $this->assertFalse($this->lengthRange->belowMinBorder('abcdefghijk'));
+        $this->assertFalse($this->stringExpectation->belowMinBorder('abcdefghijk'));
     }
 
     /**
@@ -85,7 +90,10 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
     {
-        $this->assertFalse(LengthRange::minOnly(0)->aboveMaxBorder('abcdefghi'));
+        $this->assertFalse(StringExpectation::create()
+                                            ->minLength(0)
+                                            ->aboveMaxBorder('abcdefghi')
+        );
     }
 
     /**
@@ -93,7 +101,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
     {
-        $this->assertFalse($this->lengthRange->aboveMaxBorder('abcdefghi'));
+        $this->assertFalse($this->stringExpectation->aboveMaxBorder('abcdefghi'));
     }
 
     /**
@@ -101,7 +109,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
     {
-        $this->assertFalse($this->lengthRange->aboveMaxBorder('abcdefghij'));
+        $this->assertFalse($this->stringExpectation->aboveMaxBorder('abcdefghij'));
     }
 
     /**
@@ -109,7 +117,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
     {
-        $this->assertFalse($this->lengthRange->aboveMaxBorder(''));
+        $this->assertFalse($this->stringExpectation->aboveMaxBorder(''));
     }
 
     /**
@@ -117,7 +125,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueIsNull()
     {
-        $this->assertFalse($this->lengthRange->aboveMaxBorder(null));
+        $this->assertFalse($this->stringExpectation->aboveMaxBorder(null));
     }
 
     /**
@@ -125,7 +133,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
     {
-        $this->assertTrue($this->lengthRange->aboveMaxBorder('abcdefghijk'));
+        $this->assertTrue($this->stringExpectation->aboveMaxBorder('abcdefghijk'));
     }
 
     /**
@@ -134,7 +142,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
     public function createsMinParamError()
     {
         $this->assertEquals('STRING_TOO_SHORT',
-                            $this->lengthRange->getMinParamError()->getId()
+                            $this->stringExpectation->getMinParamError()->getId()
         );
     }
 
@@ -144,7 +152,7 @@ class LengthRangeTestCase extends \PHPUnit_Framework_TestCase
     public function createsMaxParamError()
     {
         $this->assertEquals('STRING_TOO_LONG',
-                            $this->lengthRange->getMaxParamError()->getId()
+                            $this->stringExpectation->getMaxParamError()->getId()
         );
     }
 }

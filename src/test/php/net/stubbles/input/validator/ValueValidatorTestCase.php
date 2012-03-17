@@ -7,12 +7,13 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
+namespace net\stubbles\input\validator;
+use net\stubbles\input\Param;
 /**
- * Tests for net\stubbles\input\ValueValidator.
+ * Tests for net\stubbles\input\validator\ValueValidator.
  *
  * @since  1.3.0
- * @group  core
+ * @group  validator
  */
 class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
 {

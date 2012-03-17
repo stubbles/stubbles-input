@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
-use net\stubbles\input\error\ParamError;
+use net\stubbles\input\ParamError;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\RangeFilter.
@@ -42,7 +42,7 @@ class RangeFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->mockFilter  = $this->getMock('net\\stubbles\\input\\filter\\Filter');
-        $this->mockRange   = $this->getMock('net\\stubbles\\input\\filter\\range\Range');
+        $this->mockRange   = $this->getMock('net\\stubbles\\input\\filter\\Range');
         $this->rangeFilter = new RangeFilter($this->mockFilter, $this->mockRange);
     }
 

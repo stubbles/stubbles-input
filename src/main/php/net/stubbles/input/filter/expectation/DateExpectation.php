@@ -7,17 +7,18 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
-use net\stubbles\input\error\ParamError;
-use net\stubbles\lang\BaseObject;
+namespace net\stubbles\input\filter\expectation;
+use net\stubbles\input\ParamError;
+use net\stubbles\input\filter\Range;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\types\Date;
 /**
- * Range definition for dates.
+ * Description of a date expectation.
  *
+ * @api
  * @since  2.0.0
  */
-class DateRange extends BaseObject implements Range
+class DateExpectation extends ValueExpectation implements Range
 {
     /**
      * minimum date
@@ -33,41 +34,59 @@ class DateRange extends BaseObject implements Range
     private $maxDate;
 
     /**
-     * constructor
+     * creates an expectation where a value is required
      *
-     * @param  Date  $minDate  minimum value
-     * @param  Date  $maxDate  maximum value
+     * @return  DateExpectation
      */
-    public function __construct(Date $minDate, Date $maxDate)
+    public static function createAsRequired()
     {
-        $this->minDate = $minDate;
-        $this->maxDate = $maxDate;
+        return new self(true);
     }
 
     /**
-     * creates number range with lower border only
+     * creates an expectation where no value is required
+     *
+     * @return  DateExpectation
+     */
+    public static function create()
+    {
+        return new self(false);
+    }
+
+    /**
+     * use default value if no value available
+     *
+     * @param   Date  $default
+     * @return  DateExpectation
+     */
+    public function useDefault($default)
+    {
+        $this->default = $default;
+        return $this;
+    }
+
+    /**
+     * sets minimum value
      *
      * @param   Date  $minDate
-     * @return  NumberRange
+     * @return  DateExpectation
      */
-    public static function minOnly(Date $minDate)
+    public function notBefore(Date $minDate)
     {
-        $self = new self($minDate, $minDate);
-        $self->maxDate = null;
-        return $self;
+        $this->minDate = $minDate;
+        return $this;
     }
 
     /**
-     * creates number range with upper border only
+     * sets maximum value
      *
-     * @param   Date  $maxDate
-     * @return  NumberRange
+     * @param   Date  $minDate
+     * @return  DateExpectation
      */
-    public static function maxOnly(Date $maxDate)
+    public function notAfter($maxDate)
     {
-        $self = new self($maxDate, $maxDate);
-        $self->minDate = null;
-        return $self;
+        $this->maxDate = $maxDate;
+        return $this;
     }
 
     /**

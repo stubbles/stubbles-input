@@ -7,32 +7,32 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\range;
+namespace net\stubbles\input\filter\expectation;
 use net\stubbles\lang\types\Date;
 /**
- * Tests for net\stubbles\input\filter\range\DateRange.
+ * Tests for net\stubbles\input\filter\expectation\DateExpectation.
  *
  * @since  2.0.0
  * @group  filter
- * @group  filter_range
+ * @group  filter_expectation
  */
-class DateRangeTestCase extends \PHPUnit_Framework_TestCase
+class DateExpectationTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  DateRange
+     * @type  DateExpectation
      */
-    private $dateRange;
+    private $dateExpectation;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->dateRange = new DateRange(new Date('2012-03-17'),
-                                         new Date('2012-03-19')
-                           );
+        $this->dateExpectation = DateExpectation::create()
+                                                ->notBefore(new Date('2012-03-17'))
+                                                ->notAfter(new Date('2012-03-19'));
     }
 
     /**
@@ -41,7 +41,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
     {
-        $this->dateRange->belowMinBorder('foo');
+        $this->dateExpectation->belowMinBorder('foo');
     }
 
     /**
@@ -49,8 +49,9 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
     {
-        $this->assertFalse(DateRange::maxOnly(new Date('2012-03-19'))
-                                    ->belowMinBorder(0)
+        $this->assertFalse(DateExpectation::create()
+                                          ->notAfter(new Date('2012-03-19'))
+                                          ->belowMinBorder(0)
         );
     }
 
@@ -59,7 +60,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
     {
-        $this->assertTrue($this->dateRange->belowMinBorder(new Date('2012-03-16')));
+        $this->assertTrue($this->dateExpectation->belowMinBorder(new Date('2012-03-16')));
     }
 
     /**
@@ -67,7 +68,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueIsNull()
     {
-        $this->assertFalse($this->dateRange->belowMinBorder(null));
+        $this->assertFalse($this->dateExpectation->belowMinBorder(null));
     }
 
     /**
@@ -75,7 +76,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
     {
-        $this->assertFalse($this->dateRange->belowMinBorder(new Date('2012-03-17')));
+        $this->assertFalse($this->dateExpectation->belowMinBorder(new Date('2012-03-17')));
     }
 
     /**
@@ -83,7 +84,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
     {
-        $this->assertFalse($this->dateRange->belowMinBorder(new Date('2012-03-18')));
+        $this->assertFalse($this->dateExpectation->belowMinBorder(new Date('2012-03-18')));
     }
 
     /**
@@ -91,7 +92,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
     {
-        $this->assertFalse($this->dateRange->belowMinBorder(new Date('2012-03-20')));
+        $this->assertFalse($this->dateExpectation->belowMinBorder(new Date('2012-03-20')));
     }
 
     /**
@@ -100,7 +101,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderThrowsRuntimeExceptionOnInvalidType()
     {
-        $this->dateRange->aboveMaxBorder('foo');
+        $this->dateExpectation->aboveMaxBorder('foo');
     }
 
     /**
@@ -108,8 +109,9 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
     {
-        $this->assertFalse(DateRange::minOnly(new Date('2012-03-17'))
-                                    ->aboveMaxBorder(new Date('2012-03-18'))
+        $this->assertFalse(DateExpectation::create()
+                                          ->notBefore(new Date('2012-03-17'))
+                                          ->aboveMaxBorder(new Date('2012-03-18'))
         );
     }
 
@@ -118,7 +120,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
     {
-        $this->assertFalse($this->dateRange->aboveMaxBorder(new Date('2012-03-18')));
+        $this->assertFalse($this->dateExpectation->aboveMaxBorder(new Date('2012-03-18')));
     }
 
     /**
@@ -126,7 +128,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
     {
-        $this->assertFalse($this->dateRange->aboveMaxBorder(new Date('2012-03-19')));
+        $this->assertFalse($this->dateExpectation->aboveMaxBorder(new Date('2012-03-19')));
     }
 
     /**
@@ -134,7 +136,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
     {
-        $this->assertFalse($this->dateRange->aboveMaxBorder(new Date('2012-03-16')));
+        $this->assertFalse($this->dateExpectation->aboveMaxBorder(new Date('2012-03-16')));
     }
 
     /**
@@ -142,7 +144,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueIsNull()
     {
-        $this->assertFalse($this->dateRange->aboveMaxBorder(null));
+        $this->assertFalse($this->dateExpectation->aboveMaxBorder(null));
     }
 
     /**
@@ -150,7 +152,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
     {
-        $this->assertTrue($this->dateRange->aboveMaxBorder(new Date('2012-03-20')));
+        $this->assertTrue($this->dateExpectation->aboveMaxBorder(new Date('2012-03-20')));
     }
 
     /**
@@ -159,7 +161,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
     public function createsMinParamError()
     {
         $this->assertEquals('DATE_TOO_EARLY',
-                            $this->dateRange->getMinParamError()->getId()
+                            $this->dateExpectation->getMinParamError()->getId()
         );
     }
 
@@ -169,7 +171,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
     public function createsMaxParamError()
     {
         $this->assertEquals('DATE_TOO_LATE',
-                            $this->dateRange->getMaxParamError()->getId()
+                            $this->dateExpectation->getMaxParamError()->getId()
         );
     }
 }

@@ -7,8 +7,8 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
-use net\stubbles\input\validator\Validator;
+namespace net\stubbles\input\validator;
+use net\stubbles\input\Param;
 use net\stubbles\lang\BaseObject;
 /**
  * Value object for request values to check them against validators.
@@ -43,7 +43,7 @@ class ValueValidator extends BaseObject
      */
     public function contains($contained)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\ContainsValidator($contained));
+        return $this->withValidator(new ContainsValidator($contained));
     }
 
 
@@ -56,7 +56,7 @@ class ValueValidator extends BaseObject
      */
     public function isEqualTo($expected)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\EqualValidator($expected));
+        return $this->withValidator(new EqualValidator($expected));
     }
 
     /**
@@ -67,7 +67,7 @@ class ValueValidator extends BaseObject
      */
     public function isHttpUri()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\HttpUriValidator());
+        return $this->withValidator(new HttpUriValidator());
     }
 
     /**
@@ -79,7 +79,7 @@ class ValueValidator extends BaseObject
      */
     public function isExistingHttpUri()
     {
-        $validator = new \net\stubbles\input\validator\HttpUriValidator();
+        $validator = new HttpUriValidator();
         return $this->withValidator($validator->enableDnsCheck());
     }
 
@@ -91,7 +91,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpAddress()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpValidator());
+        return $this->withValidator(new IpValidator());
     }
 
     /**
@@ -103,7 +103,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpV4Address()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpV4Validator());
+        return $this->withValidator(new IpV4Validator());
     }
 
     /**
@@ -115,7 +115,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpV6Address()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpV6Validator());
+        return $this->withValidator(new IpV6Validator());
     }
 
     /**
@@ -126,7 +126,7 @@ class ValueValidator extends BaseObject
      */
     public function isMailAddress()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\MailValidator());
+        return $this->withValidator(new MailValidator());
     }
 
     /**
@@ -138,7 +138,7 @@ class ValueValidator extends BaseObject
      */
     public function isOneOf(array $allowedValues)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\PreSelectValidator($allowedValues));
+        return $this->withValidator(new PreSelectValidator($allowedValues));
     }
 
     /**
@@ -150,7 +150,7 @@ class ValueValidator extends BaseObject
      */
     public function satisfiesRegex($regex)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\RegexValidator($regex));
+        return $this->withValidator(new RegexValidator($regex));
     }
 
     /**
