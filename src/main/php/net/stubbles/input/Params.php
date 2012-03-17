@@ -51,7 +51,7 @@ class Params extends BaseObject implements \IteratorAggregate, \Countable
     }
 
     /**
-     * returns raw value of parameter or null if not set
+     * returns raw parameter with value or null if not set
      *
      * @param   string  $paramName
      * @return  Param
@@ -63,6 +63,21 @@ class Params extends BaseObject implements \IteratorAggregate, \Countable
         }
 
         return new Param($paramName, $this->params[$paramName]);
+    }
+
+    /**
+     * returns raw value of parameter or null if not set
+     *
+     * @param   string  $paramName
+     * @return  string
+     */
+    public function getValue($paramName)
+    {
+        if (!isset($this->params[$paramName])) {
+            return null;
+        }
+
+        return $this->params[$paramName];
     }
 
     /**

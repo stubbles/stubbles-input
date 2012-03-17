@@ -65,6 +65,22 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function returnsNullValueIfParamDoesNotExist()
+    {
+        $this->assertNull($this->params->getValue('doesNotExist'));
+    }
+
+    /**
+     * @test
+     */
+    public function returnsValueIfParamExists()
+    {
+        $this->assertEquals('bar', $this->params->getValue('foo'));
+    }
+
+    /**
+     * @test
+     */
     public function returnsListOfParamNames()
     {
         $this->assertEquals(array('foo', 'baz'), $this->params->getNames());
