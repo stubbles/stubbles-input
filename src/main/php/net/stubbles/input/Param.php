@@ -11,6 +11,8 @@ namespace net\stubbles\input;
 use net\stubbles\lang\BaseObject;
 /**
  * Container for a parameter and its value.
+ *
+ * @since  2.0.0
  */
 class Param extends BaseObject
 {
