@@ -395,5 +395,15 @@ class ValueReaderTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('a value', $this->createValueReader('a value')->unsecure());
     }
+
+    /**
+     * @test
+     */
+    public function canBeCreatedAsMock()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+                                ValueReader::mockForValue('bar')
+        );
+    }
 }
 ?>

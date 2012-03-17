@@ -53,13 +53,12 @@ class ValueFilter extends BaseObject
     /**
      * create instance as mock with empty param errors
      *
-     * @param   string  $paramName
      * @param   string  $paramValue
      * @return  ValueFilter
      */
-    public static function createAsMock($paramName, $paramValue)
+    public static function mockForValue($paramValue)
     {
-        return new self(new ParamErrors(), new Param($paramName, $paramValue));
+        return new self(new ParamErrors(), new Param('mock', $paramValue));
     }
 
     /**

@@ -863,7 +863,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     public function canBeCreatedAsMock()
     {
         $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                ValueFilter::createAsMock('foo', 'bar')
+                                ValueFilter::mockForValue('bar')
         );
     }
 }

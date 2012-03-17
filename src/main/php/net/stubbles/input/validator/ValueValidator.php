@@ -35,6 +35,17 @@ class ValueValidator extends BaseObject
     }
 
     /**
+     * create instance as mock with empty param errors
+     *
+     * @param   string  $paramValue
+     * @return  ValueValidator
+     */
+    public static function mockForValue($paramValue)
+    {
+        return new self(new Param('mock', $paramValue));
+    }
+
+    /**
      * checks whether value contains given string
      *
      * @api

@@ -254,5 +254,15 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
                       ->will($this->returnValue(true));
         $this->assertTrue($this->createValueValidator('foo')->withValidator($mockValidator));
     }
+
+    /**
+     * @test
+     */
+    public function canBeCreatedAsMock()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+                                ValueValidator::mockForValue('bar')
+        );
+    }
 }
 ?>
