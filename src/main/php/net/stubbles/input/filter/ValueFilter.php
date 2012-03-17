@@ -76,7 +76,7 @@ class ValueFilter extends BaseObject
             return $default;
         }
 
-        return $this->withFilter(new BoolFilter());
+        return $this->applyFilter(new BoolFilter());
     }
 
     /**
