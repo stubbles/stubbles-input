@@ -31,12 +31,6 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
     private $mockWebRequest;
-    /**
-     * filter to retrieve user agent from request
-     *
-     * @type  UserAgentFilter
-     */
-    private $userAgentFilter;
 
     /**
      * set up test environment
@@ -44,8 +38,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mockWebRequest    = $this->getMock('net\\stubbles\\input\\web\\WebRequest');
-        $this->userAgentFilter   = new UserAgentFilter(new UserAgentDetector());
-        $this->userAgentProvider = new UserAgentProvider($this->mockWebRequest, $this->userAgentFilter);
+        $this->userAgentProvider = new UserAgentProvider($this->mockWebRequest);
     }
 
     /**
@@ -68,7 +61,26 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
                              ->method('filterHeader')
                              ->with($this->equalTo('HTTP_USER_AGENT'))
                              ->will($this->returnValue(ValueFilter::mockForValue('foo')));
-        $this->assertEquals(new UserAgent('foo', false), $this->userAgentProvider->get());
+        $this->mockWebRequest->expects($this->once())
+                             ->method('getCookieNames')
+                             ->will($this->returnValue(array('chocolateChip')));
+        $this->assertEquals(new UserAgent('foo', false, true), $this->userAgentProvider->get());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function providerReturnsBotUserAgent()
+    {
+        $this->mockWebRequest->expects($this->once())
+                             ->method('filterHeader')
+                             ->with($this->equalTo('HTTP_USER_AGENT'))
+                             ->will($this->returnValue(ValueFilter::mockForValue('Googlebot /v1.1')));
+        $this->mockWebRequest->expects($this->once())
+                             ->method('getCookieNames')
+                             ->will($this->returnValue(array()));
+        $this->assertEquals(new UserAgent('Googlebot /v1.1', true, false), $this->userAgentProvider->get());
     }
 }
 ?>

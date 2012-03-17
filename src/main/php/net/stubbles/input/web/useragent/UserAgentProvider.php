@@ -14,6 +14,14 @@ use net\stubbles\lang\BaseObject;
 /**
  * Factory to create user agent instances.
  *
+ * Provides bot and cookie acceptance detection. Bot detection however is
+ * limited to the Googlebot, MSNbot, Yahoo! Slurp and the DotBot.
+ *
+ * Cookie acceptance detection works by checking whether the user agent sent any
+ * cookies with the request. If the user agent didn't send any cookies we assume
+ * it doesn't accept cookies - which must not be neccessarily true, it might
+ * just be that the user agent didn't receive any cookie before because.
+ *
  * @since  1.2.0
  */
 class UserAgentProvider extends BaseObject implements InjectionProvider
@@ -23,25 +31,27 @@ class UserAgentProvider extends BaseObject implements InjectionProvider
      *
      * @type  WebRequest
      */
-    protected $request;
+    private $request;
     /**
-     * filter to be used to detect the user agent
+     * list of known bot user agents
      *
-     * @type  UserAgentFilter
+     * @type  array
      */
-    protected $userAgentFilter;
+    private $botUserAgents = array('google' => '~Googlebot~',
+                                   'msnbot' => '~msnbot~',
+                                   'slurp'  => '~Slurp~',
+                                   'dotbot' => '~DotBot~'
+                             );
 
     /**
      * constructor
      *
-     * @param  WebRequest       $request
-     * @param  UserAgentFilter  $userAgentFilter
+     * @param  WebRequest  $request
      * @Inject
      */
-    public function __construct(WebRequest $request, UserAgentFilter $userAgentFilter)
+    public function __construct(WebRequest $request)
     {
-        $this->request         = $request;
-        $this->userAgentFilter = $userAgentFilter;
+        $this->request = $request;
     }
 
     /**
@@ -52,7 +62,48 @@ class UserAgentProvider extends BaseObject implements InjectionProvider
      */
     public function get($name = null)
     {
-        return $this->request->filterHeader('HTTP_USER_AGENT')->applyFilter($this->userAgentFilter);
+        $userAgentString = $this->readUserAgentString();
+        return new UserAgent($userAgentString,
+                             $this->isBot($userAgentString),
+                             $this->acceptsCookies()
+        );
+    }
+
+    /**
+     * reads user agent string
+     *
+     * @return  string
+     */
+    private function readUserAgentString()
+    {
+        return $this->request->filterHeader('HTTP_USER_AGENT')->asString();
+    }
+
+    /**
+     * helper method to detect whether a user agent is a bot or not
+     *
+     * @param   string  $userAgentString
+     * @return  bool
+     */
+    private function isBot($userAgentString)
+    {
+        foreach ($this->botUserAgents as $botUserAgent) {
+            if (preg_match($botUserAgent, $userAgentString) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * checks whether user agent accepts cookies
+     *
+     * @return  bool
+     */
+    private function acceptsCookies()
+    {
+        return count($this->request->getCookieNames()) > 0;
     }
 }
 ?>

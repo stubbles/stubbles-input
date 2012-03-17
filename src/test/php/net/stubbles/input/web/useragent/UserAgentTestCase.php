@@ -29,7 +29,7 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->userAgent = new UserAgent('name', false);
+        $this->userAgent = new UserAgent('name', false, true);
     }
 
     /**
@@ -49,6 +49,7 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($class->hasAnnotation('XmlTag'));
         $this->assertTrue($class->getMethod('getName')->hasAnnotation('XmlAttribute'));
         $this->assertTrue($class->getMethod('isBot')->hasAnnotation('XmlAttribute'));
+        $this->assertTrue($class->getMethod('acceptsCookies')->hasAnnotation('XmlAttribute'));
     }
 
     /**
@@ -65,6 +66,15 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
     public function instanceReturnsGivenBotSetting()
     {
         $this->assertFalse($this->userAgent->isBot());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function instanceReturnsGivenCookieAcceptanceSetting()
+    {
+        $this->assertTrue($this->userAgent->acceptsCookies());
     }
 }
 ?>

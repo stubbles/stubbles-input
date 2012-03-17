@@ -23,24 +23,32 @@ class UserAgent extends BaseObject
      *
      * @type  string
      */
-    protected $name;
+    private $name;
     /**
      * whether user agent is a bot or not
      *
      * @type  bool
      */
-    protected $isBot;
+    private $isBot;
+    /**
+     * whether user agent accepts cookies or not
+     *
+     * @type  bool
+     */
+    private $acceptsCookies;
 
     /**
      * constructor
      *
-     * @param  string  $name  name of user agent
-     * @param  bool    $isBot whether user agent is a bot or not
+     * @param  string  $name            name of user agent
+     * @param  bool    $isBot           whether user agent is a bot or not
+     * @param  bool    $acceptsCookies  whether user agent accepts cookies or not
      */
-    public function __construct($name, $isBot)
+    public function __construct($name, $isBot, $acceptsCookies)
     {
-        $this->name  = $name;
-        $this->isBot = $isBot;
+        $this->name           = $name;
+        $this->isBot          = $isBot;
+        $this->acceptsCookies = $acceptsCookies;
     }
 
     /**
@@ -65,6 +73,19 @@ class UserAgent extends BaseObject
     public function isBot()
     {
         return $this->isBot;
+    }
+
+    /**
+     * returns whether user agent accepts cookies or not
+     *
+     * @XmlAttribute(attributeName='acceptsCookies')
+     * @api
+     * @since   2.0.0
+     * @return  bool
+     */
+    public function acceptsCookies()
+    {
+        return $this->acceptsCookies;
     }
 }
 ?>
