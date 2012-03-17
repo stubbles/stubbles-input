@@ -7,44 +7,48 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
-use org\stubbles\input\test\TestAbstractRequest;
+namespace net\stubbles\input\console;
 /**
- * Tests for net\stubbles\input\AbstractRequest.
+ * Tests for net\stubbles\input\console\ConsoleRequest.
  *
- * @group  core
+ * @group  console
  */
-class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
+class ConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  AbstractRequest
+     * @type  ConsoleRequest
      */
-    private $abstractRequest;
+    private $consoleRequest;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->abstractRequest = new TestAbstractRequest(new Params(array('foo' => 'bar', 'roland' => 'TB-303')));
+        $this->consoleRequest = new ConsoleRequest(array('foo' => 'bar', 'roland' => 'TB-303'));
     }
 
     /**
      * @test
      */
-    public function isNotCancelledInitially()
+    public function annotationsPresentOnConstructor()
     {
-        $this->assertFalse($this->abstractRequest->isCancelled());
+        $constructor = $this->consoleRequest->getClass()->getConstructor();
+        $this->assertTrue($constructor->hasAnnotation('Inject'));
+        $this->assertTrue($constructor->hasAnnotation('Named'));
+        $this->assertEquals('argv',
+                            $constructor->getAnnotation('Named')->getName()
+        );
     }
 
     /**
      * @test
      */
-    public function isCancelledAfterCancellation()
+    public function requestMethodIsAlwaysCli()
     {
-        $this->assertTrue($this->abstractRequest->cancel()->isCancelled());
+        $this->assertEquals('cli', $this->consoleRequest->getMethod());
     }
 
     /**
@@ -53,94 +57,9 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
     public function returnsListOfParamNames()
     {
         $this->assertEquals(array('foo', 'roland'),
-                            $this->abstractRequest->getParamNames()
+                            $this->consoleRequest->getParamNames()
         );
     }
 
-    /**
-     * @test
-     */
-    public function returnsParamErrors()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
-                                $this->abstractRequest->paramErrors()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function returnsFalseOnCheckForNonExistingParam()
-    {
-        $this->assertFalse($this->abstractRequest->hasParam('baz'));
-    }
-
-    /**
-     * @test
-     */
-    public function returnsTrueOnCheckForExistingParam()
-    {
-        $this->assertTrue($this->abstractRequest->hasParam('foo'));
-    }
-
-    /**
-     * @test
-     */
-    public function validateParamReturnsValueValidator()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
-                                $this->abstractRequest->validateParam('foo')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function validateParamReturnsValueValidatorForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
-                                $this->abstractRequest->validateParam('baz')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function readParamReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
-                                $this->abstractRequest->readParam('foo')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function readParamReturnsValueFilterForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
-                                $this->abstractRequest->readParam('baz')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterParamReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->abstractRequest->filterParam('foo')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterParamReturnsValueFilterForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->abstractRequest->filterParam('baz')
-        );
-    }
 }
 ?>
