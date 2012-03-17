@@ -11,8 +11,10 @@ namespace net\stubbles\input;
 use net\stubbles\lang\BaseObject;
 /**
  * Interface for handling input data.
+ *
+ * @since  2.0.0
  */
-class Params extends BaseObject
+class Params extends BaseObject implements \IteratorAggregate, \Countable
 {
     /**
      * list of parameters
@@ -85,6 +87,27 @@ class Params extends BaseObject
         }
 
         return $this->errors;
+    }
+
+    /**
+     * returns number of collected errors
+     *
+     * @return  int
+     */
+    public function count()
+    {
+        return count($this->params);
+    }
+
+    /**
+     * provides an iterator to iterate over all errors
+     *
+     * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return  Traversable
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->params);
     }
 }
 ?>

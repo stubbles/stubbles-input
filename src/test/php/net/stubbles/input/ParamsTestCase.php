@@ -77,5 +77,24 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->params->errors()->exist());
     }
+
+    /**
+     * @test
+     */
+    public function canIterateOverParams()
+    {
+        $i = 0;
+        foreach ($this->params as $paramName => $paramValue) {
+            if (0 === $i) {
+                $this->assertEquals('foo', $paramName);
+                $this->assertEquals('bar', $paramValue);
+            } else {
+                $this->assertEquals('baz', $paramName);
+                $this->assertEquals('value', $paramValue);
+            }
+
+            $i++;
+        }
+    }
 }
 ?>
