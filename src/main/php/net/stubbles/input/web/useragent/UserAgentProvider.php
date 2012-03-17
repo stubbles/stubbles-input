@@ -20,7 +20,7 @@ use net\stubbles\lang\BaseObject;
  * Cookie acceptance detection works by checking whether the user agent sent any
  * cookies with the request. If the user agent didn't send any cookies we assume
  * it doesn't accept cookies - which must not be neccessarily true, it might
- * just be that the user agent didn't receive any cookie before because.
+ * just be that the user agent didn't receive any cookie before.
  *
  * @since  1.2.0
  */
