@@ -13,6 +13,7 @@ use net\stubbles\input\Params;
 /**
  * Request implementation for command line.
  *
+ * @api
  * @since  2.0.0
  */
 class ConsoleRequest extends AbstractRequest
