@@ -289,6 +289,9 @@ class ValueFilter extends BaseObject
      *
      * If value does not satisfy given filter return value will be null.
      *
+     * If it is required but value is null an error will be added to the list
+     * of param errors.
+     *
      * @api
      * @param   Filter  $filter
      * @param   bool    $required  if a value is required, defaults to false
