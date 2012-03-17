@@ -22,7 +22,7 @@ class BoolFilterTestCase extends FilterTestCase
      *
      * @type  BoolFilter
      */
-    private $boolFilter;
+    protected $boolFilter;
 
     /**
      * set up test environment

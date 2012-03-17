@@ -21,7 +21,7 @@ class DateFilterTestCase extends FilterTestCase
      *
      * @type  DateFilter
      */
-    protected $dateFilter;
+    private $dateFilter;
 
     /**
      * set up test environment
