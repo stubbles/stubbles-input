@@ -97,6 +97,14 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function paramsCanBeCounted()
+    {
+        $this->assertEquals(2, count($this->params));
+    }
+
+    /**
+     * @test
+     */
     public function canIterateOverParams()
     {
         $i = 0;
