@@ -18,7 +18,7 @@ use net\stubbles\lang\exception\IllegalStateException;
  */
 class ValueExpectation extends BaseObject
 {/**
-     * switch whether a value is expected
+     * switch whether a value is required
      *
      * @type  bool
      */
@@ -33,7 +33,7 @@ class ValueExpectation extends BaseObject
     /**
      * constructor
      *
-     * @param  bool   $required
+     * @param  bool  $required  switch whether a value is required
      */
     protected function __construct($required)
     {
@@ -75,7 +75,7 @@ class ValueExpectation extends BaseObject
     /**
      * checks whether parameter satisfies expectation
      *
-     * @param   Param  $param
+     * @param   Param  $param  parameter to check against
      * @return  bool
      */
     public function isSatisfied(Param $param)
@@ -88,9 +88,9 @@ class ValueExpectation extends BaseObject
     }
 
     /**
-     * checks whether default value should be used
+     * checks whether default value can be used
      *
-     * @param   bool  $required
+     * @param   Param $param  parameter to check against
      * @return  bool
      */
     public function allowsDefault(Param $param)

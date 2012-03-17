@@ -66,7 +66,7 @@ class NumberExpectation extends ValueExpectation implements Range
     /**
      * sets minimum value
      *
-     * @param   number  $minValue
+     * @param   number  $minValue  minimal allowed value
      * @return  NumberExpectation
      */
     public function minValue($minValue)
@@ -78,7 +78,7 @@ class NumberExpectation extends ValueExpectation implements Range
     /**
      * sets maximum value
      *
-     * @param   number  $minValue
+     * @param   number  $maxValue  maximal allowed value
      * @return  NumberExpectation
      */
     public function maxValue($maxValue)
@@ -90,8 +90,8 @@ class NumberExpectation extends ValueExpectation implements Range
     /**
      * sets range in which value is expected
      *
-     * @param   number  $min
-     * @param   number  $max
+     * @param   number  $minValue  lower inclusive border of range
+     * @param   number  $maxValue  upper inclusive border of range
      * @return  NumberExpectation
      */
     public function inRange($minValue, $maxValue)

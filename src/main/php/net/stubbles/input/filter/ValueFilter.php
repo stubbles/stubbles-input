@@ -263,7 +263,7 @@ class ValueFilter extends BaseObject
     /**
      * handles a filter
      *
-     * @param   \Closure          $createFilter
+     * @param   Closure           $createFilter
      * @param   ValueExpectation  $expect
      * @return  mixed
      */

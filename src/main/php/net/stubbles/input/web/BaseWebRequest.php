@@ -51,10 +51,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * constructor
      *
-     * @param  array     $params      map of request parameters
-     * @param  array     $headers     map of request headers
-     * @param  array     $cookies     map of request cookies
-     * @param  \Closure  $bodyParser  function which returns the request body
+     * @param  array    $params      map of request parameters
+     * @param  array    $headers     map of request headers
+     * @param  array    $cookies     map of request cookies
+     * @param  Closure  $bodyParser  function which returns the request body
      */
     public function __construct(array $params, array $headers, array $cookies, \Closure $bodyParser)
     {
@@ -131,7 +131,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * checks whether a request header is set
      *
-     * @param   string  $paramName
+     * @param   string  $headerName
      * @return  bool
      * @since   1.3.0
      */
@@ -203,7 +203,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * checks whether a request cookie is set
      *
-     * @param   string  $paramName
+     * @param   string  $cookieName
      * @return  bool
      * @since   1.3.0
      */

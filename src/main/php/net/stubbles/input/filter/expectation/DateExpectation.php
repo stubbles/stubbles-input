@@ -66,9 +66,9 @@ class DateExpectation extends ValueExpectation implements Range
     }
 
     /**
-     * sets minimum value
+     * sets minimum date
      *
-     * @param   Date  $minDate
+     * @param   Date  $minDate  earliest allowed date
      * @return  DateExpectation
      */
     public function notBefore(Date $minDate)
@@ -78,9 +78,9 @@ class DateExpectation extends ValueExpectation implements Range
     }
 
     /**
-     * sets maximum value
+     * sets maximum date
      *
-     * @param   Date  $minDate
+     * @param   Date  $maxDate  latest allowed date
      * @return  DateExpectation
      */
     public function notAfter($maxDate)

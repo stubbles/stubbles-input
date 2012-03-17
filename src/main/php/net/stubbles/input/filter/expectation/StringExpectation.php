@@ -64,9 +64,9 @@ class StringExpectation extends ValueExpectation implements Range
     }
 
     /**
-     * sets minimum value
+     * sets minimum string length
      *
-     * @param   int  $minLength
+     * @param   int  $minLength  minimal allowed string length
      * @return  StringExpectation
      */
     public function minLength($minLength)
@@ -76,9 +76,9 @@ class StringExpectation extends ValueExpectation implements Range
     }
 
     /**
-     * sets maximum value
+     * sets maximum string length
      *
-     * @param   int  $maxLength
+     * @param   int  $maxLength  maximal allowed string length
      * @return  StringExpectation
      */
     public function maxLength($maxLength)

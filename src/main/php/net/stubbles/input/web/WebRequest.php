@@ -34,7 +34,7 @@ interface WebRequest extends Request
     /**
      * checks whether a request header is set
      *
-     * @param   string  $paramName
+     * @param   string  $headerName
      * @return  bool
      * @since   1.3.0
      */
@@ -86,7 +86,7 @@ interface WebRequest extends Request
     /**
      * checks whether a request cookie is set
      *
-     * @param   string  $paramName
+     * @param   string  $cookieName
      * @return  bool
      * @since   1.3.0
      */
