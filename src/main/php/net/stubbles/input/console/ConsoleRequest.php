@@ -31,6 +31,17 @@ class ConsoleRequest extends AbstractRequest
     }
 
     /**
+     * creates an instance from raw data, meaning $_SERVER['argv']
+     *
+     * @api
+     * @return  ConsoleRequest
+     */
+    public static function fromRawSource()
+    {
+        return new self($_SERVER['argv']);
+    }
+
+    /**
      * returns the request method
      *
      * @return  string

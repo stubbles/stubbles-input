@@ -11,6 +11,7 @@ namespace net\stubbles\input\console;
 /**
  * Tests for net\stubbles\input\console\ConsoleRequest.
  *
+ * @since  2.0.0
  * @group  console
  */
 class ConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
@@ -21,13 +22,28 @@ class ConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
      * @type  ConsoleRequest
      */
     private $consoleRequest;
+    /**
+     * backup of $_SERVER['argv']
+     *
+     * @type array
+     */
+    private $args;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
+        $this->args           = $_SERVER['argv'];
         $this->consoleRequest = new ConsoleRequest(array('foo' => 'bar', 'roland' => 'TB-303'));
+    }
+
+    /**
+     * clean up test environment
+     */
+    public function tearDown()
+    {
+        $_SERVER['argv'] = $this->args;
     }
 
     /**
@@ -61,5 +77,16 @@ class ConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function createFromRawSourceUsesServerArgs()
+    {
+        $_SERVER['argv'] = array('foo' => 'bar', 'roland' => 'TB-303');
+        $this->assertEquals(array('foo', 'roland'),
+                            ConsoleRequest::fromRawSource()
+                                          ->getParamNames()
+        );
+    }
 }
 ?>
