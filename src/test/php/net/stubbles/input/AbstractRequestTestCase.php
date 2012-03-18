@@ -62,7 +62,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\error\\ParamErrors',
+        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
                                 $this->abstractRequest->paramErrors()
         );
     }
@@ -88,7 +88,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
                                 $this->abstractRequest->validateParam('foo')
         );
     }
@@ -98,7 +98,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
                                 $this->abstractRequest->validateParam('baz')
         );
     }
@@ -106,9 +106,9 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueFilter()
+    public function readParamReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
                                 $this->abstractRequest->readParam('foo')
         );
     }
@@ -116,10 +116,30 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueFilterForNonExistingParam()
+    public function readParamReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
                                 $this->abstractRequest->readParam('baz')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function filterParamReturnsValueFilter()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+                                $this->abstractRequest->filterParam('foo')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function filterParamReturnsValueFilterForNonExistingParam()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+                                $this->abstractRequest->filterParam('baz')
         );
     }
 }

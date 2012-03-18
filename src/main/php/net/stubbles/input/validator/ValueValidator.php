@@ -7,8 +7,8 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
-use net\stubbles\input\validator\Validator;
+namespace net\stubbles\input\validator;
+use net\stubbles\input\Param;
 use net\stubbles\lang\BaseObject;
 /**
  * Value object for request values to check them against validators.
@@ -35,6 +35,17 @@ class ValueValidator extends BaseObject
     }
 
     /**
+     * create instance as mock with empty param errors
+     *
+     * @param   string  $paramValue
+     * @return  ValueValidator
+     */
+    public static function mockForValue($paramValue)
+    {
+        return new self(new Param('mock', $paramValue));
+    }
+
+    /**
      * checks whether value contains given string
      *
      * @api
@@ -43,7 +54,7 @@ class ValueValidator extends BaseObject
      */
     public function contains($contained)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\ContainsValidator($contained));
+        return $this->withValidator(new ContainsValidator($contained));
     }
 
 
@@ -56,24 +67,31 @@ class ValueValidator extends BaseObject
      */
     public function isEqualTo($expected)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\EqualValidator($expected));
+        return $this->withValidator(new EqualValidator($expected));
     }
 
     /**
      * checks whether value is an http uri
      *
      * @api
-     * @param   bool    $checkDns  optional  whether to verify uri via DNS
      * @return  bool
      */
-    public function isHttpUri($checkDns = false)
+    public function isHttpUri()
     {
-        $validator = new \net\stubbles\input\validator\HttpUriValidator();
-        if (true === $checkDns) {
-            $validator->enableDnsCheck();
-        }
+        return $this->withValidator(new HttpUriValidator());
+    }
 
-        return $this->withValidator($validator);
+    /**
+     * checks whether value is an existing http uri
+     *
+     * @api
+     * @return  bool
+     * @since   2.0.0
+     */
+    public function isExistingHttpUri()
+    {
+        $validator = new HttpUriValidator();
+        return $this->withValidator($validator->enableDnsCheck());
     }
 
     /**
@@ -84,7 +102,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpAddress()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpValidator());
+        return $this->withValidator(new IpValidator());
     }
 
     /**
@@ -96,7 +114,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpV4Address()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpV4Validator());
+        return $this->withValidator(new IpV4Validator());
     }
 
     /**
@@ -108,7 +126,7 @@ class ValueValidator extends BaseObject
      */
     public function isIpV6Address()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\IpV6Validator());
+        return $this->withValidator(new IpV6Validator());
     }
 
     /**
@@ -119,7 +137,7 @@ class ValueValidator extends BaseObject
      */
     public function isMailAddress()
     {
-        return $this->withValidator(new \net\stubbles\input\validator\MailValidator());
+        return $this->withValidator(new MailValidator());
     }
 
     /**
@@ -131,7 +149,7 @@ class ValueValidator extends BaseObject
      */
     public function isOneOf(array $allowedValues)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\PreSelectValidator($allowedValues));
+        return $this->withValidator(new PreSelectValidator($allowedValues));
     }
 
     /**
@@ -143,7 +161,7 @@ class ValueValidator extends BaseObject
      */
     public function satisfiesRegex($regex)
     {
-        return $this->withValidator(new \net\stubbles\input\validator\RegexValidator($regex));
+        return $this->withValidator(new RegexValidator($regex));
     }
 
     /**

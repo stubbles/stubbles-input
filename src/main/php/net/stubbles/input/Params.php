@@ -8,12 +8,13 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\input\error\ParamErrors;
 use net\stubbles\lang\BaseObject;
 /**
  * Interface for handling input data.
+ *
+ * @since  2.0.0
  */
-class Params extends BaseObject
+class Params extends BaseObject implements \IteratorAggregate, \Countable
 {
     /**
      * list of parameters
@@ -50,7 +51,7 @@ class Params extends BaseObject
     }
 
     /**
-     * returns raw value of parameter or null if not set
+     * returns raw parameter with value or null if not set
      *
      * @param   string  $paramName
      * @return  Param
@@ -62,6 +63,21 @@ class Params extends BaseObject
         }
 
         return new Param($paramName, $this->params[$paramName]);
+    }
+
+    /**
+     * returns raw value of parameter or null if not set
+     *
+     * @param   string  $paramName
+     * @return  string
+     */
+    public function getValue($paramName)
+    {
+        if (!isset($this->params[$paramName])) {
+            return null;
+        }
+
+        return $this->params[$paramName];
     }
 
     /**
@@ -86,6 +102,27 @@ class Params extends BaseObject
         }
 
         return $this->errors;
+    }
+
+    /**
+     * returns number of collected errors
+     *
+     * @return  int
+     */
+    public function count()
+    {
+        return count($this->params);
+    }
+
+    /**
+     * provides an iterator to iterate over all errors
+     *
+     * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return  Traversable
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->params);
     }
 }
 ?>

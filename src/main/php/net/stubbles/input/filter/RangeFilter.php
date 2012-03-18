@@ -11,12 +11,9 @@ namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
 use net\stubbles\lang\BaseObject;
 /**
- * Range filter to ensure a number is inbetween a certain range.
- *
- * This filter takes any number and checks if it complies with the min and/or
- * the max value.
+ * Range filter to ensure a value is inbetween a certain range.
  */
-class RangeFilter extends BaseObject implements NumberFilter
+class RangeFilter extends BaseObject implements Filter
 {
     /**
      * decorated filter
@@ -25,30 +22,38 @@ class RangeFilter extends BaseObject implements NumberFilter
      */
     private $filter;
     /**
-     * minimum value
+     * range definition
      *
-     * @type  number
+     * @type  Range
      */
-    private $minValue;
-    /**
-     * maximum value
-     *
-     * @type  number
-     */
-    private $maxValue;
+    private $range;
 
     /**
      * constructor
      *
-     * @param  NumberFilter  $filter    decorated number filter
-     * @param  number        $minValue  minimum value
-     * @param  number        $maxValue  maximum value
+     * @param  Filter  $filter  decorated filter
+     * @param  Range   $range   range definition
      */
-    public function __construct(NumberFilter $filter, $minValue = null, $maxValue = null)
+    public function __construct(Filter $filter, Range $range)
     {
-        $this->filter   = $filter;
-        $this->minValue = $minValue;
-        $this->maxValue = $maxValue;
+        $this->filter = $filter;
+        $this->range  = $range;
+    }
+
+    /**
+     * utility method that wraps given filter with given range
+     *
+     * @param   Filter  $filter
+     * @param   Range   $range
+     * @return  Filter
+     */
+    public static function wrap(Filter $filter, Range $range = null)
+    {
+        if (null === $range) {
+            return $filter;
+        }
+
+        return new self($filter, $range);
     }
 
     /**
@@ -64,45 +69,15 @@ class RangeFilter extends BaseObject implements NumberFilter
             return null;
         }
 
-        if ($this->isLesserThanMinValue($value)) {
-            $param->addErrorWithId('VALUE_TOO_SMALL', array('minNumber' => $this->minValue));
+        if ($this->range->belowMinBorder($value)) {
+            $param->addError($this->range->getMinParamError());
             return null;
-        } elseif ($this->isGreaterThanMaxValue($value)) {
-            $param->addErrorWithId('VALUE_TOO_GREAT', array('maxNumber' => $this->maxValue));
+        } elseif ($this->range->aboveMaxBorder($value)) {
+            $param->addError($this->range->getMaxParamError());
             return null;
         }
 
         return $value;
-    }
-
-    /**
-     * checks if given value is lesser than minimum value
-     *
-     * @param   number  $value
-     * @return  bool
-     */
-    private function isLesserThanMinValue($value)
-    {
-        if (null === $this->minValue) {
-            return false;
-        }
-
-        return ($value < $this->minValue);
-    }
-
-    /**
-     * checks if given value is greater than maximum value
-     *
-     * @param   number  $value
-     * @return  bool
-     */
-    private function isGreaterThanMaxValue($value)
-    {
-        if (null === $this->maxValue) {
-            return false;
-        }
-
-        return ($value > $this->maxValue);
     }
 }
 ?>

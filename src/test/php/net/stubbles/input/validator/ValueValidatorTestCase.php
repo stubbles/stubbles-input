@@ -7,12 +7,13 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
+namespace net\stubbles\input\validator;
+use net\stubbles\input\Param;
 /**
- * Tests for net\stubbles\input\ValueValidator.
+ * Tests for net\stubbles\input\validator\ValueValidator.
  *
  * @since  1.3.0
- * @group  core
+ * @group  validator
  */
 class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -78,9 +79,25 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isHttpUriReturnsTrueIfValidatorSatisfiedWithDnsCheck()
+    public function isExistingHttpUriReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('http://localhost/')->isHttpUri(true));
+        $this->assertTrue($this->createValueValidator('http://localhost/')->isExistingHttpUri());
+    }
+
+    /**
+     * @test
+     */
+    public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfied()
+    {
+        $this->assertFalse($this->createValueValidator('foo')->isExistingHttpUri());
+    }
+
+    /**
+     * @test
+     */
+    public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
+    {
+        $this->assertFalse($this->createValueValidator('http://foo')->isExistingHttpUri());
     }
 
     /**
@@ -236,6 +253,16 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
                       ->with($this->equalTo('foo'))
                       ->will($this->returnValue(true));
         $this->assertTrue($this->createValueValidator('foo')->withValidator($mockValidator));
+    }
+
+    /**
+     * @test
+     */
+    public function canBeCreatedAsMock()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+                                ValueValidator::mockForValue('bar')
+        );
     }
 }
 ?>

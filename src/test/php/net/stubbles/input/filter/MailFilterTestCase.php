@@ -21,7 +21,7 @@ class MailFilterTestCase extends FilterTestCase
      *
      * @var  net\stubbles\webapp\io\request\filter\MailFilter
      */
-    protected $mailFilter;
+    private $mailFilter;
 
     /**
      * create test environment

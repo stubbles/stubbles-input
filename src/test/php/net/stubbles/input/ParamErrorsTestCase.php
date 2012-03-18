@@ -7,12 +7,12 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\error;
+namespace net\stubbles\input;
 use net\stubbles\lang\types\LocalizedString;
 /**
- * Tests for net\stubbles\input\error\ParamErrors.
+ * Tests for net\stubbles\input\ParamErrors.
  *
- * @group  error
+ * @group  core
  */
 class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
 {

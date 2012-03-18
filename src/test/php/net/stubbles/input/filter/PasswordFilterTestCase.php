@@ -21,7 +21,7 @@ class PasswordFilterTestCase extends FilterTestCase
      *
      * @type  PasswordFilter
      */
-    protected $passwordFilter;
+    private $passwordFilter;
 
     /**
      * create test environment

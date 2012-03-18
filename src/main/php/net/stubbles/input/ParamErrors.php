@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\error;
+namespace net\stubbles\input;
 use net\stubbles\lang\BaseObject;
 /**
  * Container for a filter error list.

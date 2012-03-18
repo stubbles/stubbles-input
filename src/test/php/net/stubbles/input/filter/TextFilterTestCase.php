@@ -21,7 +21,7 @@ class TextFilterTestCase extends FilterTestCase
      *
      * @type  TextFilter
      */
-    protected $textFilter;
+    private $textFilter;
 
     /**
      * create test environment
