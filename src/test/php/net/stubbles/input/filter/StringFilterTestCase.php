@@ -21,7 +21,7 @@ class StringFilterTestCase extends FilterTestCase
      *
      * @type  StringFilter
      */
-    protected $stringFilter;
+    private $stringFilter;
 
     /**
      * create test environment

@@ -65,6 +65,22 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function returnsNullValueIfParamDoesNotExist()
+    {
+        $this->assertNull($this->params->getValue('doesNotExist'));
+    }
+
+    /**
+     * @test
+     */
+    public function returnsValueIfParamExists()
+    {
+        $this->assertEquals('bar', $this->params->getValue('foo'));
+    }
+
+    /**
+     * @test
+     */
     public function returnsListOfParamNames()
     {
         $this->assertEquals(array('foo', 'baz'), $this->params->getNames());
@@ -76,6 +92,33 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
     public function listOfParamErrorsIsInitiallyEmpty()
     {
         $this->assertFalse($this->params->errors()->exist());
+    }
+
+    /**
+     * @test
+     */
+    public function paramsCanBeCounted()
+    {
+        $this->assertEquals(2, count($this->params));
+    }
+
+    /**
+     * @test
+     */
+    public function canIterateOverParams()
+    {
+        $i = 0;
+        foreach ($this->params as $paramName => $paramValue) {
+            if (0 === $i) {
+                $this->assertEquals('foo', $paramName);
+                $this->assertEquals('bar', $paramValue);
+            } else {
+                $this->assertEquals('baz', $paramName);
+                $this->assertEquals('value', $paramValue);
+            }
+
+            $i++;
+        }
     }
 }
 ?>

@@ -7,15 +7,20 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input;
-use net\stubbles\input\error\ParamErrors;
+namespace net\stubbles\input\filter;
+use net\stubbles\input\Param;
+use net\stubbles\input\ParamErrors;
+use net\stubbles\input\filter\expectation\DateExpectation;
+use net\stubbles\input\filter\expectation\StringExpectation;
+use net\stubbles\input\filter\expectation\NumberExpectation;
+use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\types\Date;
 use net\stubbles\peer\http\HttpUri;
 /**
  * Tests for net\stubbles\input\ValueFilter.
  *
  * @since  1.3.0
- * @group  core
+ * @group  filter
  */
 class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -102,9 +107,21 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      * @since  2.0.0
      * @test
      */
+    public function asIntReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asInt());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(303, $this->createValueFilter(null)->asInt(null, null, 303));
+        $this->assertEquals(303, $this->createValueFilter(null)->asInt(NumberExpectation::create()
+                                                                                        ->useDefault(303)
+                                                                 )
+        );
     }
 
     /**
@@ -113,7 +130,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asIntReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asInt(null, null, 303, true));
+        $this->assertNull($this->createValueFilter(null)->asInt(NumberExpectation::createAsRequired()));
     }
 
     /**
@@ -122,7 +139,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asIntAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asInt(null, null, 303, true);
+        $this->createValueFilter(null)->asInt(NumberExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -132,7 +149,10 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asIntReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter(4)->asInt(5));
+        $this->assertNull($this->createValueFilter(4)->asInt(NumberExpectation::create()
+                                                                              ->minValue(5)
+                                                       )
+        );
     }
 
     /**
@@ -141,7 +161,9 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asIntAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter(4)->asInt(5);
+        $this->createValueFilter(4)->asInt(NumberExpectation::create()
+                                                            ->minValue(5)
+        );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -158,9 +180,21 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      * @since  2.0.0
      * @test
      */
+    public function asFloatReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asFloat());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(3.03, $this->createValueFilter(null)->asFloat(null, null, 3.03));
+        $this->assertEquals(3.03, $this->createValueFilter(null)->asFloat(NumberExpectation::create()
+                                                                                        ->useDefault(3.03)
+                                                                 )
+        );
     }
 
     /**
@@ -169,7 +203,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asFloatReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asFloat(null, null, 3.03, true));
+        $this->assertNull($this->createValueFilter(null)->asFloat(NumberExpectation::createAsRequired()));
     }
 
     /**
@@ -178,7 +212,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asFloatAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asFloat(null, null, 3.03, true);
+        $this->createValueFilter(null)->asFloat(NumberExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -188,7 +222,10 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asFloatReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter(2.5)->asText(5));
+        $this->assertNull($this->createValueFilter(2.5)->asFloat(NumberExpectation::create()
+                                                                              ->minValue(5)
+                                                       )
+        );
     }
 
     /**
@@ -197,7 +234,9 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asFloatAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter(2.5)->asText(5);
+        $this->createValueFilter(2.5)->asFloat(NumberExpectation::create()
+                                                                ->minValue(5)
+        );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -215,8 +254,17 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asFloatReturnsValidValueUsingDecimals()
     {
-        $this->assertEquals(313, $this->createValueFilter('3.13')->asFloat(null, null, null, false, 2));
+        $this->assertEquals(313, $this->createValueFilter('3.13')->asFloat(null, 2));
 
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('', $this->createValueFilter(null)->asString());
     }
 
     /**
@@ -225,7 +273,11 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('baz', $this->createValueFilter(null)->asString(null, null, 'baz'));
+        $this->assertEquals('baz', $this->createValueFilter(null)
+                                        ->asString(StringExpectation::create()
+                                                                    ->useDefault('baz')
+                                          )
+        );
     }
 
     /**
@@ -234,7 +286,9 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asStringReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asString(null, null, 'baz', true));
+        $this->assertNull($this->createValueFilter(null)
+                               ->asString(StringExpectation::createAsRequired())
+        );
     }
 
     /**
@@ -243,7 +297,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asStringAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asString(null, null, 'baz', true);
+        $this->createValueFilter(null)->asString(StringExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -253,7 +307,11 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asStringReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asString(5));
+        $this->assertNull($this->createValueFilter('foo')
+                               ->asString(StringExpectation::create()
+                                                           ->minLength(5)
+                                 )
+        );
     }
 
     /**
@@ -262,7 +320,9 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asStringAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asString(5);
+        $this->createValueFilter('foo')->asString(StringExpectation::create()
+                                                                   ->minLength(5)
+        );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -279,9 +339,22 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      * @since  2.0.0
      * @test
      */
+    public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('', $this->createValueFilter(null)->asText());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('baz', $this->createValueFilter(null)->asText(null, null, 'baz'));
+        $this->assertEquals('baz', $this->createValueFilter(null)
+                                        ->asText(StringExpectation::create()
+                                                                  ->useDefault('baz')
+                                          )
+        );
     }
 
     /**
@@ -290,7 +363,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asTextReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asText(null, null, 'baz', true));
+        $this->assertNull($this->createValueFilter(null)->asText(StringExpectation::createAsRequired()));
     }
 
     /**
@@ -299,7 +372,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asTextAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asText(null, null, 'baz', true);
+        $this->createValueFilter(null)->asText(StringExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -309,7 +382,11 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asTextReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asText(5));
+        $this->assertNull($this->createValueFilter('foo')
+                               ->asText(StringExpectation::create()
+                                                         ->minLength(5)
+                                 )
+        );
     }
 
     /**
@@ -318,7 +395,9 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asTextAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asText(5);
+        $this->createValueFilter('foo')->asText(StringExpectation::create()
+                                                                 ->minLength(5)
+        );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -336,7 +415,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        $this->assertEquals('foo<b>', $this->createValueFilter('foo<b>')->asText(null, null, null, false, array('b')));
+        $this->assertEquals('foo<b>', $this->createValueFilter('foo<b>')->asText(null, array('b')));
 
     }
 
@@ -347,7 +426,12 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     public function asJsonReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = array('foo' => 'bar');
-        $this->assertEquals($default, $this->createValueFilter(null)->asJson($default));
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)
+                                 ->asJson(ValueExpectation::create()
+                                                          ->useDefault($default)
+                                   )
+        );
     }
 
     /**
@@ -356,7 +440,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asJsonReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asJson(array('foo' => 'bar'), true));
+        $this->assertNull($this->createValueFilter(null)->asJson(ValueExpectation::createAsRequired()));
     }
 
     /**
@@ -365,7 +449,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asJsonAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asJson(array('foo' => 'bar'), true);
+        $this->createValueFilter(null)->asJson(ValueExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -451,12 +535,12 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $default = array('foo' => 'bar');
         $this->assertEquals('http://example.com/',
-                            $this->createValueFilter(null)->asHttpUri(false,
-                                                                      HttpUri::fromString('http://example.com/')
-                                                            )
-                                                          ->asString()
+                            $this->createValueFilter(null)
+                                 ->asHttpUri(ValueExpectation::create()
+                                                             ->useDefault(HttpUri::fromString('http://example.com/'))
+                                   )
+                                 ->asString()
         );
     }
 
@@ -466,7 +550,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asHttpUriReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asHttpUri(false, null, true));
+        $this->assertNull($this->createValueFilter(null)->asHttpUri(ValueExpectation::createAsRequired()));
     }
 
     /**
@@ -475,7 +559,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asHttpUriAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asHttpUri(false, null, true);
+        $this->createValueFilter(null)->asHttpUri(ValueExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -512,13 +596,67 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @since  2.0.0
      * @test
      */
-    public function asHttpUriReturnsValidValueWithDnsCheckEnabled()
+    public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('http://example.com/',
+                            $this->createValueFilter(null)
+                                 ->asExistingHttpUri(ValueExpectation::create()
+                                                                     ->useDefault(HttpUri::fromString('http://example.com/'))
+                                   )
+                                 ->asString()
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asExistingHttpUri(ValueExpectation::createAsRequired()));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->asExistingHttpUri(ValueExpectation::createAsRequired());
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter('foo')->asExistingHttpUri());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter('foo')->asExistingHttpUri();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsValidValue()
     {
         $this->assertEquals('http://localhost/',
                             $this->createValueFilter('http://localhost/')
-                                 ->asHttpUri(true)
+                                 ->asExistingHttpUri()
                                  ->asString()
         );
     }
@@ -583,10 +721,24 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      * @since  2.0.0
      * @test
      */
+    public function asDateReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asDate());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
     public function asDateReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = Date::now();
-        $this->assertEquals($default, $this->createValueFilter(null)->asDate(null, null, $default));
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)
+                                 ->asDate(DateExpectation::create()
+                                                         ->useDefault($default)
+                                   )
+        );
     }
 
     /**
@@ -595,7 +747,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asDateReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asDate(null, null, Date::now(), true));
+        $this->assertNull($this->createValueFilter(null)->asDate(DateExpectation::createAsRequired()));
     }
 
     /**
@@ -604,7 +756,7 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function asDateAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->asDate(null, null, Date::now(), true);
+        $this->createValueFilter(null)->asDate(DateExpectation::createAsRequired());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -638,6 +790,28 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
                                  ->format('Y-m-d')
         );
 
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsNullIfParamIsOutOfRange()
+    {
+        $this->assertNull($this->createValueFilter(new Date('yesterday'))
+                               ->asDate(DateExpectation::create()->notBefore(Date::now()))
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateAddsParamErrorIfParamIsOutOfRange()
+    {
+        $this->createValueFilter(new Date('yesterday'))
+             ->asDate(DateExpectation::create()->notBefore(Date::now()));
+        $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -686,344 +860,10 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function ifContainsReturnsValidatedValue()
-    {
-        $this->assertEquals('303313', $this->createValueFilter('303313')->ifContains('303'));
-    }
-
-    /**
-     * @test
-     */
-    public function ifContainsReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('303313')->ifContains('323'));
-    }
-
-    /**
-     * @test
-     */
-    public function ifContainsReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter('303313')->ifContains('323', 'default')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifContainsReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter(null)->ifContains('323', 'default')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsEqualToReturnsValidatedValue()
-    {
-        $this->assertEquals('303313', $this->createValueFilter('303313')->ifIsEqualTo('303313'));
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsEqualToReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('303313')->ifIsEqualTo('323313'));
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsEqualToReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter('303313')->ifIsEqualTo('323313', 'default')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsEqualToReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter(null)->ifIsEqualTo('323313', 'default')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsHttpUriReturnsValidatedValue()
-    {
-        $this->assertEquals('http://example.net/',
-                            $this->createValueFilter('http://example.net/')->ifIsHttpUri()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsHttpUriReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('invalid')->ifIsHttpUri());
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsHttpUriReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('http://example.org/',
-                            $this->createValueFilter('invalid')->ifIsHttpUri(false,
-                                                                             'http://example.org/'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsHttpUriReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('http://example.org/',
-                            $this->createValueFilter(null)->ifIsHttpUri(false,
-                                                                        'http://example.org/'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsIpAddressReturnsValidatedValue()
-    {
-        $this->assertEquals('127.0.0.1', $this->createValueFilter('127.0.0.1')->ifIsIpAddress());
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsIpAddressReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('invalid')->ifIsIpAddress());
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsIpAddressReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('127.0.0.1',
-                            $this->createValueFilter('invalid')->ifIsIpAddress('127.0.0.1')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsIpAddressReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('127.0.0.1',
-                            $this->createValueFilter(null)->ifIsIpAddress('127.0.0.1')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsMailAddressReturnsValidatedValue()
-    {
-        $this->assertEquals('example@example.net', $this->createValueFilter('example@example.net')->ifIsMailAddress());
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsMailAddressReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('invalid')->ifIsMailAddress());
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsMailAddressReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('example@example.org',
-                            $this->createValueFilter('invalid')->ifIsMailAddress('example@example.org')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsMailAddressReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('example@example.org',
-                            $this->createValueFilter(null)->ifIsMailAddress('example@example.org')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsOneOfReturnsValidatedValue()
-    {
-        $this->assertEquals('as value',
-                            $this->createValueFilter('as value')->ifIsOneOf(array('as value',
-                                                                                  'anothervalue'
-                                                                            )
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsOneOfReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('invalid')->ifIsOneOf(array('as value',
-                                                                               'anothervalue'
-                                                                         )
-                                                               )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsOneOfReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter('invalid')->ifIsOneOf(array('as value',
-                                                                                 'anothervalue'
-                                                                           ),
-                                                                           'default'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter(null)->ifIsOneOf(array('as value',
-                                                                                 'anothervalue'
-                                                                           ),
-                                                                           'default'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifSatisfiesRegexReturnsValidatedValue()
-    {
-        $this->assertEquals('a value',
-                            $this->createValueFilter('a value')->ifSatisfiesRegex('/^([a-z ])+$/')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifSatisfiesRegexReturnsNullIfValidationFailsAndNoDefaultValueGiven()
-    {
-        $this->assertNull($this->createValueFilter('303')->ifSatisfiesRegex('/^([a-z ])+$/'));
-    }
-
-    /**
-     * @test
-     */
-    public function ifSatisfiesRegexReturnsDefaultValueIfValidationFails()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter('303')->ifSatisfiesRegex('/^([a-z ])+$/',
-                                                                              'default'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
-    {
-        $this->assertEquals('default',
-                            $this->createValueFilter(null)->ifSatisfiesRegex('/^([a-z ])+$/',
-                                                                              'default'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function withReturnsValidatedValue()
-    {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
-        $mockValidator->expects($this->once())
-                          ->method('validate')
-                          ->with($this->equalTo('a value'))
-                          ->will($this->returnValue(true));
-        $this->assertEquals('a value',
-                            $this->createValueFilter('a value')->withValidator($mockValidator)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function withReturnsNullIfValidatorCanNotValidateValue()
-    {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
-        $mockValidator->expects($this->once())
-                          ->method('validate')
-                          ->with($this->equalTo('a value'))
-                          ->will($this->returnValue(false));
-        $this->assertNull($this->createValueFilter('a value')->withValidator($mockValidator));
-    }
-
-    /**
-     * @test
-     */
-    public function withReturnsDefaultValueIfValidationFails()
-    {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
-        $mockValidator->expects($this->once())
-                          ->method('validate')
-                          ->with($this->equalTo('a value'))
-                          ->will($this->returnValue(false));
-        $this->assertEquals('default',
-                            $this->createValueFilter('a value')->withValidator($mockValidator,
-                                                                                         'default'
-                            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function unsecure()
-    {
-        $this->assertEquals('a value', $this->createValueFilter('a value')->unsecure());
-    }
-
-    /**
-     * @test
-     */
     public function canBeCreatedAsMock()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueFilter',
-                                ValueFilter::createAsMock('foo', 'bar')
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+                                ValueFilter::mockForValue('bar')
         );
     }
 }

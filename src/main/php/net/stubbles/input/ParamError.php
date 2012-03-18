@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\error;
+namespace net\stubbles\input;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\LocalizedString;
 /**
