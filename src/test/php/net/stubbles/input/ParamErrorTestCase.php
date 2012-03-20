@@ -42,76 +42,64 @@ class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function hasNoMessagesByDefault()
-    {
-        $this->assertEquals(array(), $this->paramError->getMessages());
-    }
-
-    /**
-     * @test
-     */
-    public function replacesPlaceHolderInAddedMessagesWithDetails()
+    public function replacesPlaceHolderInMessagesWithDetails()
     {
 
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type bar occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
                             ),
-                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                           )
+                            $this->paramError->fillMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                            )
                                                )
-                                             ->getMessages()
         );
     }
 
     /**
      * @test
      */
-    public function replacesPlaceHolderInAddedMessagesWithFlattenedArrayDetails()
+    public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails()
     {
         $this->paramError = new ParamError('id', array('foo' => array('bar', 'baz')));
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type bar, baz occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
                             ),
-                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                           )
+                            $this->paramError->fillMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                            )
                                                )
-                                             ->getMessages()
         );
     }
 
     /**
      * @test
      */
-    public function replacesPlaceHolderInAddedMessagesWithObjectDetails()
+    public function replacesPlaceHolderInMessagesWithObjectDetails()
     {
         $this->paramError = new ParamError('id', array('foo' => new \stdClass()));
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type stdClass occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
                             ),
-                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                            $this->paramError->fillMessages(array('en_*'  => 'An error of type {foo} occurred.',
                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                           )
+                                                            )
                                                )
-                                             ->getMessages()
         );
     }
 
     /**
      * @test
      */
-    public function doesNotReplacePlaceHolderInAddedMessagesIfDetailsNotSet()
+    public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet()
     {
         $this->paramError = new ParamError('id');
         $this->assertEquals(array(new LocalizedString('en_*', 'An error of type {foo} occurred.'),
                                   new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
                             ),
-                            $this->paramError->setMessages(array('en_*'  => 'An error of type {foo} occurred.',
-                                                                 'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
-                                                           )
+                            $this->paramError->fillMessages(array('en_*'  => 'An error of type {foo} occurred.',
+                                                                  'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
+                                                            )
                                                )
-                                             ->getMessages()
         );
     }
 
@@ -131,17 +119,6 @@ class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->paramError->getClass()
                                             ->getMethod('getId')
                                             ->hasAnnotation('XmlAttribute')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function annotationsPresentOnGetMessagesMethod()
-    {
-        $this->assertTrue($this->paramError->getClass()
-                                            ->getMethod('getMessages')
-                                            ->hasAnnotation('XmlTag')
         );
     }
 }

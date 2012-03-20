@@ -99,6 +99,16 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
+     * checks whether request was made using ssl
+     *
+     * @return  bool
+     */
+    public function isSsl()
+    {
+        return $this->headers->has('HTTPS');
+    }
+
+    /**
      * returns the uri of the request
      *
      * @return  HttpUri
