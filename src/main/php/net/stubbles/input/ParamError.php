@@ -11,7 +11,7 @@ namespace net\stubbles\input;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\LocalizedString;
 /**
- * Class containing error messages after filtering values.
+ * Class representing parameter errors after filtering parameter values.
  *
  * @XmlTag(tagName='error')
  */
@@ -44,7 +44,7 @@ class ParamError extends BaseObject
      */
     public function __construct($id, array $details = array())
     {
-        $this->id     = $id;
+        $this->id      = $id;
         $this->details = $details;
     }
 
@@ -60,35 +60,35 @@ class ParamError extends BaseObject
     }
 
     /**
-     * sets map of locales and messages for this error
+     * fills given list of messages with details
      *
-     * @param   array  $messages
-     * @return  FilterError
-     */
-    public function setMessages(array $messages)
-    {
-        $this->messages = $messages;
-        return $this;
-    }
-
-    /**
-     * returns all messages
-     *
-     * @XmlTag(tagName='messages')
+     * @param   array  $templates  map of locales and message templates
      * @return  LocalizedString[]
      */
-    public function getMessages()
+    public function fillMessages(array $templates)
     {
         $messages = array();
-        foreach ($this->messages as $locale => $message) {
-            foreach ($this->details as $key => $detail) {
-                $message = str_replace('{' . $key . '}', $this->flattenDetail($detail), $message);
-            }
-
-            $messages[] = new LocalizedString($locale, $message);
+        foreach ($templates as $locale => $message) {
+            $messages[] = $this->fillMessage($message, $locale);
         }
 
         return $messages;
+    }
+
+    /**
+     * fills given message with details
+     *
+     * @param   string  $message  message template to fill up
+     * @param   string  $locale   locale of the message
+     * @return  LocalizedString
+     */
+    public function fillMessage($message, $locale)
+    {
+        foreach ($this->details as $key => $detail) {
+            $message = str_replace('{' . $key . '}', $this->flattenDetail($detail), $message);
+        }
+
+        return new LocalizedString($locale, $message);
     }
 
     /**

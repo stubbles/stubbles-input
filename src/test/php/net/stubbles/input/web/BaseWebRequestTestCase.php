@@ -151,6 +151,30 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function sslCheckReturnsTrueIfHttpsSet()
+    {
+        $this->assertTrue($this->createBaseWebRequest(array(),
+                                                      array('HTTPS' => true)
+                                 )
+                               ->isSsl()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function sslCheckReturnsFalseIfHttpsNotSet()
+    {
+        $this->assertFalse($this->createBaseWebRequest(array(),
+                                                       array('HTTPS' => null)
+                                  )
+                                ->isSsl()
+        );
+    }
+
+    /**
+     * @test
      * @expectedException  net\stubbles\lang\exception\RuntimeException
      */
     public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
