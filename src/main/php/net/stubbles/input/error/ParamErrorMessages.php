@@ -13,6 +13,7 @@ use net\stubbles\lang\Object;
 /**
  * Interface to translate param errors into error messages.
  *
+ * @api
  * @ImplementedBy(net\stubbles\input\error\PropertyBasedParamErrorMessages.class)
  */
 interface ParamErrorMessages extends Object
