@@ -29,12 +29,6 @@ class ParamError extends BaseObject
      * @type  array
      */
     private $details;
-    /**
-     * map of locales and messages
-     *
-     * @type  array
-     */
-    private $messages = array();
 
     /**
      * constructor
