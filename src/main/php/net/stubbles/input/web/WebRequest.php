@@ -17,6 +17,13 @@ use net\stubbles\input\Request;
 interface WebRequest extends Request
 {
     /**
+     * checks whether request was made using ssl
+     *
+     * @return  bool
+     */
+    public function isSsl();
+
+    /**
      * returns the uri of the request
      *
      * @return  net\stubbles\peer\http\HttpUri
