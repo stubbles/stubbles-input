@@ -10,6 +10,7 @@
 namespace net\stubbles\input\filter\expectation;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\Range;
+use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Description of a number expectation.
  *
@@ -30,6 +31,24 @@ class NumberExpectation extends ValueExpectation implements Range
      * @type  number
      */
     private $maxValue;
+
+    /**
+     * creates instance from an annotation
+     *
+     * @param   Annotation  $annotation
+     * @return  NumberExpectation
+     */
+    public static function fromAnnotation(Annotation $annotation)
+    {
+        if ($annotation->isRequired()) {
+            $self = self::createAsRequired();
+        } else {
+            $self = self::create();
+        }
+
+        return $self->useDefault($annotation->getDefault())
+                    ->inRange($annotation->getMinValue(), $annotation->getMaxValue());
+    }
 
     /**
      * creates an expectation where a value is required

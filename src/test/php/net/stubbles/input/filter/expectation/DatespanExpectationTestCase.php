@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\expectation;
+use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Day;
 /**
@@ -34,6 +35,17 @@ class DatespanExpectationTestCase extends \PHPUnit_Framework_TestCase
         $this->datespanExpectation = DatespanExpectation::create()
                                                         ->notBefore(new Date('2012-03-17'))
                                                         ->notAfter(new Date('2012-03-19'));
+    }
+
+    /**
+     * @test
+     */
+    public function createFromAnnotation()
+    {
+        $datespanExpectation = DatespanExpectation::fromAnnotation(new Annotation('NumberAnnotation'));
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\expectation\\DatespanExpectation',
+                                $datespanExpectation
+        );
     }
 
     /**

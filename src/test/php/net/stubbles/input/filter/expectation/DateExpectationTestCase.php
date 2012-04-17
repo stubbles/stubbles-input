@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\expectation;
+use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 /**
  * Tests for net\stubbles\input\filter\expectation\DateExpectation.
@@ -33,6 +34,17 @@ class DateExpectationTestCase extends \PHPUnit_Framework_TestCase
         $this->dateExpectation = DateExpectation::create()
                                                 ->notBefore(new Date('2012-03-17'))
                                                 ->notAfter(new Date('2012-03-19'));
+    }
+
+    /**
+     * @test
+     */
+    public function createFromAnnotation()
+    {
+        $dateExpectation = DateExpectation::fromAnnotation(new Annotation('NumberAnnotation'));
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\expectation\\DateExpectation',
+                                $dateExpectation
+        );
     }
 
     /**

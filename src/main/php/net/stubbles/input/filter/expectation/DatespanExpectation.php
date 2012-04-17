@@ -11,6 +11,7 @@ namespace net\stubbles\input\filter\expectation;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\Range;
 use net\stubbles\lang\exception\RuntimeException;
+use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Datespan;
 /**
@@ -33,6 +34,23 @@ class DatespanExpectation extends ValueExpectation implements Range
      * @type  Date
      */
     private $maxDate;
+
+    /**
+     * creates instance from an annotation
+     *
+     * @param   Annotation  $annotation
+     * @return  DatespanExpectation
+     */
+    public static function fromAnnotation(Annotation $annotation)
+    {
+        if ($annotation->isRequired()) {
+            $self = self::createAsRequired();
+        } else {
+            $self = self::create();
+        }
+
+        return $self->useDefault($annotation->getDefault());
+    }
 
     /**
      * creates an expectation where a value is required
