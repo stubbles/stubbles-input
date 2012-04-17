@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\expectation;
+use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Tests for net\stubbles\input\filter\expectation\NumberExpectation.
  *
@@ -31,6 +32,17 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->numberExpectation = NumberExpectation::create()
                                                     ->inRange(1, 10);
+    }
+
+    /**
+     * @test
+     */
+    public function createFromAnnotation()
+    {
+        $numberExpectation = NumberExpectation::fromAnnotation(new Annotation('NumberAnnotation'));
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\expectation\\NumberExpectation',
+                                $numberExpectation
+        );
     }
 
     /**

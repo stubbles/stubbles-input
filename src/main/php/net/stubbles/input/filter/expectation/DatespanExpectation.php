@@ -10,33 +10,36 @@
 namespace net\stubbles\input\filter\expectation;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\Range;
+use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
+use net\stubbles\lang\types\Date;
+use net\stubbles\lang\types\datespan\Datespan;
 /**
- * Description of a number expectation.
+ * Description of a date expectation.
  *
  * @api
  * @since  2.0.0
  */
-class NumberExpectation extends ValueExpectation implements Range
+class DatespanExpectation extends ValueExpectation implements Range
 {
     /**
-     * minimum value
+     * minimum date
      *
-     * @type  number
+     * @type  Date
      */
-    private $minValue;
+    private $minDate;
     /**
-     * maximum value
+     * maximum date
      *
-     * @type  number
+     * @type  Date
      */
-    private $maxValue;
+    private $maxDate;
 
     /**
      * creates instance from an annotation
      *
      * @param   Annotation  $annotation
-     * @return  NumberExpectation
+     * @return  DatespanExpectation
      */
     public static function fromAnnotation(Annotation $annotation)
     {
@@ -46,14 +49,13 @@ class NumberExpectation extends ValueExpectation implements Range
             $self = self::create();
         }
 
-        return $self->useDefault($annotation->getDefault())
-                    ->inRange($annotation->getMinValue(), $annotation->getMaxValue());
+        return $self->useDefault($annotation->getDefault());
     }
 
     /**
      * creates an expectation where a value is required
      *
-     * @return  NumberExpectation
+     * @return  DatespanExpectation
      */
     public static function createAsRequired()
     {
@@ -63,7 +65,7 @@ class NumberExpectation extends ValueExpectation implements Range
     /**
      * creates an expectation where no value is required
      *
-     * @return  NumberExpectation
+     * @return  DatespanExpectation
      */
     public static function create()
     {
@@ -73,8 +75,8 @@ class NumberExpectation extends ValueExpectation implements Range
     /**
      * use default value if no value available
      *
-     * @param   number  $default
-     * @return  NumberExpectation
+     * @param   Date  $default
+     * @return  DatespanExpectation
      */
     public function useDefault($default)
     {
@@ -83,40 +85,26 @@ class NumberExpectation extends ValueExpectation implements Range
     }
 
     /**
-     * sets minimum value
+     * sets minimum date
      *
-     * @param   number  $minValue  minimal allowed value
-     * @return  NumberExpectation
+     * @param   Date  $minDate  earliest allowed date
+     * @return  DatespanExpectation
      */
-    public function minValue($minValue)
+    public function notBefore(Date $minDate)
     {
-        $this->minValue = $minValue;
+        $this->minDate = $minDate;
         return $this;
     }
 
     /**
-     * sets maximum value
+     * sets maximum date
      *
-     * @param   number  $maxValue  maximal allowed value
-     * @return  NumberExpectation
+     * @param   Date  $maxDate  latest allowed date
+     * @return  DatespanExpectation
      */
-    public function maxValue($maxValue)
+    public function notAfter(Date $maxDate)
     {
-        $this->maxValue = $maxValue;
-        return $this;
-    }
-
-    /**
-     * sets range in which value is expected
-     *
-     * @param   number  $minValue  lower inclusive border of range
-     * @param   number  $maxValue  upper inclusive border of range
-     * @return  NumberExpectation
-     */
-    public function inRange($minValue, $maxValue)
-    {
-        $this->minValue = $minValue;
-        $this->maxValue = $maxValue;
+        $this->maxDate = $maxDate->change()->timeTo('23:59:59');
         return $this;
     }
 
@@ -125,14 +113,19 @@ class NumberExpectation extends ValueExpectation implements Range
      *
      * @param   mixed  $value
      * @return  bool
+     * @throws  RuntimeException
      */
     public function belowMinBorder($value)
     {
-        if (null === $this->minValue) {
+        if (null === $value || null === $this->minDate) {
             return false;
         }
 
-        return ($value < $this->minValue);
+        if (!($value instanceof Datespan)) {
+            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\datespan\\Datespan');
+        }
+
+        return $this->minDate->isAfter($value->getStart());
     }
 
     /**
@@ -140,14 +133,19 @@ class NumberExpectation extends ValueExpectation implements Range
      *
      * @param   mixed  $value
      * @return  bool
+     * @throws  RuntimeException
      */
     public function aboveMaxBorder($value)
     {
-        if (null === $this->maxValue) {
+        if (null === $value || null === $this->maxDate) {
             return false;
         }
 
-        return ($value > $this->maxValue);
+        if (!($value instanceof Datespan)) {
+            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\datespan\\Datespan');
+        }
+
+        return $this->maxDate->isBefore($value->getEnd());
     }
 
     /**
@@ -157,7 +155,7 @@ class NumberExpectation extends ValueExpectation implements Range
      */
     public function getMinParamError()
     {
-        return new ParamError('VALUE_TOO_SMALL', array('minNumber' => $this->minValue));
+        return new ParamError('DATE_TOO_EARLY', array('earliestDate' => $this->minDate->asString()));
     }
 
     /**
@@ -167,7 +165,7 @@ class NumberExpectation extends ValueExpectation implements Range
      */
     public function getMaxParamError()
     {
-        return new ParamError('VALUE_TOO_GREAT', array('maxNumber' => $this->maxValue));
+        return new ParamError('DATE_TOO_LATE', array('latestDate' => $this->maxDate->asString()));
     }
 }
 ?>

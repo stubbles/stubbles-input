@@ -32,6 +32,25 @@ class StringExpectation extends ValueExpectation implements Range
     private $maxLength;
 
     /**
+     * creates instance from an annotation
+     *
+     * @param   Annotation  $annotation
+     * @return  NumberExpectation
+     */
+    public static function fromAnnotation(Annotation $annotation)
+    {
+        if ($annotation->isRequired()) {
+            $self = self::createAsRequired();
+        } else {
+            $self = self::create();
+        }
+
+        return $self->useDefault($annotation->getDefault())
+                    ->minLength($annotation->getMinLength())
+                    ->maxLength($annotation->getMaxLength());
+    }
+
+    /**
      * creates an expectation where a value is required
      *
      * @return  StringExpectation

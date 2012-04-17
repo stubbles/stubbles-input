@@ -12,12 +12,11 @@ use net\stubbles\input\Param;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\ParamErrors;
 use net\stubbles\input\filter\expectation\DateExpectation;
+use net\stubbles\input\filter\expectation\DatespanExpectation;
 use net\stubbles\input\filter\expectation\StringExpectation;
 use net\stubbles\input\filter\expectation\NumberExpectation;
 use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\BaseObject;
-use net\stubbles\lang\types\Date;
-use net\stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
  *
@@ -198,7 +197,7 @@ class ValueFilter extends BaseObject
      *
      * @api
      * @param   ValueExpectation  $expect
-     * @return  HttpUri
+     * @return  net\stubbles\peer\http\HttpUri
      */
     public function asHttpUri(ValueExpectation $expect = null)
     {
@@ -215,7 +214,7 @@ class ValueFilter extends BaseObject
      *
      * @api
      * @param   ValueExpectation  $expect
-     * @return  HttpUri
+     * @return  net\stubbles\peer\http\HttpUri
      */
     public function asExistingHttpUri(ValueExpectation $expect = null)
     {
@@ -245,7 +244,7 @@ class ValueFilter extends BaseObject
      *
      * @api
      * @param   DateExpectation  $expect
-     * @return  Date
+     * @return  net\stubbles\lang\types\Date
 
      */
     public function asDate(DateExpectation $expect = null)
@@ -253,6 +252,27 @@ class ValueFilter extends BaseObject
         return $this->handleFilter(function() use($expect)
                                    {
                                        return RangeFilter::wrap(new DateFilter(),
+                                                                $expect
+                                       );
+                                   },
+                                   $expect
+        );
+    }
+
+    /**
+     * read as day
+     *
+     * @api
+     * @param   DatespanExpectation  $expect
+     * @return  net\stubbles\lang\types\datespan\Day
+     * @since   2.0.0
+
+     */
+    public function asDay(DatespanExpectation $expect = null)
+    {
+        return $this->handleFilter(function() use($expect)
+                                   {
+                                       return RangeFilter::wrap(new DayFilter(),
                                                                 $expect
                                        );
                                    },
