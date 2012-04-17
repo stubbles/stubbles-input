@@ -11,10 +11,12 @@ namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamErrors;
 use net\stubbles\input\filter\expectation\DateExpectation;
+use net\stubbles\input\filter\expectation\DatespanExpectation;
 use net\stubbles\input\filter\expectation\StringExpectation;
 use net\stubbles\input\filter\expectation\NumberExpectation;
 use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\types\Date;
+use net\stubbles\lang\types\datespan\Day;
 use net\stubbles\peer\http\HttpUri;
 /**
  * Tests for net\stubbles\input\ValueFilter.
@@ -811,6 +813,103 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->createValueFilter(new Date('yesterday'))
              ->asDate(DateExpectation::create()->notBefore(Date::now()));
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asDay());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $default = new Day();
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)
+                                 ->asDay(DatespanExpectation::create()
+                                                             ->useDefault($default)
+                                   )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asDay(DatespanExpectation::createAsRequired()));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->asDay(DatespanExpectation::createAsRequired());
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter('foo')->asDay());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter('foo')->asDay();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asDayReturnsValidValue()
+    {
+        $this->assertEquals('2012-03-11',
+                            $this->createValueFilter('2012-03-11')
+                                 ->asDay()
+                                 ->format('Y-m-d')
+        );
+
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayReturnsNullIfParamIsOutOfRange()
+    {
+        $this->assertNull($this->createValueFilter(new Day('yesterday'))
+                               ->asDay(DatespanExpectation::create()->notBefore(Date::now()))
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDayAddsParamErrorIfParamIsOutOfRange()
+    {
+        $this->createValueFilter(new Day('yesterday'))
+             ->asDay(DatespanExpectation::create()->notBefore(Date::now()));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
