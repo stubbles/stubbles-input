@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter mail addresses based on a @Filter[JsonFilter] annotation.
+ * Filter mail addresses based on a @Request[Json] annotation.
  */
-class JsonParamBroker extends MultipleSourceParamBroker
+class JsonParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

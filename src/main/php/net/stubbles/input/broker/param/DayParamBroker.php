@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\DatespanExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter boolean values based on a @Filter[DayFilter] annotation.
+ * Filter boolean values based on a @Request[Day] annotation.
  */
-class DayParamBroker extends MultipleSourceParamBroker
+class DayParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

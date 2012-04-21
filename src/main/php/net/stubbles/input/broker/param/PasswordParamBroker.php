@@ -12,9 +12,9 @@ use net\stubbles\input\filter\PasswordFilter;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter passwords based on a @Filter[PasswordFilter] annotation.
+ * Filter passwords based on a @Request[Password] annotation.
  */
-class PasswordParamBroker extends MultipleSourceParamBroker
+class PasswordParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

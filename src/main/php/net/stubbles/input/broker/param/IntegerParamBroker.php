@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\NumberExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter integer values based on a @Filter[IntegerFilter] annotation.
+ * Filter integer values based on a @Request[Integer] annotation.
  */
-class IntegerParamBroker extends MultipleSourceParamBroker
+class IntegerParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

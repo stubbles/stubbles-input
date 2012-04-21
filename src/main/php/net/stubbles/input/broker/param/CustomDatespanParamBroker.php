@@ -14,7 +14,7 @@ use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\datespan\CustomDatespan;
 /**
- * Filter parameters based on a @Filter[CustomDatespanFilter] annotation.
+ * Filter parameters based on a @Request[CustomDatespan] annotation.
  */
 class CustomDatespanParamBroker extends BaseObject implements ParamBroker
 {
@@ -22,15 +22,15 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
      * handles single param
      *
      * @param   Request      $request     instance to handle value with
-     * @param   Annotation   $annotation  annotation which contains filter metadata
+     * @param   Annotation   $annotation  annotation which contains request param metadata
      * @return  net\stubbles\lang\types\datespan\CustomDatespan
      */
     public function handle(Request $request, Annotation $annotation)
     {
         $expect = DateExpectation::fromAnnotation($annotation);
         try {
-            return new CustomDatespan($this->getDate($request, $annotation->getStartFieldName(), $expect),
-                                    $this->getDate($request, $annotation->getEndFieldName(), $expect)
+            return new CustomDatespan($this->getDate($request, $annotation->getStartName(), $expect),
+                                    $this->getDate($request, $annotation->getEndName(), $expect)
                 );
         } catch (\Exception $e) {
             return null;
@@ -41,13 +41,14 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   Request          $request
+     * @param   string           $name
+     * @param   DateExpectation  $expect
      * @return  net\stubbles\lang\types\Date
      */
-    private function getDate(Request $request, $fieldName, $expect)
+    private function getDate(Request $request, $name, $expect)
     {
-        return $request->filterParam($fieldName)->asDate($expect);
+        return $request->filterParam($name)->asDate($expect);
     }
 }
 ?>

@@ -11,9 +11,9 @@ namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter mail addresses based on a @Filter[MailFilter] annotation.
+ * Filter mail addresses based on a @Request[Mail] annotation.
  */
-class MailParamBroker extends MultipleSourceParamBroker
+class MailParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\ArrayParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'ArrayFilter';
+        return 'Array';
     }
 
     /**
@@ -41,7 +41,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  array
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return array('foo', 'bar');
     }
@@ -53,7 +53,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(array('foo', 'bar'),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createFilterAnnotation(array('default' => 'foo|bar'))
+                                                       $this->createRequestAnnotation(array('default' => 'foo|bar'))
                             )
         );
     }
@@ -65,7 +65,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(array('foo', 'bar'),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo|bar')),
-                                                       $this->createFilterAnnotation(array('separator' => '|'))
+                                                       $this->createRequestAnnotation(array('separator' => '|'))
                             )
         );
     }
@@ -76,7 +76,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
@@ -88,7 +88,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(array(),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('')),
-                                                       $this->createFilterAnnotation(array())
+                                                       $this->createRequestAnnotation(array())
                             )
         );
     }
@@ -98,9 +98,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function usesParamAsDefaultSource()
     {
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
-                                                       $this->createFilterAnnotation(array())
+                                                       $this->createRequestAnnotation(array())
                             )
         );
     }
@@ -110,9 +110,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function usesParamAsSource()
     {
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
-                                                       $this->createFilterAnnotation(array('source' => 'param'))
+                                                       $this->createRequestAnnotation(array('source' => 'param'))
                             )
         );
     }
@@ -127,9 +127,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->method('filterHeader')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($mockRequest,
-                                                       $this->createFilterAnnotation(array('source' => 'header'))
+                                                       $this->createRequestAnnotation(array('source' => 'header'))
                             )
         );
     }
@@ -144,9 +144,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->method('filterCookie')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($mockRequest,
-                                                       $this->createFilterAnnotation(array('source' => 'cookie'))
+                                                       $this->createRequestAnnotation(array('source' => 'cookie'))
                             )
         );
     }

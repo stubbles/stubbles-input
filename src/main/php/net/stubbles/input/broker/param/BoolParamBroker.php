@@ -11,9 +11,9 @@ namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter boolean values based on a @Filter[BoolFilter] annotation.
+ * Filter boolean values based on a @Request[Bool] annotation.
  */
-class BoolParamBroker extends MultipleSourceParamBroker
+class BoolParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

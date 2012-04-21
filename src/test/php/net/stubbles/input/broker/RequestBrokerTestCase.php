@@ -109,7 +109,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
                         ->method('handle')
                         ->will($this->returnValue('just another string value'));
         $object = new BrokerClass();
-        $this->requestBroker->setParamBroker(array('MockFilter' => $mockParamBroker))
+        $this->requestBroker->setParamBroker(array('Mock' => $mockParamBroker))
                             ->process($this->mockRequest, $object);
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertEquals('just another string value', $object->getBaz());

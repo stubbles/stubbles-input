@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\StringExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter boolean values based on a @Filter[TextFilter] annotation.
+ * Filter boolean values based on a @Request[Text] annotation.
  */
-class TextParamBroker extends MultipleSourceParamBroker
+class TextParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

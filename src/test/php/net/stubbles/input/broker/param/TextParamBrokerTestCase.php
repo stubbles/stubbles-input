@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\TextParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'TextFilter';
+        return 'Text';
     }
 
     /**
@@ -41,7 +41,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  string
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return 'Do you expect me to talk?';
     }
@@ -53,7 +53,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('No Mr Bond, I expect you to die!',
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createFilterAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
+                                                       $this->createRequestAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
                           )
         );
     }
@@ -64,7 +64,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
@@ -75,7 +75,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfShorterThanMinLength()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
-                                                     $this->createFilterAnnotation(array('minLength' => 40))
+                                                     $this->createRequestAnnotation(array('minLength' => 40))
                           )
         );
     }
@@ -86,7 +86,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLongerThanMaxLength()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
-                                                     $this->createFilterAnnotation(array('maxLength' => 10))
+                                                     $this->createRequestAnnotation(array('maxLength' => 10))
                           )
         );
     }
@@ -98,7 +98,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('Do you expect me to talk?',
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
-                                                       $this->createFilterAnnotation(array('minLength' => 10,
+                                                       $this->createRequestAnnotation(array('minLength' => 10,
                                                                                            'maxLength' => 40
                                                                                      )
                                                        )
@@ -113,7 +113,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('Do <u>you</u> expect me to <b>talk</b>?',
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
-                                                       $this->createFilterAnnotation(array('minLength'   => 10,
+                                                       $this->createRequestAnnotation(array('minLength'   => 10,
                                                                                            'maxLength'   => 40,
                                                                                            'allowedTags' => 'b, u'
                                                                                      )
