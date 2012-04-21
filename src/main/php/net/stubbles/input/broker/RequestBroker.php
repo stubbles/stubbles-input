@@ -55,6 +55,7 @@ class RequestBroker extends BaseObject
                                           'FloatFilter'          => new param\FloatParamBroker(),
                                           'HttpUriFilter'        => new param\HttpUriParamBroker(),
                                           'IntegerFilter'        => new param\IntegerParamBroker(),
+                                          'JaonFilter'           => new param\JsonParamBroker(),
                                           'MailFilter'           => new param\MailParamBroker(),
                                           'PasswordFilter'       => new param\PasswordParamBroker(),
                                           'StringFilter'         => new param\StringParamBroker(),
