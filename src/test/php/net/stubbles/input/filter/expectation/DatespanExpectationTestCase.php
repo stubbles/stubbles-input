@@ -50,6 +50,46 @@ class DatespanExpectationTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     */
+    public function invalidDefaultDatespanThrowsIllegalArgumentException()
+    {
+        $this->datespanExpectation->useDefault(new \stdClass());
+    }
+
+    /**
+     * @test
+     */
+    public function nullAsDefaultValueDoesNotThrowIllegalArgumentException()
+    {
+        $this->assertNull($this->datespanExpectation->useDefault(null)->getDefault());
+    }
+
+    /**
+     * @test
+     */
+    public function acceptsStringAsDefaultValue()
+    {
+        $this->assertEquals(new Day('2012-04-21'),
+                            $this->datespanExpectation->useDefault('2012-04-21')
+                                                      ->getDefault()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function acceptsDatespanAsDefaultValue()
+    {
+        $mockDatespan = $this->getMock('net\\stubbles\\lang\\types\\datespan\\Datespan');
+        $this->assertEquals($mockDatespan,
+                            $this->datespanExpectation->useDefault($mockDatespan)
+                                                      ->getDefault()
+        );
+    }
+
+    /**
+     * @test
      * @expectedException  net\stubbles\lang\exception\RuntimeException
      */
     public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
