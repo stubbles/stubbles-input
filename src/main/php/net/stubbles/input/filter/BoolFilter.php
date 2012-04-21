@@ -26,7 +26,7 @@ class BoolFilter extends BaseObject implements Filter
      * @param   Param  $param
      * @return  bool
      */
-    function apply(Param $param)
+    public function apply(Param $param)
     {
         if (in_array($param->getValue(), array(1, '1', 'true', true), true)) {
             return true;
