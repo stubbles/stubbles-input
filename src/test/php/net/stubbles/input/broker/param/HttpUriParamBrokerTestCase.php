@@ -10,14 +10,14 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\peer\http\HttpUri;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\HttpUriParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -28,13 +28,13 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'HttpUriFilter';
+        return 'HttpUri';
     }
 
     /**
@@ -42,7 +42,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  HttpUri
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return HttpUri::fromString('http://localhost/');
     }
@@ -52,9 +52,9 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createFilterAnnotation(array('default' => 'http://localhost/'))
+                                                       $this->createRequestAnnotation(array('default' => 'http://localhost/'))
                             )
         );
     }
@@ -64,9 +64,9 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsValueIfDnsCheckEnabledAndSuccessful()
     {
-        $this->assertEquals($this->getExpectedFilteredValue(),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('http://localhost/')),
-                                                       $this->createFilterAnnotation(array('dnsCheck' => true))
+                                                       $this->createRequestAnnotation(array('dnsCheck' => true))
                             )
         );
     }
@@ -77,7 +77,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
@@ -88,7 +88,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullForInvalidHttpUri()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('invalid')),
-                                                     $this->createFilterAnnotation(array())
+                                                     $this->createRequestAnnotation(array())
                           )
         );
     }

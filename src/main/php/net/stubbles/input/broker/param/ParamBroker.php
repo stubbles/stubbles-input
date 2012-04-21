@@ -20,7 +20,7 @@ interface ParamBroker extends Object
      * handles single param
      *
      * @param   Request      $request     instance to handle value with
-     * @param   Annotation   $annotation  annotation which contains filter metadata
+     * @param   Annotation   $annotation  annotation which contains request param metadata
      * @return  mixed
      * @throws  RuntimeException
      */

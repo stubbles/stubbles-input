@@ -13,9 +13,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter http uris based on a @Filter[ArrayFilter] annotation.
+ * Filter arrays based on a @Request[Array] annotation.
  */
-class ArrayParamBroker extends MultipleSourceParamBroker
+class ArrayParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

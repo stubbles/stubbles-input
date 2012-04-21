@@ -47,18 +47,21 @@ class RequestBroker extends BaseObject
     public static function __static()
     {
         self::$methodMatcher      = new RequestBrokerMethodMatcher();
-        self::$buildInParamBroker = array('ArrayFilter'          => new param\ArrayParamBroker(),
-                                          'BoolFilter'           => new param\BoolParamBroker(),
-                                          'CustomDatespanFilter' => new param\CustomDatespanParamBroker(),
-                                          'DateFilter'           => new param\DateParamBroker(),
-                                          'DayFilter'            => new param\DayParamBroker(),
-                                          'FloatFilter'          => new param\FloatParamBroker(),
-                                          'HttpUriFilter'        => new param\HttpUriParamBroker(),
-                                          'IntegerFilter'        => new param\IntegerParamBroker(),
-                                          'MailFilter'           => new param\MailParamBroker(),
-                                          'PasswordFilter'       => new param\PasswordParamBroker(),
-                                          'StringFilter'         => new param\StringParamBroker(),
-                                          'TextFilter'           => new param\TextParamBroker(),
+        self::$buildInParamBroker = array('Array'          => new param\ArrayParamBroker(),
+                                          'Bool'           => new param\BoolParamBroker(),
+                                          'CustomDatespan' => new param\CustomDatespanParamBroker(),
+                                          'Date'           => new param\DateParamBroker(),
+                                          'Day'            => new param\DayParamBroker(),
+                                          'Directory'      => new param\DirectoryParamBroker(),
+                                          'File'           => new param\FileParamBroker(),
+                                          'Float'          => new param\FloatParamBroker(),
+                                          'HttpUri'        => new param\HttpUriParamBroker(),
+                                          'Integer'        => new param\IntegerParamBroker(),
+                                          'Jaon'           => new param\JsonParamBroker(),
+                                          'Mail'           => new param\MailParamBroker(),
+                                          'Password'       => new param\PasswordParamBroker(),
+                                          'String'         => new param\StringParamBroker(),
+                                          'Text'           => new param\TextParamBroker(),
                                     );
     }
 
@@ -102,12 +105,12 @@ class RequestBroker extends BaseObject
 
         $refClass = new ReflectionObject($object);
         foreach ($refClass->getMethodsByMatcher(self::$methodMatcher) as $refMethod) {
-            $filterAnnotation = $refMethod->getAnnotation('Filter');
-            if ($this->isNotInGroup($group, $filterAnnotation)) {
+            $requestAnnotation = $refMethod->getAnnotation('Request');
+            if ($this->isNotInGroup($group, $requestAnnotation)) {
                 continue;
             }
 
-            $value = $this->handle($request, $filterAnnotation);
+            $value = $this->handle($request, $requestAnnotation);
             if (null !== $value) {
                 $refMethod->invoke($object, $value);
             }
@@ -118,33 +121,33 @@ class RequestBroker extends BaseObject
      * checks whether the annotation belongs to the given group
      *
      * @param   string      $group
-     * @param   Annotation  $filterAnnotation
+     * @param   Annotation  $requestAnnotation
      * @return  bool
      */
-    private function isNotInGroup($group, Annotation $filterAnnotation)
+    private function isNotInGroup($group, Annotation $requestAnnotation)
     {
         if (empty($group)) {
             return false;
         }
 
-        return $filterAnnotation->getGroup() !== $group;
+        return $requestAnnotation->getGroup() !== $group;
     }
 
     /**
      * reads param and returns its name and value
      *
      * @param   Request     $request
-     * @param   Annotation  $filterAnnotation
+     * @param   Annotation  $requestAnnotation
      * @return  mixed
      * @throws  RuntimeException
      */
-    private function handle(Request $request, Annotation $filterAnnotation)
+    private function handle(Request $request, Annotation $requestAnnotation)
     {
-        if (isset($this->paramBroker[$filterAnnotation->getAnnotationName()])) {
-            return $this->paramBroker[$filterAnnotation->getAnnotationName()]->handle($request, $filterAnnotation);
+        if (isset($this->paramBroker[$requestAnnotation->getAnnotationName()])) {
+            return $this->paramBroker[$requestAnnotation->getAnnotationName()]->handle($request, $requestAnnotation);
         }
 
-        throw new RuntimeException('No param broker found for ' . $filterAnnotation->getAnnotationName());
+        throw new RuntimeException('No param broker found for ' . $requestAnnotation->getAnnotationName());
     }
 }
 RequestBroker::__static();

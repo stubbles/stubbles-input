@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\IntegerParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class IntegerParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'IntegerFilter';
+        return 'Integer';
     }
 
     /**
@@ -41,7 +41,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  int
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return 303;
     }
@@ -53,7 +53,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(303,
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createFilterAnnotation(array('default' => 303))
+                                                       $this->createRequestAnnotation(array('default' => 303))
                           )
         );
     }
@@ -64,7 +64,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
@@ -75,7 +75,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLowerThanMinValue()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('303')),
-                                                     $this->createFilterAnnotation(array('minValue' => 400))
+                                                     $this->createRequestAnnotation(array('minValue' => 400))
                           )
         );
     }
@@ -86,7 +86,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfGreaterThanMaxValue()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('303')),
-                                                     $this->createFilterAnnotation(array('maxValue' => 300))
+                                                     $this->createRequestAnnotation(array('maxValue' => 300))
                           )
         );
     }
@@ -98,7 +98,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(303,
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('303')),
-                                                       $this->createFilterAnnotation(array('minValue' => 300,
+                                                       $this->createRequestAnnotation(array('minValue' => 300,
                                                                                            'maxValue' => 400
                                                                                      )
                                                        )

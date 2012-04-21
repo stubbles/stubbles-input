@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\BoolParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class BoolParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'BoolFilter';
+        return 'Bool';
     }
 
     /**
@@ -41,7 +41,7 @@ class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  bool
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return true;
     }
@@ -52,7 +52,7 @@ class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertTrue($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('default' => true))
+                                                     $this->createRequestAnnotation(array('default' => true))
                           )
         );
     }

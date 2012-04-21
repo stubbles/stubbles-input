@@ -14,7 +14,7 @@ use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Broker to be used to filter parameters based on annotations.
+ * Broker to be used to retrieve parameters based on annotations.
  */
 abstract class MultipleSourceParamBroker extends BaseObject implements ParamBroker
 {
@@ -22,18 +22,19 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
      * handles single param
      *
      * @param   Request      $request     instance to handle value with
-     * @param   Annotation   $annotation  annotation which contains filter metadata
+     * @param   Annotation   $annotation  annotation which contains request param metadata
      * @return  mixed
      * @throws  RuntimeException
      */
     public function handle(Request $request, Annotation $annotation)
     {
-        $method = 'filter' . $this->getSource($annotation);
+        $type   = $this->getBrokerType();
+        $method = $type . $this->getSource($annotation);
         if (!method_exists($request, $method)) {
             throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . $request->getClassName());
         }
 
-        return $this->filter($request->$method($annotation->getFieldName()), $annotation);
+        return $this->$type($request->$method($annotation->getName()), $annotation);
     }
 
     /**
@@ -52,12 +53,10 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
     }
 
     /**
-     * filters single param
+     * returns type: filter or read
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
-     * @return  mixed
+     * @return  string
      */
-    protected abstract function filter(ValueFilter $valueFilter, Annotation $annotation);
+    protected abstract function getBrokerType();
 }
 ?>

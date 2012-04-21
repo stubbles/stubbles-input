@@ -48,7 +48,7 @@ class BrokerClass extends BaseObject
     /**
      * test method
      *
-     * @Filter[StringFilter](fieldName='bar', group='main')
+     * @Request[String](name='bar', group='main')
      * @param  string  $bar
      */
     public function setBar($bar)
@@ -69,7 +69,7 @@ class BrokerClass extends BaseObject
     /**
      * test method
      *
-     * @Filter[MockFilter](fieldName='baz', group='other')
+     * @Request[Mock](name='baz', group='other')
      * @param  string  $baz
      */
     public function setBaz($baz)

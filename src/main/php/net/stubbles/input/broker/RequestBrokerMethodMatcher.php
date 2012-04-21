@@ -44,7 +44,7 @@ class RequestBrokerMethodMatcher extends BaseObject implements MethodMatcher
      */
     public function matchesAnnotatableMethod(ReflectionMethod $method)
     {
-        return $method->hasAnnotation('Filter');
+        return $method->hasAnnotation('Request');
     }
 }
 ?>

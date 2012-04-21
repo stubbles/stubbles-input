@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\NumberExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter float values based on a @Filter[FloatFilter] annotation.
+ * Filter float values based on a @Request[Float] annotation.
  */
-class FloatParamBroker extends MultipleSourceParamBroker
+class FloatParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

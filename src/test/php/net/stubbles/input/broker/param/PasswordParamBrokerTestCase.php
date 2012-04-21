@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\PasswordParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'PasswordFilter';
+        return 'Password';
     }
 
     /**
@@ -41,7 +41,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  string
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return 'topsecret';
     }
@@ -52,7 +52,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array())
+                                                     $this->createRequestAnnotation(array())
                           )
         );
     }
@@ -63,7 +63,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndNotRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => false))
+                                                     $this->createRequestAnnotation(array('required' => false))
                           )
         );
     }
@@ -74,7 +74,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfTooLessMinDiffChars()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('topsecret')),
-                                                     $this->createFilterAnnotation(array('minDiffChars' => 20))
+                                                     $this->createRequestAnnotation(array('minDiffChars' => 20))
                           )
         );
     }

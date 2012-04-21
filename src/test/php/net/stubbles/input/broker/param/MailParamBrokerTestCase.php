@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\MailParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class MailParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -27,13 +27,13 @@ class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'MailFilter';
+        return 'Mail';
     }
 
     /**
@@ -41,7 +41,7 @@ class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  string
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return 'me@example.com';
     }
@@ -52,7 +52,7 @@ class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
