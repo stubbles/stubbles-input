@@ -13,9 +13,9 @@ use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\peer\http\HttpUri;
 /**
- * Filter http uris based on a @Filter[HttpUriFilter] annotation.
+ * Filter http uris based on a @Request[HttpUri] annotation.
  */
-class HttpUriParamBroker extends MultipleSourceParamBroker
+class HttpUriParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param

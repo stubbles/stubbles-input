@@ -10,14 +10,14 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\types\Date;
-require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\DateParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
+class DateParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
 {
     /**
      * set up test environment
@@ -28,13 +28,13 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     }
 
     /**
-     * returns name of filter annotation
+     * returns name of request annotation
      *
      * @return  string
      */
-    protected function getFilterAnnotationName()
+    protected function getRequestAnnotationName()
     {
-        return 'DateFilter';
+        return 'Date';
     }
 
     /**
@@ -42,7 +42,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      *
      * @return  float
      */
-    protected function getExpectedFilteredValue()
+    protected function getExpectedValue()
     {
         return new Date('2012-04-21 00:00:00+02:00');
     }
@@ -54,7 +54,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(new Date('2012-04-21'),
                             $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createFilterAnnotation(array('default' => '2012-04-21'))
+                                                       $this->createRequestAnnotation(array('default' => '2012-04-21'))
                           )
         );
     }
@@ -65,7 +65,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createFilterAnnotation(array('required' => true))
+                                                     $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }

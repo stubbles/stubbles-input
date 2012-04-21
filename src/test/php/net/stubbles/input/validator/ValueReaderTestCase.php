@@ -344,6 +344,214 @@ class ValueReaderTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsValidatedValue()
+    {
+        $this->assertEquals('ValueReaderTestCase.php',
+                            $this->createValueReader('ValueReaderTestCase.php')->ifIsFile(__DIR__)
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsValidatedValueWithRelativeAllowed()
+    {
+        $this->assertEquals('../AbstractRequestTestCase.php',
+                            $this->createValueReader('../AbstractRequestTestCase.php')->ifIsFile(__DIR__,
+                                                                                             null,
+                                                                                             FilesystemValidator::WITH_RELATIVE
+                                                                                        )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsNullIfRelativeNotAllowed()
+    {
+        $this->assertNull($this->createValueReader('../AbstractRequestTestCase.php')->ifIsFile(__DIR__ . '/foo')
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsNullIfPathIsDirectory()
+    {
+        $this->assertNull($this->createValueReader(__DIR__)->ifIsFile(__DIR__)
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsValidatedValueWithoutBasePath()
+    {
+        $this->assertEquals(__FILE__,
+                            $this->createValueReader(__FILE__)->ifIsFile()
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('doesNotExist.txt')->ifIsFile(__DIR__));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsNullIfValidationFailsAndNoDefaultValueGivenWithoutBasePath()
+    {
+        $this->assertNull($this->createValueReader(__DIR__ . '/doesNotExist.txt')->ifIsFile());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsDefaultValueIfValidationFails()
+    {
+        $this->assertEquals('ValueReaderTestCase.php',
+                            $this->createValueReader('doesNotExist.txt')->ifIsFile(__DIR__,
+                                                                                   'ValueReaderTestCase.php'
+                            )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsFileReturnsDefaultValueIfParamIsNull()
+    {
+        $this->assertEquals('ValueReaderTestCase.php',
+                            $this->createValueReader(null)->ifIsFile(__DIR__,
+                                                                     'ValueReaderTestCase.php'
+                            )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsValidatedValue()
+    {
+        $this->assertEquals('validator',
+                            $this->createValueReader('validator')->ifIsDirectory(realpath(__DIR__ . '/..'))
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsValidatedValueWithRelativeAllowed()
+    {
+        $this->assertEquals('../',
+                            $this->createValueReader('../')->ifIsDirectory(__DIR__,
+                                                                           null,
+                                                                           FilesystemValidator::WITH_RELATIVE
+                                                             )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsNullIfRelativeNotAllowed()
+    {
+        $this->assertNull($this->createValueReader('../')->ifIsDirectory(__DIR__)
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsValidatedValueWithoutBasePath()
+    {
+        $this->assertEquals(__DIR__,
+                            $this->createValueReader(__DIR__)->ifIsDirectory()
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('doesNotExist')->ifIsDirectory(__DIR__));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsNullIfValidationFailsAndNoDefaultValueGivenWithoutBasePath()
+    {
+        $this->assertNull($this->createValueReader(__DIR__ . '/doesNotExist')->ifIsDirectory());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsDefaultValueIfValidationFails()
+    {
+        $this->assertEquals(__DIR__,
+                            $this->createValueReader('doesNotExist')->ifIsDirectory(__DIR__,
+                                                                                        __DIR__
+                            )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     * @group  filesystem
+     */
+    public function ifIsDirectoryReturnsDefaultValueIfParamIsNull()
+    {
+        $this->assertEquals(__DIR__,
+                            $this->createValueReader(null)->ifIsDirectory(__DIR__,
+                                                                          __DIR__
+                            )
+        );
+    }
+
+
+    /**
      * @test
      */
     public function withReturnsValidatedValue()

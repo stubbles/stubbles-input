@@ -147,6 +147,46 @@ class ValueReader extends BaseObject
     }
 
     /**
+     * returns value if it denotes a path to an existing file
+     *
+     * @api
+     * @param   string  $basePath       base path where file must reside in
+     * @param   string  $default        default value to fall back to
+     * @param   bool    $allowRelative  whether relative pathes are allowed
+     * @return  string
+     * @since   2.0.0
+     */
+    public function ifIsFile($basePath = null, $default = null, $allowRelative = FilesystemValidator::NO_RELATIVE)
+    {
+        $fileValidator = new FileValidator($basePath);
+        if ($allowRelative) {
+            $fileValidator->allowRelative();
+        }
+
+        return $this->withValidator($fileValidator, $default);
+    }
+
+    /**
+     * returns value if it denotes a path to an existing directory
+     *
+     * @api
+     * @param   string  $basePath       base path where directory must reside in
+     * @param   string  $default        default value to fall back to
+     * @param   bool    $allowRelative  whether relative pathes are allowed
+     * @return  string
+     * @since   2.0.0
+     */
+    public function ifIsDirectory($basePath = null, $default = null, $allowRelative = FilesystemValidator::NO_RELATIVE)
+    {
+        $directoryValidator = new DirectoryValidator($basePath);
+        if ($allowRelative) {
+            $directoryValidator->allowRelative();
+        }
+
+        return $this->withValidator($directoryValidator, $default);
+    }
+
+    /**
      * checks value with given validator
      *
      * If value does not satisfy the validator return value will be null.

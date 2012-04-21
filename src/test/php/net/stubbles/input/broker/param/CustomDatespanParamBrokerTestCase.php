@@ -42,9 +42,9 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     private function createFilterAnnotation(array $values)
     {
-        $annotation = new Annotation('CustomDatespanFilter');
-        $annotation->startFieldName = 'foo';
-        $annotation->endFieldName   = 'bar';
+        $annotation = new Annotation('CustomDatespan');
+        $annotation->startName = 'foo';
+        $annotation->endName   = 'bar';
         foreach ($values as $key => $value) {
             $annotation->$key = $value;
         }

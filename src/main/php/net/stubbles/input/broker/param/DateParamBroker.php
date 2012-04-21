@@ -12,9 +12,9 @@ use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\input\filter\expectation\DateExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter boolean values based on a @Filter[DateFilter] annotation.
+ * Filter boolean values based on a @Request[Date] annotation.
  */
-class DateParamBroker extends MultipleSourceParamBroker
+class DateParamBroker extends MultipleSourceFilterBroker
 {
     /**
      * handles single param
