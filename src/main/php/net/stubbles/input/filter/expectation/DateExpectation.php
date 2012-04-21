@@ -10,6 +10,7 @@
 namespace net\stubbles\input\filter\expectation;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\Range;
+use net\stubbles\lang\exception\IllegalArgumentException;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
@@ -74,13 +75,27 @@ class DateExpectation extends ValueExpectation implements Range
     /**
      * use default value if no value available
      *
-     * @param   Date  $default
+     * @param   Date|string  $default
      * @return  DateExpectation
+     * @throws  IllegalArgumentException
      */
     public function useDefault($default)
     {
-        $this->default = $default;
-        return $this;
+        if (null === $default) {
+            return $this;
+        }
+
+        if (is_string($default)) {
+            $this->default = new Date($default);
+            return $this;
+        }
+
+        if (($default instanceof Date)) {
+            $this->default = $default;
+            return $this;
+        }
+
+        throw new IllegalArgumentException('Given default value must be a string representing a date or a date instance.');
     }
 
     /**

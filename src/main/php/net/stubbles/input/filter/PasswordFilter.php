@@ -22,18 +22,19 @@ use net\stubbles\lang\BaseObject;
  */
 class PasswordFilter extends BaseObject implements Filter
 {
+    const MIN_DIFF_CHARS_DEFAULT = 5;
     /**
      * minimum amount of different characters in the password
      *
      * @type  int
      */
-    private $minDiffChars     = 5;
+    private $minDiffChars        = self::MIN_DIFF_CHARS_DEFAULT;
     /**
      * list of values that are not allowed as password
      *
      * @type  string[]
      */
-    private $nonAllowedValues = array();
+    private $nonAllowedValues    = array();
 
     /**
      * set a list of values that are not allowed as password

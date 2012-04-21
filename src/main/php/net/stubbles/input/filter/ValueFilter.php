@@ -183,7 +183,7 @@ class ValueFilter extends BaseObject
      * @param   bool      $required          if a value is required, defaults to true
      * @return  string
      */
-    public function asPassword($minDiffChars = 5, array $nonAllowedValues = array(), $required = true)
+    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = array(), $required = true)
     {
         $passWordFilter = new PasswordFilter();
         return $this->withFilter($passWordFilter->minDiffChars($minDiffChars)

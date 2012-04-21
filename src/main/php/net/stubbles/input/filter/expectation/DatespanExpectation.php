@@ -10,10 +10,12 @@
 namespace net\stubbles\input\filter\expectation;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\Range;
+use net\stubbles\lang\exception\IllegalArgumentException;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Datespan;
+use net\stubbles\lang\types\datespan\Day;
 /**
  * Description of a date expectation.
  *
@@ -75,13 +77,26 @@ class DatespanExpectation extends ValueExpectation implements Range
     /**
      * use default value if no value available
      *
-     * @param   Date  $default
+     * @param   Datespan  $default
      * @return  DatespanExpectation
      */
     public function useDefault($default)
     {
-        $this->default = $default;
-        return $this;
+        if (null === $default) {
+            return $this;
+        }
+
+        if (is_string($default)) {
+            $this->default = new Day($default);
+            return $this;
+        }
+
+        if (($default instanceof Datespan)) {
+            $this->default = $default;
+            return $this;
+        }
+
+        throw new IllegalArgumentException('Given default value must be a string representing a day or a datespan instance.');
     }
 
     /**
