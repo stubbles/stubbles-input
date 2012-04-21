@@ -35,7 +35,7 @@ class ValueExpectation extends BaseObject
      *
      * @param  bool  $required  switch whether a value is required
      */
-    protected function __construct($required)
+    public function __construct($required)
     {
         $this->required = $required;
     }
