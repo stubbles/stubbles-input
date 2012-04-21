@@ -61,6 +61,26 @@ class ValueFilter extends BaseObject
     }
 
     /**
+     * read as array value
+     *
+     * @api
+     * @param   ValueExpectation  $expect
+     * @param   string            $separator  character to split input value with
+     * @return  array
+     * @since   2.0.0
+     */
+    public function asArray(ValueExpectation $expect = null, $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    {
+        return $this->handleFilter(function() use($separator)
+                                   {
+                                       $arrayFilter = new ArrayFilter();
+                                       return $arrayFilter->setSeparator($separator);
+                                   },
+                                   $expect
+        );
+    }
+
+    /**
      * read as boolean value
      *
      * @api
