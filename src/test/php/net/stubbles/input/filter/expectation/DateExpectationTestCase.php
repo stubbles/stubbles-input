@@ -49,6 +49,45 @@ class DateExpectationTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     */
+    public function invalidDefaultDateThrowsIllegalArgumentException()
+    {
+        $this->dateExpectation->useDefault(new \stdClass());
+    }
+
+    /**
+     * @test
+     */
+    public function nullAsDefaultValueDoesNotThrowIllegalArgumentException()
+    {
+        $this->assertNull($this->dateExpectation->useDefault(null)->getDefault());
+    }
+
+    /**
+     * @test
+     */
+    public function acceptsStringAsDefaultValue()
+    {
+        $this->assertEquals(new Date('2012-04-21'),
+                            $this->dateExpectation->useDefault('2012-04-21')
+                                                  ->getDefault()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function acceptsDateAsDefaultValue()
+    {
+        $this->assertEquals(new Date('2012-04-21'),
+                            $this->dateExpectation->useDefault(new Date('2012-04-21'))
+                                                  ->getDefault()
+        );
+    }
+
+    /**
+     * @test
      * @expectedException  net\stubbles\lang\exception\RuntimeException
      */
     public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
