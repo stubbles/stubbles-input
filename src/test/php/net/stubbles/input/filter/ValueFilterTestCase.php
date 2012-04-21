@@ -66,6 +66,69 @@ class ValueFilterTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $default = array('foo' => 'bar');
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)
+                                 ->asArray(ValueExpectation::create()
+                                                           ->useDefault($default)
+                                   )
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asArrayReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asArray(ValueExpectation::createAsRequired()));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asArrayAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->asArray(ValueExpectation::createAsRequired());
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asArrayReturnsEmptyArrayIfParamIsEmpty()
+    {
+        $this->assertEquals(array(), $this->createValueFilter('')->asArray());
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsValidValue()
+    {
+        $value = array('foo', 'bar');
+        $this->assertEquals($value, $this->createValueFilter('foo, bar')->asArray());
+
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsValidValueWithDifferentSeparator()
+    {
+        $value = array('foo', 'bar');
+        $this->assertEquals($value, $this->createValueFilter('foo|bar')->asArray(null, '|'));
+
+    }
+
+    /**
      * @since  1.7.0
      * @test
      * @group  bug266

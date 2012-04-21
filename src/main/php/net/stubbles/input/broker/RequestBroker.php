@@ -47,7 +47,8 @@ class RequestBroker extends BaseObject
     public static function __static()
     {
         self::$methodMatcher      = new RequestBrokerMethodMatcher();
-        self::$buildInParamBroker = array('BoolFilter'           => new param\BoolParamBroker(),
+        self::$buildInParamBroker = array('ArrayFilter'          => new param\ArrayParamBroker(),
+                                          'BoolFilter'           => new param\BoolParamBroker(),
                                           'CustomDatespanFilter' => new param\CustomDatespanParamBroker(),
                                           'DateFilter'           => new param\DateParamBroker(),
                                           'DayFilter'            => new param\DayParamBroker(),
