@@ -24,6 +24,12 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     private $requestBroker;
     /**
+     * mocked param broker map
+     *
+     * @type  \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $mockParamBrokerMap;
+    /**
      * mocked request instance
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
@@ -35,7 +41,10 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->requestBroker = new RequestBroker();
+        $this->mockParamBrokerMap = $this->getMockBuilder('net\\stubbles\\input\\broker\\ParamBrokerMap')
+                                         ->disableOriginalConstructor()
+                                         ->getMock();
+        $this->requestBroker = new RequestBroker($this->mockParamBrokerMap);
         $this->mockRequest   = $this->getMock('net\\stubbles\\input\\Request');
     }
 
@@ -50,12 +59,12 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnSetParamBrokerMethod()
+    public function annotationsPresentOnConstructor()
     {
-        $setParamBroker = $this->requestBroker->getClass()->getMethod('setParamBroker');
-        $this->assertTrue($setParamBroker->hasAnnotation('Inject'));
-        $this->assertTrue($setParamBroker->getAnnotation('Inject')->isOptional());
-        $this->assertTrue($setParamBroker->hasAnnotation('Map'));
+        $this->assertTrue($this->requestBroker->getClass()
+                                              ->getConstructor()
+                                              ->hasAnnotation('Inject')
+        );
     }
 
     /**
@@ -68,14 +77,29 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * creats mock param broker
+     *
+     * @param   string  $returnValue
+     * @return  \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockParamBroker($returnValue)
+    {
+        $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
+        $mockParamBroker->expects($this->once())
+                        ->method('handle')
+                        ->will($this->returnValue($returnValue));
+        return $mockParamBroker;
+    }
+
+    /**
      * @test
      */
     public function processesOnlyThoseInGivenGroup()
     {
-        $this->mockRequest->expects($this->once())
-                          ->method('filterParam')
-                          ->with($this->equalTo('bar'))
-                          ->will($this->returnValue(ValueFilter::mockForValue('just some string value')));
+        $this->mockParamBrokerMap->expects($this->once())
+                                 ->method('getBroker')
+                                 ->with($this->equalTo('String'))
+                                 ->will($this->returnValue($this->getMockParamBroker('just some string value')));
         $object = new BrokerClass();
         $this->requestBroker->process($this->mockRequest, $object, 'main');
         $this->assertEquals('just some string value', $object->getBar());
@@ -84,33 +108,19 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
      */
-    public function processesWithUnknownFilterAnnotationThrowsRuntimeException()
+    public function processesAllIfNoGroupGiven()
     {
-        $this->mockRequest->expects($this->any())
-                          ->method('filterParam')
-                          ->with($this->equalTo('bar'))
-                          ->will($this->returnValue(ValueFilter::mockForValue('just some string value')));
-        $this->requestBroker->process($this->mockRequest, new BrokerClass());
-    }
-
-    /**
-     * @test
-     */
-    public function processesWithUserDefinedFilterAnnotation()
-    {
-        $this->mockRequest->expects($this->once())
-                          ->method('filterParam')
-                          ->with($this->equalTo('bar'))
-                          ->will($this->returnValue(ValueFilter::mockForValue('just some string value')));
-        $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
-        $mockParamBroker->expects($this->once())
-                        ->method('handle')
-                        ->will($this->returnValue('just another string value'));
+        $this->mockParamBrokerMap->expects($this->at(0))
+                                 ->method('getBroker')
+                                 ->with($this->equalTo('String'))
+                                 ->will($this->returnValue($this->getMockParamBroker('just some string value')));
+        $this->mockParamBrokerMap->expects($this->at(1))
+                                 ->method('getBroker')
+                                 ->with($this->equalTo('Mock'))
+                                 ->will($this->returnValue($this->getMockParamBroker('just another string value')));
         $object = new BrokerClass();
-        $this->requestBroker->setParamBroker(array('Mock' => $mockParamBroker))
-                            ->process($this->mockRequest, $object);
+        $this->requestBroker->process($this->mockRequest, $object);
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertEquals('just another string value', $object->getBaz());
     }
