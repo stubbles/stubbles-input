@@ -14,6 +14,7 @@ use org\stubbles\input\test\BrokerClass;
  * Tests for net\stubbles\input\broker\RequestBroker.
  *
  * @group  broker
+ * @group  broker_core
  */
 class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -44,7 +45,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->mockParamBrokerMap = $this->getMockBuilder('net\\stubbles\\input\\broker\\ParamBrokerMap')
                                          ->disableOriginalConstructor()
                                          ->getMock();
-        $this->requestBroker = new RequestBroker($this->mockParamBrokerMap);
+        $this->requestBroker = new RequestBroker(new RequestBrokerMethods(), $this->mockParamBrokerMap);
         $this->mockRequest   = $this->getMock('net\\stubbles\\input\\Request');
     }
 
@@ -71,7 +72,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
      */
-    public function processNonObjectThrowsIllegalArgumentException()
+    public function procureNonObjectThrowsIllegalArgumentException()
     {
         $this->requestBroker->procure($this->mockRequest, 'foo');
     }
@@ -94,7 +95,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function processesOnlyThoseInGivenGroup()
+    public function procuresOnlyThoseInGivenGroup()
     {
         $this->mockParamBrokerMap->expects($this->once())
                                  ->method('getBroker')
@@ -109,7 +110,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function processesAllIfNoGroupGiven()
+    public function procuresAllIfNoGroupGiven()
     {
         $this->mockParamBrokerMap->expects($this->at(0))
                                  ->method('getBroker')
@@ -123,6 +124,34 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->requestBroker->procure($this->mockRequest, $object);
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertEquals('just another string value', $object->getBaz());
+    }
+
+    /**
+     * @test
+     */
+    public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
+    {
+        $methods = $this->requestBroker->getMethods(new BrokerClass());
+        $this->assertCount(2, $methods);
+        foreach ($methods as $method) {
+            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
+                                    $method
+            );
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function getAnnotationsReturnsListOfAllRequestAnnotation()
+    {
+        $annotations = $this->requestBroker->getAnnotations(new BrokerClass());
+        $this->assertCount(2, $annotations);
+        foreach ($annotations as $annotation) {
+            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
+                                    $annotation
+            );
+        }
     }
 }
 ?>

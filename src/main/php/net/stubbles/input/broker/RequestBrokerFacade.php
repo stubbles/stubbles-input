@@ -73,5 +73,27 @@ class RequestBrokerFacade extends BaseObject
             }
         }
     }
+
+    /**
+     * returns all methods of given instance which are applicable for brokerage
+     *
+     * @param   object $object
+     * @return  ReflectionMethod[]
+     */
+    public function getMethods($object)
+    {
+        return $this->requestBroker->getMethods($object);
+    }
+
+    /**
+     * returns a list of all request annotations on given object
+     *
+     * @param   object  $object
+     * @return  net\stubbles\lang\reflect\annotation\Annotation[]
+     */
+    public function getAnnotations($object)
+    {
+        return $this->requestBroker->getAnnotations($object);
+    }
 }
 ?>
