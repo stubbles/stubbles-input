@@ -53,8 +53,8 @@ class DateParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals(new Date('2012-04-21'),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createRequestAnnotation(array('default' => '2012-04-21'))
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                        $this->createRequestAnnotation(array('default' => '2012-04-21'))
                           )
         );
     }
@@ -64,8 +64,8 @@ class DateParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createRequestAnnotation(array('required' => true))
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                      $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }

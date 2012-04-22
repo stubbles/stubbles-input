@@ -45,10 +45,12 @@ interface ParamErrorMessages extends Object
     /**
      * creates message for given param error in given locale
      *
+     * If no locale is given the method falls back to a default locale.
+     *
      * @param   ParamError  $error
      * @param   string      $locale
      * @return  LocalizedString
      */
-    public function messageFor(ParamError $error, $locale);
+    public function messageFor(ParamError $error, $locale = null);
 }
 ?>
