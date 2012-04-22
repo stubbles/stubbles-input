@@ -143,10 +143,38 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function getMethodsReturnsListOfAllMethodsWithRequestAnnotationInGivenGroup()
+    {
+        $methods = $this->requestBroker->getMethods(new BrokerClass(), 'main');
+        $this->assertCount(1, $methods);
+        foreach ($methods as $method) {
+            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
+                                    $method
+            );
+        }
+    }
+
+    /**
+     * @test
+     */
     public function getAnnotationsReturnsListOfAllRequestAnnotation()
     {
         $annotations = $this->requestBroker->getAnnotations(new BrokerClass());
         $this->assertCount(2, $annotations);
+        foreach ($annotations as $annotation) {
+            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
+                                    $annotation
+            );
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function getAnnotationsReturnsListOfAllRequestAnnotationInGivenGroup()
+    {
+        $annotations = $this->requestBroker->getAnnotations(new BrokerClass(), 'main');
+        $this->assertCount(1, $annotations);
         foreach ($annotations as $annotation) {
             $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
                                     $annotation

@@ -177,10 +177,12 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
         $expected      = array(new ReflectionMethod($brokeredClass, 'setBar'));
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getMethods')
-                                ->with($this->equalTo($brokeredClass))
+                                ->with($this->equalTo($brokeredClass),
+                                       $this->equalTo('main')
+                                  )
                                 ->will($this->returnValue($expected));
         $this->assertEquals($expected,
-                            $this->requestBrokerFacade->getMethods($brokeredClass)
+                            $this->requestBrokerFacade->getMethods($brokeredClass, 'main')
         );
     }
 
@@ -193,10 +195,12 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
         $expected      = array(new Annotation('Test'));
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getAnnotations')
-                                ->with($this->equalTo($brokeredClass))
+                                ->with($this->equalTo($brokeredClass),
+                                       $this->equalTo('main')
+                                  )
                                 ->will($this->returnValue($expected));
         $this->assertEquals($expected,
-                            $this->requestBrokerFacade->getAnnotations($brokeredClass)
+                            $this->requestBrokerFacade->getAnnotations($brokeredClass, 'main')
         );
     }
 }
