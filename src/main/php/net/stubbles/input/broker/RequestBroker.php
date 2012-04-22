@@ -10,7 +10,6 @@
 namespace net\stubbles\input\broker;
 use net\stubbles\input\Request;
 use net\stubbles\lang\BaseObject;
-use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
@@ -49,38 +48,18 @@ class RequestBroker extends BaseObject
      *
      * @param   Request  $request
      * @param   object   $object   the object instance to fill with values
-     * @param   string   $group    group of values to filter
+     * @param   string   $group    restrict procurement to given group
      */
     public function procure(Request $request, $object, $group = null)
     {
-        foreach ($this->brokerMethods->get($object) as $refMethod) {
+        foreach ($this->brokerMethods->get($object, $group) as $refMethod) {
             $requestAnnotation = $refMethod->getAnnotation('Request');
-            if ($this->isNotInGroup($group, $requestAnnotation)) {
-                continue;
-            }
-
             $value = $this->paramBrokerMap->getBroker($requestAnnotation->getAnnotationName())
                                           ->procure($request, $requestAnnotation);
             if (null !== $value) {
                 $refMethod->invoke($object, $value);
             }
         }
-    }
-
-    /**
-     * checks whether the annotation belongs to the given group
-     *
-     * @param   string      $group
-     * @param   Annotation  $requestAnnotation
-     * @return  bool
-     */
-    private function isNotInGroup($group, Annotation $requestAnnotation)
-    {
-        if (empty($group)) {
-            return false;
-        }
-
-        return $requestAnnotation->getGroup() !== $group;
     }
 
     /**
