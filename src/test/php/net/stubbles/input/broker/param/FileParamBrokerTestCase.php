@@ -52,8 +52,8 @@ class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals('/home/user/foo.txt',
-                            $this->paramBroker->handle($this->mockRequest(ValueReader::mockForValue(null)),
-                                                       $this->createRequestAnnotation(array('default' => '/home/user/foo.txt'))
+                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue(null)),
+                                                        $this->createRequestAnnotation(array('default' => '/home/user/foo.txt'))
                             )
         );
     }
@@ -64,11 +64,11 @@ class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function considersRelativeWhenBasePathGiven()
     {
         $this->assertEquals('../RequestBrokerTestCase.php',
-                            $this->paramBroker->handle($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
-                                                       $this->createRequestAnnotation(array('basePath'      => __DIR__,
-                                                                                            'allowRelative' => true
-                                                                                      )
-                                                       )
+                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
+                                                        $this->createRequestAnnotation(array('basePath'      => __DIR__,
+                                                                                             'allowRelative' => true
+                                                                                       )
+                                                        )
                             )
         );
     }
@@ -78,8 +78,8 @@ class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
      */
     public function doesNotAllowRelativeByDefault()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
-                                                     $this->createRequestAnnotation(array('basePath' => __DIR__))
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
+                                                      $this->createRequestAnnotation(array('basePath' => __DIR__))
                           )
         );
     }

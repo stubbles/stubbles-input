@@ -73,7 +73,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function processNonObjectThrowsIllegalArgumentException()
     {
-        $this->requestBroker->process($this->mockRequest, 'foo');
+        $this->requestBroker->procure($this->mockRequest, 'foo');
     }
 
     /**
@@ -86,7 +86,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     {
         $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
         $mockParamBroker->expects($this->once())
-                        ->method('handle')
+                        ->method('procure')
                         ->will($this->returnValue($returnValue));
         return $mockParamBroker;
     }
@@ -101,7 +101,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
                                  ->with($this->equalTo('String'))
                                  ->will($this->returnValue($this->getMockParamBroker('just some string value')));
         $object = new BrokerClass();
-        $this->requestBroker->process($this->mockRequest, $object, 'main');
+        $this->requestBroker->procure($this->mockRequest, $object, 'main');
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertNull($object->getBaz());
     }
@@ -120,7 +120,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
                                  ->with($this->equalTo('Mock'))
                                  ->will($this->returnValue($this->getMockParamBroker('just another string value')));
         $object = new BrokerClass();
-        $this->requestBroker->process($this->mockRequest, $object);
+        $this->requestBroker->procure($this->mockRequest, $object);
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertEquals('just another string value', $object->getBaz());
     }

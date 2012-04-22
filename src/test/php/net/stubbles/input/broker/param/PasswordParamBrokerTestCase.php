@@ -51,8 +51,8 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createRequestAnnotation(array())
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                      $this->createRequestAnnotation(array())
                           )
         );
     }
@@ -62,8 +62,8 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndNotRequired()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createRequestAnnotation(array('required' => false))
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                      $this->createRequestAnnotation(array('required' => false))
                           )
         );
     }
@@ -73,8 +73,8 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfTooLessMinDiffChars()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('topsecret')),
-                                                     $this->createRequestAnnotation(array('minDiffChars' => 20))
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('topsecret')),
+                                                      $this->createRequestAnnotation(array('minDiffChars' => 20))
                           )
         );
     }

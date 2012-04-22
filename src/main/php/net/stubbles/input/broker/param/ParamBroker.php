@@ -19,11 +19,10 @@ interface ParamBroker extends Object
     /**
      * handles single param
      *
-     * @param   Request      $request     instance to handle value with
-     * @param   Annotation   $annotation  annotation which contains request param metadata
+     * @param   Request     $request     instance to handle value with
+     * @param   Annotation  $annotation  annotation which contains request param metadata
      * @return  mixed
-     * @throws  RuntimeException
      */
-    public function handle(Request $request, Annotation $annotation);
+    public function procure(Request $request, Annotation $annotation);
 }
 ?>
