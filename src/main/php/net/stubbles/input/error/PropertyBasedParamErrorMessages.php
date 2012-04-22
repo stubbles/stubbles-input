@@ -100,11 +100,13 @@ class PropertyBasedParamErrorMessages extends BaseObject implements ParamErrorMe
     /**
      * creates message for given param error in given locale
      *
+     * If no locale is given the method falls back to a default locale.
+     *
      * @param   ParamError  $error
      * @param   string      $locale
      * @return  LocalizedString
      */
-    public function messageFor(ParamError $error, $locale)
+    public function messageFor(ParamError $error, $locale = null)
     {
         $usedLocale = $this->selectLocale($error->getId(), $locale);
         return $error->fillMessage($this->getProperties()
@@ -120,16 +122,18 @@ class PropertyBasedParamErrorMessages extends BaseObject implements ParamErrorMe
      * @param   string  $requestedLocale
      * @return  string
      */
-    private function selectLocale($errorId, $requestedLocale)
+    private function selectLocale($errorId, $requestedLocale = null)
     {
         $properties = $this->getProperties();
-        if ($properties->hasValue($errorId, $requestedLocale)) {
-            return $requestedLocale;
-        }
+        if (null !== $requestedLocale) {
+            if ($properties->hasValue($errorId, $requestedLocale)) {
+                return $requestedLocale;
+            }
 
-        $baseLocale = substr($requestedLocale, 0, strpos($requestedLocale, '_')) . '_*';
-        if ($properties->hasValue($errorId, $baseLocale)) {
-            return $baseLocale;
+            $baseLocale = substr($requestedLocale, 0, strpos($requestedLocale, '_')) . '_*';
+            if ($properties->hasValue($errorId, $baseLocale)) {
+                return $baseLocale;
+            }
         }
 
         if ($properties->hasValue($errorId, $this->defaultLocale)) {
