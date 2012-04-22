@@ -167,6 +167,17 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
+    public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
+    {
+
+        $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
+                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', array('foo' => 'bar')))
+        );
+    }
+
+    /**
+     * @test
+     */
     public function returnsMessageInFallbackLocale()
     {
 

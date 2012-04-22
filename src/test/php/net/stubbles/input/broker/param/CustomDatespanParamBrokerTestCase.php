@@ -78,10 +78,10 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
     public function returnsDatespan()
     {
         $this->assertEquals(new CustomDatespan('2012-02-05', '2012-04-21'),
-                            $this->customDatespanParamBroker->handle($this->mockRequest(ValueFilter::mockForValue('2012-02-05'),
-                                                                                        ValueFilter::mockForValue('2012-04-21')
-                                                                     ),
-                                                                     $this->createFilterAnnotation(array())
+                            $this->customDatespanParamBroker->procure($this->mockRequest(ValueFilter::mockForValue('2012-02-05'),
+                                                                                         ValueFilter::mockForValue('2012-04-21')
+                                                                      ),
+                                                                      $this->createFilterAnnotation(array())
                             )
         );
     }
@@ -91,10 +91,10 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfStartDateIsMissing()
     {
-        $this->assertNull($this->customDatespanParamBroker->handle($this->mockRequest(ValueFilter::mockForValue(null),
-                                                                                      ValueFilter::mockForValue('2012-04-21')
-                                                                   ),
-                                                                   $this->createFilterAnnotation(array())
+        $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(ValueFilter::mockForValue(null),
+                                                                                       ValueFilter::mockForValue('2012-04-21')
+                                                                    ),
+                                                                    $this->createFilterAnnotation(array())
                           )
         );
     }
@@ -104,10 +104,10 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfEndDateIsMissing()
     {
-        $this->assertNull($this->customDatespanParamBroker->handle($this->mockRequest(ValueFilter::mockForValue('2012-02-05'),
-                                                                                      ValueFilter::mockForValue(null)
-                                                                   ),
-                                                                   $this->createFilterAnnotation(array())
+        $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(ValueFilter::mockForValue('2012-02-05'),
+                                                                                       ValueFilter::mockForValue(null)
+                                                                    ),
+                                                                    $this->createFilterAnnotation(array())
                           )
         );
     }
@@ -117,10 +117,10 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfBothDatesAreMissing()
     {
-        $this->assertNull($this->customDatespanParamBroker->handle($this->mockRequest(ValueFilter::mockForValue(null),
-                                                                                      ValueFilter::mockForValue(null)
-                                                                   ),
-                                                                   $this->createFilterAnnotation(array())
+        $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(ValueFilter::mockForValue(null),
+                                                                                       ValueFilter::mockForValue(null)
+                                                                    ),
+                                                                    $this->createFilterAnnotation(array())
                           )
         );
     }

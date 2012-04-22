@@ -52,8 +52,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals(array('foo', 'bar'),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                       $this->createRequestAnnotation(array('default' => 'foo|bar'))
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                        $this->createRequestAnnotation(array('default' => 'foo|bar'))
                             )
         );
     }
@@ -64,8 +64,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueWithDifferentSeparator()
     {
         $this->assertEquals(array('foo', 'bar'),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo|bar')),
-                                                       $this->createRequestAnnotation(array('separator' => '|'))
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo|bar')),
+                                                        $this->createRequestAnnotation(array('separator' => '|'))
                             )
         );
     }
@@ -75,8 +75,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue(null)),
-                                                     $this->createRequestAnnotation(array('required' => true))
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                                                      $this->createRequestAnnotation(array('required' => true))
                           )
         );
     }
@@ -87,8 +87,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsEmptyArrayForEmptyValue()
     {
         $this->assertEquals(array(),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('')),
-                                                       $this->createRequestAnnotation(array())
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('')),
+                                                        $this->createRequestAnnotation(array())
                             )
         );
     }
@@ -99,8 +99,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesParamAsDefaultSource()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
-                                                       $this->createRequestAnnotation(array())
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
+                                                        $this->createRequestAnnotation(array())
                             )
         );
     }
@@ -111,8 +111,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesParamAsSource()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->handle($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
-                                                       $this->createRequestAnnotation(array('source' => 'param'))
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
+                                                        $this->createRequestAnnotation(array('source' => 'param'))
                             )
         );
     }
@@ -128,8 +128,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->handle($mockRequest,
-                                                       $this->createRequestAnnotation(array('source' => 'header'))
+                            $this->paramBroker->procure($mockRequest,
+                                                        $this->createRequestAnnotation(array('source' => 'header'))
                             )
         );
     }
@@ -145,8 +145,8 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->handle($mockRequest,
-                                                       $this->createRequestAnnotation(array('source' => 'cookie'))
+                            $this->paramBroker->procure($mockRequest,
+                                                        $this->createRequestAnnotation(array('source' => 'cookie'))
                             )
         );
     }

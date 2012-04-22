@@ -60,7 +60,7 @@ class RequestBroker extends BaseObject
      * @param   string   $group    group of values to filter
      * @throws  IllegalArgumentException
      */
-    public function process(Request $request, $object, $group = null)
+    public function procure(Request $request, $object, $group = null)
     {
         if (!is_object($object)) {
             throw new IllegalArgumentException('Parameter $object must be a concrete object instance.');
@@ -74,7 +74,7 @@ class RequestBroker extends BaseObject
             }
 
             $value = $this->paramBrokerMap->getBroker($requestAnnotation->getAnnotationName())
-                                          ->handle($request, $requestAnnotation);
+                                          ->procure($request, $requestAnnotation);
             if (null !== $value) {
                 $refMethod->invoke($object, $value);
             }
