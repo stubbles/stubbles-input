@@ -23,30 +23,42 @@ class RequestBrokerMethods extends BaseObject implements MethodMatcher
     /**
      * returns all methods of given instance which are applicable for brokerage
      *
-     * @param   object $object
+     * @param   object  $object
+     * @param   string  $group   restrict list to given group
      * @return  ReflectionMethod[]
      * @throws  IllegalArgumentException
      */
-    public function get($object)
+    public function get($object, $group = null)
     {
         if (!is_object($object)) {
             throw new IllegalArgumentException('Parameter $object must be a concrete object instance.');
         }
 
         $refClass = new ReflectionObject($object);
-        return $refClass->getMethodsByMatcher($this);
+        $methods  = $refClass->getMethodsByMatcher($this);
+        if (empty($group)) {
+            return $methods;
+        }
+
+        return array_filter($methods,
+                            function(ReflectionMethod $method) use ($group)
+                            {
+                                return $method->getAnnotation('Request')->getGroup() === $group;
+                            }
+        );
     }
 
     /**
      * returns a list of all request annotations on given object
      *
      * @param   object  $object
+     * @param   string  $group   restrict list to given group
      * @return  net\stubbles\lang\reflect\annotation\Annotation[]
      */
-    public function getAnnotations($object)
+    public function getAnnotations($object, $group = null)
     {
         $annotations = array();
-        foreach ($this->get($object) as $method) {
+        foreach ($this->get($object, $group) as $method) {
             $annotations[] = $method->getAnnotation('Request');
         }
 
