@@ -18,7 +18,7 @@ use net\stubbles\lang\exception\RuntimeException;
 class ParamBrokerMap extends BaseObject
 {
     /**
-     * map of build in param brokers
+     * list of build in param brokers
      *
      * @type  ParamBroker[]
      */
@@ -31,34 +31,11 @@ class ParamBrokerMap extends BaseObject
     private $paramBroker;
 
     /**
-     * static initializer
-     */
-    public static function __static()
-    {
-        self::$buildInParamBroker = array('Array'          => new param\ArrayParamBroker(),
-                                          'Bool'           => new param\BoolParamBroker(),
-                                          'CustomDatespan' => new param\CustomDatespanParamBroker(),
-                                          'Date'           => new param\DateParamBroker(),
-                                          'Day'            => new param\DayParamBroker(),
-                                          'Directory'      => new param\DirectoryParamBroker(),
-                                          'File'           => new param\FileParamBroker(),
-                                          'Float'          => new param\FloatParamBroker(),
-                                          'HttpUri'        => new param\HttpUriParamBroker(),
-                                          'Integer'        => new param\IntegerParamBroker(),
-                                          'Jaon'           => new param\JsonParamBroker(),
-                                          'Mail'           => new param\MailParamBroker(),
-                                          'Password'       => new param\PasswordParamBroker(),
-                                          'String'         => new param\StringParamBroker(),
-                                          'Text'           => new param\TextParamBroker(),
-                                    );
-    }
-
-    /**
      * constructor
      */
     public function __construct()
     {
-        $this->paramBroker = self::$buildInParamBroker;
+        $this->paramBroker = self::getBuildInParamBroker();
     }
 
     /**
@@ -71,12 +48,11 @@ class ParamBrokerMap extends BaseObject
      */
     public function setParamBrokers(array $paramBroker)
     {
-        $this->paramBroker = array_merge(self::$buildInParamBroker,
+        $this->paramBroker = array_merge(self::getBuildInParamBroker(),
                                          $paramBroker
                              );
         return $this;
     }
-
 
     /**
      * retrieves param broker for given key
@@ -93,6 +69,34 @@ class ParamBrokerMap extends BaseObject
 
         throw new RuntimeException('No param broker found for ' . $key);
     }
+
+    /**
+     * returns list of build in param brokers
+     *
+     * @return  ParamBroker[]
+     */
+    public static function getBuildInParamBroker()
+    {
+        if (null === self::$buildInParamBroker) {
+            self::$buildInParamBroker = array('Array'          => new param\ArrayParamBroker(),
+                                              'Bool'           => new param\BoolParamBroker(),
+                                              'CustomDatespan' => new param\CustomDatespanParamBroker(),
+                                              'Date'           => new param\DateParamBroker(),
+                                              'Day'            => new param\DayParamBroker(),
+                                              'Directory'      => new param\DirectoryParamBroker(),
+                                              'File'           => new param\FileParamBroker(),
+                                              'Float'          => new param\FloatParamBroker(),
+                                              'HttpUri'        => new param\HttpUriParamBroker(),
+                                              'Integer'        => new param\IntegerParamBroker(),
+                                              'Jaon'           => new param\JsonParamBroker(),
+                                              'Mail'           => new param\MailParamBroker(),
+                                              'Password'       => new param\PasswordParamBroker(),
+                                              'String'         => new param\StringParamBroker(),
+                                              'Text'           => new param\TextParamBroker(),
+                                        );
+        }
+
+        return self::$buildInParamBroker;
+    }
 }
-ParamBrokerMap::__static();
 ?>

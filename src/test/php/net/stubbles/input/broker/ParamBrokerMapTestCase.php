@@ -57,22 +57,12 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getDefaultBrokerList()
     {
-        return array(array('Array', 'net\\stubbles\\input\\broker\\param\\ArrayParamBroker'),
-                     array('Bool', 'net\\stubbles\\input\\broker\\param\\BoolParamBroker'),
-                     array('CustomDatespan', 'net\\stubbles\\input\\broker\\param\\CustomDatespanParamBroker'),
-                     array('Date', 'net\\stubbles\\input\\broker\\param\\DateParamBroker'),
-                     array('Day', 'net\\stubbles\\input\\broker\\param\\DayParamBroker'),
-                     array('Directory', 'net\\stubbles\\input\\broker\\param\\DirectoryParamBroker'),
-                     array('File', 'net\\stubbles\\input\\broker\\param\\FileParamBroker'),
-                     array('Float', 'net\\stubbles\\input\\broker\\param\\FloatParamBroker'),
-                     array('HttpUri', 'net\\stubbles\\input\\broker\\param\\HttpUriParamBroker'),
-                     array('Integer', 'net\\stubbles\\input\\broker\\param\\IntegerParamBroker'),
-                     array('Jaon', 'net\\stubbles\\input\\broker\\param\\JsonParamBroker'),
-                     array('Mail', 'net\\stubbles\\input\\broker\\param\\MailParamBroker'),
-                     array('Password', 'net\\stubbles\\input\\broker\\param\\PasswordParamBroker'),
-                     array('String', 'net\\stubbles\\input\\broker\\param\\StringParamBroker'),
-                     array('Text', 'net\\stubbles\\input\\broker\\param\\TextParamBroker'),
-        );
+        $defaultBroker = array();
+        foreach (ParamBrokerMap::getBuildInParamBroker() as $name => $paramBroker) {
+            $defaultBroker[] = array($name, $paramBroker->getClassName());
+        }
+
+        return $defaultBroker;
     }
 
     /**
