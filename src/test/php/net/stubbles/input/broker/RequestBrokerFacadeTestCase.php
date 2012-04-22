@@ -10,6 +10,8 @@
 namespace net\stubbles\input\broker;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\lang\reflect\ReflectionMethod;
+use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\LocalizedString;
 use org\stubbles\input\test\BrokerClass;
 /**
@@ -17,6 +19,7 @@ use org\stubbles\input\test\BrokerClass;
  *
  * @since  2.0.0
  * @group  broker
+ * @group  broker_core
  */
 class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
 {
@@ -163,6 +166,38 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
                {
                    $mockOutputStream->writeLine($paramName . ': ' . $message);
                };
+    }
+
+    /**
+     * @test
+     */
+    public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
+    {
+        $brokeredClass = new BrokerClass();
+        $expected      = array(new ReflectionMethod($brokeredClass, 'setBar'));
+        $this->mockRequestBroker->expects($this->once())
+                                ->method('getMethods')
+                                ->with($this->equalTo($brokeredClass))
+                                ->will($this->returnValue($expected));
+        $this->assertEquals($expected,
+                            $this->requestBrokerFacade->getMethods($brokeredClass)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getAnnotationsReturnsListOfAllRequestAnnotation()
+    {
+        $brokeredClass = new BrokerClass();
+        $expected      = array(new Annotation('Test'));
+        $this->mockRequestBroker->expects($this->once())
+                                ->method('getAnnotations')
+                                ->with($this->equalTo($brokeredClass))
+                                ->will($this->returnValue($expected));
+        $this->assertEquals($expected,
+                            $this->requestBrokerFacade->getAnnotations($brokeredClass)
+        );
     }
 }
 ?>

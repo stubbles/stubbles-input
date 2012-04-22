@@ -10,8 +10,6 @@
 namespace net\stubbles\input\broker;
 use net\stubbles\input\Request;
 use net\stubbles\lang\BaseObject;
-use net\stubbles\lang\exception\IllegalArgumentException;
-use net\stubbles\lang\reflect\ReflectionObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker class to transfer values from the request into an object via annotations.
@@ -23,9 +21,9 @@ class RequestBroker extends BaseObject
     /**
      * the matcher to be used for methods and properties
      *
-     * @type  RequestBrokerMethodMatcher
+     * @type  RequestBrokerMethods
      */
-    private static $methodMatcher;
+    private $brokerMethods;
     /**
      * factory to create filters with
      *
@@ -34,21 +32,15 @@ class RequestBroker extends BaseObject
     private $paramBrokerMap;
 
     /**
-     * static initializer
-     */
-    public static function __static()
-    {
-        self::$methodMatcher = new RequestBrokerMethodMatcher();
-    }
-
-    /**
      * constructor
      *
-     * @param  ParamBrokerMap  $paramBrokerMap
+     * @param  RequestBrokerMethods  $brokerMethods
+     * @param  ParamBrokerMap        $paramBrokerMap
      * @Inject
      */
-    public function __construct(ParamBrokerMap $paramBrokerMap)
+    public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokerMap $paramBrokerMap)
     {
+        $this->brokerMethods  = $brokerMethods;
         $this->paramBrokerMap = $paramBrokerMap;
     }
 
@@ -58,16 +50,10 @@ class RequestBroker extends BaseObject
      * @param   Request  $request
      * @param   object   $object   the object instance to fill with values
      * @param   string   $group    group of values to filter
-     * @throws  IllegalArgumentException
      */
     public function procure(Request $request, $object, $group = null)
     {
-        if (!is_object($object)) {
-            throw new IllegalArgumentException('Parameter $object must be a concrete object instance.');
-        }
-
-        $refClass = new ReflectionObject($object);
-        foreach ($refClass->getMethodsByMatcher(self::$methodMatcher) as $refMethod) {
+        foreach ($this->brokerMethods->get($object) as $refMethod) {
             $requestAnnotation = $refMethod->getAnnotation('Request');
             if ($this->isNotInGroup($group, $requestAnnotation)) {
                 continue;
@@ -96,6 +82,27 @@ class RequestBroker extends BaseObject
 
         return $requestAnnotation->getGroup() !== $group;
     }
+
+    /**
+     * returns all methods of given instance which are applicable for brokerage
+     *
+     * @param   object $object
+     * @return  ReflectionMethod[]
+     */
+    public function getMethods($object)
+    {
+        return $this->brokerMethods->get($object);
+    }
+
+    /**
+     * returns a list of all request annotations on given object
+     *
+     * @param   object  $object
+     * @return  net\stubbles\lang\reflect\annotation\Annotation[]
+     */
+    public function getAnnotations($object)
+    {
+        return $this->brokerMethods->getAnnotations($object);
+    }
 }
-RequestBroker::__static();
 ?>

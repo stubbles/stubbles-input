@@ -12,6 +12,7 @@ namespace net\stubbles\input\broker;
  * Tests for net\stubbles\input\broker\ParamBrokerMap.
  *
  * @group  broker
+ * @group  broker_core
  */
 class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
 {
