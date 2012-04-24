@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Request;
 use net\stubbles\input\validator\ValueReader;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -17,13 +18,16 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 abstract class MultipleSourceReaderBroker extends MultipleSourceParamBroker
 {
     /**
-     * returns type: filter or read
+     * handles single param
      *
-     * @return  string
+     * @param   Request     $request     instance to handle value with
+     * @param   Annotation  $annotation  annotation which contains request param metadata
+     * @return  mixed
      */
-    protected function getBrokerType()
+    public function procure(Request $request, Annotation $annotation)
     {
-        return 'read';
+        $readMethod = $this->getMethod($request, $annotation, 'read');
+        return $this->read($request->$readMethod($annotation->getName()), $annotation);
     }
 
     /**
