@@ -7,42 +7,30 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\expectation;
+namespace net\stubbles\input\filter\range;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
- * Tests for net\stubbles\input\filter\expectation\NumberExpectation.
+ * Tests for net\stubbles\input\filter\range\NumberRange.
  *
  * @since  2.0.0
  * @group  filter
- * @group  filter_expectation
+ * @group  filter_range
  */
-class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
+class NumberRangeTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  NumberExpectation
+     * @type  NumberRange
      */
-    private $numberExpectation;
+    private $numberRange;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->numberExpectation = NumberExpectation::create()
-                                                    ->inRange(1, 10);
-    }
-
-    /**
-     * @test
-     */
-    public function createFromAnnotation()
-    {
-        $numberExpectation = NumberExpectation::fromAnnotation(new Annotation('NumberAnnotation'));
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\expectation\\NumberExpectation',
-                                $numberExpectation
-        );
+        $this->numberRange = new NumberRange(1, 10);
     }
 
     /**
@@ -50,9 +38,8 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
     {
-        $this->assertFalse(NumberExpectation::create()
-                                            ->maxValue(10)
-                                            ->belowMinBorder(0));
+        $numberRange = new NumberRange(null, 10);
+        $this->assertFalse($numberRange->belowMinBorder(0));
     }
 
     /**
@@ -60,7 +47,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
     {
-        $this->assertTrue($this->numberExpectation->belowMinBorder(0));
+        $this->assertTrue($this->numberRange->belowMinBorder(0));
     }
 
     /**
@@ -68,7 +55,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueIsNull()
     {
-        $this->assertTrue($this->numberExpectation->belowMinBorder(null));
+        $this->assertTrue($this->numberRange->belowMinBorder(null));
     }
 
     /**
@@ -76,7 +63,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
     {
-        $this->assertFalse($this->numberExpectation->belowMinBorder(1));
+        $this->assertFalse($this->numberRange->belowMinBorder(1));
     }
 
     /**
@@ -84,7 +71,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
     {
-        $this->assertFalse($this->numberExpectation->belowMinBorder(2));
+        $this->assertFalse($this->numberRange->belowMinBorder(2));
     }
 
     /**
@@ -92,7 +79,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
     {
-        $this->assertFalse($this->numberExpectation->belowMinBorder(11));
+        $this->assertFalse($this->numberRange->belowMinBorder(11));
     }
 
     /**
@@ -100,7 +87,8 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
     {
-        $this->assertFalse(NumberExpectation::create()->minValue(0)->aboveMaxBorder(9));
+        $numberRange = new NumberRange(0, null);
+        $this->assertFalse($numberRange->aboveMaxBorder(9));
     }
 
     /**
@@ -108,7 +96,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
     {
-        $this->assertFalse($this->numberExpectation->aboveMaxBorder(9));
+        $this->assertFalse($this->numberRange->aboveMaxBorder(9));
     }
 
     /**
@@ -116,7 +104,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
     {
-        $this->assertFalse($this->numberExpectation->aboveMaxBorder(10));
+        $this->assertFalse($this->numberRange->aboveMaxBorder(10));
     }
 
     /**
@@ -124,7 +112,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
     {
-        $this->assertFalse($this->numberExpectation->aboveMaxBorder(0));
+        $this->assertFalse($this->numberRange->aboveMaxBorder(0));
     }
 
     /**
@@ -132,7 +120,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueIsNull()
     {
-        $this->assertFalse($this->numberExpectation->aboveMaxBorder(null));
+        $this->assertFalse($this->numberRange->aboveMaxBorder(null));
     }
 
     /**
@@ -140,7 +128,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
     {
-        $this->assertTrue($this->numberExpectation->aboveMaxBorder(11));
+        $this->assertTrue($this->numberRange->aboveMaxBorder(11));
     }
 
     /**
@@ -149,7 +137,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
     public function createsMinParamError()
     {
         $this->assertEquals('VALUE_TOO_SMALL',
-                            $this->numberExpectation->getMinParamError()->getId()
+                            $this->numberRange->getMinParamError()->getId()
         );
     }
 
@@ -159,7 +147,7 @@ class NumberExpectationTestCase extends \PHPUnit_Framework_TestCase
     public function createsMaxParamError()
     {
         $this->assertEquals('VALUE_TOO_GREAT',
-                            $this->numberExpectation->getMaxParamError()->getId()
+                            $this->numberRange->getMaxParamError()->getId()
         );
     }
 }

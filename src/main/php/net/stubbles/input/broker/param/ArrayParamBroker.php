@@ -10,7 +10,6 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ArrayFilter;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter arrays based on a @Request[Array] annotation.
@@ -26,8 +25,7 @@ class ArrayParamBroker extends MultipleSourceFilterBroker
      */
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        $expect = new ValueExpectation($annotation->isRequired());
-        return $valueFilter->asArray($expect->useDefault($this->getDefault($annotation)),
+        return $valueFilter->asArray($this->getDefault($annotation),
                                      $annotation->getSeparator(ArrayFilter::SEPARATOR_DEFAULT)
         );
     }

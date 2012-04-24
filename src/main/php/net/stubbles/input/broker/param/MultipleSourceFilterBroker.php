@@ -27,7 +27,12 @@ abstract class MultipleSourceFilterBroker extends MultipleSourceParamBroker
     public function procure(Request $request, Annotation $annotation)
     {
         $method = $this->getMethod($request, $annotation, 'filter');
-        return $this->filter($request->$method($annotation->getName()), $annotation);
+        $valueFilter = $request->$method($annotation->getName());
+        if ($annotation->isRequired()) {
+            $valueFilter->required();
+        }
+
+        return $this->filter($valueFilter, $annotation);
     }
 
     /**

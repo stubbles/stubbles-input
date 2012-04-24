@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Json] annotation.
@@ -25,9 +24,7 @@ class JsonParamBroker extends MultipleSourceFilterBroker
      */
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        $expect = new ValueExpectation($annotation->isRequired());
-        $expect->useDefault($this->getDefault($annotation));
-        return $valueFilter->asJson($expect);
+        return $valueFilter->asJson($this->getDefault($annotation));
     }
 
     /**

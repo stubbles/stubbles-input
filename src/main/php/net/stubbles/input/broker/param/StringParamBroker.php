@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\StringExpectation;
+use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[String] annotation.
@@ -25,7 +25,11 @@ class StringParamBroker extends MultipleSourceFilterBroker
      */
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        return $valueFilter->asString(StringExpectation::fromAnnotation($annotation));
+        return $valueFilter->asString($annotation->getDefault(),
+                                      new StringLength($annotation->getMinLength(),
+                                                       $annotation->getMaxLength()
+                                      )
+        );
     }
 }
 ?>

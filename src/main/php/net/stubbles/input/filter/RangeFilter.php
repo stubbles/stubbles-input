@@ -9,6 +9,7 @@
  */
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
+use net\stubbles\input\filter\range\Range;
 use net\stubbles\lang\BaseObject;
 /**
  * Range filter to ensure a value is inbetween a certain range.

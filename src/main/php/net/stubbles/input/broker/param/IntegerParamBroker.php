@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\NumberExpectation;
+use net\stubbles\input\filter\range\NumberRange;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter integer values based on a @Request[Integer] annotation.
@@ -25,7 +25,11 @@ class IntegerParamBroker extends MultipleSourceFilterBroker
      */
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        return $valueFilter->asInt(NumberExpectation::fromAnnotation($annotation));
+        return $valueFilter->asInt($annotation->getDefault(),
+                                   new NumberRange($annotation->getMinValue(),
+                                                  $annotation->getMaxValue()
+                                   )
+        );
     }
 }
 ?>

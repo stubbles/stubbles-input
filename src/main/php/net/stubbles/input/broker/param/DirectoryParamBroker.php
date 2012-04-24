@@ -32,17 +32,6 @@ class DirectoryParamBroker extends MultipleSourceReaderBroker
     }
 
     /**
-     * creates param error in case value is not set
-     *
-     * @param   Annotation   $annotation
-     * @return  string
-     */
-    protected function getEmpyParamError(Annotation $annotation)
-    {
-        return new ParamError($annotation->getEmptyParamErrorId('DIRECTORY_NOT_EMPTY'));
-    }
-
-    /**
      * checks whether relative pathes are allowed
      *
      * @param   Annotation  $annotation

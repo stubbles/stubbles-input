@@ -69,5 +69,42 @@ class DayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
                           )
         );
     }
+
+    /**
+     * @test
+     */
+    public function returnsNullIfBeforeMinStartDate()
+    {
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('yesterday')),
+                                                      $this->createRequestAnnotation(array('minStartDate' => 'today'))
+                          )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsNullIfAfterMaxStartDate()
+    {
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('today')),
+                                                      $this->createRequestAnnotation(array('maxEndDate' => 'yesterday'))
+                          )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsValueIfInRange()
+    {
+        $this->assertEquals(new Day('today'),
+                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('today')),
+                                                        $this->createRequestAnnotation(array('minStartDate' => 'yesterday',
+                                                                                             'maxEndDate'   => 'tomorrow'
+                                                                                       )
+                                                        )
+                            )
+        );
+    }
 }
 ?>

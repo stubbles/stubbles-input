@@ -26,24 +26,8 @@ class PasswordParamBroker extends MultipleSourceFilterBroker
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
         return $valueFilter->asPassword($annotation->getMinDiffChars(PasswordFilter::MIN_DIFF_CHARS_DEFAULT),
-                                        array(),
-                                        $this->isPasswordRequired($annotation)
+                                        array()
         );
-    }
-
-    /**
-     * checks if password is required
-     *
-     * @param   Annotation  $annotation
-     * @return  bool
-     */
-    private function isPasswordRequired(Annotation $annotation)
-    {
-        if ($annotation->hasValueByName('required')) {
-            return $annotation->isRequired();
-        }
-
-        return true;
     }
 }
 ?>

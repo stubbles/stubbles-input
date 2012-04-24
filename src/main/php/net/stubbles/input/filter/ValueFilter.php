@@ -11,12 +11,14 @@ namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\ParamErrors;
-use net\stubbles\input\filter\expectation\DateExpectation;
-use net\stubbles\input\filter\expectation\DatespanExpectation;
-use net\stubbles\input\filter\expectation\StringExpectation;
-use net\stubbles\input\filter\expectation\NumberExpectation;
-use net\stubbles\input\filter\expectation\ValueExpectation;
+use net\stubbles\input\filter\range\DateRange;
+use net\stubbles\input\filter\range\DatespanRange;
+use net\stubbles\input\filter\range\StringLength;
+use net\stubbles\input\filter\range\NumberRange;
 use net\stubbles\lang\BaseObject;
+use net\stubbles\lang\types\Date;
+use net\stubbles\lang\types\datespan\Datespan;
+use net\stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
  *
@@ -36,6 +38,12 @@ class ValueFilter extends BaseObject
      * @type  Param
      */
     private $param;
+    /**
+     * switch whether value is required
+     *
+     * @type  bool
+     */
+    private $required    = false;
 
     /**
      * constructor
@@ -61,6 +69,17 @@ class ValueFilter extends BaseObject
     }
 
     /**
+     * whether value is required or not
+     *
+     * @return  ValueFilter
+     */
+    public function required()
+    {
+        $this->required = true;
+        return $this;
+    }
+
+    /**
      * read as array value
      *
      * @api
@@ -69,14 +88,14 @@ class ValueFilter extends BaseObject
      * @return  array
      * @since   2.0.0
      */
-    public function asArray(ValueExpectation $expect = null, $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(array $default = null, $separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
         return $this->handleFilter(function() use($separator)
                                    {
                                        $arrayFilter = new ArrayFilter();
                                        return $arrayFilter->setSeparator($separator);
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -101,18 +120,19 @@ class ValueFilter extends BaseObject
      * read as integer value
      *
      * @api
-     * @param   NumberExpectation  $expect
+     * @param   int          $default
+     * @param   NumberRange  $range
      * @return  int
      */
-    public function asInt(NumberExpectation $expect = null)
+    public function asInt($default = null, NumberRange $range = null)
     {
-        return $this->handleFilter(function() use($expect)
+        return $this->handleFilter(function() use($range)
                                    {
                                        return RangeFilter::wrap(new IntegerFilter(),
-                                                                $expect
+                                                                $range
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -120,20 +140,21 @@ class ValueFilter extends BaseObject
      * read as float value
      *
      * @api
-     * @param   NumberExpectation  $expect
-     * @param   int                $decimals  number of decimals
+     * @param   int          $default
+     * @param   NumberRange  $range
+     * @param   int          $decimals  number of decimals
      * @return  float
      */
-    public function asFloat(NumberExpectation $expect = null, $decimals = null)
+    public function asFloat($default = null, NumberRange $range = null, $decimals = null)
     {
-        return $this->handleFilter(function() use($expect, $decimals)
+        return $this->handleFilter(function() use($range, $decimals)
                                    {
                                        $floatFilter = new FloatFilter();
                                        return RangeFilter::wrap($floatFilter->setDecimals($decimals),
-                                                                $expect
+                                                                $range
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -141,18 +162,19 @@ class ValueFilter extends BaseObject
      * read as string value
      *
      * @api
-     * @param   StringExpectation  $expect
+     * @param   string        $default
+     * @param   StringLength  $length
      * @return  string
      */
-    public function asString(StringExpectation $expect = null)
+    public function asString($default = null, StringLength $length = null)
     {
-        return $this->handleFilter(function() use($expect)
+        return $this->handleFilter(function() use($length)
                                    {
                                        return RangeFilter::wrap(new StringFilter(),
-                                                                $expect
+                                                                $length
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -160,20 +182,21 @@ class ValueFilter extends BaseObject
      * read as text value
      *
      * @api
-     * @param   StringExpectation  $expect
-     * @param   string[]           $allowedTags  list of allowed tags
+     * @param   string        $default
+     * @param   StringLength  $length
+     * @param   string[]      $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText(StringExpectation $expect = null, $allowedTags = array())
+    public function asText($default = null, StringLength $length = null, $allowedTags = array())
     {
-        return $this->handleFilter(function() use($expect, $allowedTags)
+        return $this->handleFilter(function() use($length, $allowedTags)
                                    {
                                        $textFilter = new TextFilter();
                                        return RangeFilter::wrap($textFilter->allowTags($allowedTags),
-                                                                $expect
+                                                                $length
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -181,16 +204,16 @@ class ValueFilter extends BaseObject
      * read as json value
      *
      * @api
-     * @param   ValueExpectation  $expect
+     * @param   mixed  $default
      * @return  \stdClass|array
      */
-    public function asJson(ValueExpectation $expect = null)
+    public function asJson($default = null)
     {
         return $this->handleFilter(function()
                                    {
                                        return new JsonFilter();
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -203,12 +226,11 @@ class ValueFilter extends BaseObject
      * @param   bool      $required          if a value is required, defaults to true
      * @return  string
      */
-    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = array(), $required = true)
+    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = array())
     {
         $passWordFilter = new PasswordFilter();
         return $this->withFilter($passWordFilter->minDiffChars($minDiffChars)
-                                                ->disallowValues($nonAllowedValues),
-                                 $required
+                                                ->disallowValues($nonAllowedValues)
         );
     }
 
@@ -216,16 +238,16 @@ class ValueFilter extends BaseObject
      * read as http uri
      *
      * @api
-     * @param   ValueExpectation  $expect
-     * @return  net\stubbles\peer\http\HttpUri
+     * @param   HttpUri  $default
+     * @return  HttpUri
      */
-    public function asHttpUri(ValueExpectation $expect = null)
+    public function asHttpUri(HttpUri $default = null)
     {
         return $this->handleFilter(function()
                                    {
                                        return new HttpUriFilter();
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -233,49 +255,38 @@ class ValueFilter extends BaseObject
      * read as http uri if it does exist
      *
      * @api
-     * @param   ValueExpectation  $expect
-     * @return  net\stubbles\peer\http\HttpUri
+     * @param   HttpUri  $default
+     * @return  HttpUri
      */
-    public function asExistingHttpUri(ValueExpectation $expect = null)
+    public function asExistingHttpUri(HttpUri $default = null)
     {
         return $this->handleFilter(function()
                                    {
                                        $httpUriFilter = new HttpUriFilter();
                                        return $httpUriFilter->enforceDnsRecord();
                                    },
-                                   $expect
+                                   $default
         );
-    }
-
-    /**
-     * read as mail address
-     *
-     * @api
-     * @param   bool  $required  if a value is required, defaults to false
-     * @return  string
-     */
-    public function asMailAddress($required = false)
-    {
-        return $this->withFilter(new MailFilter(), $required);
     }
 
     /**
      * read as date value
      *
      * @api
-     * @param   DateExpectation  $expect
+     * @param   Date       $default
+     * @param   DateRange  $range
      * @return  net\stubbles\lang\types\Date
 
      */
-    public function asDate(DateExpectation $expect = null)
+    public function asDate(Date $default = null, DateRange $range = null)
     {
-        return $this->handleFilter(function() use($expect)
+        return $this->handleFilter(function() use($range)
                                    {
                                        return RangeFilter::wrap(new DateFilter(),
-                                                                $expect
+                                                                $range
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
@@ -283,41 +294,40 @@ class ValueFilter extends BaseObject
      * read as day
      *
      * @api
-     * @param   DatespanExpectation  $expect
+     * @param   Datespan       $default
+     * @param   DatespanRange  $range
      * @return  net\stubbles\lang\types\datespan\Day
      * @since   2.0.0
 
      */
-    public function asDay(DatespanExpectation $expect = null)
+    public function asDay(Datespan $default = null, DatespanRange $range = null)
     {
-        return $this->handleFilter(function() use($expect)
+        return $this->handleFilter(function() use($range)
                                    {
                                        return RangeFilter::wrap(new DayFilter(),
-                                                                $expect
+                                                                $range
                                        );
                                    },
-                                   $expect
+                                   $default
         );
     }
 
     /**
      * handles a filter
      *
-     * @param   Closure           $createFilter
-     * @param   ValueExpectation  $expect
+     * @param   Closure  $createFilter
+     * @param   mixed    $default
      * @return  mixed
      */
-    private function handleFilter(\Closure $createFilter, ValueExpectation $expect = null)
+    private function handleFilter(\Closure $createFilter, $default = null)
     {
-        if (null !== $expect) {
-            if (!$expect->isSatisfied($this->param)) {
+        if ($this->param->isNull()) {
+            if ($this->required) {
                 $this->paramErrors->add(new ParamError('FIELD_EMPTY'), $this->param->getName());
                 return null;
             }
 
-            if ($expect->allowsDefault($this->param)) {
-                return $expect->getDefault();
-            }
+            return $default;
         }
 
         return $this->applyFilter($createFilter());
@@ -333,12 +343,11 @@ class ValueFilter extends BaseObject
      *
      * @api
      * @param   Filter  $filter
-     * @param   bool    $required  if a value is required, defaults to false
      * @return  mixed
      */
-    public function withFilter(Filter $filter, $required = false)
+    public function withFilter(Filter $filter)
     {
-        if (true === $required && $this->param->isEmpty()) {
+        if ($this->required && $this->param->isEmpty()) {
             $this->paramErrors->add(new ParamError('FIELD_EMPTY'), $this->param->getName());
             return null;
         }

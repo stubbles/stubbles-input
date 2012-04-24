@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\ValueExpectation;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\peer\http\HttpUri;
 /**
@@ -26,13 +25,26 @@ class HttpUriParamBroker extends MultipleSourceFilterBroker
      */
     protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        $expect = new ValueExpectation($annotation->isRequired());
-        $expect->useDefault(HttpUri::fromString($annotation->getDefault()));
         if ($annotation->hasValueByName('dnsCheck') && $annotation->dnsCheck()) {
-            return $valueFilter->asExistingHttpUri($expect);
+            return $valueFilter->asExistingHttpUri($this->getDefault($annotation));
         }
 
-        return $valueFilter->asHttpUri($expect);
+        return $valueFilter->asHttpUri($this->getDefault($annotation));
+    }
+
+    /**
+     * returns default value provided by annotation
+     *
+     * @param   Annotation  $annotation
+     * @return  HttpUri
+     */
+    private function getDefault(Annotation $annotation)
+    {
+        if ($annotation->hasValueByName('default')) {
+            return HttpUri::fromString($annotation->getDefault());
+        }
+
+        return null;
     }
 }
 ?>

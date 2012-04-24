@@ -26,29 +26,9 @@ abstract class MultipleSourceReaderBroker extends MultipleSourceParamBroker
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $hasValue = $this->getMethod($request, $annotation, 'has');
-        if (!$request->$hasValue($annotation->getName())) {
-            if ($annotation->isRequired()) {
-                $errors = strtolower($this->getSource($annotation)) . 'Errors';
-                $request->$errors()->add($this->getEmpyParamError($annotation),
-                                         $annotation->getName()
-                );
-            }
-
-            return null;
-        }
-
         $readValue = $this->getMethod($request, $annotation, 'read');
         return $this->read($request->$readValue($annotation->getName()), $annotation);
     }
-
-    /**
-     * creates param error in case value is not set
-     *
-     * @param   Annotation   $annotation
-     * @return  string
-     */
-    protected abstract function getEmpyParamError(Annotation $annotation);
 
     /**
      * reads single param
