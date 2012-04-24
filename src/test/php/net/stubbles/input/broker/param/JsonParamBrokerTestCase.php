@@ -9,15 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\peer\http\HttpUri;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\JsonParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class JsonParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -116,7 +115,7 @@ class JsonParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterHeader')
+                    ->method('readHeader')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('{"method":"add","params":[1,2],"id":1}')));
         $this->assertEquals($this->getExpectedValue(),
@@ -133,7 +132,7 @@ class JsonParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterCookie')
+                    ->method('readCookie')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('{"method":"add","params":[1,2],"id":1}')));
         $this->assertEquals($this->getExpectedValue(),

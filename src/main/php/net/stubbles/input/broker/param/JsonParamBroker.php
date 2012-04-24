@@ -13,7 +13,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Json] annotation.
  */
-class JsonParamBroker extends MultipleSourceFilterBroker
+class JsonParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

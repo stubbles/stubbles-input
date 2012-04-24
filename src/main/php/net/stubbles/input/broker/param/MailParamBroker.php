@@ -8,23 +8,23 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\validator\ValueReader;
+use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Mail] annotation.
  */
-class MailParamBroker extends MultipleSourceReaderBroker
+class MailParamBroker extends MultipleSourceParamBroker
 {
     /**
-     * reads single param
+     * filters single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
+     * @param   ValueFilter  $valueFilter  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  mixed
      */
-    protected function read(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        return $valueReader->ifIsMailAddress($annotation->getDefault());
+        return $valueFilter->ifIsMailAddress();
     }
 }
 ?>

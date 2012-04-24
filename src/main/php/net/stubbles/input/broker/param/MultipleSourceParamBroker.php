@@ -9,6 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Request;
+use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -18,17 +19,34 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 abstract class MultipleSourceParamBroker extends BaseObject implements ParamBroker
 {
     /**
+     * handles single param
+     *
+     * @param   Request     $request     instance to handle value with
+     * @param   Annotation  $annotation  annotation which contains request param metadata
+     * @return  mixed
+     */
+    public function procure(Request $request, Annotation $annotation)
+    {
+        $method = $this->getMethod($request, $annotation);
+        $valueFilter = $request->$method($annotation->getName());
+        if ($annotation->isRequired()) {
+            $valueFilter->required();
+        }
+
+        return $this->filter($valueFilter, $annotation);
+    }
+
+    /**
      * retrieves method to call on request instance
      *
      * @param   Request     $request
      * @param   Annotation  $annotation
-     * @param   string      $type
      * @return  string
      * @throws  RuntimeException
      */
-    protected function getMethod(Request $request, Annotation $annotation, $type)
+    private function getMethod(Request $request, Annotation $annotation)
     {
-        $method = $type . $this->getSource($annotation);
+        $method = 'read' . $this->getSource($annotation);
         if (!method_exists($request, $method)) {
             throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . $request->getClassName());
         }
@@ -42,7 +60,7 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
      * @param   Annotation  $annotation
      * @return  string
      */
-    protected function getSource(Annotation $annotation)
+    private function getSource(Annotation $annotation)
     {
         if ($annotation->hasValueByName('source')) {
             return ucfirst(strtolower($annotation->getSource()));
@@ -50,5 +68,14 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
 
         return 'Param';
     }
+
+    /**
+     * filters single param
+     *
+     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @return  mixed
+     */
+    protected abstract function filter(ValueFilter $valueFilter, Annotation $annotation);
 }
 ?>

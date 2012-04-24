@@ -14,7 +14,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter arrays based on a @Request[Array] annotation.
  */
-class ArrayParamBroker extends MultipleSourceFilterBroker
+class ArrayParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

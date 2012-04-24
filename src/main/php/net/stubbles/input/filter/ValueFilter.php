@@ -15,9 +15,15 @@ use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\input\filter\range\DatespanRange;
 use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\input\filter\range\NumberRange;
+use net\stubbles\input\validator\DirectoryValidator;
+use net\stubbles\input\validator\FileValidator;
+use net\stubbles\input\validator\IpValidator;
+use net\stubbles\input\validator\PreselectValidator;
+use net\stubbles\input\validator\RegexValidator;
+use net\stubbles\input\validator\Validator;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Datespan;
+use net\stubbles\lang\types\datespan\Day;
 use net\stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -294,19 +300,153 @@ class ValueFilter extends BaseObject
      * read as day
      *
      * @api
-     * @param   Datespan       $default
+     * @param   Day            $default
      * @param   DatespanRange  $range
      * @return  net\stubbles\lang\types\datespan\Day
      * @since   2.0.0
 
      */
-    public function asDay(Datespan $default = null, DatespanRange $range = null)
+    public function asDay(Day $default = null, DatespanRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
                                        return RangeFilter::wrap(new DayFilter(),
                                                                 $range
                                        );
+                                   },
+                                   $default
+        );
+    }
+
+    /**
+     * returns value if it is an ip address, and null otherwise
+     *
+     * @api
+     * @param   string  $default  default value to fall back to
+     * @return  string
+     */
+    public function ifIsIpAddress($default = null)
+    {
+        return $this->withValidator(new IpValidator(),
+                                    'INVALID_IP_ADDRESS',
+                                    array(),
+                                    $default
+        );
+    }
+
+    /**
+     * returns value if it is a mail address, and null otherwise
+     *
+     * @api
+     * @return  string
+     */
+    public function ifIsMailAddress()
+    {
+        return $this->handleFilter(function()
+                                   {
+                                       return new MailFilter();
+                                   }
+        );
+    }
+
+    /**
+     * returns value if it is an allowed value according to list of allowed values, and null otherwise
+     *
+     * @api
+     * @param   string[]  $allowedValues  list of allowed values
+     * @param   string    $default        default value to fall back to
+     * @return  string
+     */
+    public function ifIsOneOf(array $allowedValues, $default = null)
+    {
+        return $this->withValidator(new PreSelectValidator($allowedValues),
+                                    'FIELD_NO_SELECT',
+                                    array(),
+                                    $default
+        );
+    }
+
+    /**
+     * returns value if it complies to a given regular expression, and null otherwise
+     *
+     * @api
+     * @param   string  $regex    regular expression to apply
+     * @param   string  $default  default value to fall back to
+     * @return  string
+     */
+    public function ifSatisfiesRegex($regex, $default = null)
+    {
+        return $this->withValidator(new RegexValidator($regex),
+                                    'FIELD_WRONG_VALUE',
+                                    array(),
+                                    $default
+        );
+    }
+
+    /**
+     * returns value if it denotes a path to an existing file, and null otherwise
+     *
+     * This should be used with greatest care in web environments as it only
+     * checks if the file exists, but not if there are any rights to access
+     * the specific file. It also does not prevent constructions which would
+     * allow an attacker to reach e.g. /etc/passwd via ../../ constructions.
+     *
+     * @api
+     * @param   string  $basePath       base path where file must reside in
+     * @param   string  $default        default value to fall back to
+     * @return  string
+     * @since   2.0.0
+     */
+    public function ifIsFile($basePath = null, $default = null)
+    {
+        $path = ((null != $basePath) ? ($basePath .'/') : (''));
+        return $this->withValidator(new FileValidator($basePath),
+                                    'FILE_INVALID',
+                                    array('path' => $path . $this->param->getValue()),
+                                    $default
+        );
+    }
+
+    /**
+     * returns value if it denotes a path to an existing directory, and null otherwise
+     *
+     * This should be used with greatest care in web environments as it only
+     * checks if the directory exists, but not if there are any rights to access
+     * the specific directory. It also does not prevent constructions which would
+     * allow an attacker to reach a certain directory via ../../ constructions.
+     *
+     * @api
+     * @param   string  $basePath       base path where directory must reside in
+     * @param   string  $default        default value to fall back to
+     * @return  string
+     * @since   2.0.0
+     */
+    public function ifIsDirectory($basePath = null, $default = null)
+    {
+        $path = ((null != $basePath) ? ($basePath .'/') : (''));
+        return $this->withValidator(new DirectoryValidator($basePath),
+                                    'DIRECTORY_INVALID',
+                                    array('path' => $path . $this->param->getValue()),
+                                    $default
+        );
+    }
+
+
+    /**
+     * checks value with given validator
+     *
+     * If value does not satisfy the validator return value will be null.
+     *
+     * @api
+     * @param   Validator  $validator  validator to use
+     * @param   string     $default    default value to fall back to
+     * @return  string
+     */
+    public function withValidator(Validator $validator, $errorId, array $details = array(), $default = null)
+    {
+        return $this->handleFilter(function() use($validator, $errorId, $details)
+                                   {
+                                       return new ValidatingFilter($validator, $errorId, $details);
                                    },
                                    $default
         );
@@ -376,6 +516,19 @@ class ValueFilter extends BaseObject
         }
 
         return null;
+    }
+
+    /**
+     * returns value unvalidated
+     *
+     * This should be used with greatest care.
+     *
+     * @api
+     * @return  string
+     */
+    public function unsecure()
+    {
+        return $this->param->getValue();
     }
 }
 ?>

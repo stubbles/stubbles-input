@@ -14,7 +14,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[String] annotation.
  */
-class StringParamBroker extends MultipleSourceFilterBroker
+class StringParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

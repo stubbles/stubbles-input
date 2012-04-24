@@ -31,6 +31,7 @@ class PasswordFilterTestCase extends FilterTestCase
     {
         $this->passwordFilter = new PasswordFilter();
         $this->passwordFilter->minDiffChars(null);
+        parent::setUp();
     }
 
     /**
@@ -137,6 +138,53 @@ class PasswordFilterTestCase extends FilterTestCase
         $this->passwordFilter->minDiffChars(5)
                              ->apply($param);
         $this->assertTrue($param->hasError('PASSWORD_TOO_LESS_DIFF_CHARS'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asPasswordReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->required()->asPassword());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asPasswordAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->required()->asPassword();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asPasswordReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter('foo')->asPassword());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asPasswordAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter('foo')->asPassword();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asPasswordReturnsValidValue()
+    {
+        $this->assertEquals('abcde', $this->createValueFilter('abcde')->asPassword());
+
     }
 }
 ?>

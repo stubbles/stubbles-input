@@ -13,7 +13,6 @@ use net\stubbles\input\Param;
 use net\stubbles\input\ParamErrors;
 use net\stubbles\input\Params;
 use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\validator\ValueReader;
 use net\stubbles\input\validator\ValueValidator;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\peer\MalformedUriException;
@@ -165,7 +164,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * checks whether a request value from headers is valid or not
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  ValueValidator
      * @since   1.3.0
      */
     public function validateHeader($headerName)
@@ -177,22 +176,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\validator\ValueReader
+     * @return  ValueFilter
      * @since   1.3.0
      */
     public function readHeader($headerName)
-    {
-        return new ValueReader($this->headers->get($headerName));
-    }
-
-    /**
-     * returns request value from headers for filtering or validation
-     *
-     * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\filter\ValueFilter
-     * @since   2.0.0
-     */
-    public function filterHeader($headerName)
     {
         return new ValueFilter($this->headers->errors(),
                                $this->headers->get($headerName)
@@ -237,7 +224,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * checks whether a request value from cookie is valid or not
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  ValueValidator
      * @since   1.3.0
      */
     public function validateCookie($cookieName)
@@ -249,22 +236,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\validator\ValueReader
+     * @return  ValueFilter
      * @since   1.3.0
      */
     public function readCookie($cookieName)
-    {
-        return new ValueReader($this->cookies->get($cookieName));
-    }
-
-    /**
-     * returns request value from cookies for filtering or validation
-     *
-     * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\filter\ValueFilter
-     * @since   2.0.0
-     */
-    public function filterCookie($cookieName)
     {
         return new ValueFilter($this->cookies->errors(),
                                $this->cookies->get($cookieName)
@@ -289,7 +264,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * checks whether a request body is valid or not
      *
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  ValueValidator
      * @since   1.3.0
      */
     public function validateBody()
@@ -300,21 +275,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns request body for filtering or validation
      *
-     * @return  net\stubbles\input\validator\ValueReader
+     * @return  ValueFilter
      * @since   1.3.0
      */
     public function readBody()
-    {
-        return new ValueReader($this->parseBody());
-    }
-
-    /**
-     * returns request body for filtering or validation
-     *
-     * @return  net\stubbles\input\filter\ValueFilter
-     * @since   2.0.0
-     */
-    public function filterBody()
     {
         return new ValueFilter($this->bodyErrors(),
                                $this->parseBody()

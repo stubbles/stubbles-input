@@ -8,15 +8,15 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\validator\ValueReader;
-require_once __DIR__ . '/MultipleSourceReaderBrokerTestCase.php';
+use net\stubbles\input\filter\ValueFilter;
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\MailParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class MailParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
+class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -51,7 +51,7 @@ class MailParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );

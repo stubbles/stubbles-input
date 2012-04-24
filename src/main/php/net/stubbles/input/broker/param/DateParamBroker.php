@@ -15,7 +15,7 @@ use net\stubbles\lang\types\Date;
 /**
  * Filter boolean values based on a @Request[Date] annotation.
  */
-class DateParamBroker extends MultipleSourceFilterBroker
+class DateParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

@@ -46,7 +46,7 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
      */
     private function getStartDate(Request $request, Annotation $annotation)
     {
-        return $this->getFilterValue($request, $annotation->getStartName(), $annotation->isRequired())
+        return $this->readValue($request, $annotation->getStartName(), $annotation->isRequired())
                     ->asDate($this->parseDate($annotation, 'defaultStart'),
                              new DateRange($this->parseDate($annotation, 'minStartDate'),
                                            $this->parseDate($annotation, 'maxStartDate')
@@ -63,7 +63,7 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
      */
     private function getEndDate(Request $request, Annotation $annotation)
     {
-        return $this->getFilterValue($request, $annotation->getEndName(), $annotation->isRequired())
+        return $this->readValue($request, $annotation->getEndName(), $annotation->isRequired())
                     ->asDate($this->parseDate($annotation, 'defaultEnd'),
                              new DateRange($this->parseDate($annotation, 'minEndDate'),
                                            $this->parseDate($annotation, 'maxEndDate')
@@ -79,9 +79,9 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
      * @parsm   bool       $required
      * @return  net\stubbles\input\filter\FilterValue
      */
-    private function getFilterValue(Request $request, $paramName, $required)
+    private function readValue(Request $request, $paramName, $required)
     {
-        $valueFilter = $request->filterParam($paramName);
+        $valueFilter = $request->readParam($paramName);
         if ($required) {
             $valueFilter->required();
         }

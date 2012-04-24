@@ -53,20 +53,10 @@ class FileValidatorTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function validatesToFalseIfRelativeDisallowedAndValueContainsDots()
+    public function validatesToTrueIfRelativePathExists()
     {
         $fileValidator = new FileValidator(vfsStream::url('root/basic'));
-        $this->assertFalse($fileValidator->validate('../foo.txt'));
-    }
-
-    /**
-     * @test
-     */
-    public function validatesToTrueIfRelativeAllowedAndValueContainsDots()
-    {
-        $fileValidator = new FileValidator(vfsStream::url('root/basic'));
-        $this->assertTrue($fileValidator->allowRelative()
-                                        ->validate('../foo.txt'));
+        $this->assertTrue($fileValidator->validate('../foo.txt'));
     }
 
     /**

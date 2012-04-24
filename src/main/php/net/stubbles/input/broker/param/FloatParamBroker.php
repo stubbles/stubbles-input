@@ -14,7 +14,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter float values based on a @Request[Float] annotation.
  */
-class FloatParamBroker extends MultipleSourceFilterBroker
+class FloatParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

@@ -8,6 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\input\filter\range\DateRange;
+use net\stubbles\lang\types\Date;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\DateFilter.
@@ -29,6 +31,7 @@ class DateFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->dateFilter = new DateFilter();
+        parent::setUp();
     }
 
     /**
@@ -83,6 +86,101 @@ class DateFilterTestCase extends FilterTestCase
         $param = $this->createParam('invalid date');
         $this->dateFilter->apply($param);
         $this->assertTrue($param->hasError('DATE_INVALID'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asDate());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $default = Date::now();
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)
+                                 ->asDate($default)
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->required()->asDate());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->required()->asDate();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter('foo')->asDate());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter('foo')->asDate();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asDateReturnsValidValue()
+    {
+        $this->assertEquals('2012-03-11',
+                            $this->createValueFilter('2012-03-11')
+                                 ->asDate()
+                                 ->format('Y-m-d')
+        );
+
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateReturnsNullIfParamIsOutOfRange()
+    {
+        $this->assertNull($this->createValueFilter(new Date('yesterday'))
+                               ->asDate(null, new DateRange(Date::now(), null))
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asDateAddsParamErrorIfParamIsOutOfRange()
+    {
+        $this->createValueFilter(new Date('yesterday'))
+             ->asDate(null, new DateRange(Date::now(), null));
+        $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 }
 ?>

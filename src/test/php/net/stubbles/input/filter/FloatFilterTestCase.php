@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\input\filter\range\NumberRange;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\FloatFilter.
@@ -69,6 +70,80 @@ class FloatFilterTestCase extends FilterTestCase
     {
         $floatFilter = new FloatFilter();
         $this->assertEquals(1.564, $floatFilter->apply($this->createParam('1.564')));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asFloat());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals(3.03, $this->createValueFilter(null)->asFloat(3.03));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->required()->asFloat());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->required()->asFloat();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter(2.5)->asFloat(null, new NumberRange(5, null)));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asFloatAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter(2.5)->asFloat(null, new NumberRange(5, null));
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asFloatReturnsValidValue()
+    {
+        $this->assertEquals(3.13, $this->createValueFilter('3.13')->asFloat());
+
+    }
+
+    /**
+     * @test
+     */
+    public function asFloatReturnsValidValueUsingDecimals()
+    {
+        $this->assertEquals(313, $this->createValueFilter('3.13')->asFloat(null, null, 2));
+
     }
 }
 ?>

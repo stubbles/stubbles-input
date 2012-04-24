@@ -13,7 +13,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Bool] annotation.
  */
-class BoolParamBroker extends MultipleSourceFilterBroker
+class BoolParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

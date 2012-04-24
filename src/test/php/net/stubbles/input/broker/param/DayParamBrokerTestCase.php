@@ -10,14 +10,14 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\types\datespan\Day;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\DayParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class DayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class DayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment

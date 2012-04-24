@@ -280,9 +280,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueReader()
+    public function readParamReturnsValueFilter()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readParam('foo')
         );
     }
@@ -290,30 +290,10 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueReaderForNonExistingParam()
+    public function readParamReturnsValueFilterForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readParam('baz')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterParamReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterParam('foo')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterParamReturnsValueFilterForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterParam('baz')
         );
     }
 
@@ -376,9 +356,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readHeaderReturnsValueReader()
+    public function readHeaderReturnsValueFilter()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readHeader('HTTP_ACCEPT')
         );
     }
@@ -386,30 +366,10 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readHeaderReturnsValueReaderForNonExistingParam()
+    public function readHeaderReturnsValueFilterForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readHeader('baz')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterHeaderReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterHeader('HTTP_ACCEPT')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterHeaderReturnsValueFilterForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterHeader('baz')
         );
     }
 
@@ -472,9 +432,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readCookieReturnsValueReader()
+    public function readCookieReturnsValueFilter()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readCookie('chocolateChip')
         );
     }
@@ -482,34 +442,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readCookieReturnsValueReaderForNonExistingParam()
+    public function readCookieReturnsValueFilterForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readCookie('baz')
         );
     }
-
-    /**
-     * @test
-     */
-    public function filterCookieReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterCookie('chocolateChip')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterCookieReturnsValueFilterForNonExistingParam()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterCookie('baz')
-        );
-    }
-
-
 
     /**
      * @test
@@ -534,9 +472,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readBodyReturnsValueReader()
+    public function readBodyReturnsValueFilter()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueReader',
+        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
                                 $this->baseWebRequest->readBody()
         );
     }
@@ -548,16 +486,6 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('request body',
                             $this->baseWebRequest->readBody()->unsecure()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function filterBodyReturnsValueFilter()
-    {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
-                                $this->baseWebRequest->filterBody()
         );
     }
 }

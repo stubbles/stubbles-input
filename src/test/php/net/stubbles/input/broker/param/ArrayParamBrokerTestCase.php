@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\ArrayParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -124,7 +124,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterHeader')
+                    ->method('readHeader')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
@@ -141,7 +141,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterCookie')
+                    ->method('readCookie')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),

@@ -9,41 +9,25 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ParamError;
-use net\stubbles\input\validator\ValueReader;
+use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Read string values based on a @Request[Directory] annotation.
  */
-class DirectoryParamBroker extends MultipleSourceReaderBroker
+class DirectoryParamBroker extends MultipleSourceParamBroker
 {
     /**
-     * reads single param
+     * filters single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
+     * @param   ValueFilter  $valueFilter  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  mixed
      */
-    protected function read(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
     {
-        return $valueReader->ifIsDirectory($annotation->getBasePath(),
-                                           $annotation->getDefault(),
-                                           $this->allowRelative($annotation)
+        return $valueFilter->ifIsDirectory($annotation->getBasePath(),
+                                           $annotation->getDefault()
         );
-    }
-
-    /**
-     * checks whether relative pathes are allowed
-     *
-     * @param   Annotation  $annotation
-     * @return  bool
-     */
-    private function allowRelative(Annotation $annotation)
-    {
-        if ($annotation->hasValueByName('allowRelative')) {
-            return $annotation->allowRelative();
-        }
-
-        return false;
     }
 }
 ?>

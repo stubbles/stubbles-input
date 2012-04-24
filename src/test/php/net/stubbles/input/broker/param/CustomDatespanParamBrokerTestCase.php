@@ -62,11 +62,11 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\Request');
         $mockRequest->expects($this->at(0))
-                    ->method('filterParam')
+                    ->method('readParam')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue($startValue));
         $mockRequest->expects($this->at(1))
-                    ->method('filterParam')
+                    ->method('readParam')
                     ->with($this->equalTo('bar'))
                     ->will($this->returnValue($endValue));
         return $mockRequest;

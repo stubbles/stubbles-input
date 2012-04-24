@@ -16,7 +16,7 @@ use net\stubbles\lang\types\datespan\Day;
 /**
  * Filter boolean values based on a @Request[Day] annotation.
  */
-class DayParamBroker extends MultipleSourceFilterBroker
+class DayParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

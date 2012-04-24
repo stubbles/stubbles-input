@@ -9,6 +9,7 @@
  */
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
+use net\stubbles\input\ParamErrors;
 /**
  * Base class for tests of net\stubbles\input\filter\Filter instances.
  *
@@ -16,6 +17,21 @@ use net\stubbles\input\Param;
  */
 abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * list of param errors
+     *
+     * @type  ParamErrors
+     */
+    protected $paramErrors;
+
+    /**
+     * set up test environment
+     */
+    public function setUp()
+    {
+        $this->paramErrors = new ParamErrors();
+    }
+
     /**
      * creates param
      *
@@ -25,6 +41,30 @@ abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
     protected function createParam($value)
     {
         return new Param('test', $value);
+    }
+
+    /**
+     * helper function to create request value instance
+     *
+     * @param   string  $value
+     * @return  ValueFilter
+     */
+    protected function createValueFilter($value)
+    {
+        return $this->createValueFilterWithParam(new Param('bar', $value));
+    }
+
+    /**
+     * helper function to create request value instance
+     *
+     * @param   Param  $param
+     * @return  ValueFilter
+     */
+    protected function createValueFilterWithParam(Param $param)
+    {
+        return new ValueFilter($this->paramErrors,
+                               $param
+               );
     }
 }
 ?>

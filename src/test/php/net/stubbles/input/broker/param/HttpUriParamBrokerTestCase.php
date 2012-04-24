@@ -10,14 +10,14 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\peer\http\HttpUri;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\HttpUriParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment

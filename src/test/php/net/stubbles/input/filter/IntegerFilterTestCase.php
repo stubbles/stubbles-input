@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\input\filter\range\NumberRange;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\IntegerFilter.
@@ -42,6 +43,72 @@ class IntegerFilterTestCase extends FilterTestCase
         $integerFilter = new IntegerFilter();
         $this->assertEquals($expected,
                             $integerFilter->apply($this->createParam($value)));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntReturnsNullIfParamIsNullAndNotRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->asInt());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals(303, $this->createValueFilter(null)->asInt(303));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->required()->asInt());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->required()->asInt();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter(4)->asInt(null, new NumberRange(5, null)));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asIntAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter(4)->asInt(null, new NumberRange(5, null)
+        );
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asIntReturnsValidValue()
+    {
+        $this->assertEquals(313, $this->createValueFilter('313')->asInt());
+
     }
 }
 ?>

@@ -14,7 +14,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter passwords based on a @Request[Password] annotation.
  */
-class PasswordParamBroker extends MultipleSourceFilterBroker
+class PasswordParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

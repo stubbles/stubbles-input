@@ -14,7 +14,7 @@ use net\stubbles\peer\http\HttpUri;
 /**
  * Filter http uris based on a @Request[HttpUri] annotation.
  */
-class HttpUriParamBroker extends MultipleSourceFilterBroker
+class HttpUriParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

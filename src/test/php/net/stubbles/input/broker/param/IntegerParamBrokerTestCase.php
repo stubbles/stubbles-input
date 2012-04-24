@@ -9,14 +9,14 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\IntegerParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class IntegerParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment

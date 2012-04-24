@@ -14,7 +14,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter integer values based on a @Request[Integer] annotation.
  */
-class IntegerParamBroker extends MultipleSourceFilterBroker
+class IntegerParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param

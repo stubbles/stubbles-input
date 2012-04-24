@@ -58,7 +58,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
     public function providerReturnsUserAgent()
     {
         $this->mockWebRequest->expects($this->once())
-                             ->method('filterHeader')
+                             ->method('readHeader')
                              ->with($this->equalTo('HTTP_USER_AGENT'))
                              ->will($this->returnValue(ValueFilter::mockForValue('foo')));
         $this->mockWebRequest->expects($this->once())
@@ -74,7 +74,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
     public function providerReturnsBotUserAgent()
     {
         $this->mockWebRequest->expects($this->once())
-                             ->method('filterHeader')
+                             ->method('readHeader')
                              ->with($this->equalTo('HTTP_USER_AGENT'))
                              ->will($this->returnValue(ValueFilter::mockForValue('Googlebot /v1.1')));
         $this->mockWebRequest->expects($this->once())

@@ -29,6 +29,7 @@ class JsonFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->jsonFilter = new JsonFilter();
+        parent::setUp();
     }
 
     /**
@@ -160,6 +161,64 @@ class JsonFilterTestCase extends FilterTestCase
         $param = $this->createParam('"foo"');
         $this->jsonFilter->apply($param);
         $this->assertTrue($param->hasError('JSON_INVALID'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asJsonReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $default = array('foo' => 'bar');
+        $this->assertEquals($default,
+                            $this->createValueFilter(null)->asJson($default)
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asJsonReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueFilter(null)->required()->asJson());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asJsonAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueFilter(null)->required()->asJson();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asJsonReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueFilter('foo')->asJson());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asJsonAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueFilter('foo')->asJson();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asJsonReturnsValidValue() {
+        $value = array('foo', 'bar');
+        $this->assertEquals($value, $this->createValueFilter(json_encode($value))->asJson());
     }
 }
 ?>

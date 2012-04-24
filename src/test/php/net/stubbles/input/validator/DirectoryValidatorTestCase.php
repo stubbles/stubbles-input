@@ -55,20 +55,10 @@ class DirectoryValidatorTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function validatesToFalseIfRelativeDisallowedAndValueContainsDots()
+    public function validatesToTrueForRelativePath()
     {
         $directoryValidator = new DirectoryValidator(vfsStream::url('root/basic'));
-        $this->assertFalse($directoryValidator->validate('../other'));
-    }
-
-    /**
-     * @test
-     */
-    public function validatesToTrueIfRelativeAllowedAndValueContainsDots()
-    {
-        $directoryValidator = new DirectoryValidator(vfsStream::url('root/basic'));
-        $this->assertTrue($directoryValidator->allowRelative()
-                                             ->validate('../other'));
+        $this->assertTrue($directoryValidator->validate('../other'));
     }
 
     /**
