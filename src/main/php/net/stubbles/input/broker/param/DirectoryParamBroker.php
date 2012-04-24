@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\ParamError;
 use net\stubbles\input\validator\ValueReader;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
@@ -28,6 +29,17 @@ class DirectoryParamBroker extends MultipleSourceReaderBroker
                                            $annotation->getDefault(),
                                            $this->allowRelative($annotation)
         );
+    }
+
+    /**
+     * creates param error in case value is not set
+     *
+     * @param   Annotation   $annotation
+     * @return  string
+     */
+    protected function getEmpyParamError(Annotation $annotation)
+    {
+        return new ParamError($annotation->getEmptyParamErrorId('DIRECTORY_NOT_EMPTY'));
     }
 
     /**

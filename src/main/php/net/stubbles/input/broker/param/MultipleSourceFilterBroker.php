@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Request;
 use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -17,13 +18,16 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 abstract class MultipleSourceFilterBroker extends MultipleSourceParamBroker
 {
     /**
-     * returns type: filter or read
+     * handles single param
      *
-     * @return  string
+     * @param   Request     $request     instance to handle value with
+     * @param   Annotation  $annotation  annotation which contains request param metadata
+     * @return  mixed
      */
-    protected function getBrokerType()
+    public function procure(Request $request, Annotation $annotation)
     {
-        return 'filter';
+        $method = $this->getMethod($request, $annotation, 'filter');
+        return $this->filter($request->$method($annotation->getName()), $annotation);
     }
 
     /**
