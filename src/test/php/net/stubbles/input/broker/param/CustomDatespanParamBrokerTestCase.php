@@ -89,6 +89,32 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function returnsNullIfStartDateInvalid()
+    {
+        $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('invalid',
+                                                                                       '2012-04-21'
+                                                                    ),
+                                                                    $this->createRequestAnnotation(array('required' => true))
+                          )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsNullIfEndDateInvalid()
+    {
+        $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('2012-02-05',
+                                                                                       'invalid'
+                                                                    ),
+                                                                    $this->createRequestAnnotation(array('required' => true))
+                          )
+        );
+    }
+
+    /**
+     * @test
+     */
     public function returnsNullIfStartDateIsMissing()
     {
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(null,
