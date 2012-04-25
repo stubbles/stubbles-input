@@ -42,7 +42,13 @@ class ValueReader extends BaseObject
      *
      * @type  bool
      */
-    private $required    = false;
+    private $required        = false;
+    /**
+     * error id to be used if param is required but empty
+     *
+     * @type  string
+     */
+    private $requiredErrorId = 'FIELD_EMPTY';
 
     /**
      * constructor
@@ -60,7 +66,7 @@ class ValueReader extends BaseObject
      * create instance as mock with empty param errors
      *
      * @param   string  $paramValue
-     * @return  ValueFilter
+     * @return  ValueReader
      */
     public static function forValue($paramValue)
     {
@@ -70,11 +76,13 @@ class ValueReader extends BaseObject
     /**
      * whether value is required or not
      *
-     * @return  ValueFilter
+     * @param   string  $errorId
+     * @return  ValueReader
      */
-    public function required()
+    public function required($errorId = 'FIELD_EMPTY')
     {
-        $this->required = true;
+        $this->required        = true;
+        $this->requiredErrorId = $errorId;
         return $this;
     }
 
@@ -456,7 +464,7 @@ class ValueReader extends BaseObject
     {
         if ($this->param->isNull()) {
             if ($this->required) {
-                $this->paramErrors->add(new ParamError('FIELD_EMPTY'), $this->param->getName());
+                $this->paramErrors->add(new ParamError($this->requiredErrorId), $this->param->getName());
                 return null;
             }
 
@@ -481,7 +489,7 @@ class ValueReader extends BaseObject
     public function withFilter(Filter $filter)
     {
         if ($this->required && $this->param->isEmpty()) {
-            $this->paramErrors->add(new ParamError('FIELD_EMPTY'), $this->param->getName());
+            $this->paramErrors->add(new ParamError($this->requiredErrorId), $this->param->getName());
             return null;
         }
 

@@ -230,6 +230,15 @@ class ValueFilterTestCase extends filter\FilterTestCase
     /**
      * @test
      */
+    public function ifSatisfiesRegexAddsParamErrorWithDifferentErrorId()
+    {
+        $this->createValueReader(null)->required('OTHER')->ifSatisfiesRegex('/[a-zA-Z]{9}/');
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
+    }
+
+    /**
+     * @test
+     */
     public function returnsNullIfParamHasErrors()
     {
         $param = new Param('bar', 'foo');
@@ -268,6 +277,16 @@ class ValueFilterTestCase extends filter\FilterTestCase
                    ->method('apply')
                    ->will($this->returnValue('foo'));
         $this->assertEquals('foo', $this->createValueReader('foo')->withFilter($mockFilter));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function canChangeRequiredParamErrorId()
+    {
+        $this->createValueReader(null)->required('OTHER')->withFilter($this->getMock('net\\stubbles\\input\\Filter'));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
     }
 
     /**
