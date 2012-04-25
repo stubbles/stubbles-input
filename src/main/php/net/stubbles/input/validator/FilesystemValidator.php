@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\validator;
+use net\stubbles\input\Validator;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\IllegalArgumentException;
 /**
@@ -19,25 +20,11 @@ use net\stubbles\lang\exception\IllegalArgumentException;
 abstract class FilesystemValidator extends BaseObject implements Validator
 {
     /**
-     * allows relative values
-     */
-    const WITH_RELATIVE    = true;
-    /**
-     * disallows relative values
-     */
-    const NO_RELATIVE      = false;
-    /**
      * base path where file must reside in
      *
      * @type  string
      */
     private $basePath;
-    /**
-     * switch whether relative pathes are allowed
-     *
-     * @type  string
-     */
-    private $allowRelative = self::NO_RELATIVE;
 
     /**
      * constructor
@@ -53,17 +40,6 @@ abstract class FilesystemValidator extends BaseObject implements Validator
     }
 
     /**
-     * allow relative values
-     *
-     * @return  FilesystemValidator
-     */
-    public function allowRelative()
-    {
-        $this->allowRelative = self::WITH_RELATIVE;
-        return $this;
-    }
-
-    /**
      * validate that the given value is represents an existing path
      *
      * @param   string|null  $value
@@ -76,10 +52,6 @@ abstract class FilesystemValidator extends BaseObject implements Validator
         }
 
         if (null !== $this->basePath) {
-            if (!$this->allowRelative && strstr($value, '..')) {
-                return false;
-            }
-
             return $this->fileExists($this->basePath . '/' . $value);
         }
 

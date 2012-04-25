@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Request;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -24,17 +24,34 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
      * @param   Request     $request     instance to handle value with
      * @param   Annotation  $annotation  annotation which contains request param metadata
      * @return  mixed
-     * @throws  RuntimeException
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $type   = $this->getBrokerType();
-        $method = $type . $this->getSource($annotation);
+        $method      = $this->getMethod($request, $annotation);
+        $valueFilter = $request->$method($annotation->getName());
+        if ($annotation->isRequired()) {
+            $valueFilter->required($annotation->getRequiredErrorId('FIELD_EMPTY'));
+        }
+
+        return $this->filter($valueFilter, $annotation);
+    }
+
+    /**
+     * retrieves method to call on request instance
+     *
+     * @param   Request     $request
+     * @param   Annotation  $annotation
+     * @return  string
+     * @throws  RuntimeException
+     */
+    private function getMethod(Request $request, Annotation $annotation)
+    {
+        $method = 'read' . $this->getSource($annotation);
         if (!method_exists($request, $method)) {
             throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . $request->getClassName());
         }
 
-        return $this->$type($request->$method($annotation->getName()), $annotation);
+        return $method;
     }
 
     /**
@@ -53,10 +70,12 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
     }
 
     /**
-     * returns type: filter or read
+     * filters single param
      *
-     * @return  string
+     * @param   ValueReader  $valueReader  instance to filter value with
+     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @return  mixed
      */
-    protected abstract function getBrokerType();
+    protected abstract function filter(ValueReader $valueReader, Annotation $annotation);
 }
 ?>

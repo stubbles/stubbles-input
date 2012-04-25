@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\FloatParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -52,7 +51,7 @@ class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals(3.03,
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => 3.03))
                           )
         );
@@ -63,7 +62,7 @@ class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -74,7 +73,7 @@ class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfLowerThanMinValue()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('3.03')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
                                                       $this->createRequestAnnotation(array('minValue' => 4))
                           )
         );
@@ -85,7 +84,7 @@ class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfGreaterThanMaxValue()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('3.03')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
                                                       $this->createRequestAnnotation(array('maxValue' => 3))
                           )
         );
@@ -97,7 +96,7 @@ class FloatParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueIfInRange()
     {
         $this->assertEquals(3.03,
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('3.03')),
+                            $this->paramBroker->procure($this->mockRequest('3.03'),
                                                         $this->createRequestAnnotation(array('minValue' => 3,
                                                                                             'maxValue' => 4
                                                                                       )

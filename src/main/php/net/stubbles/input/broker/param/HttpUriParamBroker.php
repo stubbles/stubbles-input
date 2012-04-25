@@ -8,31 +8,43 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\ValueExpectation;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\peer\http\HttpUri;
 /**
  * Filter http uris based on a @Request[HttpUri] annotation.
  */
-class HttpUriParamBroker extends MultipleSourceFilterBroker
+class HttpUriParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  HttpUri
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        $expect = new ValueExpectation($annotation->isRequired());
-        $expect->useDefault(HttpUri::fromString($annotation->getDefault()));
         if ($annotation->hasValueByName('dnsCheck') && $annotation->dnsCheck()) {
-            return $valueFilter->asExistingHttpUri($expect);
+            return $valueReader->asExistingHttpUri($this->getDefault($annotation));
         }
 
-        return $valueFilter->asHttpUri($expect);
+        return $valueReader->asHttpUri($this->getDefault($annotation));
+    }
+
+    /**
+     * returns default value provided by annotation
+     *
+     * @param   Annotation  $annotation
+     * @return  HttpUri
+     */
+    private function getDefault(Annotation $annotation)
+    {
+        if ($annotation->hasValueByName('default')) {
+            return HttpUri::fromString($annotation->getDefault());
+        }
+
+        return null;
     }
 }
 ?>

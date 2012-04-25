@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\peer\http\HttpUri;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\HttpUriFilter.
@@ -30,6 +31,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->httpUriFilter = new HttpUriFilter();
+        parent::setUp();
     }
 
     /**
@@ -131,6 +133,134 @@ class HttpUrlFilterTestCase extends FilterTestCase
         $this->httpUriFilter->enforceDnsRecord()
                             ->apply($param);
         $this->assertTrue($param->hasError('HTTP_URI_NOT_AVAILABLE'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('http://example.com/',
+                            $this->createValueReader(null)
+                                 ->asHttpUri(HttpUri::fromString('http://example.com/'))
+                                 ->asString()
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asHttpUriReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->asHttpUri());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asHttpUriAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->asHttpUri();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asHttpUriReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueReader('foo')->asHttpUri());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asHttpUriAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueReader('foo')->asHttpUri();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function asHttpUriReturnsValidValue()
+    {
+        $this->assertEquals('http://example.com/',
+                            $this->createValueReader('http://example.com/')
+                                 ->asHttpUri()
+                                 ->asString()
+        );
+
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('http://example.com/',
+                            $this->createValueReader(null)
+                                 ->asExistingHttpUri(HttpUri::fromString('http://example.com/'))
+                                 ->asString()
+        );
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->asExistingHttpUri());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->asExistingHttpUri();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueReader('foo')->asExistingHttpUri());
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueReader('foo')->asExistingHttpUri();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @since  2.0.0
+     * @test
+     */
+    public function asExistingHttpUriReturnsValidValue()
+    {
+        $this->assertEquals('http://localhost/',
+                            $this->createValueReader('http://localhost/')
+                                 ->asExistingHttpUri()
+                                 ->asString()
+        );
     }
 }
 ?>

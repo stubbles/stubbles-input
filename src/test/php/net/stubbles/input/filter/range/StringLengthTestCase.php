@@ -7,31 +7,29 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\expectation;
+namespace net\stubbles\input\filter\range;
 /**
- * Tests for net\stubbles\input\filter\expectation\StringExpectation.
+ * Tests for net\stubbles\input\filter\range\StringLength.
  *
  * @since  2.0.0
  * @group  filter
- * @group  filter_expectation
+ * @group  filter_range
  */
-class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
+class StringLengthTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  StringExpectation
+     * @type  StringLength
      */
-    private $stringExpectation;
+    private $stringLength;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->stringExpectation = StringExpectation::create()
-                                                    ->minLength(1)
-                                                    ->maxLength(10);
+        $this->stringLength = new StringLength(1, 10);
     }
 
     /**
@@ -39,10 +37,8 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
     {
-        $this->assertFalse(StringExpectation::create()
-                                            ->maxLength(10)
-                                            ->belowMinBorder('')
-        );
+        $stringLength = new StringLength(null, 10);
+        $this->assertFalse($stringLength->belowMinBorder(''));
     }
 
     /**
@@ -50,7 +46,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
     {
-        $this->assertTrue($this->stringExpectation->belowMinBorder(''));
+        $this->assertTrue($this->stringLength->belowMinBorder(''));
     }
 
     /**
@@ -58,7 +54,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsTrueIfValueIsNull()
     {
-        $this->assertTrue($this->stringExpectation->belowMinBorder(null));
+        $this->assertTrue($this->stringLength->belowMinBorder(null));
     }
 
     /**
@@ -66,7 +62,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
     {
-        $this->assertFalse($this->stringExpectation->belowMinBorder('a'));
+        $this->assertFalse($this->stringLength->belowMinBorder('a'));
     }
 
     /**
@@ -74,7 +70,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
     {
-        $this->assertFalse($this->stringExpectation->belowMinBorder('ab'));
+        $this->assertFalse($this->stringLength->belowMinBorder('ab'));
     }
 
     /**
@@ -82,7 +78,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
     {
-        $this->assertFalse($this->stringExpectation->belowMinBorder('abcdefghijk'));
+        $this->assertFalse($this->stringLength->belowMinBorder('abcdefghijk'));
     }
 
     /**
@@ -90,10 +86,8 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
     {
-        $this->assertFalse(StringExpectation::create()
-                                            ->minLength(0)
-                                            ->aboveMaxBorder('abcdefghi')
-        );
+        $stringLength = new StringLength(0, null);
+        $this->assertFalse($stringLength->aboveMaxBorder('abcdefghi'));
     }
 
     /**
@@ -101,7 +95,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
     {
-        $this->assertFalse($this->stringExpectation->aboveMaxBorder('abcdefghi'));
+        $this->assertFalse($this->stringLength->aboveMaxBorder('abcdefghi'));
     }
 
     /**
@@ -109,7 +103,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
     {
-        $this->assertFalse($this->stringExpectation->aboveMaxBorder('abcdefghij'));
+        $this->assertFalse($this->stringLength->aboveMaxBorder('abcdefghij'));
     }
 
     /**
@@ -117,7 +111,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
     {
-        $this->assertFalse($this->stringExpectation->aboveMaxBorder(''));
+        $this->assertFalse($this->stringLength->aboveMaxBorder(''));
     }
 
     /**
@@ -125,7 +119,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsFalseIfValueIsNull()
     {
-        $this->assertFalse($this->stringExpectation->aboveMaxBorder(null));
+        $this->assertFalse($this->stringLength->aboveMaxBorder(null));
     }
 
     /**
@@ -133,7 +127,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
      */
     public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
     {
-        $this->assertTrue($this->stringExpectation->aboveMaxBorder('abcdefghijk'));
+        $this->assertTrue($this->stringLength->aboveMaxBorder('abcdefghijk'));
     }
 
     /**
@@ -142,7 +136,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
     public function createsMinParamError()
     {
         $this->assertEquals('STRING_TOO_SHORT',
-                            $this->stringExpectation->getMinParamError()->getId()
+                            $this->stringLength->getMinParamError()->getId()
         );
     }
 
@@ -152,7 +146,7 @@ class StringExpectationTestCase extends \PHPUnit_Framework_TestCase
     public function createsMaxParamError()
     {
         $this->assertEquals('STRING_TOO_LONG',
-                            $this->stringExpectation->getMaxParamError()->getId()
+                            $this->stringLength->getMaxParamError()->getId()
         );
     }
 }

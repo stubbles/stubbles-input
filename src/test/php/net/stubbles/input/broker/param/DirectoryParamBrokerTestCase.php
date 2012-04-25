@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\validator\ValueReader;
-require_once __DIR__ . '/MultipleSourceReaderBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\DirectoryParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class DirectoryParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
+class DirectoryParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -52,7 +51,7 @@ class DirectoryParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals('/home/user',
-                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => '/home/user'))
                             )
         );
@@ -64,23 +63,12 @@ class DirectoryParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function considersRelativeWhenBasePathGiven()
     {
         $this->assertEquals('../',
-                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../')),
+                            $this->paramBroker->procure($this->mockRequest('../'),
                                                         $this->createRequestAnnotation(array('basePath'      => __DIR__,
                                                                                              'allowRelative' => true
                                                                                        )
                                                         )
                             )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function doesNotAllowRelativeByDefault()
-    {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../')),
-                                                      $this->createRequestAnnotation(array('basePath' => __DIR__))
-                          )
         );
     }
 }

@@ -7,20 +7,18 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter\expectation;
+namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\input\filter\Range;
-use net\stubbles\lang\exception\IllegalArgumentException;
+use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
-use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 /**
- * Description of a date expectation.
+ * Description of a date range.
  *
  * @api
  * @since  2.0.0
  */
-class DateExpectation extends ValueExpectation implements Range
+class DateRange extends BaseObject implements Range
 {
     /**
      * minimum date
@@ -36,90 +34,15 @@ class DateExpectation extends ValueExpectation implements Range
     private $maxDate;
 
     /**
-     * creates instance from an annotation
+     * constructor
      *
-     * @param   Annotation  $annotation
-     * @return  DateExpectation
+     * @param  Date  $minDate
+     * @param  Date  $maxDate
      */
-    public static function fromAnnotation(Annotation $annotation)
-    {
-        if ($annotation->isRequired()) {
-            $self = self::createAsRequired();
-        } else {
-            $self = self::create();
-        }
-
-        return $self->useDefault($annotation->getDefault());
-    }
-
-    /**
-     * creates an expectation where a value is required
-     *
-     * @return  DateExpectation
-     */
-    public static function createAsRequired()
-    {
-        return new self(true);
-    }
-
-    /**
-     * creates an expectation where no value is required
-     *
-     * @return  DateExpectation
-     */
-    public static function create()
-    {
-        return new self(false);
-    }
-
-    /**
-     * use default value if no value available
-     *
-     * @param   Date|string  $default
-     * @return  DateExpectation
-     * @throws  IllegalArgumentException
-     */
-    public function useDefault($default)
-    {
-        if (null === $default) {
-            return $this;
-        }
-
-        if (is_string($default)) {
-            $this->default = new Date($default);
-            return $this;
-        }
-
-        if (($default instanceof Date)) {
-            $this->default = $default;
-            return $this;
-        }
-
-        throw new IllegalArgumentException('Given default value must be a string representing a date or a date instance.');
-    }
-
-    /**
-     * sets minimum date
-     *
-     * @param   Date  $minDate  earliest allowed date
-     * @return  DateExpectation
-     */
-    public function notBefore(Date $minDate)
+    public function __construct(Date $minDate = null, Date $maxDate = null)
     {
         $this->minDate = $minDate;
-        return $this;
-    }
-
-    /**
-     * sets maximum date
-     *
-     * @param   Date  $maxDate  latest allowed date
-     * @return  DateExpectation
-     */
-    public function notAfter($maxDate)
-    {
         $this->maxDate = $maxDate;
-        return $this;
     }
 
     /**

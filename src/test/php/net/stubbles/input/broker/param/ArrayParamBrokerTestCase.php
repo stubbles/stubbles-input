@@ -8,15 +8,15 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+use net\stubbles\input\ValueReader;
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\ArrayParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -52,7 +52,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals(array('foo', 'bar'),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => 'foo|bar'))
                             )
         );
@@ -64,7 +64,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueWithDifferentSeparator()
     {
         $this->assertEquals(array('foo', 'bar'),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo|bar')),
+                            $this->paramBroker->procure($this->mockRequest('foo|bar'),
                                                         $this->createRequestAnnotation(array('separator' => '|'))
                             )
         );
@@ -75,7 +75,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -87,7 +87,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsEmptyArrayForEmptyValue()
     {
         $this->assertEquals(array(),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('')),
+                            $this->paramBroker->procure($this->mockRequest(''),
                                                         $this->createRequestAnnotation(array())
                             )
         );
@@ -99,7 +99,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesParamAsDefaultSource()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
+                            $this->paramBroker->procure($this->mockRequest('foo, bar'),
                                                         $this->createRequestAnnotation(array())
                             )
         );
@@ -111,7 +111,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesParamAsSource()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('foo, bar')),
+                            $this->paramBroker->procure($this->mockRequest('foo, bar'),
                                                         $this->createRequestAnnotation(array('source' => 'param'))
                             )
         );
@@ -124,9 +124,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterHeader')
+                    ->method('readHeader')
                     ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
+                    ->will($this->returnValue(ValueReader::forValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
                                                         $this->createRequestAnnotation(array('source' => 'header'))
@@ -141,9 +141,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     {
         $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
         $mockRequest->expects($this->once())
-                    ->method('filterCookie')
+                    ->method('readCookie')
                     ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueFilter::mockForValue('foo, bar')));
+                    ->will($this->returnValue(ValueReader::forValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
                                                         $this->createRequestAnnotation(array('source' => 'cookie'))

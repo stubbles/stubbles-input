@@ -4,7 +4,7 @@
         {
             "package": "stubbles/core",
             "version": "dev-master",
-            "source-reference": "0ebd7e42471e1c8c961b15e8a96c5a9dcea79d74"
+            "source-reference": "d3007e999042bc5fc08f73029f5b20e1f92d8200"
         },
         {
             "package": "stubbles/scripts",

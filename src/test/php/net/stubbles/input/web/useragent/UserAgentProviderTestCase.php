@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\web\useragent;
 use net\stubbles\input\Param;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 /**
  * Test for net\stubbles\input\web\useragent\UserAgentProvider.
  *
@@ -58,9 +58,9 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
     public function providerReturnsUserAgent()
     {
         $this->mockWebRequest->expects($this->once())
-                             ->method('filterHeader')
+                             ->method('readHeader')
                              ->with($this->equalTo('HTTP_USER_AGENT'))
-                             ->will($this->returnValue(ValueFilter::mockForValue('foo')));
+                             ->will($this->returnValue(ValueReader::forValue('foo')));
         $this->mockWebRequest->expects($this->once())
                              ->method('getCookieNames')
                              ->will($this->returnValue(array('chocolateChip')));
@@ -74,9 +74,9 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
     public function providerReturnsBotUserAgent()
     {
         $this->mockWebRequest->expects($this->once())
-                             ->method('filterHeader')
+                             ->method('readHeader')
                              ->with($this->equalTo('HTTP_USER_AGENT'))
-                             ->will($this->returnValue(ValueFilter::mockForValue('Googlebot /v1.1')));
+                             ->will($this->returnValue(ValueReader::forValue('Googlebot /v1.1')));
         $this->mockWebRequest->expects($this->once())
                              ->method('getCookieNames')
                              ->will($this->returnValue(array()));

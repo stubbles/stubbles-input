@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\BoolParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class BoolParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -51,7 +50,7 @@ class BoolParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertTrue($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertTrue($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('default' => true))
                           )
         );

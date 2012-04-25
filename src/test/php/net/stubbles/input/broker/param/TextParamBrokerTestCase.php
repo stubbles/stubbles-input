@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\TextParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -52,7 +51,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals('No Mr Bond, I expect you to die!',
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
                           )
         );
@@ -63,7 +62,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -74,7 +73,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfShorterThanMinLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                                                       $this->createRequestAnnotation(array('minLength' => 40))
                           )
         );
@@ -85,7 +84,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfLongerThanMaxLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                                                       $this->createRequestAnnotation(array('maxLength' => 10))
                           )
         );
@@ -97,7 +96,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueIfInRange()
     {
         $this->assertEquals('Do you expect me to talk?',
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
+                            $this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                                                         $this->createRequestAnnotation(array('minLength' => 10,
                                                                                             'maxLength' => 40
                                                                                       )
@@ -112,7 +111,7 @@ class TextParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueWithTagsIfAllowed()
     {
         $this->assertEquals('Do <u>you</u> expect me to <b>talk</b>?',
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do <u>you</u> expect me to <b>talk</b>?')),
+                            $this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                                                         $this->createRequestAnnotation(array('minLength'   => 10,
                                                                                             'maxLength'   => 40,
                                                                                             'allowedTags' => 'b, u'

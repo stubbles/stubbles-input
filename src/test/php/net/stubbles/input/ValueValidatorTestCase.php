@@ -7,10 +7,9 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\validator;
-use net\stubbles\input\Param;
+namespace net\stubbles\input;
 /**
- * Tests for net\stubbles\input\validator\ValueValidator.
+ * Tests for net\stubbles\input\ValueValidator.
  *
  * @since  1.3.0
  * @group  validator
@@ -247,7 +246,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function withValidatorReturnsValidatorResult()
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
+        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
         $mockValidator->expects($this->once())
                       ->method('validate')
                       ->with($this->equalTo('foo'))
@@ -260,8 +259,8 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function canBeCreatedAsMock()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
-                                ValueValidator::mockForValue('bar')
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+                                ValueValidator::forValue('bar')
         );
     }
 }

@@ -8,16 +8,15 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\peer\http\HttpUri;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\HttpUriParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -53,7 +52,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => 'http://localhost/'))
                             )
         );
@@ -65,7 +64,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
     public function returnsValueIfDnsCheckEnabledAndSuccessful()
     {
         $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('http://localhost/')),
+                            $this->paramBroker->procure($this->mockRequest('http://localhost/'),
                                                         $this->createRequestAnnotation(array('dnsCheck' => true))
                             )
         );
@@ -76,7 +75,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -87,7 +86,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullForInvalidHttpUri()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('invalid')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('invalid'),
                                                       $this->createRequestAnnotation(array())
                           )
         );

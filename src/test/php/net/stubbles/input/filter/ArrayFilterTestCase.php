@@ -53,5 +53,62 @@ class ArrayFilterTestCase extends FilterTestCase
                             $arrayFilter->setSeparator('|')
                                         ->apply($this->createParam('foo|bar')));
     }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $default = array('foo' => 'bar');
+        $this->assertEquals($default,
+                            $this->createValueReader(null)
+                                 ->asArray($default)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->asArray());
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->asArray();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsEmptyArrayIfParamIsEmpty()
+    {
+        $this->assertEquals(array(), $this->createValueReader('')->asArray());
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsValidValue()
+    {
+        $value = array('foo', 'bar');
+        $this->assertEquals($value, $this->createValueReader('foo, bar')->asArray());
+
+    }
+
+    /**
+     * @test
+     */
+    public function asArrayReturnsValidValueWithDifferentSeparator()
+    {
+        $value = array('foo', 'bar');
+        $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray(null, '|'));
+
+    }
 }
 ?>

@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\validator;
+use net\stubbles\input\Validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Validator that denies validaty of values.
