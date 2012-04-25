@@ -27,10 +27,10 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $method = $this->getMethod($request, $annotation);
+        $method      = $this->getMethod($request, $annotation);
         $valueFilter = $request->$method($annotation->getName());
         if ($annotation->isRequired()) {
-            $valueFilter->required();
+            $valueFilter->required($annotation->getRequiredErrorId('FIELD_EMPTY'));
         }
 
         return $this->filter($valueFilter, $annotation);
