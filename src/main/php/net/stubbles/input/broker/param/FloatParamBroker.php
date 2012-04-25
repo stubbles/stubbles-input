@@ -8,24 +8,27 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\NumberExpectation;
+use net\stubbles\input\ValueReader;
+use net\stubbles\input\filter\range\NumberRange;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter float values based on a @Request[Float] annotation.
  */
-class FloatParamBroker extends MultipleSourceFilterBroker
+class FloatParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  float
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueFilter->asFloat(NumberExpectation::fromAnnotation($annotation),
+        return $valueReader->asFloat($annotation->getDefault(),
+                                     new NumberRange($annotation->getMinValue(),
+                                                     $annotation->getMaxValue()
+                                     ),
                                      $annotation->getDecimals()
         );
     }

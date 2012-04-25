@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\validator\ValueReader;
-require_once __DIR__ . '/MultipleSourceReaderBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\FileParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
+class FileParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -52,7 +51,7 @@ class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals('/home/user/foo.txt',
-                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => '/home/user/foo.txt'))
                             )
         );
@@ -64,23 +63,12 @@ class FileParamBrokerTestCase extends MultipleSourceReaderBrokerTestCase
     public function considersRelativeWhenBasePathGiven()
     {
         $this->assertEquals('../RequestBrokerTestCase.php',
-                            $this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
+                            $this->paramBroker->procure($this->mockRequest('../RequestBrokerTestCase.php'),
                                                         $this->createRequestAnnotation(array('basePath'      => __DIR__,
                                                                                              'allowRelative' => true
                                                                                        )
                                                         )
                             )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function doesNotAllowRelativeByDefault()
-    {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueReader::mockForValue('../RequestBrokerTestCase.php')),
-                                                      $this->createRequestAnnotation(array('basePath' => __DIR__))
-                          )
         );
     }
 }

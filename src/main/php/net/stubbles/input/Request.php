@@ -74,18 +74,9 @@ interface Request extends Object
      * returns request value from params for validation
      *
      * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\validator\ValueReader
+     * @return  net\stubbles\input\validator\ValueFilter
      * @since   1.3.0
      */
     public function readParam($paramName);
-
-    /**
-     * returns request value from params for filtering
-     *
-     * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\filter\ValueFilter
-     * @since   2.0.0
-     */
-    public function filterParam($paramName);
 }
 ?>

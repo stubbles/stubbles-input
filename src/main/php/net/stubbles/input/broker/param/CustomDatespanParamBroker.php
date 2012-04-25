@@ -9,9 +9,10 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Request;
-use net\stubbles\input\filter\expectation\DateExpectation;
+use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
+use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\CustomDatespan;
 /**
  * Filter parameters based on a @Request[CustomDatespan] annotation.
@@ -23,32 +24,84 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
      *
      * @param   Request     $request     instance to handle value with
      * @param   Annotation  $annotation  annotation which contains request param metadata
-     * @return  net\stubbles\lang\types\datespan\CustomDatespan
+     * @return  CustomDatespan
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $expect = DateExpectation::fromAnnotation($annotation);
-        try {
-            return new CustomDatespan($this->getDate($request, $annotation->getStartName(), $expect),
-                                    $this->getDate($request, $annotation->getEndName(), $expect)
-                );
-        } catch (\Exception $e) {
-            return null;
+        $startDate = $this->getStartDate($request, $annotation);
+        $endDate   = $this->getEndDate($request, $annotation);
+        if (null !== $startDate && null !== $endDate) {
+            return new CustomDatespan($startDate, $endDate);
         }
 
+        return null;
+    }
+
+    /**
+     * retrieves start date
+     *
+     * @param   Request    $request
+     * @param   string     $name
+     * @return  Date
+     */
+    private function getStartDate(Request $request, Annotation $annotation)
+    {
+        return $this->readValue($request, $annotation->getStartName(), $annotation->isRequired())
+                    ->asDate($this->parseDate($annotation, 'defaultStart'),
+                             new DateRange($this->parseDate($annotation, 'minStartDate'),
+                                           $this->parseDate($annotation, 'maxStartDate')
+                             )
+        );
+    }
+
+    /**
+     * retrieves start date
+     *
+     * @param   Request    $request
+     * @param   string     $name
+     * @return  Date
+     */
+    private function getEndDate(Request $request, Annotation $annotation)
+    {
+        return $this->readValue($request, $annotation->getEndName(), $annotation->isRequired())
+                    ->asDate($this->parseDate($annotation, 'defaultEnd'),
+                             new DateRange($this->parseDate($annotation, 'minEndDate'),
+                                           $this->parseDate($annotation, 'maxEndDate')
+                             )
+        );
     }
 
     /**
      * handles single param
      *
-     * @param   Request          $request
-     * @param   string           $name
-     * @param   DateExpectation  $expect
-     * @return  net\stubbles\lang\types\Date
+     * @param   Request    $request
+     * @param   string     $paramName
+     * @parsm   bool       $required
+     * @return  net\stubbles\input\filter\FilterValue
      */
-    private function getDate(Request $request, $name, $expect)
+    private function readValue(Request $request, $paramName, $required)
     {
-        return $request->filterParam($name)->asDate($expect);
+        $valueFilter = $request->readParam($paramName);
+        if ($required) {
+            $valueFilter->required();
+        }
+
+        return $valueFilter;
+    }
+
+    /**
+     * reads default value from annotation
+     *
+     * @param   Annotation $annotation
+     * @return  Date
+     */
+    private function parseDate(Annotation $annotation, $field)
+    {
+        if ($annotation->hasValueByName($field)) {
+            return new Date($annotation->getValueByName($field));
+        }
+
+        return null;
     }
 }
 ?>

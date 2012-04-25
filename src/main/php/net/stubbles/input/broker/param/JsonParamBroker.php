@@ -8,26 +8,23 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\filter\expectation\ValueExpectation;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Json] annotation.
  */
-class JsonParamBroker extends MultipleSourceFilterBroker
+class JsonParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  string
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        $expect = new ValueExpectation($annotation->isRequired());
-        $expect->useDefault($this->getDefault($annotation));
-        return $valueFilter->asJson($expect);
+        return $valueReader->asJson($this->getDefault($annotation));
     }
 
     /**

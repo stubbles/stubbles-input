@@ -8,15 +8,14 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
-require_once __DIR__ . '/MultipleSourceFilterBrokerTestCase.php';
+require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\PasswordParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
+class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 {
     /**
      * set up test environment
@@ -51,7 +50,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array())
                           )
         );
@@ -62,7 +61,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndNotRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => false))
                           )
         );
@@ -73,7 +72,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceFilterBrokerTestCase
      */
     public function returnsNullIfTooLessMinDiffChars()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('topsecret')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
                                                       $this->createRequestAnnotation(array('minDiffChars' => 20))
                           )
         );

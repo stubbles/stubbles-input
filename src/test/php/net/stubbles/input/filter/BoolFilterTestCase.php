@@ -30,6 +30,7 @@ class BoolFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->boolFilter = new BoolFilter();
+        parent::setUp();
     }
 
     /**
@@ -102,6 +103,46 @@ class BoolFilterTestCase extends FilterTestCase
     public function filteringAnyStringReturnsFalse()
     {
         $this->assertFalse($this->boolFilter->apply($this->createParam('a string')));
+    }
+
+    /**
+     * @since  1.7.0
+     * @test
+     * @group  bug266
+     */
+    public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull()
+    {
+        $this->assertTrue($this->createValueReader(null)->asBool(true));
+    }
+
+    /**
+     * @since  1.7.0
+     * @test
+     * @group  bug266
+     */
+    public function asBoolReturnsFalseIfParamAndDefaultIsNotNull()
+    {
+        $this->assertFalse($this->createValueReader(null)->asBool());
+    }
+
+    /**
+     * @since  1.7.0
+     * @test
+     * @group  bug266
+     */
+    public function asBoolWithFalseValueReturnsFalse()
+    {
+        $this->assertFalse($this->createValueReader(0)->asBool());
+    }
+
+    /**
+     * @since  1.7.0
+     * @test
+     * @group  bug266
+     */
+    public function asBoolWithTrueValueReturnsTrue()
+    {
+        $this->assertTrue($this->createValueReader(1)->asBool());
     }
 }
 ?>

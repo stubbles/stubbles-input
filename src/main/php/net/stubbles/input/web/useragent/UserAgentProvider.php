@@ -76,7 +76,7 @@ class UserAgentProvider extends BaseObject implements InjectionProvider
      */
     private function readUserAgentString()
     {
-        return $this->request->filterHeader('HTTP_USER_AGENT')->asString();
+        return $this->request->readHeader('HTTP_USER_AGENT')->asString();
     }
 
     /**
