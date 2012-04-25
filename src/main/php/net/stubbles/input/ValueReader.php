@@ -385,8 +385,8 @@ class ValueReader extends BaseObject
      * allow an attacker to reach e.g. /etc/passwd via ../../ constructions.
      *
      * @api
-     * @param   string  $basePath       base path where file must reside in
-     * @param   string  $default        default value to fall back to
+     * @param   string  $basePath  base path where file must reside in
+     * @param   string  $default   default value to fall back to
      * @return  string
      * @since   2.0.0
      */
@@ -409,8 +409,8 @@ class ValueReader extends BaseObject
      * allow an attacker to reach a certain directory via ../../ constructions.
      *
      * @api
-     * @param   string  $basePath       base path where directory must reside in
-     * @param   string  $default        default value to fall back to
+     * @param   string  $basePath  base path where directory must reside in
+     * @param   string  $default   default value to fall back to
      * @return  string
      * @since   2.0.0
      */
