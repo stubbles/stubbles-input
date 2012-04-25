@@ -146,7 +146,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function asPasswordReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asPassword());
+        $this->assertNull($this->createValueReader(null)->required()->asPassword());
     }
 
     /**
@@ -155,7 +155,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function asPasswordAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asPassword();
+        $this->createValueReader(null)->required()->asPassword();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -165,7 +165,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function asPasswordReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asPassword());
+        $this->assertNull($this->createValueReader('foo')->asPassword());
     }
 
     /**
@@ -174,7 +174,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function asPasswordAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asPassword();
+        $this->createValueReader('foo')->asPassword();
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -183,7 +183,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function asPasswordReturnsValidValue()
     {
-        $this->assertEquals('abcde', $this->createValueFilter('abcde')->asPassword());
+        $this->assertEquals('abcde', $this->createValueReader('abcde')->asPassword());
 
     }
 }

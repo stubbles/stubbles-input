@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\StringParamBroker.
@@ -52,7 +51,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals('No Mr Bond, I expect you to die!',
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
                           )
         );
@@ -63,7 +62,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -74,7 +73,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfShorterThanMinLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do you expect me to talk?')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
                                                       $this->createRequestAnnotation(array('minLength' => 30))
                           )
         );
@@ -85,7 +84,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfLongerThanMaxLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do you expect me to talk?')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
                                                       $this->createRequestAnnotation(array('maxLength' => 10))
                           )
         );
@@ -97,7 +96,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsValueIfInRange()
     {
         $this->assertEquals('Do you expect me to talk?',
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('Do you expect me to talk?')),
+                            $this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
                                                         $this->createRequestAnnotation(array('minLength' => 10,
                                                                                              'maxLength' => 30
                                                                                        )

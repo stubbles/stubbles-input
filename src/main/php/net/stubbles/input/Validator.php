@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\validator;
+namespace net\stubbles\input;
 use net\stubbles\lang\Object;
 /**
  * Interface for validators.

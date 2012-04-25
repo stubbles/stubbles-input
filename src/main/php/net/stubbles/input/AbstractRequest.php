@@ -8,8 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\validator\ValueValidator;
 use net\stubbles\lang\BaseObject;
 /**
  * Abstract base class for requests.
@@ -110,12 +108,12 @@ abstract class AbstractRequest extends BaseObject implements Request
      * returns request value from params for filtering or validation
      *
      * @param   string  $paramName  name of parameter
-     * @return  ValueFilter
+     * @return  ValueReader
      * @since   1.3.0
      */
     public function readParam($paramName)
     {
-        return new ValueFilter($this->params->errors(),
+        return new ValueReader($this->params->errors(),
                                $this->params->get($paramName)
         );
     }

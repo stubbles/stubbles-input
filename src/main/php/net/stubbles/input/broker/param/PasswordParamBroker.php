@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\PasswordFilter;
-use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter passwords based on a @Request[Password] annotation.
@@ -19,13 +19,13 @@ class PasswordParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  string
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueFilter->asPassword($annotation->getMinDiffChars(PasswordFilter::MIN_DIFF_CHARS_DEFAULT),
+        return $valueReader->asPassword($annotation->getMinDiffChars(PasswordFilter::MIN_DIFF_CHARS_DEFAULT),
                                         array()
         );
     }

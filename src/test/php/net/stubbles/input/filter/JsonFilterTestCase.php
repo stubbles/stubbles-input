@@ -171,7 +171,7 @@ class JsonFilterTestCase extends FilterTestCase
     {
         $default = array('foo' => 'bar');
         $this->assertEquals($default,
-                            $this->createValueFilter(null)->asJson($default)
+                            $this->createValueReader(null)->asJson($default)
         );
     }
 
@@ -181,7 +181,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asJson());
+        $this->assertNull($this->createValueReader(null)->required()->asJson());
     }
 
     /**
@@ -190,7 +190,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asJson();
+        $this->createValueReader(null)->required()->asJson();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -200,7 +200,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asJson());
+        $this->assertNull($this->createValueReader('foo')->asJson());
     }
 
     /**
@@ -209,7 +209,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asJson();
+        $this->createValueReader('foo')->asJson();
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -218,7 +218,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonReturnsValidValue() {
         $value = array('foo', 'bar');
-        $this->assertEquals($value, $this->createValueFilter(json_encode($value))->asJson());
+        $this->assertEquals($value, $this->createValueReader(json_encode($value))->asJson());
     }
 }
 ?>

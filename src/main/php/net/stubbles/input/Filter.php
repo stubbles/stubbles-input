@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace net\stubbles\input;
 use net\stubbles\input\Param;
 use net\stubbles\lang\Object;
 /**

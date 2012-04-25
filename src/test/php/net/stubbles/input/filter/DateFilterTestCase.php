@@ -94,7 +94,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asDate());
+        $this->assertNull($this->createValueReader(null)->asDate());
     }
 
     /**
@@ -105,7 +105,7 @@ class DateFilterTestCase extends FilterTestCase
     {
         $default = Date::now();
         $this->assertEquals($default,
-                            $this->createValueFilter(null)
+                            $this->createValueReader(null)
                                  ->asDate($default)
         );
     }
@@ -116,7 +116,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asDate());
+        $this->assertNull($this->createValueReader(null)->required()->asDate());
     }
 
     /**
@@ -125,7 +125,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asDate();
+        $this->createValueReader(null)->required()->asDate();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -135,7 +135,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asDate());
+        $this->assertNull($this->createValueReader('foo')->asDate());
     }
 
     /**
@@ -144,7 +144,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asDate();
+        $this->createValueReader('foo')->asDate();
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -154,7 +154,7 @@ class DateFilterTestCase extends FilterTestCase
     public function asDateReturnsValidValue()
     {
         $this->assertEquals('2012-03-11',
-                            $this->createValueFilter('2012-03-11')
+                            $this->createValueReader('2012-03-11')
                                  ->asDate()
                                  ->format('Y-m-d')
         );
@@ -167,7 +167,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateReturnsNullIfParamIsOutOfRange()
     {
-        $this->assertNull($this->createValueFilter(new Date('yesterday'))
+        $this->assertNull($this->createValueReader(new Date('yesterday'))
                                ->asDate(null, new DateRange(Date::now(), null))
         );
     }
@@ -178,7 +178,7 @@ class DateFilterTestCase extends FilterTestCase
      */
     public function asDateAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->createValueFilter(new Date('yesterday'))
+        $this->createValueReader(new Date('yesterday'))
              ->asDate(null, new DateRange(Date::now(), null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }

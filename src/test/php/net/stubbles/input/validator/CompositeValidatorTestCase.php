@@ -52,7 +52,7 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createMockValidatorWhichValidatesTo($validateResult)
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
+        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
         $mockValidator->expects($this->once())
                       ->method('validate')
                       ->will($this->returnValue($validateResult));
@@ -66,7 +66,7 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createMockValidatorWhichIsNeverCalled()
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\validator\\Validator');
+        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
         $mockValidator->expects($this->never())
                       ->method('validate');
         return $mockValidator;

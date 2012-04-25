@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Bool] annotation.
@@ -18,13 +18,13 @@ class BoolParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  bool
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueFilter->asBool($annotation->getDefault());
+        return $valueReader->asBool($annotation->getDefault());
     }
 }
 ?>

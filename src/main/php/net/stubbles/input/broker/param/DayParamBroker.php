@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\range\DatespanRange;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
@@ -21,13 +21,13 @@ class DayParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  net\stubbles\lang\types\datespan\Day
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueFilter->asDay($this->getDefault($annotation),
+        return $valueReader->asDay($this->getDefault($annotation),
                                    new DatespanRange($this->createDate($annotation->getMinStartDate()),
                                                      $this->createDate($annotation->getMaxEndDate())
                                    )

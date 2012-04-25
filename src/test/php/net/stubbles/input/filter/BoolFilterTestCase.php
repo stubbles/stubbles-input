@@ -112,7 +112,7 @@ class BoolFilterTestCase extends FilterTestCase
      */
     public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull()
     {
-        $this->assertTrue($this->createValueFilter(null)->asBool(true));
+        $this->assertTrue($this->createValueReader(null)->asBool(true));
     }
 
     /**
@@ -122,7 +122,7 @@ class BoolFilterTestCase extends FilterTestCase
      */
     public function asBoolReturnsFalseIfParamAndDefaultIsNotNull()
     {
-        $this->assertFalse($this->createValueFilter(null)->asBool());
+        $this->assertFalse($this->createValueReader(null)->asBool());
     }
 
     /**
@@ -132,7 +132,7 @@ class BoolFilterTestCase extends FilterTestCase
      */
     public function asBoolWithFalseValueReturnsFalse()
     {
-        $this->assertFalse($this->createValueFilter(0)->asBool());
+        $this->assertFalse($this->createValueReader(0)->asBool());
     }
 
     /**
@@ -142,7 +142,7 @@ class BoolFilterTestCase extends FilterTestCase
      */
     public function asBoolWithTrueValueReturnsTrue()
     {
-        $this->assertTrue($this->createValueFilter(1)->asBool());
+        $this->assertTrue($this->createValueReader(1)->asBool());
     }
 }
 ?>

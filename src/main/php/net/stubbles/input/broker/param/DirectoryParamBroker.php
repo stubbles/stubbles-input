@@ -8,8 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\ParamError;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Read string values based on a @Request[Directory] annotation.
@@ -19,13 +18,13 @@ class DirectoryParamBroker extends MultipleSourceParamBroker
     /**
      * filters single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  mixed
      */
-    protected function filter(ValueFilter $valueFilter, Annotation $annotation)
+    protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueFilter->ifIsDirectory($annotation->getBasePath(),
+        return $valueReader->ifIsDirectory($annotation->getBasePath(),
                                            $annotation->getDefault()
         );
     }

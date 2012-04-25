@@ -12,8 +12,8 @@ use net\stubbles\input\AbstractRequest;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamErrors;
 use net\stubbles\input\Params;
-use net\stubbles\input\filter\ValueFilter;
-use net\stubbles\input\validator\ValueValidator;
+use net\stubbles\input\ValueReader;
+use net\stubbles\input\ValueValidator;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\peer\MalformedUriException;
 use net\stubbles\peer\http\HttpUri;
@@ -176,12 +176,12 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  ValueFilter
+     * @return  ValueReader
      * @since   1.3.0
      */
     public function readHeader($headerName)
     {
-        return new ValueFilter($this->headers->errors(),
+        return new ValueReader($this->headers->errors(),
                                $this->headers->get($headerName)
         );
     }
@@ -236,12 +236,12 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  ValueFilter
+     * @return  ValueReader
      * @since   1.3.0
      */
     public function readCookie($cookieName)
     {
-        return new ValueFilter($this->cookies->errors(),
+        return new ValueReader($this->cookies->errors(),
                                $this->cookies->get($cookieName)
         );
     }
@@ -275,12 +275,12 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns request body for filtering or validation
      *
-     * @return  ValueFilter
+     * @return  ValueReader
      * @since   1.3.0
      */
     public function readBody()
     {
-        return new ValueFilter($this->bodyErrors(),
+        return new ValueReader($this->bodyErrors(),
                                $this->parseBody()
         );
     }

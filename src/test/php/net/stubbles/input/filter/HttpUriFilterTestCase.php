@@ -142,7 +142,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $this->assertEquals('http://example.com/',
-                            $this->createValueFilter(null)
+                            $this->createValueReader(null)
                                  ->asHttpUri(HttpUri::fromString('http://example.com/'))
                                  ->asString()
         );
@@ -154,7 +154,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asHttpUriReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asHttpUri());
+        $this->assertNull($this->createValueReader(null)->required()->asHttpUri());
     }
 
     /**
@@ -163,7 +163,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asHttpUriAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asHttpUri();
+        $this->createValueReader(null)->required()->asHttpUri();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -173,7 +173,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asHttpUriReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asHttpUri());
+        $this->assertNull($this->createValueReader('foo')->asHttpUri());
     }
 
     /**
@@ -182,7 +182,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asHttpUriAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asHttpUri();
+        $this->createValueReader('foo')->asHttpUri();
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -192,7 +192,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asHttpUriReturnsValidValue()
     {
         $this->assertEquals('http://example.com/',
-                            $this->createValueFilter('http://example.com/')
+                            $this->createValueReader('http://example.com/')
                                  ->asHttpUri()
                                  ->asString()
         );
@@ -206,7 +206,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $this->assertEquals('http://example.com/',
-                            $this->createValueFilter(null)
+                            $this->createValueReader(null)
                                  ->asExistingHttpUri(HttpUri::fromString('http://example.com/'))
                                  ->asString()
         );
@@ -218,7 +218,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asExistingHttpUriReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asExistingHttpUri());
+        $this->assertNull($this->createValueReader(null)->required()->asExistingHttpUri());
     }
 
     /**
@@ -227,7 +227,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asExistingHttpUri();
+        $this->createValueReader(null)->required()->asExistingHttpUri();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -237,7 +237,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asExistingHttpUriReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')->asExistingHttpUri());
+        $this->assertNull($this->createValueReader('foo')->asExistingHttpUri());
     }
 
     /**
@@ -246,7 +246,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
      */
     public function asExistingHttpUriAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asExistingHttpUri();
+        $this->createValueReader('foo')->asExistingHttpUri();
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -257,7 +257,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asExistingHttpUriReturnsValidValue()
     {
         $this->assertEquals('http://localhost/',
-                            $this->createValueFilter('http://localhost/')
+                            $this->createValueReader('http://localhost/')
                                  ->asExistingHttpUri()
                                  ->asString()
         );

@@ -10,8 +10,9 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamErrors;
+use net\stubbles\input\ValueReader;
 /**
- * Base class for tests of net\stubbles\input\filter\Filter instances.
+ * Base class for tests of net\stubbles\input\Filter instances.
  *
  * @since  2.0.0
  */
@@ -47,22 +48,22 @@ abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
      * helper function to create request value instance
      *
      * @param   string  $value
-     * @return  ValueFilter
+     * @return  ValueReader
      */
-    protected function createValueFilter($value)
+    protected function createValueReader($value)
     {
-        return $this->createValueFilterWithParam(new Param('bar', $value));
+        return $this->createValueReaderWithParam(new Param('bar', $value));
     }
 
     /**
      * helper function to create request value instance
      *
      * @param   Param  $param
-     * @return  ValueFilter
+     * @return  ValueReader
      */
-    protected function createValueFilterWithParam(Param $param)
+    protected function createValueReaderWithParam(Param $param)
     {
-        return new ValueFilter($this->paramErrors,
+        return new ValueReader($this->paramErrors,
                                $param
                );
     }

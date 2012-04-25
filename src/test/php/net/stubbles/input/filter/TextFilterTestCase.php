@@ -113,7 +113,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('', $this->createValueFilter(null)->asText());
+        $this->assertEquals('', $this->createValueReader(null)->asText());
     }
 
     /**
@@ -122,7 +122,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('baz', $this->createValueFilter(null)
+        $this->assertEquals('baz', $this->createValueReader(null)
                                         ->asText('baz')
         );
     }
@@ -133,7 +133,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asText());
+        $this->assertNull($this->createValueReader(null)->required()->asText());
     }
 
     /**
@@ -142,7 +142,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asText();
+        $this->createValueReader(null)->required()->asText();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -152,7 +152,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')
+        $this->assertNull($this->createValueReader('foo')
                                ->asText(null, new StringLength(5, null))
         );
     }
@@ -163,7 +163,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asText(null, new StringLength(5, null));
+        $this->createValueReader('foo')->asText(null, new StringLength(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -172,7 +172,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextReturnsValidValue()
     {
-        $this->assertEquals('foo', $this->createValueFilter('foo<b>')->asText());
+        $this->assertEquals('foo', $this->createValueReader('foo<b>')->asText());
 
     }
 
@@ -181,7 +181,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        $this->assertEquals('foo<b>', $this->createValueFilter('foo<b>')->asText(null, null, array('b')));
+        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, null, array('b')));
 
     }
 }

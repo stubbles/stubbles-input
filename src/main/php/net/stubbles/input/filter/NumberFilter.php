@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\input\Filter;
 /**
  * Marker interface for filters of type float and int.
  */

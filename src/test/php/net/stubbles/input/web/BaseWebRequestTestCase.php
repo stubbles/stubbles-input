@@ -262,7 +262,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateParam('foo')
         );
     }
@@ -272,7 +272,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateParam('baz')
         );
     }
@@ -280,9 +280,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueFilter()
+    public function readParamReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readParam('foo')
         );
     }
@@ -290,9 +290,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueFilterForNonExistingParam()
+    public function readParamReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readParam('baz')
         );
     }
@@ -338,7 +338,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateHeaderReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateHeader('HTTP_ACCEPT')
         );
     }
@@ -348,7 +348,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateHeaderReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateHeader('baz')
         );
     }
@@ -356,9 +356,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readHeaderReturnsValueFilter()
+    public function readHeaderReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readHeader('HTTP_ACCEPT')
         );
     }
@@ -366,9 +366,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readHeaderReturnsValueFilterForNonExistingParam()
+    public function readHeaderReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readHeader('baz')
         );
     }
@@ -414,7 +414,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateCookieReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateCookie('chocolateChip')
         );
     }
@@ -424,7 +424,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateCookieReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateCookie('baz')
         );
     }
@@ -432,9 +432,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readCookieReturnsValueFilter()
+    public function readCookieReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readCookie('chocolateChip')
         );
     }
@@ -442,9 +442,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readCookieReturnsValueFilterForNonExistingParam()
+    public function readCookieReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readCookie('baz')
         );
     }
@@ -464,7 +464,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateBodyReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\validator\\ValueValidator',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
                                 $this->baseWebRequest->validateBody()
         );
     }
@@ -472,9 +472,9 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function readBodyReturnsValueFilter()
+    public function readBodyReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\filter\\ValueFilter',
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 $this->baseWebRequest->readBody()
         );
     }

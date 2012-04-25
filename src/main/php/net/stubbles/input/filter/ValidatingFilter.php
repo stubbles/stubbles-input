@@ -8,9 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamError;
-use net\stubbles\input\validator\Validator;
+use net\stubbles\input\Validator;
 use net\stubbles\lang\BaseObject;
 /**
  * Class for filtering values based on validators.

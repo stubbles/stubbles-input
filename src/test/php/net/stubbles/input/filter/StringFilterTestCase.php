@@ -95,7 +95,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('', $this->createValueFilter(null)->asString());
+        $this->assertEquals('', $this->createValueReader(null)->asString());
     }
 
     /**
@@ -105,7 +105,7 @@ class StringFilterTestCase extends FilterTestCase
     public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $this->assertEquals('baz',
-                            $this->createValueFilter(null)->asString('baz')
+                            $this->createValueReader(null)->asString('baz')
         );
     }
 
@@ -115,7 +115,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asString());
+        $this->assertNull($this->createValueReader(null)->required()->asString());
     }
 
     /**
@@ -124,7 +124,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asString();
+        $this->createValueReader(null)->required()->asString();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -134,7 +134,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter('foo')
+        $this->assertNull($this->createValueReader('foo')
                                ->asString(null, new StringLength(5, null))
         );
     }
@@ -145,7 +145,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter('foo')->asString(null, new StringLength(5, null));
+        $this->createValueReader('foo')->asString(null, new StringLength(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -154,7 +154,7 @@ class StringFilterTestCase extends FilterTestCase
      */
     public function asStringReturnsValidValue()
     {
-        $this->assertEquals('foo', $this->createValueFilter('foo')->asString());
+        $this->assertEquals('foo', $this->createValueReader('foo')->asString());
 
     }
 

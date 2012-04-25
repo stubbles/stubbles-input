@@ -61,7 +61,7 @@ class ArrayFilterTestCase extends FilterTestCase
     {
         $default = array('foo' => 'bar');
         $this->assertEquals($default,
-                            $this->createValueFilter(null)
+                            $this->createValueReader(null)
                                  ->asArray($default)
         );
     }
@@ -71,7 +71,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asArray());
+        $this->assertNull($this->createValueReader(null)->required()->asArray());
     }
 
     /**
@@ -79,7 +79,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asArray();
+        $this->createValueReader(null)->required()->asArray();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -88,7 +88,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsEmptyArrayIfParamIsEmpty()
     {
-        $this->assertEquals(array(), $this->createValueFilter('')->asArray());
+        $this->assertEquals(array(), $this->createValueReader('')->asArray());
     }
 
     /**
@@ -97,7 +97,7 @@ class ArrayFilterTestCase extends FilterTestCase
     public function asArrayReturnsValidValue()
     {
         $value = array('foo', 'bar');
-        $this->assertEquals($value, $this->createValueFilter('foo, bar')->asArray());
+        $this->assertEquals($value, $this->createValueReader('foo, bar')->asArray());
 
     }
 
@@ -107,7 +107,7 @@ class ArrayFilterTestCase extends FilterTestCase
     public function asArrayReturnsValidValueWithDifferentSeparator()
     {
         $value = array('foo', 'bar');
-        $this->assertEquals($value, $this->createValueFilter('foo|bar')->asArray(null, '|'));
+        $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray(null, '|'));
 
     }
 }

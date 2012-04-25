@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Request;
-use net\stubbles\input\filter\ValueFilter;
+use net\stubbles\input\ValueReader;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -72,10 +72,10 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
     /**
      * filters single param
      *
-     * @param   ValueFilter  $valueFilter  instance to filter value with
+     * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
      * @return  mixed
      */
-    protected abstract function filter(ValueFilter $valueFilter, Annotation $annotation);
+    protected abstract function filter(ValueReader $valueReader, Annotation $annotation);
 }
 ?>

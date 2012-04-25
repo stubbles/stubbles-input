@@ -51,7 +51,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asInt());
+        $this->assertNull($this->createValueReader(null)->asInt());
     }
 
     /**
@@ -60,7 +60,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(303, $this->createValueFilter(null)->asInt(303));
+        $this->assertEquals(303, $this->createValueReader(null)->asInt(303));
     }
 
     /**
@@ -69,7 +69,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asInt());
+        $this->assertNull($this->createValueReader(null)->required()->asInt());
     }
 
     /**
@@ -78,7 +78,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asInt();
+        $this->createValueReader(null)->required()->asInt();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -88,7 +88,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter(4)->asInt(null, new NumberRange(5, null)));
+        $this->assertNull($this->createValueReader(4)->asInt(null, new NumberRange(5, null)));
     }
 
     /**
@@ -97,7 +97,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter(4)->asInt(null, new NumberRange(5, null)
+        $this->createValueReader(4)->asInt(null, new NumberRange(5, null)
         );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
@@ -107,7 +107,7 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function asIntReturnsValidValue()
     {
-        $this->assertEquals(313, $this->createValueFilter('313')->asInt());
+        $this->assertEquals(313, $this->createValueReader('313')->asInt());
 
     }
 }

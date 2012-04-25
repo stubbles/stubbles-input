@@ -7,20 +7,13 @@
  *
  * @package  net\stubbles\input
  */
-namespace net\stubbles\input\filter;
-use net\stubbles\input\Param;
-use net\stubbles\input\ParamError;
-use net\stubbles\input\ParamErrors;
+namespace net\stubbles\input;
+use net\stubbles\input\filter\ArrayFilter;
+use net\stubbles\input\filter\PasswordFilter;
 use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\input\filter\range\DatespanRange;
 use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\input\filter\range\NumberRange;
-use net\stubbles\input\validator\DirectoryValidator;
-use net\stubbles\input\validator\FileValidator;
-use net\stubbles\input\validator\IpValidator;
-use net\stubbles\input\validator\PreselectValidator;
-use net\stubbles\input\validator\RegexValidator;
-use net\stubbles\input\validator\Validator;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Day;
@@ -30,7 +23,7 @@ use net\stubbles\peer\http\HttpUri;
  *
  * @since  1.3.0
  */
-class ValueFilter extends BaseObject
+class ValueReader extends BaseObject
 {
     /**
      * request instance the value inherits from
@@ -69,7 +62,7 @@ class ValueFilter extends BaseObject
      * @param   string  $paramValue
      * @return  ValueFilter
      */
-    public static function mockForValue($paramValue)
+    public static function forValue($paramValue)
     {
         return new self(new ParamErrors(), new Param('mock', $paramValue));
     }
@@ -119,7 +112,7 @@ class ValueFilter extends BaseObject
             return $default;
         }
 
-        return $this->applyFilter(new BoolFilter());
+        return $this->applyFilter(new filter\BoolFilter());
     }
 
     /**
@@ -134,8 +127,8 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return RangeFilter::wrap(new IntegerFilter(),
-                                                                $range
+                                       return filter\RangeFilter::wrap(new filter\IntegerFilter(),
+                                                                       $range
                                        );
                                    },
                                    $default
@@ -155,9 +148,9 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($range, $decimals)
                                    {
-                                       $floatFilter = new FloatFilter();
-                                       return RangeFilter::wrap($floatFilter->setDecimals($decimals),
-                                                                $range
+                                       $floatFilter = new filter\FloatFilter();
+                                       return filter\RangeFilter::wrap($floatFilter->setDecimals($decimals),
+                                                                       $range
                                        );
                                    },
                                    $default
@@ -176,8 +169,8 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($length)
                                    {
-                                       return RangeFilter::wrap(new StringFilter(),
-                                                                $length
+                                       return filter\RangeFilter::wrap(new filter\StringFilter(),
+                                                                       $length
                                        );
                                    },
                                    $default
@@ -197,9 +190,9 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($length, $allowedTags)
                                    {
-                                       $textFilter = new TextFilter();
-                                       return RangeFilter::wrap($textFilter->allowTags($allowedTags),
-                                                                $length
+                                       $textFilter = new filter\TextFilter();
+                                       return filter\RangeFilter::wrap($textFilter->allowTags($allowedTags),
+                                                                       $length
                                        );
                                    },
                                    $default
@@ -217,7 +210,7 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function()
                                    {
-                                       return new JsonFilter();
+                                       return new filter\JsonFilter();
                                    },
                                    $default
         );
@@ -251,7 +244,7 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function()
                                    {
-                                       return new HttpUriFilter();
+                                       return new filter\HttpUriFilter();
                                    },
                                    $default
         );
@@ -268,7 +261,7 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function()
                                    {
-                                       $httpUriFilter = new HttpUriFilter();
+                                       $httpUriFilter = new filter\HttpUriFilter();
                                        return $httpUriFilter->enforceDnsRecord();
                                    },
                                    $default
@@ -288,8 +281,8 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return RangeFilter::wrap(new DateFilter(),
-                                                                $range
+                                       return filter\RangeFilter::wrap(new filter\DateFilter(),
+                                                                       $range
                                        );
                                    },
                                    $default
@@ -310,8 +303,8 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return RangeFilter::wrap(new DayFilter(),
-                                                                $range
+                                       return filter\RangeFilter::wrap(new filter\DayFilter(),
+                                                                       $range
                                        );
                                    },
                                    $default
@@ -327,7 +320,7 @@ class ValueFilter extends BaseObject
      */
     public function ifIsIpAddress($default = null)
     {
-        return $this->withValidator(new IpValidator(),
+        return $this->withValidator(new validator\IpValidator(),
                                     'INVALID_IP_ADDRESS',
                                     array(),
                                     $default
@@ -344,7 +337,7 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function()
                                    {
-                                       return new MailFilter();
+                                       return new filter\MailFilter();
                                    }
         );
     }
@@ -359,7 +352,7 @@ class ValueFilter extends BaseObject
      */
     public function ifIsOneOf(array $allowedValues, $default = null)
     {
-        return $this->withValidator(new PreSelectValidator($allowedValues),
+        return $this->withValidator(new validator\PreSelectValidator($allowedValues),
                                     'FIELD_NO_SELECT',
                                     array(),
                                     $default
@@ -376,7 +369,7 @@ class ValueFilter extends BaseObject
      */
     public function ifSatisfiesRegex($regex, $default = null)
     {
-        return $this->withValidator(new RegexValidator($regex),
+        return $this->withValidator(new validator\RegexValidator($regex),
                                     'FIELD_WRONG_VALUE',
                                     array(),
                                     $default
@@ -400,7 +393,7 @@ class ValueFilter extends BaseObject
     public function ifIsFile($basePath = null, $default = null)
     {
         $path = ((null != $basePath) ? ($basePath .'/') : (''));
-        return $this->withValidator(new FileValidator($basePath),
+        return $this->withValidator(new validator\FileValidator($basePath),
                                     'FILE_INVALID',
                                     array('path' => $path . $this->param->getValue()),
                                     $default
@@ -424,7 +417,7 @@ class ValueFilter extends BaseObject
     public function ifIsDirectory($basePath = null, $default = null)
     {
         $path = ((null != $basePath) ? ($basePath .'/') : (''));
-        return $this->withValidator(new DirectoryValidator($basePath),
+        return $this->withValidator(new validator\DirectoryValidator($basePath),
                                     'DIRECTORY_INVALID',
                                     array('path' => $path . $this->param->getValue()),
                                     $default
@@ -446,7 +439,7 @@ class ValueFilter extends BaseObject
     {
         return $this->handleFilter(function() use($validator, $errorId, $details)
                                    {
-                                       return new ValidatingFilter($validator, $errorId, $details);
+                                       return new filter\ValidatingFilter($validator, $errorId, $details);
                                    },
                                    $default
         );

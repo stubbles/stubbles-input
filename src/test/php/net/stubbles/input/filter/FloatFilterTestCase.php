@@ -78,7 +78,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->asFloat());
+        $this->assertNull($this->createValueReader(null)->asFloat());
     }
 
     /**
@@ -87,7 +87,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(3.03, $this->createValueFilter(null)->asFloat(3.03));
+        $this->assertEquals(3.03, $this->createValueReader(null)->asFloat(3.03));
     }
 
     /**
@@ -96,7 +96,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueFilter(null)->required()->asFloat());
+        $this->assertNull($this->createValueReader(null)->required()->asFloat());
     }
 
     /**
@@ -105,7 +105,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueFilter(null)->required()->asFloat();
+        $this->createValueReader(null)->required()->asFloat();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
@@ -115,7 +115,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueFilter(2.5)->asFloat(null, new NumberRange(5, null)));
+        $this->assertNull($this->createValueReader(2.5)->asFloat(null, new NumberRange(5, null)));
     }
 
     /**
@@ -124,7 +124,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueFilter(2.5)->asFloat(null, new NumberRange(5, null));
+        $this->createValueReader(2.5)->asFloat(null, new NumberRange(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -133,7 +133,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsValidValue()
     {
-        $this->assertEquals(3.13, $this->createValueFilter('3.13')->asFloat());
+        $this->assertEquals(3.13, $this->createValueReader('3.13')->asFloat());
 
     }
 
@@ -142,7 +142,7 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function asFloatReturnsValidValueUsingDecimals()
     {
-        $this->assertEquals(313, $this->createValueFilter('3.13')->asFloat(null, null, 2));
+        $this->assertEquals(313, $this->createValueReader('3.13')->asFloat(null, null, 2));
 
     }
 }

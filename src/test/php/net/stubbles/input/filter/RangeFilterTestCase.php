@@ -41,7 +41,7 @@ class RangeFilterTestCase extends FilterTestCase
      */
     public function setUp()
     {
-        $this->mockFilter  = $this->getMock('net\\stubbles\\input\\filter\\Filter');
+        $this->mockFilter  = $this->getMock('net\\stubbles\\input\\Filter');
         $this->mockRange   = $this->getMock('net\\stubbles\\input\\filter\\range\\Range');
         $this->rangeFilter = new RangeFilter($this->mockFilter, $this->mockRange);
     }

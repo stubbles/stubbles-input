@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\types\Date;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
@@ -53,7 +52,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertEquals(new Date('2012-04-21'),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+                            $this->paramBroker->procure($this->mockRequest(null),
                                                         $this->createRequestAnnotation(array('default' => '2012-04-21'))
                           )
         );
@@ -64,7 +63,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue(null)),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
                                                       $this->createRequestAnnotation(array('required' => true))
                           )
         );
@@ -75,7 +74,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfBeforeMinDate()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('yesterday')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('yesterday'),
                                                       $this->createRequestAnnotation(array('minDate' => 'today'))
                           )
         );
@@ -86,7 +85,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsNullIfAfterMaxDate()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('today')),
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('today'),
                                                       $this->createRequestAnnotation(array('maxDate' => 'yesterday'))
                           )
         );
@@ -98,7 +97,7 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsValueIfInRange()
     {
         $this->assertEquals(new Date('today'),
-                            $this->paramBroker->procure($this->mockRequest(ValueFilter::mockForValue('today')),
+                            $this->paramBroker->procure($this->mockRequest('today'),
                                                         $this->createRequestAnnotation(array('minDate' => 'yesterday',
                                                                                              'maxDate'   => 'tomorrow'
                                                                                        )
