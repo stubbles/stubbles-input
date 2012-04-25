@@ -20,6 +20,216 @@ class ValueFilterTestCase extends filter\FilterTestCase
     /**
      * @test
      */
+    public function ifIsIpAddressReturnsValidatedValue()
+    {
+        $this->assertEquals('127.0.0.1',
+                            $this->createValueReader('127.0.0.1')->ifIsIpAddress()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressReturnsDefaultValueIfParamIsNull()
+    {
+        $this->assertEquals('127.0.0.1',
+                            $this->createValueReader(null)->ifIsIpAddress('127.0.0.1')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressReturnsNullIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsIpAddress('127.0.0.1'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsIpAddress());
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressReturnsNullIfValidationFailsAndDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->required()->ifIsIpAddress());
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressAddsParamErrorIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsIpAddress());
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_IP_ADDRESS'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->ifIsIpAddress());
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsIpAddressAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->ifIsIpAddress();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsValidatedValue()
+    {
+        $this->assertEquals('Hardfloor',
+                            $this->createValueReader('Hardfloor')->ifIsOneOf(array('Hardfloor', 'Dr DNA'))
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
+    {
+        $this->assertEquals('Moby',
+                            $this->createValueReader(null)->ifIsOneOf(array('Hardfloor', 'Dr DNA'), 'Moby')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsNullIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA'), 'Moby'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsNullIfValidationFailsAndDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfAddsParamErrorIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_NO_SELECT'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+    }
+
+    /**
+     * @test
+     */
+    public function ifIsOneOfAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA'));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsValidatedValue()
+    {
+        $this->assertEquals('Hardfloor',
+                            $this->createValueReader('Hardfloor')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
+    {
+        $this->assertEquals('Moby',
+                            $this->createValueReader(null)->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsNullIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsNullIfValidationFailsAndDefaultValueGiven()
+    {
+        $this->assertNull($this->createValueReader('invalid')->required()->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexAddsParamErrorIfValidationFails()
+    {
+        $this->assertNull($this->createValueReader('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_WRONG_VALUE'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
+    }
+
+    /**
+     * @test
+     */
+    public function ifSatisfiesRegexAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->ifSatisfiesRegex('/[a-zA-Z]{9}/');
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @test
+     */
     public function returnsNullIfParamHasErrors()
     {
         $param = new Param('bar', 'foo');
@@ -63,7 +273,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     /**
      * @test
      */
-    public function unsecure()
+    public function unsecureReturnsRawValue()
     {
         $this->assertEquals('a value', $this->createValueReader('a value')->unsecure());
     }
@@ -71,7 +281,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     /**
      * @test
      */
-    public function canBeCreatedAsMock()
+    public function canBeCreatedWithoutParam()
     {
         $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
                                 ValueReader::forValue('bar')

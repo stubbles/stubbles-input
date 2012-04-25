@@ -392,7 +392,7 @@ class ValueReader extends BaseObject
      */
     public function ifIsFile($basePath = null, $default = null)
     {
-        $path = ((null != $basePath) ? ($basePath .'/') : (''));
+        $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\FileValidator($basePath),
                                     'FILE_INVALID',
                                     array('path' => $path . $this->param->getValue()),
@@ -416,7 +416,7 @@ class ValueReader extends BaseObject
      */
     public function ifIsDirectory($basePath = null, $default = null)
     {
-        $path = ((null != $basePath) ? ($basePath .'/') : (''));
+        $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\DirectoryValidator($basePath),
                                     'DIRECTORY_INVALID',
                                     array('path' => $path . $this->param->getValue()),
