@@ -10,6 +10,7 @@
 namespace net\stubbles\input\broker;
 use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\IllegalArgumentException;
+use net\stubbles\lang\reflect\ReflectionClass;
 use net\stubbles\lang\reflect\ReflectionObject;
 use net\stubbles\lang\reflect\ReflectionMethod;
 use net\stubbles\lang\reflect\matcher\MethodMatcher;
@@ -23,18 +24,18 @@ class RequestBrokerMethods extends BaseObject implements MethodMatcher
     /**
      * returns all methods of given instance which are applicable for brokerage
      *
-     * @param   object  $object
+     * @param   object|string  $object
      * @param   string  $group   restrict list to given group
      * @return  ReflectionMethod[]
      * @throws  IllegalArgumentException
      */
     public function get($object, $group = null)
     {
-        if (!is_object($object)) {
-            throw new IllegalArgumentException('Parameter $object must be a concrete object instance.');
+        if (!is_object($object) && !is_string($object)) {
+            throw new IllegalArgumentException('Parameter $object must be a concrete object instance or class name.');
         }
 
-        $refClass = new ReflectionObject($object);
+        $refClass = $this->getObjectClass($object);
         $methods  = $refClass->getMethodsByMatcher($this);
         if (empty($group)) {
             return $methods;
@@ -46,6 +47,21 @@ class RequestBrokerMethods extends BaseObject implements MethodMatcher
                                 return $method->getAnnotation('Request')->getGroup() === $group;
                             }
         );
+    }
+
+    /**
+     * retrieves class object
+     *
+     * @param   object|string  $object
+     * @return  \net\stubbles\lang\reflect\BaseReflectionClass
+     */
+    private function getObjectClass($object)
+    {
+        if (is_object($object)) {
+            return new ReflectionObject($object);
+        }
+
+        return new ReflectionClass($object);
     }
 
     /**
