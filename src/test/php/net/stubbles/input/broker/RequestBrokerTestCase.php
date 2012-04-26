@@ -74,7 +74,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function procureNonObjectThrowsIllegalArgumentException()
     {
-        $this->requestBroker->procure($this->mockRequest, 'foo');
+        $this->requestBroker->procure($this->mockRequest, 313);
     }
 
     /**
