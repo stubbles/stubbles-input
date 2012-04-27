@@ -65,7 +65,7 @@ interface Request extends Object
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  net\stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateParam($paramName);
@@ -74,7 +74,7 @@ interface Request extends Object
      * returns request value from params for validation
      *
      * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\validator\ValueFilter
+     * @return  net\stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readParam($paramName);
