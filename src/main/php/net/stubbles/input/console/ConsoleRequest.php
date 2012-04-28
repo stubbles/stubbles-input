@@ -8,47 +8,50 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\console;
-use net\stubbles\input\AbstractRequest;
-use net\stubbles\input\Params;
+use net\stubbles\input\Request;
 /**
- * Request implementation for command line.
+ * Interface for command line requests.
  *
  * @api
  * @since  2.0.0
  */
-class ConsoleRequest extends AbstractRequest
+interface ConsoleRequest extends Request
 {
     /**
-     * constructor
+     * return an array of all environment names registered in this request
      *
-     * @param  array  $params
-     * @Inject
-     * @Named('argv')
+     * @return  string[]
      */
-    public function __construct(array $params)
-    {
-        parent::__construct(new Params($params));
-    }
+    public function getEnvNames();
+    /**
+     * returns list of errors for environment parameters
+     *
+     * @return  net\stubbles\input\ParamErrors
+     */
+    public function envErrors();
 
     /**
-     * creates an instance from raw data, meaning $_SERVER['argv']
+     * checks whether a request param is set
      *
-     * @api
-     * @return  ConsoleRequest
+     * @param   string  $envName
+     * @return  bool
      */
-    public static function fromRawSource()
-    {
-        return new self($_SERVER['argv']);
-    }
+    public function hasEnv($envName);
 
     /**
-     * returns the request method
+     * checks whether a request value from parameters is valid or not
      *
-     * @return  string
+     * @param   string  $envName  name of environment value
+     * @return  net\stubbles\input\ValueValidator
      */
-    public function getMethod()
-    {
-        return 'cli';
-    }
+    public function validateEnv($envName);
+
+    /**
+     * returns request value from params for validation
+     *
+     * @param   string  $envName  name of environment value
+     * @return  net\stubbles\input\ValueFilter
+     */
+    public function readEnv($envName);
 }
 ?>
