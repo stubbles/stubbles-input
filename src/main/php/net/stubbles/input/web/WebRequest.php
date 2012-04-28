@@ -59,7 +59,7 @@ interface WebRequest extends Request
      * checks whether a request value from headers is valid or not
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  net\stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateHeader($headerName);
@@ -68,7 +68,7 @@ interface WebRequest extends Request
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\validator\ValueFilter
+     * @return  net\stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readHeader($headerName);
@@ -102,7 +102,7 @@ interface WebRequest extends Request
      * checks whether a request value from cookie is valid or not
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  net\stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateCookie($cookieName);
@@ -111,7 +111,7 @@ interface WebRequest extends Request
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\validator\ValueFilter
+     * @return  net\stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readCookie($cookieName);
@@ -119,7 +119,7 @@ interface WebRequest extends Request
     /**
      * checks whether a request body is valid or not
      *
-     * @return  net\stubbles\input\validator\ValueValidator
+     * @return  net\stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateBody();
@@ -135,7 +135,7 @@ interface WebRequest extends Request
     /**
      * returns request body for filtering or validation
      *
-     * @return  net\stubbles\input\validator\ValueFilter
+     * @return  net\stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readBody();
