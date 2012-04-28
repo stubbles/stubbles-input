@@ -88,7 +88,7 @@ class ParamBrokerMap extends BaseObject
                                               'Float'          => new param\FloatParamBroker(),
                                               'HttpUri'        => new param\HttpUriParamBroker(),
                                               'Integer'        => new param\IntegerParamBroker(),
-                                              'Jaon'           => new param\JsonParamBroker(),
+                                              'Json'           => new param\JsonParamBroker(),
                                               'Mail'           => new param\MailParamBroker(),
                                               'Password'       => new param\PasswordParamBroker(),
                                               'String'         => new param\StringParamBroker(),
