@@ -53,19 +53,6 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnConstructor()
-    {
-        $constructor = $this->baseConsoleRequest->getClass()->getConstructor();
-        $this->assertTrue($constructor->hasAnnotation('Inject'));
-        $this->assertTrue($constructor->hasAnnotation('Named'));
-        $this->assertEquals('argv',
-                            $constructor->getAnnotation('Named')->getName()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function requestMethodIsAlwaysCli()
     {
         $this->assertEquals('cli', $this->baseConsoleRequest->getMethod());

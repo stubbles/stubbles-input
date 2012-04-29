@@ -34,8 +34,6 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      *
      * @param  array  $params
      * @param  array  $env
-     * @Inject
-     * @Named('argv')
      */
     public function __construct(array $params, array $env)
     {
