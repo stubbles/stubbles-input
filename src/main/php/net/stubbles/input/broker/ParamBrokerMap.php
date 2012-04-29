@@ -90,6 +90,7 @@ class ParamBrokerMap extends BaseObject
                                               'Integer'        => new param\IntegerParamBroker(),
                                               'Json'           => new param\JsonParamBroker(),
                                               'Mail'           => new param\MailParamBroker(),
+                                              'OneOf'          => new param\OneOfParamBroker(),
                                               'Password'       => new param\PasswordParamBroker(),
                                               'String'         => new param\StringParamBroker(),
                                               'Text'           => new param\TextParamBroker(),
