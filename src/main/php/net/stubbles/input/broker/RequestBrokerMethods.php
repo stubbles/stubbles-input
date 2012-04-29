@@ -75,7 +75,10 @@ class RequestBrokerMethods extends BaseObject implements MethodMatcher
     {
         $annotations = array();
         foreach ($this->get($object, $group) as $method) {
-            $annotations[] = $method->getAnnotation('Request');
+            /* @var $method ReflectionMethod */
+             $annotation = $method->getAnnotation('Request');
+             $annotation->requiresValue = ($method->getNumberOfParameters() > 0);
+             $annotations[] = $annotation;
         }
 
         return $annotations;
