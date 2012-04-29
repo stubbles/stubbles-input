@@ -114,9 +114,13 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->mockParamBrokerMap->expects($this->at(0))
                                  ->method('getBroker')
-                                 ->with($this->equalTo('String'))
+                                 ->with($this->equalTo('Bool'))
                                  ->will($this->returnValue($this->getMockParamBroker('just some string value')));
         $this->mockParamBrokerMap->expects($this->at(1))
+                                 ->method('getBroker')
+                                 ->with($this->equalTo('String'))
+                                 ->will($this->returnValue($this->getMockParamBroker('just some string value')));
+        $this->mockParamBrokerMap->expects($this->at(2))
                                  ->method('getBroker')
                                  ->with($this->equalTo('Mock'))
                                  ->will($this->returnValue($this->getMockParamBroker('just another string value')));
@@ -132,7 +136,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
     {
         $methods = $this->requestBroker->getMethods(new BrokerClass());
-        $this->assertCount(2, $methods);
+        $this->assertCount(3, $methods);
         foreach ($methods as $method) {
             $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
                                     $method
@@ -160,7 +164,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
     public function getAnnotationsReturnsListOfAllRequestAnnotation()
     {
         $annotations = $this->requestBroker->getAnnotations(new BrokerClass());
-        $this->assertCount(2, $annotations);
+        $this->assertCount(3, $annotations);
         foreach ($annotations as $annotation) {
             $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
                                     $annotation
