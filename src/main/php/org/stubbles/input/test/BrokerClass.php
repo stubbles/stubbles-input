@@ -19,13 +19,19 @@ class BrokerClass extends BaseObject
      *
      * @type  string
      */
-    private $bar = null;
+    private $bar     = null;
     /**
      * test property
      *
      * @type  string
      */
-    private $baz = null;
+    private $baz     = null;
+    /**
+     * verbosity switch
+     *
+     * @type  bool
+     */
+    private $verbose = false;
 
     /**
      * constructor
@@ -43,6 +49,26 @@ class BrokerClass extends BaseObject
     public static function create()
     {
         return new self();
+    }
+
+    /**
+     * test method without parameter
+     *
+     * @Request[Bool](name='verbose', group='noparam')
+     */
+    public function enableVerbose()
+    {
+        $this->verbose = true;
+    }
+
+    /**
+     * test method
+     *
+     * @return  bool
+     */
+    public function isVerbose()
+    {
+        return $this->verbose;
     }
 
     /**

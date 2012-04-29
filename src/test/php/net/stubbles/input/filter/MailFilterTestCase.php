@@ -30,6 +30,7 @@ class MailFilterTestCase extends FilterTestCase
     public function setUp()
     {
         $this->mailFilter = new MailFilter();
+        parent::setUp();
     }
 
     /**
@@ -56,6 +57,23 @@ class MailFilterTestCase extends FilterTestCase
         $this->assertEquals('example@example.org',
                             $this->mailFilter->apply($this->createParam('example@example.org'))
         );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->ifIsMailAddress());
+    }
+
+    /**
+     * @test
+     */
+    public function addsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->ifIsMailAddress();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'MAILADDRESS_MISSING'));
     }
 
     /**

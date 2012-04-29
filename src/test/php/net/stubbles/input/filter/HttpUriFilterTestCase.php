@@ -164,7 +164,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asHttpUriAddsParamErrorIfParamIsNullAndRequired()
     {
         $this->createValueReader(null)->required()->asHttpUri();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'HTTP_URI_MISSING'));
     }
 
     /**
@@ -228,7 +228,7 @@ class HttpUrlFilterTestCase extends FilterTestCase
     public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired()
     {
         $this->createValueReader(null)->required()->asExistingHttpUri();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'HTTP_URI_MISSING'));
     }
 
     /**
