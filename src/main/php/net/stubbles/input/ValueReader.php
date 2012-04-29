@@ -250,6 +250,10 @@ class ValueReader extends BaseObject
      */
     public function asHttpUri(HttpUri $default = null)
     {
+        if ('FIELD_EMPTY' === $this->requiredErrorId) {
+            $this->requiredErrorId = 'HTTP_URI_MISSING';
+        }
+
         return $this->handleFilter(function()
                                    {
                                        return new filter\HttpUriFilter();
@@ -267,6 +271,10 @@ class ValueReader extends BaseObject
      */
     public function asExistingHttpUri(HttpUri $default = null)
     {
+        if ('FIELD_EMPTY' === $this->requiredErrorId) {
+            $this->requiredErrorId = 'HTTP_URI_MISSING';
+        }
+
         return $this->handleFilter(function()
                                    {
                                        $httpUriFilter = new filter\HttpUriFilter();
@@ -343,6 +351,10 @@ class ValueReader extends BaseObject
      */
     public function ifIsMailAddress()
     {
+        if ('FIELD_EMPTY' === $this->requiredErrorId) {
+            $this->requiredErrorId = 'MAILADDRESS_MISSING';
+        }
+
         return $this->handleFilter(function()
                                    {
                                        return new filter\MailFilter();
@@ -362,7 +374,7 @@ class ValueReader extends BaseObject
     {
         return $this->withValidator(new validator\PreSelectValidator($allowedValues),
                                     'FIELD_NO_SELECT',
-                                    array(),
+                                    array('ALLOWED' => join('|', $allowedValues)),
                                     $default
         );
     }
