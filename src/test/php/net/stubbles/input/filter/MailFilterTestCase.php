@@ -64,7 +64,7 @@ class MailFilterTestCase extends FilterTestCase
      */
     public function returnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->ifIsMailAddress());
+        $this->assertNull($this->createValueReader(null)->required()->asMailAddress());
     }
 
     /**
@@ -72,7 +72,7 @@ class MailFilterTestCase extends FilterTestCase
      */
     public function addsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->ifIsMailAddress();
+        $this->createValueReader(null)->required()->asMailAddress();
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'MAILADDRESS_MISSING'));
     }
 
