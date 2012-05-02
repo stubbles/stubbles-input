@@ -285,6 +285,25 @@ class ValueReader extends BaseObject
     }
 
     /**
+     * returns value if it is a mail address, and null otherwise
+     *
+     * @api
+     * @return  string
+     */
+    public function asMailAddress()
+    {
+        if ('FIELD_EMPTY' === $this->requiredErrorId) {
+            $this->requiredErrorId = 'MAILADDRESS_MISSING';
+        }
+
+        return $this->handleFilter(function()
+                                   {
+                                       return new filter\MailFilter();
+                                   }
+        );
+    }
+
+    /**
      * read as date value
      *
      * @api
@@ -340,25 +359,6 @@ class ValueReader extends BaseObject
                                     'INVALID_IP_ADDRESS',
                                     array(),
                                     $default
-        );
-    }
-
-    /**
-     * returns value if it is a mail address, and null otherwise
-     *
-     * @api
-     * @return  string
-     */
-    public function ifIsMailAddress()
-    {
-        if ('FIELD_EMPTY' === $this->requiredErrorId) {
-            $this->requiredErrorId = 'MAILADDRESS_MISSING';
-        }
-
-        return $this->handleFilter(function()
-                                   {
-                                       return new filter\MailFilter();
-                                   }
         );
     }
 

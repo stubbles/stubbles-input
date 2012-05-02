@@ -24,7 +24,7 @@ class MailParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->ifIsMailAddress();
+        return $valueReader->asMailAddress();
     }
 }
 ?>
