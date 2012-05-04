@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Param;
 use net\stubbles\input\ValueReader;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
@@ -89,6 +90,18 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         $this->assertEquals(array(),
                             $this->paramBroker->procure($this->mockRequest(''),
                                                         $this->createRequestAnnotation(array())
+                            )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canWorkWithParam()
+    {
+        $this->assertEquals($this->getExpectedValue(),
+                            $this->paramBroker->procureParam(new Param('name', 'foo, bar'),
+                                                             $this->createRequestAnnotation(array())
                             )
         );
     }

@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\lang\Object;
 use net\stubbles\lang\reflect\annotation\Annotation;
@@ -24,5 +25,14 @@ interface ParamBroker extends Object
      * @return  mixed
      */
     public function procure(Request $request, Annotation $annotation);
+
+    /**
+     * handles a single param
+     *
+     * @param   Param       $param
+     * @param   Annotation  $annotation
+     * @return  mixed
+     */
+    public function procureParam(Param $param, Annotation $annotation);
 }
 ?>
