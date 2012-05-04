@@ -74,6 +74,17 @@ class ValueReader extends BaseObject
     }
 
     /**
+     * create instance as mock with empty param errors
+     *
+     * @param   Param  $param
+     * @return  ValueReader
+     */
+    public static function forParam(Param $param)
+    {
+        return new self(new ParamErrors(), $param);
+    }
+
+    /**
      * whether value is required or not
      *
      * @param   string  $errorId
