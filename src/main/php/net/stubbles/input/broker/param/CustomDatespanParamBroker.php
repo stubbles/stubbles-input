@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\lang\BaseObject;
@@ -35,6 +36,18 @@ class CustomDatespanParamBroker extends BaseObject implements ParamBroker
         }
 
         return null;
+    }
+
+    /**
+     * handles a single param
+     *
+     * @param   Param       $param
+     * @param   Annotation  $annotation
+     * @return  mixed
+     */
+    public function procureParam(Param $param, Annotation $annotation)
+    {
+        throw new \net\stubbles\lang\exception\MethodNotSupportedException('Can not procure a single param');
     }
 
     /**
