@@ -306,5 +306,15 @@ class ValueFilterTestCase extends filter\FilterTestCase
                                 ValueReader::forValue('bar')
         );
     }
+
+    /**
+     * @test
+     */
+    public function canBeCreatedforParam()
+    {
+        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+                                ValueReader::forParam(new Param('foo', 'bar'))
+        );
+    }
 }
 ?>

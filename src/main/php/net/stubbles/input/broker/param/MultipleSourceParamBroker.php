@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\input\ValueReader;
 use net\stubbles\lang\BaseObject;
@@ -19,7 +20,7 @@ use net\stubbles\lang\reflect\annotation\Annotation;
 abstract class MultipleSourceParamBroker extends BaseObject implements ParamBroker
 {
     /**
-     * handles single param
+     * extracts parameter from request and handles it
      *
      * @param   Request     $request     instance to handle value with
      * @param   Annotation  $annotation  annotation which contains request param metadata
@@ -28,12 +29,24 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
     public function procure(Request $request, Annotation $annotation)
     {
         $method      = $this->getMethod($request, $annotation);
-        $valueFilter = $request->$method($annotation->getName());
+        $valueReader = $request->$method($annotation->getName());
         if ($annotation->isRequired()) {
-            $valueFilter->required($annotation->getRequiredErrorId('FIELD_EMPTY'));
+            $valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY'));
         }
 
-        return $this->filter($valueFilter, $annotation);
+        return $this->filter($valueReader, $annotation);
+    }
+
+    /**
+     * handles a single param
+     *
+     * @param   Param       $param
+     * @param   Annotation  $annotation
+     * @return  mixed
+     */
+    public function procureParam(Param $param, Annotation $annotation)
+    {
+        return $this->filter(ValueReader::forParam($param), $annotation);
     }
 
     /**
