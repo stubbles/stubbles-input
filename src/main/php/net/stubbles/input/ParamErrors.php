@@ -101,7 +101,7 @@ class ParamErrors extends BaseObject implements \IteratorAggregate, \Countable
      * returns a list of errors for given param
      *
      * @param   string  $paramName
-     * @return  FilterError[]
+     * @return  ParamError[]
      */
     public function getFor($paramName)
     {
