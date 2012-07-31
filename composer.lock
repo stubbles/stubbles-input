@@ -1,9 +1,9 @@
 {
-    "hash": "247c50428d4f21a2a7e136928afd7b02",
+    "hash": "8da926170f05f3a7cdfde13be2aca8e4",
     "packages": [
         {
             "package": "stubbles/core",
-            "version": "v2.0.0"
+            "version": "v2.1.0"
         }
     ],
     "packages-dev": [
