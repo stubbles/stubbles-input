@@ -263,5 +263,25 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
                                 ValueValidator::forValue('bar')
         );
     }
+
+    /**
+     * @since  2.2.0
+     * @group  issue_33
+     * @test
+     */
+    public function withFunctionReturnsClosureResult()
+    {
+        $this->assertTrue($this->createValueValidator('303')
+                               ->withFunction(function($value)
+                                              {
+                                                  if (303 == $value) {
+                                                      return true;
+                                                  }
+
+                                                  return false;
+                                              }
+                                 )
+        );
+    }
 }
 ?>

@@ -175,5 +175,32 @@ class ValueValidator extends BaseObject
     {
         return $validator->validate($this->param->getValue());
     }
+
+    /**
+     * checks value with given closure
+     *
+     * The closure must accept the param value and either return true or false.
+     * <code>
+     * $result = $request->validateParam('name')
+     *                   ->withFunction(function($value)
+     *                                  {
+     *                                      if (303 == $value) {
+     *                                          return true;
+     *                                      }
+     *
+     *                                      return false;
+     *                                  }
+     *                     );
+     * </code>
+     *
+     * @api
+     * @since   2.2.0
+     * @param   Closure  $validator
+     * @return  bool
+     */
+    public function withFunction(\Closure $validator)
+    {
+        return $validator($this->param->getValue());
+    }
 }
 ?>
