@@ -543,6 +543,44 @@ class ValueReader extends BaseObject
     }
 
     /**
+     * checks value with given closure
+     *
+     * The closure must accept an instance of net\stubbles\input\Param and
+     * return the filtered value.
+     * <code>
+     * $result = $request->readParam('name')
+     *                   ->withFunction(function(Param $param)
+     *                                  {
+     *                                      if ($param->getValue() == 303) {
+     *                                          return 'Roland TB-303';
+     *                                      }
+     *
+     *                                      $param->addErrorWithId('INVALID_303');
+     *                                      return null;
+     *                                  }
+     *                     );
+     * </code>
+     *
+     * @api
+     * @since   2.2.0
+     * @param   Closure  $filter
+     * @return  bool
+     */
+    public function withFunction(\Closure $filter)
+    {
+        $value = $filter($this->param);
+        if (!$this->param->hasErrors()) {
+            return $value;
+        }
+
+        foreach ($this->param->getErrors() as $error) {
+            $this->paramErrors->add($error, $this->param->getName());
+        }
+
+        return null;
+    }
+
+    /**
      * returns value unvalidated
      *
      * This should be used with greatest care.
