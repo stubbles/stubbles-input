@@ -316,5 +316,69 @@ class ValueFilterTestCase extends filter\FilterTestCase
                                 ValueReader::forParam(new Param('foo', 'bar'))
         );
     }
+
+    /**
+     * @since  2.2.0
+     * @group  issue_33
+     * @test
+     */
+    public function withFunctionReturnsFilteredValue()
+    {
+        $this->assertEquals('Roland TB-303',
+                            $this->createValueReader('303')
+                                 ->withFunction(function(Param $param)
+                                                {
+                                                    if ($param->getValue() == 303) {
+                                                        return 'Roland TB-303';
+                                                    }
+
+                                                    $param->addErrorWithId('INVALID_303');
+                                                    return null;
+                                                }
+                                   )
+        );
+    }
+
+    /**
+     * @since  2.2.0
+     * @group  issue_33
+     * @test
+     */
+    public function withFunctionReturnsNullOnError()
+    {
+        $this->assertNull($this->createValueReader('909')
+                               ->withFunction(function(Param $param)
+                                              {
+                                                  if ($param->getValue() == 303) {
+                                                      return 'Roland TB-303';
+                                                  }
+
+                                                  $param->addErrorWithId('INVALID_303');
+                                                  return null;
+                                              }
+                                   )
+        );
+    }
+
+    /**
+     * @since  2.2.0
+     * @group  issue_33
+     * @test
+     */
+    public function withFunctionAddsErrorsToErrorList()
+    {
+        $this->createValueReader('909')
+             ->withFunction(function(Param $param)
+                            {
+                                if ($param->getValue() == 303) {
+                                    return 'Roland TB-303';
+                                }
+
+                                $param->addErrorWithId('INVALID_303');
+                                return null;
+                            }
+        );
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_303'));
+    }
 }
 ?>
