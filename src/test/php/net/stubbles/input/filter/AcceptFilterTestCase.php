@@ -12,7 +12,7 @@ use net\stubbles\input\Param;
 /**
  * Tests for net\stubbles\input\filter\AcceptFilter.
  *
- * @since  2.0.0
+ * @since  2.0.1
  * @group  filter
  */
 class AcceptFilterTestCase extends \PHPUnit_Framework_TestCase
