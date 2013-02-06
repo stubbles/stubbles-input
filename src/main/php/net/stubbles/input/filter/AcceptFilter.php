@@ -15,7 +15,7 @@ use net\stubbles\peer\http\AcceptHeader;
 /**
  * Filters accept headers.
  *
- * @since  2.0.0
+ * @since  2.0.1
  */
 class AcceptFilter extends BaseObject implements Filter
 {
