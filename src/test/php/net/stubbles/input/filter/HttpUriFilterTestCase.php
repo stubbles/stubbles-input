@@ -118,10 +118,11 @@ class HttpUrlFilterTestCase extends FilterTestCase
     /**
      * @test
      */
-    public function dnsCheckEnabledReturnsNullIfUriHasNoDnsRecoed()
+    public function dnsCheckEnabledReturnsNullIfUriHasNoDnsRecord()
     {
-        $this->httpUriFilter->enforceDnsRecord()
-                            ->apply($this->createParam('http://doesnotexist.1und1.de/'));
+        $this->assertNull($this->httpUriFilter->enforceDnsRecord()
+                                              ->apply($this->createParam('http://doesnotexist.1und1.de/'))
+        );
     }
 
     /**
