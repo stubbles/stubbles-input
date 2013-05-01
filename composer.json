@@ -9,7 +9,8 @@
         "stubbles/core": "~3.0"
     },
     "require-dev": {
-        "mikey179/vfsStream": "~1.2"
+        "mikey179/vfsStream": "~1.2",
+        "phpunit/phpunit": "~3.7"
     },
     "autoload": {
         "psr-0": {
@@ -22,5 +23,6 @@
             "dev-master": "2.3.x-dev"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
