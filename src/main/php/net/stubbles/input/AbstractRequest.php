@@ -8,11 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\BaseObject;
 /**
  * Abstract base class for requests.
  */
-abstract class AbstractRequest extends BaseObject implements Request
+abstract class AbstractRequest implements Request
 {
     /**
      * list of params

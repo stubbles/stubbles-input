@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\web\useragent;
-use net\stubbles\input\Param;
 use net\stubbles\input\ValueReader;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Test for net\stubbles\input\web\useragent\UserAgentProvider.
  *
@@ -46,9 +46,9 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresent()
     {
-        $this->assertTrue($this->userAgentProvider->getClass()
-                                                  ->getConstructor()
-                                                  ->hasAnnotation('Inject')
+        $this->assertTrue(ReflectionObject::fromInstance($this->userAgentProvider)
+                                          ->getConstructor()
+                                          ->hasAnnotation('Inject')
         );
     }
 

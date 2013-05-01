@@ -8,13 +8,12 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\BaseObject;
 /**
  * Container for a filter error list.
  *
  * @since  1.3.0
  */
-class ParamErrors extends BaseObject implements \IteratorAggregate, \Countable
+class ParamErrors implements \IteratorAggregate, \Countable
 {
     /**
      * list of errors that occurred while applying a filter on a param

@@ -9,14 +9,13 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for validating that something is an ip v4 address.
  *
  * @since  1.7.0
  * @api
  */
-class IpV4Validator extends BaseObject implements Validator
+class IpV4Validator implements Validator
 {
     /**
      * validates if given value is an ip v4 address

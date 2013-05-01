@@ -9,13 +9,12 @@
  */
 namespace net\stubbles\input\broker;
 use net\stubbles\input\Request;
-use net\stubbles\lang\BaseObject;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
  * @Singleton
  */
-class RequestBroker extends BaseObject
+class RequestBroker
 {
     /**
      * the matcher to be used for methods and properties

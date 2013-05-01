@@ -9,13 +9,12 @@
  */
 namespace net\stubbles\input;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Value object for request values to check them against validators.
  *
  * @since  1.3.0
  */
-class ValueValidator extends BaseObject
+class ValueValidator
 {
     /**
      * original value

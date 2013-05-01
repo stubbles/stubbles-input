@@ -8,8 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\validator;
-use net\stubbles\lang\BaseObject;
-use net\stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for validating that a string denotes an existing file.
  *

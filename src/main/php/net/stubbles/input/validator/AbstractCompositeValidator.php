@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\IllegalStateException;
 /**
  * Base class for composite validators.
@@ -18,7 +17,7 @@ use net\stubbles\lang\exception\IllegalStateException;
  * into a single validator which then applies all those validators for the
  * value to validate.
  */
-abstract class AbstractCompositeValidator extends BaseObject implements CompositeValidator
+abstract class AbstractCompositeValidator implements CompositeValidator
 {
     /**
      * list of validators to combine
@@ -49,7 +48,7 @@ abstract class AbstractCompositeValidator extends BaseObject implements Composit
     public function validate($value)
     {
         if (count($this->validators) === 0) {
-            throw new IllegalStateException('No validators set for composite ' . $this->getClassName());
+            throw new IllegalStateException('No validators set for composite ' . get_class($this));
         }
 
         return $this->doValidate($value);

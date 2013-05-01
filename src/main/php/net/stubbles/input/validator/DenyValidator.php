@@ -9,13 +9,12 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 /**
  * Validator that denies validaty of values.
  *
  * @api
  */
-class DenyValidator extends BaseObject implements Validator
+class DenyValidator implements Validator
 {
     /**
      * validate that the given value complies with the regular expression

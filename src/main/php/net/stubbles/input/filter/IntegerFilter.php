@@ -8,15 +8,13 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
-use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Basic class for filters on request variables of type integer.
  *
  * This filter takes any value and casts it to int.
  */
-class IntegerFilter extends BaseObject implements NumberFilter
+class IntegerFilter implements NumberFilter
 {
     /**
      * apply filter on given param

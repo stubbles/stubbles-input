@@ -10,14 +10,13 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\peer\http\AcceptHeader;
 /**
  * Filters accept headers.
  *
  * @since  2.0.1
  */
-class AcceptFilter extends BaseObject implements Filter
+class AcceptFilter implements Filter
 {
     /**
      * apply filter on given param

@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\peer\MalformedUriException;
 use net\stubbles\peer\http\HttpUri;
 /**
@@ -17,7 +16,7 @@ use net\stubbles\peer\http\HttpUri;
  *
  * @api
  */
-class HttpUriValidator extends BaseObject implements Validator
+class HttpUriValidator implements Validator
 {
     /**
      * whether to check dns for existence of given url or not

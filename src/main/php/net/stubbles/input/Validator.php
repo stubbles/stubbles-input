@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\Object;
 /**
  * Interface for validators.
  *
@@ -16,7 +15,7 @@ use net\stubbles\lang\Object;
  *
  * @api
  */
-interface Validator extends Object
+interface Validator
 {
     /**
      * validate the given value

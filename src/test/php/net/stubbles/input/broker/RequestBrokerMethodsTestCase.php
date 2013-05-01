@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\input\filter\ValueFilter;
 use org\stubbles\input\test\BrokerClass;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerMethods.
  *
@@ -38,8 +38,8 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue($this->requestBrokerMethods->getClass()
-                                                     ->hasAnnotation('Singleton')
+        $this->assertTrue(ReflectionObject::fromInstance($this->requestBrokerMethods)
+                                          ->hasAnnotation('Singleton')
         );
     }
 

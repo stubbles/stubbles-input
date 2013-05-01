@@ -8,14 +8,13 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 /**
  * Map which contains all single parameter brokers.
  *
  * @Singleton
  */
-class ParamBrokerMap extends BaseObject
+class ParamBrokerMap
 {
     /**
      * list of build in param brokers

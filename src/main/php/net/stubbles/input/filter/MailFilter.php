@@ -11,7 +11,6 @@ namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\validator\MailValidator;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for filtering mail addresses.
  *
@@ -19,7 +18,7 @@ use net\stubbles\lang\BaseObject;
  * - given param value is null or an empty string,
  * - given param value doesn't contain a valid mail address.
  */
-class MailFilter extends BaseObject implements Filter
+class MailFilter implements Filter
 {
     /**
      * apply filter on given param

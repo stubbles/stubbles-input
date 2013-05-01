@@ -9,6 +9,7 @@
  */
 namespace net\stubbles\input\error;
 use net\stubbles\input\ParamError;
+use net\stubbles\lang\reflect\ReflectionObject;
 use net\stubbles\lang\types\LocalizedString;
 use org\bovigo\vfs\vfsStream;
 /**
@@ -202,9 +203,9 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue($this->errorMessages->getClass()
-                                              ->getConstructor()
-                                              ->hasAnnotation('Inject')
+        $this->assertTrue(ReflectionObject::fromInstance($this->errorMessages)
+                                          ->getConstructor()
+                                          ->hasAnnotation('Inject')
         );
     }
 
@@ -213,8 +214,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnSetLocaleMethod()
     {
-        $setLocaleMethod = $this->errorMessages->getClass()
-                                               ->getMethod('setLocale');
+        $setLocaleMethod = ReflectionObject::fromInstance($this->errorMessages)
+                                           ->getMethod('setLocale');
         $this->assertTrue($setLocaleMethod->hasAnnotation('Inject'));
         $this->assertTrue($setLocaleMethod->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setLocaleMethod->hasAnnotation('Named'));

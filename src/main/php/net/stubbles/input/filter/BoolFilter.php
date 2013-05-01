@@ -10,7 +10,6 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Basic class for filters on request variables of type boolean.
  *
@@ -19,7 +18,7 @@ use net\stubbles\lang\BaseObject;
  *
  * @since  1.2.0
  */
-class BoolFilter extends BaseObject implements Filter
+class BoolFilter implements Filter
 {
     /**
      * apply filter on given param
