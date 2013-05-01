@@ -10,7 +10,6 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Basic class for filters on request variables of type array.
  *
@@ -21,7 +20,7 @@ use net\stubbles\lang\BaseObject;
  *
  * @since  2.0.0
  */
-class ArrayFilter extends BaseObject implements Filter
+class ArrayFilter implements Filter
 {
     /**
      * default separator to be used to split string

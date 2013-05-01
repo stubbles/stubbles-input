@@ -9,14 +9,13 @@
  */
 namespace net\stubbles\input\error;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\Object;
 /**
  * Interface to translate param errors into error messages.
  *
  * @api
  * @ImplementedBy(net\stubbles\input\error\PropertyBasedParamErrorMessages.class)
  */
-interface ParamErrorMessages extends Object
+interface ParamErrorMessages
 {
     /**
      * checks if any messages are known for given error

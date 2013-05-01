@@ -11,14 +11,13 @@ namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\input\filter\range\DateRange;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\CustomDatespan;
 /**
  * Filter parameters based on a @Request[CustomDatespan] annotation.
  */
-class CustomDatespanParamBroker extends BaseObject implements ParamBroker
+class CustomDatespanParamBroker implements ParamBroker
 {
     /**
      * handles single param

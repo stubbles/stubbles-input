@@ -11,13 +11,12 @@ namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker to be used to retrieve parameters based on annotations.
  */
-abstract class MultipleSourceParamBroker extends BaseObject implements ParamBroker
+abstract class MultipleSourceParamBroker implements ParamBroker
 {
     /**
      * extracts parameter from request and handles it
@@ -61,7 +60,7 @@ abstract class MultipleSourceParamBroker extends BaseObject implements ParamBrok
     {
         $method = 'read' . $this->getSource($annotation);
         if (!method_exists($request, $method)) {
-            throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . $request->getClassName());
+            throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . get_class($request));
         }
 
         return $method;

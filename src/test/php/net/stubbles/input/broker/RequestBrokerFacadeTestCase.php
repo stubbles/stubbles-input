@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\broker;
 use net\stubbles\input\ParamError;
-use net\stubbles\input\filter\ValueFilter;
 use net\stubbles\lang\reflect\ReflectionMethod;
+use net\stubbles\lang\reflect\ReflectionObject;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\LocalizedString;
 use org\stubbles\input\test\BrokerClass;
@@ -69,7 +69,9 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue($this->requestBrokerFacade->getClass()->hasAnnotation('Singleton'));
+        $this->assertTrue(ReflectionObject::fromInstance($this->requestBrokerFacade)
+                                          ->hasAnnotation('Singleton')
+        );
     }
 
     /**

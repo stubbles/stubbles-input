@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Datespan;
@@ -19,7 +18,7 @@ use net\stubbles\lang\types\datespan\Datespan;
  * @api
  * @since  2.0.0
  */
-class DatespanRange extends BaseObject implements Range
+class DatespanRange implements Range
 {
     /**
      * minimum date

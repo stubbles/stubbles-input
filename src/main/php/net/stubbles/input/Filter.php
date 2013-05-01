@@ -8,8 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\input\Param;
-use net\stubbles\lang\Object;
 /**
  * Interface for filter.
  *
@@ -18,7 +16,7 @@ use net\stubbles\lang\Object;
  *
  * @api
  */
-interface Filter extends Object
+interface Filter
 {
     /**
      * apply filter on given param

@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\web\useragent;
-use net\stubbles\lang\BaseObject;
 /**
  * Value object for user agents.
  *
@@ -16,7 +15,7 @@ use net\stubbles\lang\BaseObject;
  * @XmlTag(tagName='userAgent')
  * @ProvidedBy(net\stubbles\input\web\useragent\UserAgentProvider.class)
  */
-class UserAgent extends BaseObject
+class UserAgent
 {
     /**
      * name of user agent
@@ -86,6 +85,17 @@ class UserAgent extends BaseObject
     public function acceptsCookies()
     {
         return $this->acceptsCookies;
+    }
+
+    /**
+     * returns a string representation of the class
+     *
+     * @XmlIgnore
+     * @return  string
+     */
+    public function __toString()
+    {
+        return \net\stubbles\lang\StringRepresentationBuilder::buildFrom($this);
     }
 }
 ?>

@@ -8,13 +8,12 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\Object;
 /**
  * Interface for handling input data.
  *
  * @api
  */
-interface Request extends Object
+interface Request
 {
     /**
      * cancels the request, e.g. if it was detected that it is invalid

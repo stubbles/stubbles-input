@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\error;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\Properties;
 use net\stubbles\lang\ResourceLoader;
 /**
@@ -18,7 +17,7 @@ use net\stubbles\lang\ResourceLoader;
  * @since  1.3.0
  * @Singleton
  */
-class PropertyBasedParamErrorMessages extends BaseObject implements ParamErrorMessages
+class PropertyBasedParamErrorMessages implements ParamErrorMessages
 {
     /**
      * loader for master.xsl resource file

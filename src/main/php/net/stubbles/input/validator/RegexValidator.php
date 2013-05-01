@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 /**
  * Validator to ensure a value complies to a given regular expression.
@@ -21,7 +20,7 @@ use net\stubbles\lang\exception\RuntimeException;
  *
  * @api
  */
-class RegexValidator extends BaseObject implements Validator
+class RegexValidator implements Validator
 {
     /**
      * the regular expression to use for validation

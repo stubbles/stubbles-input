@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\input\filter\PasswordFilter;
 use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter values based on a @Request[OneOf] annotation.

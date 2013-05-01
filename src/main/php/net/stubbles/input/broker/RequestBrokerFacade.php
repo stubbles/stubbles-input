@@ -10,14 +10,13 @@
 namespace net\stubbles\input\broker;
 use net\stubbles\input\Request;
 use net\stubbles\input\error\ParamErrorMessages;
-use net\stubbles\lang\BaseObject;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
  * @since  2.0.0
  * @Singleton
  */
-class RequestBrokerFacade extends BaseObject
+class RequestBrokerFacade
 {
     /**
      * request instance

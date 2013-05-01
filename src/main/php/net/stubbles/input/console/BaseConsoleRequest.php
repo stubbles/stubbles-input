@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\console;
 use net\stubbles\input\AbstractRequest;
-use net\stubbles\input\Param;
 use net\stubbles\input\ParamErrors;
 use net\stubbles\input\Params;
 use net\stubbles\input\ValueReader;

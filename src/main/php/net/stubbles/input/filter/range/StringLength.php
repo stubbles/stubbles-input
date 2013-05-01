@@ -9,14 +9,13 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\BaseObject;
 /**
  * String length limitation.
  *
  * @api
  * @since  2.0.0
  */
-class StringLength extends BaseObject implements Range
+class StringLength implements Range
 {
     /**
      * minimum length
