@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\input\filter\ValueFilter;
 use org\stubbles\input\test\BrokerClass;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Tests for net\stubbles\input\broker\RequestBroker.
  *
@@ -54,7 +54,9 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue($this->requestBroker->getClass()->hasAnnotation('Singleton'));
+        $this->assertTrue(ReflectionObject::fromInstance($this->requestBroker)
+                                          ->hasAnnotation('Singleton')
+        );
     }
 
     /**
@@ -62,9 +64,9 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue($this->requestBroker->getClass()
-                                              ->getConstructor()
-                                              ->hasAnnotation('Inject')
+        $this->assertTrue(ReflectionObject::fromInstance($this->requestBroker)
+                                          ->getConstructor()
+                                          ->hasAnnotation('Inject')
         );
     }
 

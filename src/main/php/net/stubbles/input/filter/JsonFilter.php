@@ -10,14 +10,13 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for decoding JSON.
  *
  * @link  http://www.json.org/
  * @link  http://www.ietf.org/rfc/rfc4627.txt
  */
-class JsonFilter extends BaseObject implements Filter
+class JsonFilter implements Filter
 {
     /**
      * apply filter on given param

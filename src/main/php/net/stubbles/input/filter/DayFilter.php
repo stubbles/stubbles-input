@@ -10,7 +10,6 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\datespan\Day;
 use net\stubbles\lang\exception\IllegalArgumentException;
 /**
@@ -24,7 +23,7 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  *
  * @see  http://php.net/manual/de/datetime.formats.php
  */
-class DayFilter extends BaseObject implements Filter
+class DayFilter implements Filter
 {
     /**
      * apply filter on given param

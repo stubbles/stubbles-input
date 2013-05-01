@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
-use net\stubbles\lang\Object;
 /**
  * Interface for range definitions.
  *
@@ -17,7 +16,7 @@ use net\stubbles\lang\Object;
  * @api
  * @since  2.0.0
  */
-interface Range extends Object
+interface Range
 {
     /**
      * checks if given value is below min border of range

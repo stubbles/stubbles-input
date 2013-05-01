@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Tests for net\stubbles\input\broker\ParamBrokerMap.
  *
@@ -36,7 +37,9 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue($this->paramBrokerMap->getClass()->hasAnnotation('Singleton'));
+        $this->assertTrue(ReflectionObject::fromInstance($this->paramBrokerMap)
+                                          ->hasAnnotation('Singleton')
+        );
     }
 
     /**
@@ -44,7 +47,8 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnSetParamBrokersMethod()
     {
-        $setParamBrokers = $this->paramBrokerMap->getClass()->getMethod('setParamBrokers');
+        $setParamBrokers = ReflectionObject::fromInstance($this->paramBrokerMap)
+                                           ->getMethod('setParamBrokers');
         $this->assertTrue($setParamBrokers->hasAnnotation('Inject'));
         $this->assertTrue($setParamBrokers->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setParamBrokers->hasAnnotation('Map'));
@@ -59,7 +63,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
     {
         $defaultBroker = array();
         foreach (ParamBrokerMap::getBuildInParamBroker() as $name => $paramBroker) {
-            $defaultBroker[] = array($name, $paramBroker->getClassName());
+            $defaultBroker[] = array($name, get_class($paramBroker));
         }
 
         return $defaultBroker;

@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for validating that something is equal.
@@ -20,7 +19,7 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  *
  * @api
  */
-class ContainsValidator extends BaseObject implements Validator
+class ContainsValidator implements Validator
 {
     /**
      * the scalar value to be contained in value to validate

@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\web\useragent;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Test for net\stubbles\input\web\useragent\UserAgent.
  *
@@ -37,19 +38,44 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function iocAnnotationPresentOnClass()
     {
-        $this->assertTrue($this->userAgent->getClass()->hasAnnotation('ProvidedBy'));
+        $this->assertTrue(ReflectionObject::fromInstance($this->userAgent)
+                                          ->hasAnnotation('ProvidedBy')
+        );
     }
 
     /**
      * @test
      */
-    public function xmlAnnotationsPresent()
+    public function xmlAnnotationsPresentClass()
     {
-        $class = $this->userAgent->getClass();
+        $this->assertTrue(ReflectionObject::fromInstance($this->userAgent)
+                                          ->hasAnnotation('XmlTag')
+        );
+    }
+
+    /**
+     * data provider
+     *
+     * @return  array
+     */
+    public function getXmlRelatedMethodAnnotations()
+    {
+        return array(array('getName', 'XmlAttribute'),
+                     array('isBot', 'XmlAttribute'),
+                     array('acceptsCookies', 'XmlAttribute'),
+                     array('__toString', 'XmlIgnore')
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider  getXmlRelatedMethodAnnotations
+     */
+    public function xmlAnnotationsPresentOnMethods($method, $annotation)
+    {
+        $class = ReflectionObject::fromInstance($this->userAgent);
         $this->assertTrue($class->hasAnnotation('XmlTag'));
-        $this->assertTrue($class->getMethod('getName')->hasAnnotation('XmlAttribute'));
-        $this->assertTrue($class->getMethod('isBot')->hasAnnotation('XmlAttribute'));
-        $this->assertTrue($class->getMethod('acceptsCookies')->hasAnnotation('XmlAttribute'));
+        $this->assertTrue($class->getMethod($method)->hasAnnotation($annotation));
     }
 
     /**

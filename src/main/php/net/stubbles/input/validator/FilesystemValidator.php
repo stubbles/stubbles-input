@@ -9,15 +9,13 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
-use net\stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for validating that a string denotes an existing path.
  *
  *
  * @since  2.0.0
  */
-abstract class FilesystemValidator extends BaseObject implements Validator
+abstract class FilesystemValidator implements Validator
 {
     /**
      * base path where file must reside in

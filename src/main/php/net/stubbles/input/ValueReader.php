@@ -14,7 +14,6 @@ use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\input\filter\range\DatespanRange;
 use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\input\filter\range\NumberRange;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Day;
 use net\stubbles\peer\http\HttpUri;
@@ -23,7 +22,7 @@ use net\stubbles\peer\http\HttpUri;
  *
  * @since  1.3.0
  */
-class ValueReader extends BaseObject
+class ValueReader
 {
     /**
      * request instance the value inherits from

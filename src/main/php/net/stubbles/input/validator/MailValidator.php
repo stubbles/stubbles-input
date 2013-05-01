@@ -9,13 +9,12 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 /**
  * Validator to ensure that a string is a mail address.
  *
  * @api
  */
-class MailValidator extends BaseObject implements Validator
+class MailValidator implements Validator
 {
     /**
      * validate that the given value is not longer than the maximum length

@@ -8,13 +8,12 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\BaseObject;
 /**
  * Interface for handling input data.
  *
  * @since  2.0.0
  */
-class Params extends BaseObject implements \IteratorAggregate, \Countable
+class Params implements \IteratorAggregate, \Countable
 {
     /**
      * list of parameters

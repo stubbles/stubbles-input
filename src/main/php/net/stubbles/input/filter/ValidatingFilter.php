@@ -12,13 +12,12 @@ use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
 use net\stubbles\input\ParamError;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for filtering values based on validators.
  *
  * @since  2.0.0
  */
-class ValidatingFilter extends BaseObject implements Filter
+class ValidatingFilter implements Filter
 {
     /**
      * validator to be used

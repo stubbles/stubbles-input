@@ -10,14 +10,13 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for filtering strings (singe line).
  *
  * This filter removes all line breaks, slashes and any HTML tags. In case the
  * given param value is null it returns an empty string.
  */
-class StringFilter extends BaseObject implements Filter
+class StringFilter implements Filter
 {
     /**
      * apply filter on given param

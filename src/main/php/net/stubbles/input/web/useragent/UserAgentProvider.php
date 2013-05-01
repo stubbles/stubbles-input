@@ -10,7 +10,6 @@
 namespace net\stubbles\input\web\useragent;
 use net\stubbles\input\web\WebRequest;
 use net\stubbles\ioc\InjectionProvider;
-use net\stubbles\lang\BaseObject;
 /**
  * Factory to create user agent instances.
  *
@@ -24,7 +23,7 @@ use net\stubbles\lang\BaseObject;
  *
  * @since  1.2.0
  */
-class UserAgentProvider extends BaseObject implements InjectionProvider
+class UserAgentProvider implements InjectionProvider
 {
     /**
      * request instance to be used

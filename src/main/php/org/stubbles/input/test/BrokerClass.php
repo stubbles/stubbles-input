@@ -8,11 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace org\stubbles\input\test;
-use net\stubbles\lang\BaseObject;
 /**
  * Helper class for the test.
  */
-class BrokerClass extends BaseObject
+class BrokerClass
 {
     /**
      * test property

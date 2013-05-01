@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\RuntimeException;
 use net\stubbles\lang\types\Date;
 /**
@@ -18,7 +17,7 @@ use net\stubbles\lang\types\Date;
  * @api
  * @since  2.0.0
  */
-class DateRange extends BaseObject implements Range
+class DateRange implements Range
 {
     /**
      * minimum date

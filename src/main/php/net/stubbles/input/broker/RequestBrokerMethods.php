@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\lang\exception\IllegalArgumentException;
 use net\stubbles\lang\reflect\ReflectionClass;
 use net\stubbles\lang\reflect\ReflectionObject;
@@ -19,7 +18,7 @@ use net\stubbles\lang\reflect\matcher\MethodMatcher;
  *
  * @Singleton
  */
-class RequestBrokerMethods extends BaseObject implements MethodMatcher
+class RequestBrokerMethods implements MethodMatcher
 {
     /**
      * returns all methods of given instance which are applicable for brokerage

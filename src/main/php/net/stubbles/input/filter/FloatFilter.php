@@ -8,9 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
-use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Filters on request variables of type double / float.
  *
@@ -19,7 +17,7 @@ use net\stubbles\lang\BaseObject;
  * operations for accuracy. If no value for x is given the value to filter is
  * returned as is after the cast.
  */
-class FloatFilter extends BaseObject implements NumberFilter
+class FloatFilter implements NumberFilter
 {
     /**
      * number of decimals

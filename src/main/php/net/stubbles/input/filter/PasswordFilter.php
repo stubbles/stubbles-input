@@ -10,7 +10,6 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 /**
  * Class for filtering passwords.
  *
@@ -21,7 +20,7 @@ use net\stubbles\lang\BaseObject;
  * not equal the password is not allowed (can be used to prevent mistyped
  * passwords in register or password change forms).
  */
-class PasswordFilter extends BaseObject implements Filter
+class PasswordFilter implements Filter
 {
     const MIN_DIFF_CHARS_DEFAULT = 5;
     /**

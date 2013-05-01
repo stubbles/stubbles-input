@@ -9,14 +9,13 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\BaseObject;
 /**
  * Description of a number range.
  *
  * @api
  * @since  2.0.0
  */
-class NumberRange extends BaseObject implements Range
+class NumberRange implements Range
 {
     /**
      * minimum value

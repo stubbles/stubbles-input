@@ -10,7 +10,6 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\peer\MalformedUriException;
 use net\stubbles\peer\http\HttpUri;
 /**
@@ -22,7 +21,7 @@ use net\stubbles\peer\http\HttpUri;
  * - Given http uri doesn't have a DNS record but DNS record is enforced.
  * In all other cases an instance of net\stubbles\peer\http\HttpUri is returned.
  */
-class HttpUriFilter extends BaseObject implements Filter
+class HttpUriFilter implements Filter
 {
     /**
      * switch whether DNS should be checked or not
