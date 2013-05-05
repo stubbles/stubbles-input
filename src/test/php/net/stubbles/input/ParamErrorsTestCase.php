@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\types\LocalizedString;
 /**
  * Tests for net\stubbles\input\ParamErrors.
  *

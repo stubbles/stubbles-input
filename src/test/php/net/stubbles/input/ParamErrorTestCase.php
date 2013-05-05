@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 use net\stubbles\lang\types\LocalizedString;
 /**
  * Tests for net\stubbles\input\ParamError.
@@ -109,7 +109,7 @@ class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->paramError)->hasAnnotation('XmlTag'));
+        $this->assertTrue(lang\reflect($this->paramError)->hasAnnotation('XmlTag'));
     }
 
     /**
@@ -117,10 +117,7 @@ class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnGetIdMethod()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->paramError)
-                                          ->getMethod('getId')
-                                          ->hasAnnotation('XmlAttribute')
-        );
+        $this->assertTrue(lang\reflect($this->paramError, 'getId')->hasAnnotation('XmlAttribute'));
     }
 }
 ?>

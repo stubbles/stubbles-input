@@ -9,8 +9,7 @@
  */
 namespace net\stubbles\input\broker;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\reflect\ReflectionMethod;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 use net\stubbles\lang\reflect\annotation\Annotation;
 use net\stubbles\lang\types\LocalizedString;
 use org\stubbles\input\test\BrokerClass;
@@ -21,7 +20,7 @@ use org\stubbles\input\test\BrokerClass;
  * @group  broker
  * @group  broker_core
  */
-class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
+class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
@@ -53,11 +52,11 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockRequest            = $this->getMock('net\\stubbles\\input\\Request');
-        $this->mockRequestBroker      = $this->getMockBuilder('net\\stubbles\\input\\broker\\RequestBroker')
+        $this->mockRequest            = $this->getMock('net\stubbles\input\Request');
+        $this->mockRequestBroker      = $this->getMockBuilder('net\stubbles\input\broker\RequestBroker')
                                              ->disableOriginalConstructor()
                                              ->getMock();
-        $this->mockParamErrorMessages = $this->getMock('net\\stubbles\\input\\error\\ParamErrorMessages');
+        $this->mockParamErrorMessages = $this->getMock('net\stubbles\input\error\ParamErrorMessages');
         $this->requestBrokerFacade    = new RequestBrokerFacade($this->mockRequest,
                                                                 $this->mockRequestBroker,
                                                                 $this->mockParamErrorMessages
@@ -69,9 +68,7 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->requestBrokerFacade)
-                                          ->hasAnnotation('Singleton')
-        );
+        $this->assertTrue(lang\reflect($this->requestBrokerFacade)->hasAnnotation('Singleton'));
     }
 
     /**
@@ -105,7 +102,7 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
                                        $this->equalTo($brokeredClass),
                                        $this->equalTo(null)
                                   );
-        $mockParamErrors = $this->getMock('net\\stubbles\\input\\ParamErrors');
+        $mockParamErrors = $this->getMock('net\stubbles\input\ParamErrors');
         $this->mockRequest->expects($this->once())
                           ->method('paramErrors')
                           ->will($this->returnValue($mockParamErrors));
@@ -129,7 +126,7 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
                                        $this->equalTo($brokeredClass),
                                        $this->equalTo(null)
                                   );
-        $mockParamErrors = $this->getMock('net\\stubbles\\input\\ParamErrors');
+        $mockParamErrors = $this->getMock('net\stubbles\input\ParamErrors');
         $this->mockRequest->expects($this->any())
                           ->method('paramErrors')
                           ->will($this->returnValue($mockParamErrors));
@@ -154,7 +151,7 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
      */
     private function expectWrite($expect)
     {
-        $mockOutputStream = $this->getMock('net\\stubbles\\streams\\OutputStream');
+        $mockOutputStream = $this->getMock('net\stubbles\streams\OutputStream');
         if (null === $expect) {
             $mockOutputStream->expects($this->never())
                              ->method('writeLine');
@@ -176,7 +173,7 @@ class RequestBrokerFacadeTestCaseextends extends \PHPUnit_Framework_TestCase
     public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
     {
         $brokeredClass = new BrokerClass();
-        $expected      = array(new ReflectionMethod($brokeredClass, 'setBar'));
+        $expected      = array(lang\reflect($brokeredClass, 'setBar'));
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getMethods')
                                 ->with($this->equalTo($brokeredClass),
