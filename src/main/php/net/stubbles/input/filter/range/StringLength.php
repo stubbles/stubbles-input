@@ -9,6 +9,8 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
+use net\stubbles\lang\exception\IllegalArgumentException;
+use net\stubbles\lang\exception\RuntimeException;
 /**
  * String length limitation.
  *
@@ -29,6 +31,12 @@ class StringLength implements Range
      * @type  int
      */
     private $maxLength;
+    /**
+     * whether string can be truncated to maximum length
+     *
+     * @type  bool
+     */
+    private $allowsTruncate = false;
 
     /**
      * constructor
@@ -40,6 +48,27 @@ class StringLength implements Range
     {
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
+    }
+
+    /**
+     * create instance which treats above max border not as error, but will lead
+     * to a truncated value only
+     *
+     * @param   int  $minLength
+     * @param   int  $maxLength
+     * @return  StringLength
+     * @throws  IllegalArgumentException
+     * @since   2.3.1
+     */
+    public static function truncate($minLength, $maxLength)
+    {
+        if (0 >= $maxLength) {
+            throw new IllegalArgumentException('Max length must be greater than 0, otherwise truncation doesn\'t make sense');
+        }
+
+        $self = new self($minLength, $maxLength);
+        $self->allowsTruncate = true;
+        return $self;
     }
 
     /**
@@ -73,6 +102,34 @@ class StringLength implements Range
     }
 
     /**
+     * checks whether string can be truncated to maximum length
+     *
+     * @return  bool
+     * @since   2.3.1
+     */
+    public function allowsTruncate()
+    {
+        return $this->allowsTruncate;
+    }
+
+    /**
+     * truncates given value to max length
+     *
+     * @param   string  $value
+     * @return  string
+     * @throws  RuntimeException
+     * @since   2.3.1
+     */
+    public function truncateToMaxBorder($value)
+    {
+        if ($this->allowsTruncate()) {
+            return substr($value, 0, $this->maxLength);
+        }
+
+        throw new RuntimeException('Truncate value to max length not allowed');
+    }
+
+    /**
      * returns a param error denoting violation of min border
      *
      * @return  ParamError
@@ -92,4 +149,3 @@ class StringLength implements Range
         return new ParamError('STRING_TOO_LONG', array('maxNumber' => $this->maxLength));
     }
 }
-?>

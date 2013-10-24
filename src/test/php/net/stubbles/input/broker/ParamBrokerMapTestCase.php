@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 /**
  * Tests for net\stubbles\input\broker\ParamBrokerMap.
  *
@@ -37,9 +37,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->paramBrokerMap)
-                                          ->hasAnnotation('Singleton')
-        );
+        $this->assertTrue(lang\reflect($this->paramBrokerMap)->hasAnnotation('Singleton'));
     }
 
     /**
@@ -47,8 +45,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnSetParamBrokersMethod()
     {
-        $setParamBrokers = ReflectionObject::fromInstance($this->paramBrokerMap)
-                                           ->getMethod('setParamBrokers');
+        $setParamBrokers = lang\reflect($this->paramBrokerMap, 'setParamBrokers');
         $this->assertTrue($setParamBrokers->hasAnnotation('Inject'));
         $this->assertTrue($setParamBrokers->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setParamBrokers->hasAnnotation('Map'));
@@ -95,7 +92,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function settingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
-        $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
+        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
         $this->assertInstanceOf($brokerClass,
                                 $this->paramBrokerMap->setParamBrokers(array('Mock' => $mockParamBroker))
                                                      ->getBroker($key)
@@ -107,7 +104,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsAddedBroker()
     {
-        $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
+        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
         $this->assertSame($mockParamBroker,
                           $this->paramBrokerMap->setParamBrokers(array('Mock' => $mockParamBroker))
                                                ->getBroker('Mock')
@@ -119,7 +116,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function canOverwriteDefaultBroker()
     {
-        $mockParamBroker = $this->getMock('net\\stubbles\\input\\broker\\param\\ParamBroker');
+        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
         $this->assertSame($mockParamBroker,
                           $this->paramBrokerMap->setParamBrokers(array('String' => $mockParamBroker))
                                                ->getBroker('String')

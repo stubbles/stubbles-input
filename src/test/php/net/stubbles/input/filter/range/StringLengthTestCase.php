@@ -149,5 +149,59 @@ class StringLengthTestCase extends \PHPUnit_Framework_TestCase
                             $this->stringLength->getMaxParamError()->getId()
         );
     }
+
+    /**
+     * @test
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function doesNotAllowTruncateByDefault()
+    {
+        $this->assertFalse($this->stringLength->allowsTruncate());
+    }
+
+    /**
+     * @test
+     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function truncateValueWhenNotAllowedThrowsRuntimeException()
+    {
+        $this->stringLength->truncateToMaxBorder('foobar');
+    }
+
+    /**
+     * @test
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function allowsTruncateWhenCreatedThisWay()
+    {
+        $this->assertTrue(StringLength::truncate(null, 100)->allowsTruncate());
+    }
+
+    /**
+     * @test
+     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function createWithTruncateAndNoMaxLengthThrowsIllegalArgumentException()
+    {
+        StringLength::truncate(50, null);
+    }
+
+    /**
+     * @test
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function truncateToMaxBorderReturnsSubstringWithMaxLength()
+    {
+        $this->assertEquals('foo',
+                            StringLength::truncate(null, 3)
+                                        ->truncateToMaxBorder('foobar')
+        );
+    }
 }
-?>

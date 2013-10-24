@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker;
 use org\stubbles\input\test\BrokerClass;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerMethods.
  *
@@ -38,9 +38,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->requestBrokerMethods)
-                                          ->hasAnnotation('Singleton')
-        );
+        $this->assertTrue(lang\reflect($this->requestBrokerMethods)->hasAnnotation('Singleton'));
     }
 
     /**
@@ -60,7 +58,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $methods = $this->requestBrokerMethods->get(new BrokerClass());
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -71,10 +69,10 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getReturnsListOfAllMethodsWithRequestAnnotationOnClassName()
     {
-        $methods = $this->requestBrokerMethods->get('org\\stubbles\\input\\test\\BrokerClass');
+        $methods = $this->requestBrokerMethods->get('org\stubbles\input\\test\BrokerClass');
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -88,7 +86,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $methods = $this->requestBrokerMethods->get(new BrokerClass(), 'main');
         $this->assertCount(1, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\ReflectionMethod',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -102,7 +100,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $annotations = $this->requestBrokerMethods->getAnnotations(new BrokerClass());
         $this->assertCount(3, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
         }
@@ -116,7 +114,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $annotations = $this->requestBrokerMethods->getAnnotations(new BrokerClass(), 'main');
         $this->assertCount(1, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
             $this->assertTrue($annotation->requiresValue());
@@ -128,12 +126,12 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsReturnsListOfAllRequestAnnotationInGivenGroupOnClassName()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('org\\stubbles\\input\\test\\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('org\stubbles\input\\test\BrokerClass',
                                                                    'main'
         );
         $this->assertCount(1, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\\stubbles\\lang\\reflect\\annotation\\Annotation',
+            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
             $this->assertTrue($annotation->requiresValue());
@@ -145,7 +143,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsDoesNotSetRequiresValueForMethodsWithoutParameters()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('org\\stubbles\\input\\test\\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('org\stubbles\input\\test\BrokerClass',
                                                                    'noparam'
         );
         $this->assertCount(1, $annotations);
