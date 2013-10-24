@@ -74,6 +74,10 @@ class RangeFilter implements Filter
             $param->addError($this->range->getMinParamError());
             return null;
         } elseif ($this->range->aboveMaxBorder($value)) {
+            if ($this->range->allowsTruncate()) {
+                return $this->range->truncateToMaxBorder($value);
+            }
+
             $param->addError($this->range->getMaxParamError());
             return null;
         }
@@ -81,4 +85,3 @@ class RangeFilter implements Filter
         return $value;
     }
 }
-?>

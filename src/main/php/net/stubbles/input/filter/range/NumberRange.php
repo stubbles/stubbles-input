@@ -9,6 +9,7 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
+use net\stubbles\lang\exception\MethodNotSupportedException;
 /**
  * Description of a number range.
  *
@@ -73,6 +74,30 @@ class NumberRange implements Range
     }
 
     /**
+     * checks whether value can be truncated to maximum value
+     *
+     * @return  bool
+     * @since   2.3.1
+     */
+    public function allowsTruncate()
+    {
+        return false;
+    }
+
+    /**
+     * truncates given value to max border, which is not supported for numbers
+     *
+     * @param   string  $value
+     * @return  string
+     * @throws  MethodNotSupportedException
+     * @since   2.3.1
+     */
+    public function truncateToMaxBorder($value)
+    {
+        throw new MethodNotSupportedException('Truncating a number is not possible');
+    }
+
+    /**
      * returns a param error denoting violation of min border
      *
      * @return  ParamError
@@ -92,4 +117,3 @@ class NumberRange implements Range
         return new ParamError('VALUE_TOO_GREAT', array('maxNumber' => $this->maxValue));
     }
 }
-?>

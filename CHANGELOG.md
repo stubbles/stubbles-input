@@ -1,3 +1,9 @@
+2.3.1 (2013-10-24)
+------------------
+
+  * added `net\stubbles\input\filter\range\StringLength::truncate()`
+
+
 2.3.0 (2013-05-02)
 ------------------
 

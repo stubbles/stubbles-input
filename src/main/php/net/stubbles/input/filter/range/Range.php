@@ -35,6 +35,23 @@ interface Range
     public function aboveMaxBorder($value);
 
     /**
+     * checks whether value can be truncated to maximum value
+     *
+     * @return  bool
+     * @since   2.3.1
+     */
+    public function allowsTruncate();
+
+    /**
+     * truncates given value to max border
+     *
+     * @param   string  $value
+     * @return  string
+     * @since   2.3.1
+     */
+    public function truncateToMaxBorder($value);
+
+    /**
      * returns a param error denoting violation of min border
      *
      * @return  ParamError

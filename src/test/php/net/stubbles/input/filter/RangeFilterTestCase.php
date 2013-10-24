@@ -41,8 +41,8 @@ class RangeFilterTestCase extends FilterTestCase
      */
     public function setUp()
     {
-        $this->mockFilter  = $this->getMock('net\\stubbles\\input\\Filter');
-        $this->mockRange   = $this->getMock('net\\stubbles\\input\\filter\\range\\Range');
+        $this->mockFilter  = $this->getMock('net\stubbles\input\Filter');
+        $this->mockRange   = $this->getMock('net\stubbles\input\filter\range\Range');
         $this->rangeFilter = new RangeFilter($this->mockFilter, $this->mockRange);
     }
 
@@ -123,7 +123,7 @@ class RangeFilterTestCase extends FilterTestCase
     /**
      * @test
      */
-    public function returnsNullIfNumberAboveBorder()
+    public function returnsNullIfValueAboveBorderAndTruncateNotAllowed()
     {
         $param = $this->createParam(303);
         $this->mockRange->expects($this->once())
@@ -137,10 +137,43 @@ class RangeFilterTestCase extends FilterTestCase
                         ->with($this->equalTo(303))
                         ->will($this->returnValue(true));
         $this->mockRange->expects($this->once())
+                        ->method('allowsTruncate')
+                        ->will($this->returnValue(false));
+        $this->mockRange->expects($this->once())
                         ->method('getMaxParamError')
                         ->will($this->returnValue(new ParamError('UPPER_BORDER_VIOLATION')));
         $this->assertNull($this->rangeFilter->apply($param));
         $this->assertTrue($param->hasError('UPPER_BORDER_VIOLATION'));
     }
+
+    /**
+     * @test
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function returnsTruncatedValueIfValueAboveBorderAndTruncateAllowed()
+    {
+        $this->mockRange->expects($this->once())
+                        ->method('belowMinBorder')
+                        ->with($this->equalTo('foobar'))
+                        ->will($this->returnValue(false));
+        $this->mockRange->expects($this->never())
+                        ->method('getMinParamError');
+        $this->mockRange->expects($this->once())
+                        ->method('aboveMaxBorder')
+                        ->with($this->equalTo('foobar'))
+                        ->will($this->returnValue(true));
+        $this->mockRange->expects($this->once())
+                        ->method('allowsTruncate')
+                        ->will($this->returnValue(true));
+        $this->mockRange->expects($this->once())
+                        ->method('truncateToMaxBorder')
+                        ->with($this->equalTo('foobar'))
+                        ->will($this->returnValue('foo'));
+        $this->mockRange->expects($this->never())
+                        ->method('getMaxParamError');
+        $this->assertEquals('foo',
+                            $this->rangeFilter->apply($this->createParam('foobar'))
+        );
+    }
 }
-?>

@@ -168,5 +168,25 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
                             $this->dateRange->getMaxParamError()->getId()
         );
     }
+
+    /**
+     * @test
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function doesNotAllowToTruncate()
+    {
+        $this->assertFalse($this->dateRange->allowsTruncate());
+    }
+
+    /**
+     * @test
+     * @expectedException  net\stubbles\lang\exception\MethodNotSupportedException
+     * @since  2.3.1
+     * @group  issue41
+     */
+    public function tryingToTruncateThrowsMethodNotSupportedException()
+    {
+        $this->dateRange->truncateToMaxBorder(new Date('2012-03-20'));
+    }
 }
-?>
