@@ -286,6 +286,44 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  2.3.2
+     */
+    public function getUriReturnsCompleteRequestUriWithoutDoublePortIfPortIsInHost()
+    {
+        $this->assertEquals('http://localhost:8080/index.php?foo=bar',
+                            $this->createBaseWebRequest(array('foo'         => 'bar'),
+                                                        array('HTTPS'       => null,
+                                                              'HTTP_HOST'   => 'localhost:8080',
+                                                              'SERVER_PORT' => 80,
+                                                              'REQUEST_URI' => '/index.php?foo=bar'
+                                                        )
+                                   )
+                                 ->getUri()
+                                 ->asString()
+        );
+    }
+
+    /**
+     * @test
+     * @since  2.3.2
+     */
+    public function getUriReturnsCompleteRequestUriWithNonDefaultPort()
+    {
+        $this->assertEquals('http://example.net:8080/index.php?foo=bar',
+                            $this->createBaseWebRequest(array('foo'         => 'bar'),
+                                                        array('HTTPS'       => null,
+                                                              'HTTP_HOST'   => 'example.net',
+                                                              'SERVER_PORT' => 8080,
+                                                              'REQUEST_URI' => '/index.php?foo=bar'
+                                                        )
+                                   )
+                                 ->getUri()
+                                 ->asString()
+        );
+    }
+
+    /**
+     * @test
      */
     public function getUriReturnsCompleteRequestUriForHttps()
     {

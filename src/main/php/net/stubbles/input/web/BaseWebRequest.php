@@ -137,9 +137,13 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getUri()
     {
+        $host = $this->headers->getValue('HTTP_HOST');
+        if (strstr($host, ':') === false) {
+            $host .= ':' . $this->headers->getValue('SERVER_PORT');
+        }
+
         $uri  = (($this->headers->has('HTTPS')) ? ('https') : ('http')) . '://'
-              . $this->headers->getValue('HTTP_HOST')
-              . ':' . $this->headers->getValue('SERVER_PORT')
+              . $host
               . $this->headers->getValue('REQUEST_URI');
         try {
             return HttpUri::fromString($uri);

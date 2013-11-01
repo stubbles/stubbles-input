@@ -1,3 +1,9 @@
+2.3.2 (2013-11-01)
+------------------
+
+  * fixed bug when port is also in `$_SERVER['HTTP_HOST']` because user agent sent according host header
+
+
 2.3.1 (2013-10-24)
 ------------------
 
