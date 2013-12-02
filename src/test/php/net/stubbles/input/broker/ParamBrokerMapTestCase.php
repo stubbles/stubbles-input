@@ -63,7 +63,34 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
             $defaultBroker[] = array($name, get_class($paramBroker));
         }
 
-        return $defaultBroker;
+        return array_merge($defaultBroker, $this->getBcDefaultBrokerList());
+    }
+
+    /**
+     * returns a list of default brokers for backward compatibility with old keys
+     *
+     * @return  array
+     * @since   2.3.3
+     */
+    private function getBcDefaultBrokerList()
+    {
+        return array(array('Array', 'net\stubbles\input\broker\param\ArrayParamBroker'),
+                     array('Bool', 'net\stubbles\input\broker\param\BoolParamBroker'),
+                     array('CustomDatespan', 'net\stubbles\input\broker\param\CustomDatespanParamBroker'),
+                     array('Date', 'net\stubbles\input\broker\param\DateParamBroker'),
+                     array('Day', 'net\stubbles\input\broker\param\DayParamBroker'),
+                     array('Directory', 'net\stubbles\input\broker\param\DirectoryParamBroker'),
+                     array('File', 'net\stubbles\input\broker\param\FileParamBroker'),
+                     array('Float', 'net\stubbles\input\broker\param\FloatParamBroker'),
+                     array('HttpUri', 'net\stubbles\input\broker\param\HttpUriParamBroker'),
+                     array('Integer', 'net\stubbles\input\broker\param\IntegerParamBroker'),
+                     array('Json', 'net\stubbles\input\broker\param\JsonParamBroker'),
+                     array('Mail', 'net\stubbles\input\broker\param\MailParamBroker'),
+                     array('OneOf', 'net\stubbles\input\broker\param\OneOfParamBroker'),
+                     array('Password', 'net\stubbles\input\broker\param\PasswordParamBroker'),
+                     array('String', 'net\stubbles\input\broker\param\StringParamBroker'),
+                     array('Text', 'net\stubbles\input\broker\param\TextParamBroker'),
+         );
     }
 
     /**
@@ -74,6 +101,19 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf($brokerClass,
                                 $this->paramBrokerMap->getBroker($key)
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider  getDefaultBrokerList
+     * @since  2.3.3
+     * @group  issue_45
+     */
+    public function returnsBrokerWithLowerCaseKey($key, $brokerClass)
+    {
+        $this->assertInstanceOf($brokerClass,
+                                $this->paramBrokerMap->getBroker(strtolower($key))
         );
     }
 
@@ -118,9 +158,8 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
     {
         $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
         $this->assertSame($mockParamBroker,
-                          $this->paramBrokerMap->setParamBrokers(array('String' => $mockParamBroker))
-                                               ->getBroker('String')
+                          $this->paramBrokerMap->setParamBrokers(array('string' => $mockParamBroker))
+                                               ->getBroker('string')
         );
     }
 }
-?>

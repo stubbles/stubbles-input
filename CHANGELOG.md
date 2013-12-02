@@ -1,3 +1,16 @@
+2.3.3 (2013-12-??)
+------------------
+
+  * fixed #45 ParamBrokerMap should work with lowercase versions of built-in types as well
+  * fixed #46 possibility to add param errors without creating a ParamError instance
+     * added `net\stubbles\input\Param::add()` now also accepts an error id instead of a ParamError instance only
+     * added `net\stubbles\input\ParamErrors::append()`, replaces `net\stubbles\input\ParamErrors::add()`
+     * deprecated `net\stubbles\input\ParamErrors::add()`, will be removed with 2.4.0
+     * deprecated `net\stubbles\input\Param::addErrorWithId()`, will be removed with 2.4.0
+     * added `net\stubbles\input\ParamErrors::asList()`, replaces `net\stubbles\input\ParamErrors::get()`
+     * deprecated `net\stubbles\input\ParamErrors::get()`, will be removed with 2.4.0
+
+
 2.3.2 (2013-11-01)
 ------------------
 

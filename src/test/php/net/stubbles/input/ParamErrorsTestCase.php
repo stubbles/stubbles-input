@@ -36,29 +36,91 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
     public function hasNoErrorsInitially()
     {
         $this->assertFalse($this->paramErrors->exist());
-        $this->assertEquals(0, $this->paramErrors->count());
-        $this->assertEquals(array(), $this->paramErrors->get());
     }
 
     /**
      * @test
      */
-    public function addErrorForSingleRequestValue()
+    public function initialErrorCountIsZero()
     {
-        $paramError = new ParamError('id');
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
+        $this->assertEquals(0, $this->paramErrors->count());
+    }
 
+    /**
+     * @test
+     */
+    public function initialErrorListIsEmpty()
+    {
+        $this->assertEquals(array(), $this->paramErrors->asList());
+    }
+
+    /**
+     * @test
+     */
+    public function paramErrorsExistIfOneAppended()
+    {
+        $this->paramErrors->append('foo', 'errorid');
         $this->assertTrue($this->paramErrors->exist());
+    }
+
+    /**
+     * @test
+     */
+    public function appendedErrorExistsForGivenParamName()
+    {
+        $this->paramErrors->append('foo', 'errorid');
         $this->assertTrue($this->paramErrors->existFor('foo'));
-        $this->assertTrue($this->paramErrors->existForWithId('foo', 'id'));
+    }
+
+    /**
+     * @test
+     */
+    public function appendedErrorExistsForGivenParamNameAndErrorId()
+    {
+        $this->paramErrors->append('foo', 'errorid');
+        $this->assertTrue($this->paramErrors->existForWithId('foo', 'errorid'));
+    }
+
+    /**
+     * @test
+     */
+    public function appendingAnErrorIncreasesErrorCount()
+    {
+        $this->paramErrors->append('foo', 'errorid');
         $this->assertEquals(1, $this->paramErrors->count());
-        $this->assertEquals(array('foo' => array('id' => $paramError)), $this->paramErrors->get());
-        $this->assertEquals(array('id' => $paramError), $this->paramErrors->getFor('foo'));
-        $this->assertEquals($paramError, $this->paramErrors->getForWithId('foo', 'id'));
+    }
+
+    /**
+     * @test
+     */
+    public function appendedErrorIsContainedInList()
+    {
+        $paramError = $this->paramErrors->append('foo', 'errorid');
+        $this->assertEquals(array('foo' => array('errorid' => $paramError)),
+                            $this->paramErrors->asList()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function appendedErrorIsContainedInListForParam()
+    {
+        $paramError = $this->paramErrors->append('foo', 'errorid');
+        $this->assertEquals(array('errorid' => $paramError),
+                            $this->paramErrors->getFor('foo')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function appendedErrorIsReturnedWhenRequested()
+    {
+        $paramError = $this->paramErrors->append('foo', 'errorid');
+        $this->assertSame($paramError,
+                          $this->paramErrors->getForWithId('foo', 'errorid')
+        );
     }
 
     /**
@@ -122,12 +184,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function existForWithIdReturnsFalseIfNoErrorOfThisNameAddedBefore()
     {
-        $paramError = new ParamError('id');
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
+        $this->paramErrors->append('foo', 'errorid');
         $this->assertFalse($this->paramErrors->existForWithId('foo', 'baz'));
     }
 
@@ -136,12 +193,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getForWithIdReturnsNullIfNoErrorOfThisNameAddedBefore()
     {
-        $paramError = new ParamError('id');
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
+        $this->paramErrors->append('foo', 'errorid');
         $this->assertNull($this->paramErrors->getForWithId('foo', 'baz'));
     }
 
@@ -150,17 +202,9 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function canIterateOverParamErrors()
     {
-        $paramError1 = new ParamError('id1');
-        $paramError2 = new ParamError('id2');
-        $this->paramErrors->add($paramError1,
-                                 'foo'
-                             );
-        $this->paramErrors->add($paramError2,
-                                 'foo'
-                             );
-        $this->paramErrors->add($paramError1,
-                                 'bar'
-                             );
+        $paramError1 = $this->paramErrors->append('foo', 'id1');
+        $paramError2 = $this->paramErrors->append('foo', 'id2');
+        $paramError3 = $this->paramErrors->append('bar', 'id1');
         $i = 0;
         foreach ($this->paramErrors as $paramName => $paramErrors) {
             if (0 === $i) {
@@ -172,7 +216,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
                 );
             } else {
                 $this->assertEquals('bar', $paramName);
-                $this->assertEquals(array('id1' => $paramError1),
+                $this->assertEquals(array('id1' => $paramError3),
                                     $paramErrors
                 );
             }
@@ -181,4 +225,3 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
         }
     }
 }
-?>
