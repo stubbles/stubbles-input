@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
+use net\stubbles\lang\exception\IllegalArgumentException;
 /**
  * Container for a parameter and its value.
  *
@@ -104,6 +105,7 @@ class Param
      * @param   string  $errorId
      * @param   array   $details  details of what caused the error
      * @return  ParamError
+     * @deprecated  since 2.3.3, will be removed with 2.4.0
      */
     public function addErrorWithId($errorId, array $details = array())
     {
@@ -113,11 +115,13 @@ class Param
     /**
      * adds error with given id
      *
-     * @param   ParamError  $error
+     * @param   ParamError|string  $error    id of error or an instance of ParamError
+     * @param   array              $details  details of what caused the error
      * @return  ParamError
      */
-    public function addError(ParamError $error)
+    public function addError($error, array $details = array())
     {
+        $error = ParamError::fromData($error, $details);
         $this->errors[$error->getId()] = $error;
         return $error;
     }
@@ -153,4 +157,3 @@ class Param
         return $this->errors;
     }
 }
-?>

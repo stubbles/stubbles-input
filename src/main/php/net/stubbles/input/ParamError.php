@@ -8,6 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
+use net\stubbles\lang\exception\IllegalArgumentException;
 use net\stubbles\lang\types\LocalizedString;
 /**
  * Class representing parameter errors after filtering parameter values.
@@ -39,6 +40,30 @@ class ParamError
     {
         $this->id      = $id;
         $this->details = $details;
+    }
+
+    /**
+     * creates an instance from given error id and details
+     *
+     * In case given error is already an instance of ParamError it is simply
+     * returned.
+     *
+     * @param   ParamError|string  $error    id of error or an instance of ParamError
+     * @param   array              $details  details of what caused the error
+     * @return  ParamError
+     * @throws  IllegalArgumentException
+     */
+    public static function fromData($error, array $details = array())
+    {
+        if ($error instanceof self) {
+            return $error;
+        }
+
+        if (!is_string($error)) {
+            throw new IllegalArgumentException('Given error must either be an error id or an instance of ' . __CLASS__);
+        }
+
+        return new self($error, $details);
     }
 
     /**
@@ -101,4 +126,3 @@ class ParamError
         return (string) $detail;
     }
 }
-?>

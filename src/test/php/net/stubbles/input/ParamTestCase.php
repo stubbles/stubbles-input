@@ -90,21 +90,57 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function hasErrorIfAdded()
+    public function hasErrorIfAddedWithId()
     {
         $param = new Param('foo', 'bar');
-        $param->addErrorWithId('SOME_ERROR');
+        $param->addError('SOME_ERROR');
         $this->assertTrue($param->hasErrors());
     }
 
     /**
      * @test
      */
-    public function hasNonEmptyErrorListIfErrorAdded()
+    public function hasNonEmptyErrorListIfErrorAddedWithIdAndDetails()
     {
         $param = new Param('foo', 'bar');
-        $error = $param->addErrorWithId('SOME_ERROR', array('some' => 'detail'));
+        $error = $param->addError('SOME_ERROR', array('some' => 'detail'));
         $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
     }
+
+    /**
+     * @test
+     * @since  2.3.3
+     * @group  issue_46
+     */
+    public function hasErrorIfAddedAsInstance()
+    {
+        $param = new Param('foo', 'bar');
+        $param->addError(new ParamError('SOME_ERROR'));
+        $this->assertTrue($param->hasErrors());
+    }
+
+    /**
+     * @test
+     * @since  2.3.3
+     * @group  issue_46
+     */
+    public function hasNonEmptyErrorListIfErrorAddedAsInstance()
+    {
+        $param = new Param('foo', 'bar');
+        $error = $param->addError(new ParamError('SOME_ERROR', array('some' => 'detail')));
+        $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
+    }
+
+    /**
+     * @test
+     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedExceptionMessage  Given error must either be an error id or an instance of net\stubbles\input\ParamError
+     * @since  2.3.3
+     * @group  issue_46
+     */
+    public function addNonParamErrorAndNoErrorIdResultsInIllegalArgumentException()
+    {
+        $param = new Param('foo', 'bar');
+        $param->addError(500);
+    }
 }
-?>

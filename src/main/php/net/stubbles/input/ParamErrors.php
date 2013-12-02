@@ -23,15 +23,37 @@ class ParamErrors implements \IteratorAggregate, \Countable
     private $errors = array();
 
     /**
+     * appends an error to the list of errors for given param name
+     *
+     * @param   string             $paramName  name of parameter to add error for
+     * @param   ParamError|string  $error      id of error or an instance of ParamError
+     * @param   array              $details    details of what caused the error
+     * @return  ParamError
+     * @since   2.3.3
+     */
+    public function append($paramName, $error, array $details = array())
+    {
+        $error = ParamError::fromData($error, $details);
+        if (!isset($this->errors[$paramName])) {
+            $this->errors[$paramName] = array($error->getId() => $error);
+        } else {
+            $this->errors[$paramName][$error->getId()] = $error;
+        }
+
+        return $error;
+    }
+
+    /**
      * adds error with given id for given parameter name
      *
      * @param   ParamError  $error      error to add
      * @param   string      $paramName  name of parameter to add error for
      * @return  ParamError
+     * @deprecated  since 2.3.3, will be removed with 2.4.0
      */
     public function add(ParamError $error, $paramName)
     {
-        if (isset($this->errors[$paramName]) === false) {
+        if (!isset($this->errors[$paramName])) {
             $this->errors[$paramName] = array($error->getId() => $error);
         } else {
             $this->errors[$paramName][$error->getId()] = $error;
@@ -90,6 +112,18 @@ class ParamErrors implements \IteratorAggregate, \Countable
      * returns list of all errors for all parameters
      *
      * @return  array
+     * @since   2.3.3
+     */
+    public function asList()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * returns list of all errors for all parameters
+     *
+     * @return  array
+     * @deprecated  since 2.3.3, will be removed with 2.4.0
      */
     public function get()
     {
@@ -139,4 +173,3 @@ class ParamErrors implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->errors);
     }
 }
-?>
