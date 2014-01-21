@@ -1,4 +1,4 @@
-2.3.3 (2013-12-??)
+2.4.0 (2014-01-21)
 ------------------
 
   * fixed #45 ParamBrokerMap should work with lowercase versions of built-in types as well
