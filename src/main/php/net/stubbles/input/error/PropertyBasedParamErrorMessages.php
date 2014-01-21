@@ -55,7 +55,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      * @param   string  $locale
      * @return  PropertyBasedParamErrorMessages
      * @Inject(optional=true)
-     * @Named('net.stubbles.locale')
+     * @Property('net.stubbles.locale')
      */
     public function setLocale($locale)
     {
