@@ -214,9 +214,9 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
         $setLocaleMethod = lang\reflect($this->errorMessages, 'setLocale');
         $this->assertTrue($setLocaleMethod->hasAnnotation('Inject'));
         $this->assertTrue($setLocaleMethod->getAnnotation('Inject')->isOptional());
-        $this->assertTrue($setLocaleMethod->hasAnnotation('Named'));
+        $this->assertTrue($setLocaleMethod->hasAnnotation('Property'));
         $this->assertEquals('net.stubbles.locale',
-                            $setLocaleMethod->getAnnotation('Named')->getName()
+                            $setLocaleMethod->getAnnotation('Property')->getValue()
         );
     }
 }
