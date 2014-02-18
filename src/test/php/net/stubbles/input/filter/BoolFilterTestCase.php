@@ -67,6 +67,16 @@ class BoolFilterTestCase extends FilterTestCase
 
     /**
      * @test
+     * @since  2.4.1
+     * @group  issue_49
+     */
+    public function filteringYesAsStringReturnsTrue()
+    {
+        $this->assertTrue($this->boolFilter->apply($this->createParam('yes')));
+    }
+
+    /**
+     * @test
      */
     public function filtering0AsIntReturnsFalse()
     {
@@ -95,6 +105,16 @@ class BoolFilterTestCase extends FilterTestCase
     public function filteringFalseAsBoolReturnsFalse()
     {
         $this->assertFalse($this->boolFilter->apply($this->createParam(false)));
+    }
+
+    /**
+     * @test
+     * @since  2.4.1
+     * @group  issue_49
+     */
+    public function filteringNoAsStringReturnsFalse()
+    {
+        $this->assertFalse($this->boolFilter->apply($this->createParam('no')));
     }
 
     /**
@@ -145,4 +165,3 @@ class BoolFilterTestCase extends FilterTestCase
         $this->assertTrue($this->createValueReader(1)->asBool());
     }
 }
-?>

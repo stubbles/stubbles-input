@@ -1,7 +1,14 @@
+2.4.1 (2014-02-18)
+------------------
+
+  * implemented #49: `net\stubbles\input\filter\BoolFilter` should allow yes and no
+
+
 2.4.0 (2014-01-21)
 ------------------
 
   * upgraded to stubbles-core 3.4.0
+
 
 2.3.3 (2013-12-02)
 ------------------
