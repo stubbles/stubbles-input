@@ -28,11 +28,10 @@ class BoolFilter implements Filter
      */
     public function apply(Param $param)
     {
-        if (in_array($param->getValue(), array(1, '1', 'true', true), true)) {
+        if (in_array($param->getValue(), array(1, '1', 'true', true, 'yes'), true)) {
             return true;
         }
 
         return false;
     }
 }
-?>
