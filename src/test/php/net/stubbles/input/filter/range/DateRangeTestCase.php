@@ -30,7 +30,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dateRange = new DateRange(new Date('2012-03-17'), new Date('2012-03-19'));
+        $this->dateRange = new DateRange('2012-03-17', '2012-03-19');
     }
 
     /**

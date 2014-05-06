@@ -36,13 +36,13 @@ class DateRange implements Range
     /**
      * constructor
      *
-     * @param  Date  $minDate
-     * @param  Date  $maxDate
+     * @param  int|string|\DateTime|Date  $minDate
+     * @param  int|string|\DateTime|Date  $maxDate
      */
-    public function __construct(Date $minDate = null, Date $maxDate = null)
+    public function __construct($minDate = null, $maxDate = null)
     {
-        $this->minDate = $minDate;
-        $this->maxDate = $maxDate;
+        $this->minDate = (null === $minDate) ? (null) : (Date::castFrom($minDate, 'minDate'));
+        $this->maxDate = (null === $maxDate) ? (null) : (Date::castFrom($maxDate, 'maxDate'));
     }
 
     /**
