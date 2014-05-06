@@ -96,7 +96,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
-        $this->assertFalse($this->createValueValidator('http://foo')->isExistingHttpUri());
+        $this->assertFalse($this->createValueValidator('http://foo.doesnotexist')->isExistingHttpUri());
     }
 
     /**
