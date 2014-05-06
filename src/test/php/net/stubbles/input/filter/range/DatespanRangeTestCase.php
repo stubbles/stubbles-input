@@ -31,7 +31,7 @@ class DatespanRangeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->datespanRange = new DatespanRange(new Date('2012-03-17'), new Date('2012-03-19'));
+        $this->datespanRange = new DatespanRange('2012-03-17', '2012-03-19');
     }
 
     /**

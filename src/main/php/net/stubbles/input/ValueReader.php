@@ -317,12 +317,12 @@ class ValueReader
      * read as date value
      *
      * @api
-     * @param   Date       $default
-     * @param   DateRange  $range
+     * @param   int|string|\DateTime|Date  $default
+     * @param   DateRange                  $range
      * @return  net\stubbles\lang\types\Date
 
      */
-    public function asDate(Date $default = null, DateRange $range = null)
+    public function asDate($default = null, DateRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
@@ -330,7 +330,7 @@ class ValueReader
                                                                        $range
                                        );
                                    },
-                                   $default
+                                   (null === $default) ? (null) : (Date::castFrom($default, 'default'))
         );
     }
 
@@ -592,4 +592,3 @@ class ValueReader
         return $this->param->getValue();
     }
 }
-?>
