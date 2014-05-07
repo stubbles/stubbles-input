@@ -7,16 +7,16 @@
     "packages": [
         {
             "name": "stubbles/core",
-            "version": "v3.5.0",
+            "version": "v3.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "544b766e8234487e7f7d1f0f0fe6f38c56911674"
+                "reference": "36be594df574e2d0a8bed657f93c527b7c90f358"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/544b766e8234487e7f7d1f0f0fe6f38c56911674",
-                "reference": "544b766e8234487e7f7d1f0f0fe6f38c56911674",
+                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/36be594df574e2d0a8bed657f93c527b7c90f358",
+                "reference": "36be594df574e2d0a8bed657f93c527b7c90f358",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
             ],
             "description": "Provides base classes for Stubbles packages.",
             "homepage": "http://stubbles.net/",
-            "time": "2014-05-06 19:53:21"
+            "time": "2014-05-07 14:10:43"
         }
     ],
     "packages-dev": [
