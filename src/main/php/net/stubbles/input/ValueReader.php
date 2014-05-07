@@ -16,6 +16,7 @@ use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\input\filter\range\NumberRange;
 use net\stubbles\lang\types\Date;
 use net\stubbles\lang\types\datespan\Day;
+use net\stubbles\lang\types\datespan\Month;
 use net\stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -349,6 +350,27 @@ class ValueReader
         return $this->handleFilter(function() use($range)
                                    {
                                        return filter\RangeFilter::wrap(new filter\DayFilter(),
+                                                                       $range
+                                       );
+                                   },
+                                   $default
+        );
+    }
+
+    /**
+     * read as month
+     *
+     * @api
+     * @param   Month          $default
+     * @param   DatespanRange  $range
+     * @return  \net\stubbles\lang\types\datespan\Month
+     * @since   2.5.1
+     */
+    public function asMonth(Month $default = null, DatespanRange $range = null)
+    {
+        return $this->handleFilter(function() use($range)
+                                   {
+                                       return filter\RangeFilter::wrap(new filter\MonthFilter(),
                                                                        $range
                                        );
                                    },
