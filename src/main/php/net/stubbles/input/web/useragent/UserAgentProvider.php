@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\web\useragent;
 use net\stubbles\input\web\WebRequest;
-use net\stubbles\ioc\InjectionProvider;
+use stubbles\ioc\InjectionProvider;
 /**
  * Factory to create user agent instances.
  *
@@ -105,4 +105,3 @@ class UserAgentProvider implements InjectionProvider
         return count($this->request->getCookieNames()) > 0;
     }
 }
-?>

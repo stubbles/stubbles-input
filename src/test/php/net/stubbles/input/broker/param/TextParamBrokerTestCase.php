@@ -121,4 +121,3 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

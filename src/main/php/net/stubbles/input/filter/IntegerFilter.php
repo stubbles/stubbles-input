@@ -33,4 +33,3 @@ class IntegerFilter implements NumberFilter
         return $value;
     }
 }
-?>

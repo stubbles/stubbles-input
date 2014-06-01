@@ -37,4 +37,3 @@ class OrValidator extends AbstractCompositeValidator
         return false;
     }
 }
-?>

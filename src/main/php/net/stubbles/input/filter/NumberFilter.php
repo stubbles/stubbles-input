@@ -16,4 +16,3 @@ interface NumberFilter extends Filter
 {
     // intentionally empty
 }
-?>

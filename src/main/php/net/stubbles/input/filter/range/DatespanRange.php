@@ -8,11 +8,11 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
+use stubbles\date\Date;
+use stubbles\date\span\Datespan;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\exception\MethodNotSupportedException;
-use net\stubbles\lang\exception\RuntimeException;
-use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Datespan;
+use stubbles\lang\exception\MethodNotSupportedException;
+use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a datespan range.
  *
@@ -60,7 +60,7 @@ class DatespanRange implements Range
         }
 
         if (!($value instanceof Datespan)) {
-            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\datespan\\Datespan');
+            throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
         return $this->minDate->change()->timeTo('00:00:00')->isAfter($value->getStart());
@@ -80,7 +80,7 @@ class DatespanRange implements Range
         }
 
         if (!($value instanceof Datespan)) {
-            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\datespan\\Datespan');
+            throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
         return $this->maxDate->change()->timeTo('23:59:59')->isBefore($value->getEnd());

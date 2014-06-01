@@ -84,4 +84,3 @@ class HttpUriValidatorTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

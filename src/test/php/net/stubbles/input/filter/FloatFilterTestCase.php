@@ -146,4 +146,3 @@ class FloatFilterTestCase extends FilterTestCase
 
     }
 }
-?>

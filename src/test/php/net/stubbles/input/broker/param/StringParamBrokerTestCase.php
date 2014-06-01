@@ -105,4 +105,3 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

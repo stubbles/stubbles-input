@@ -56,4 +56,3 @@ class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

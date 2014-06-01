@@ -159,4 +159,3 @@ class StringFilterTestCase extends FilterTestCase
     }
 
 }
-?>

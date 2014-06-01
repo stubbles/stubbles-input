@@ -64,4 +64,3 @@ class ArrayFilter implements Filter
         return array_map('trim', explode($this->separator, $param->getValue()));
     }
 }
-?>

@@ -27,4 +27,3 @@ class DirectoryValidator extends FilesystemValidator
         return file_exists($path . '/.') && filetype($path) === 'dir';
     }
 }
-?>

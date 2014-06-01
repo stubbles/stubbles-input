@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for validating that something is equal.
  *
@@ -66,4 +66,3 @@ class ContainsValidator implements Validator
         return false;
     }
 }
-?>

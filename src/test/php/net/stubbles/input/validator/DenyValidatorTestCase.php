@@ -39,4 +39,3 @@ class DenyValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($denyValidator->validate($value));
     }
 }
-?>

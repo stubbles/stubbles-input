@@ -113,4 +113,3 @@ class FileValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($fileValidator->validate(__DIR__));
     }
 }
-?>

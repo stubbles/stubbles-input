@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\web\useragent;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\ReflectionObject;
+use stubbles\lang;
 /**
  * Test for net\stubbles\input\web\useragent\UserAgentProvider.
  *
@@ -46,9 +46,8 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresent()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->userAgentProvider)
-                                          ->getConstructor()
-                                          ->hasAnnotation('Inject')
+        $this->assertTrue(
+                lang\reflectConstructor($this->userAgentProvider)->hasAnnotation('Inject')
         );
     }
 
@@ -83,4 +82,3 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new UserAgent('Googlebot /v1.1', true, false), $this->userAgentProvider->get());
     }
 }
-?>

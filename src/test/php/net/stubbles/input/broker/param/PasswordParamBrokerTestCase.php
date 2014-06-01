@@ -78,4 +78,3 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

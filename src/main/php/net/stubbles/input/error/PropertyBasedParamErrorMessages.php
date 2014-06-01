@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\error;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\Properties;
-use net\stubbles\lang\ResourceLoader;
+use stubbles\lang\Properties;
+use stubbles\lang\ResourceLoader;
 /**
  * Translates errors into messages which are stored in property files.
  *
@@ -159,4 +159,3 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
         return $this->properties;
     }
 }
-?>

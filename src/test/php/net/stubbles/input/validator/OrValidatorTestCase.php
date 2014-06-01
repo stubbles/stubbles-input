@@ -79,4 +79,3 @@ class OrValidatorTestCase extends CompositeValidatorTestCase
         );
     }
 }
-?>

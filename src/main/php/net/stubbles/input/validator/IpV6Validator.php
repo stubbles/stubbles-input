@@ -61,4 +61,3 @@ class IpV6Validator implements Validator
         return self::validateAddress($value);
     }
 }
-?>

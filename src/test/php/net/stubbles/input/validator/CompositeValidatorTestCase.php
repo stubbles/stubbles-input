@@ -37,7 +37,7 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalStateException
+     * @expectedException  stubbles\lang\exception\IllegalStateException
      */
     public function validateThrowsRuntimeExceptionIfNoValidatorsAddedBefore()
     {
@@ -72,4 +72,3 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
         return $mockValidator;
     }
 }
-?>

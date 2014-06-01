@@ -118,4 +118,3 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
         );
     }
 }
-?>

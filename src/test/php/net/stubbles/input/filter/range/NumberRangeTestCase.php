@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
-use net\stubbles\lang\reflect\annotation\Annotation;
 /**
  * Tests for net\stubbles\input\filter\range\NumberRange.
  *
@@ -163,7 +162,7 @@ class NumberRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
      * @since  2.3.1
      * @group  issue41
      */

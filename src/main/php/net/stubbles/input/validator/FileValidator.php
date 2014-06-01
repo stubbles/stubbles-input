@@ -27,4 +27,3 @@ class FileValidator extends FilesystemValidator
         return file_exists($path) && filetype($path) === 'file';
     }
 }
-?>

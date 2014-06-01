@@ -8,9 +8,9 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use stubbles\date\span\CustomDatespan;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
-use net\stubbles\lang\types\datespan\CustomDatespan;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Tests for net\stubbles\input\broker\param\CustomDatespanParamBroker.
  *
@@ -282,4 +282,3 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

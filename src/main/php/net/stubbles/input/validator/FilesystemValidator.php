@@ -64,4 +64,3 @@ abstract class FilesystemValidator implements Validator
      */
     protected abstract function fileExists($path);
 }
-?>

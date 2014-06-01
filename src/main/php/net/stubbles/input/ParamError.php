@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\exception\IllegalArgumentException;
-use net\stubbles\lang\types\LocalizedString;
+use stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\types\LocalizedString;
 /**
  * Class representing parameter errors after filtering parameter values.
  *

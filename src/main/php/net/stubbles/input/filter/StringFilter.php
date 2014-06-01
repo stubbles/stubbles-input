@@ -58,4 +58,3 @@ class StringFilter implements Filter
         return null;
     }
 }
-?>

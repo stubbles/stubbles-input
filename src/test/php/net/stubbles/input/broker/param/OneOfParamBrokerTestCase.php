@@ -74,7 +74,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function failsForUnknownSource()
     {
@@ -156,4 +156,3 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

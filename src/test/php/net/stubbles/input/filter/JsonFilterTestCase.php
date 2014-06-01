@@ -221,4 +221,3 @@ class JsonFilterTestCase extends FilterTestCase
         $this->assertEquals($value, $this->createValueReader(json_encode($value))->asJson());
     }
 }
-?>

@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\peer\http\HttpUri;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\HttpUriFilter.
@@ -264,4 +264,3 @@ class HttpUrlFilterTestCase extends FilterTestCase
         );
     }
 }
-?>

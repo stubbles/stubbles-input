@@ -8,11 +8,9 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang\exception\IllegalArgumentException;
-use net\stubbles\lang\reflect\ReflectionClass;
-use net\stubbles\lang\reflect\ReflectionObject;
-use net\stubbles\lang\reflect\ReflectionMethod;
-use net\stubbles\lang\reflect\matcher\MethodMatcher;
+use stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\reflect\ReflectionMethod;
+use stubbles\lang\reflect\matcher\MethodMatcher;
 /**
  * Provides access to methods applicable for brokerage.
  *
@@ -34,7 +32,7 @@ class RequestBrokerMethods implements MethodMatcher
             throw new IllegalArgumentException('Parameter $object must be a concrete object instance or class name.');
         }
 
-        $refClass = $this->getObjectClass($object);
+        $refClass = \stubbles\lang\reflect($object);
         $methods  = $refClass->getMethodsByMatcher($this);
         if (empty($group)) {
             return $methods;
@@ -49,26 +47,11 @@ class RequestBrokerMethods implements MethodMatcher
     }
 
     /**
-     * retrieves class object
-     *
-     * @param   object|string  $object
-     * @return  \net\stubbles\lang\reflect\BaseReflectionClass
-     */
-    private function getObjectClass($object)
-    {
-        if (is_object($object)) {
-            return new ReflectionObject($object);
-        }
-
-        return new ReflectionClass($object);
-    }
-
-    /**
      * returns a list of all request annotations on given object
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  net\stubbles\lang\reflect\annotation\Annotation[]
+     * @return  stubbles\lang\reflect\annotation\Annotation[]
      */
     public function getAnnotations($object, $group = null)
     {
@@ -113,4 +96,3 @@ class RequestBrokerMethods implements MethodMatcher
         return $method->hasAnnotation('Request');
     }
 }
-?>

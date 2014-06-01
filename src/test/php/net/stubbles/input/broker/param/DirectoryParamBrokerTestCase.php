@@ -72,4 +72,3 @@ class DirectoryParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

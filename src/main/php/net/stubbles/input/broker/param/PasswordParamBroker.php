@@ -10,7 +10,7 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\PasswordFilter;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter passwords based on a @Request[Password] annotation.
  */
@@ -30,4 +30,3 @@ class PasswordParamBroker extends MultipleSourceParamBroker
         );
     }
 }
-?>

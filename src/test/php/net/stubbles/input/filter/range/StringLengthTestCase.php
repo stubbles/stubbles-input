@@ -162,7 +162,7 @@ class StringLengthTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      * @since  2.3.1
      * @group  issue41
      */
@@ -183,7 +183,7 @@ class StringLengthTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      * @since  2.3.1
      * @group  issue41
      */

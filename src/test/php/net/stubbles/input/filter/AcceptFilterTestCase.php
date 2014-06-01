@@ -21,7 +21,7 @@ class AcceptFilterTestCase extends \PHPUnit_Framework_TestCase
      * apply filter on given value
      *
      * @param   string  $value
-     * @return  net\stubbles\peer\http\AcceptHeader
+     * @return  stubbles\peer\http\AcceptHeader
      */
     private function apply($value)
     {
@@ -61,4 +61,3 @@ class AcceptFilterTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->apply('text/plain;q=0.5')->count());
     }
 }
-?>

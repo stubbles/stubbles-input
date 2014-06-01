@@ -8,11 +8,11 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use stubbles\date\Date;
+use stubbles\date\span\Day;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\range\DatespanRange;
-use net\stubbles\lang\reflect\annotation\Annotation;
-use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Day;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Day] annotation.
  */
@@ -23,7 +23,7 @@ class DayParamBroker extends MultipleSourceParamBroker
      *
      * @param   ValueReader  $valueReader  instance to filter value with
      * @param   Annotation   $annotation   annotation which contains filter metadata
-     * @return  net\stubbles\lang\types\datespan\Day
+     * @return  stubbles\date\span\Day
      */
     protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
@@ -64,4 +64,3 @@ class DayParamBroker extends MultipleSourceParamBroker
         return new Date($value);
     }
 }
-?>

@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang\exception\RuntimeException;
+use stubbles\lang\exception\RuntimeException;
 /**
  * Map which contains all single parameter brokers.
  *

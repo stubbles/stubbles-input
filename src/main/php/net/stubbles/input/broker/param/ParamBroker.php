@@ -10,7 +10,7 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Param;
 use net\stubbles\input\Request;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker to be used to filter parameters based on annotations.
  */
@@ -34,4 +34,3 @@ interface ParamBroker
      */
     public function procureParam(Param $param, Annotation $annotation);
 }
-?>

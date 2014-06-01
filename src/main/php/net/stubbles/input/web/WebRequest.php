@@ -36,7 +36,7 @@ interface WebRequest extends Request
     /**
      * returns the uri of the request
      *
-     * @return  net\stubbles\peer\http\HttpUri
+     * @return  stubbles\peer\http\HttpUri
      */
     public function getUri();
 
@@ -150,4 +150,3 @@ interface WebRequest extends Request
      */
     public function readBody();
 }
-?>

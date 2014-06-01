@@ -17,7 +17,7 @@ class ContainsValidatorTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      */
     public function constructionWithObjectThrowsIllegalArgumentException()
     {
@@ -26,7 +26,7 @@ class ContainsValidatorTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      */
     public function constructionWithNullThrowsIllegalArgumentException()
     {
@@ -95,4 +95,3 @@ class ContainsValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($validator->validate($value));
     }
 }
-?>

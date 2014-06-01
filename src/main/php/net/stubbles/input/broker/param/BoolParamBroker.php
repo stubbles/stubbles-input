@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Bool] annotation.
  */
@@ -27,4 +27,3 @@ class BoolParamBroker extends MultipleSourceParamBroker
         return $valueReader->asBool($annotation->getDefault());
     }
 }
-?>

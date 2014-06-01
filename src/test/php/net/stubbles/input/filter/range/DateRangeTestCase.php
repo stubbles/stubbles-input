@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
-use net\stubbles\lang\types\Date;
+use stubbles\date\Date;
 /**
  * Tests for net\stubbles\input\filter\range\DateRange.
  *
@@ -35,7 +35,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
     {
@@ -93,7 +93,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function aboveMaxBorderThrowsRuntimeExceptionOnInvalidType()
     {
@@ -181,7 +181,7 @@ class DateRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
      * @since  2.3.1
      * @group  issue41
      */

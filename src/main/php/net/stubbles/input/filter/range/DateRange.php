@@ -8,10 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
+use stubbles\date\Date;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\exception\MethodNotSupportedException;
-use net\stubbles\lang\exception\RuntimeException;
-use net\stubbles\lang\types\Date;
+use stubbles\lang\exception\MethodNotSupportedException;
+use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a date range.
  *
@@ -59,7 +59,7 @@ class DateRange implements Range
         }
 
         if (!($value instanceof Date)) {
-            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\Date');
+            throw new RuntimeException('Given value must be of instance stubbles\date\Date');
         }
 
         return $this->minDate->isAfter($value);
@@ -79,7 +79,7 @@ class DateRange implements Range
         }
 
         if (!($value instanceof Date)) {
-            throw new RuntimeException('Given value must be of instance net\\stubbles\\lang\\types\\Date');
+            throw new RuntimeException('Given value must be of instance stubbles\date\Date');
         }
 
         return $this->maxDate->isBefore($value);

@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter\range;
-use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Day;
+use stubbles\date\Date;
+use stubbles\date\span\Day;
 /**
  * Tests for net\stubbles\input\filter\range\DatespanRange.
  *
@@ -36,7 +36,7 @@ class DatespanRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
     {
@@ -94,7 +94,7 @@ class DatespanRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function aboveMaxBorderThrowsRuntimeExceptionOnInvalidType()
     {
@@ -182,7 +182,7 @@ class DatespanRangeTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
      * @since  2.3.1
      * @group  issue41
      */

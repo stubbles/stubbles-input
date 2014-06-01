@@ -72,4 +72,3 @@ class PreSelectValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->preSelectValidator->validate($value));
     }
 }
-?>

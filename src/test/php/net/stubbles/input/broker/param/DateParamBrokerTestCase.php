@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\lang\types\Date;
+use stubbles\date\Date;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\DateParamBroker.
@@ -106,4 +106,3 @@ class DateParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

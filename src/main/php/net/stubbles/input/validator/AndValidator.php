@@ -38,4 +38,3 @@ class AndValidator extends AbstractCompositeValidator
         return true;
     }
 }
-?>

@@ -68,4 +68,3 @@ class ValidatingFilter implements Filter
         return null;
     }
 }
-?>

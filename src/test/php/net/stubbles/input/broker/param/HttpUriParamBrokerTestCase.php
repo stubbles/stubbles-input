@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\peer\http\HttpUri;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
  * Tests for net\stubbles\input\broker\param\HttpUriParamBroker.
@@ -92,4 +92,3 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

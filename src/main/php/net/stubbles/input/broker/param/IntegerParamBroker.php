@@ -10,7 +10,7 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\range\NumberRange;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter integer values based on a @Request[Integer] annotation.
  */
@@ -32,4 +32,3 @@ class IntegerParamBroker extends MultipleSourceParamBroker
         );
     }
 }
-?>

@@ -14,9 +14,9 @@ use net\stubbles\input\ParamErrors;
 use net\stubbles\input\Params;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\ValueValidator;
-use net\stubbles\lang\exception\RuntimeException;
-use net\stubbles\peer\MalformedUriException;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\lang\exception\RuntimeException;
+use stubbles\peer\MalformedUriException;
+use stubbles\peer\http\HttpUri;
 /**
  * Request implementation for web applications.
  */
@@ -71,7 +71,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public static function fromRawSource()
     {
-        if (strtoupper(trim($_SERVER['REQUEST_METHOD'])) === \net\stubbles\peer\http\Http::POST) {
+        if (strtoupper(trim($_SERVER['REQUEST_METHOD'])) === \stubbles\peer\http\Http::POST) {
             $params = $_POST;
         } else {
             $params = $_GET;
@@ -322,4 +322,3 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
         return new Param('body', $bodyParser());
     }
 }
-?>

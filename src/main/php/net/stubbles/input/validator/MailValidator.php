@@ -40,4 +40,3 @@ class MailValidator implements Validator
         return true;
     }
 }
-?>

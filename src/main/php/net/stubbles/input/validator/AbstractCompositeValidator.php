@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\exception\IllegalStateException;
+use stubbles\lang\exception\IllegalStateException;
 /**
  * Base class for composite validators.
  *
@@ -62,4 +62,3 @@ abstract class AbstractCompositeValidator implements CompositeValidator
      */
     protected abstract function doValidate($value);
 }
-?>

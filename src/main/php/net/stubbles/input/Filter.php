@@ -26,4 +26,3 @@ interface Filter
      */
     public function apply(Param $param);
 }
-?>

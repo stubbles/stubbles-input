@@ -187,4 +187,3 @@ class PasswordFilterTestCase extends FilterTestCase
 
     }
 }
-?>

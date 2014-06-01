@@ -46,4 +46,3 @@ class XorValidator extends AbstractCompositeValidator
         return (1 === $trueCount);
     }
 }
-?>

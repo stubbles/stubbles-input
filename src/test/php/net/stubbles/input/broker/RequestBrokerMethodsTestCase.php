@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker;
 use org\stubbles\input\test\BrokerClass;
-use net\stubbles\lang;
+use stubbles\lang;
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerMethods.
  *
@@ -43,7 +43,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      */
     public function getMethodsOnNonObjectThrowsIllegalArgumentException()
     {
@@ -58,7 +58,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $methods = $this->requestBrokerMethods->get(new BrokerClass());
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
+            $this->assertInstanceOf('stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -72,7 +72,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $methods = $this->requestBrokerMethods->get('org\stubbles\input\\test\BrokerClass');
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
+            $this->assertInstanceOf('stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -86,7 +86,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $methods = $this->requestBrokerMethods->get(new BrokerClass(), 'main');
         $this->assertCount(1, $methods);
         foreach ($methods as $method) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\ReflectionMethod',
+            $this->assertInstanceOf('stubbles\lang\\reflect\ReflectionMethod',
                                     $method
             );
         }
@@ -100,7 +100,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $annotations = $this->requestBrokerMethods->getAnnotations(new BrokerClass());
         $this->assertCount(3, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
+            $this->assertInstanceOf('stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
         }
@@ -114,7 +114,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         $annotations = $this->requestBrokerMethods->getAnnotations(new BrokerClass(), 'main');
         $this->assertCount(1, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
+            $this->assertInstanceOf('stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
             $this->assertTrue($annotation->requiresValue());
@@ -131,7 +131,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         );
         $this->assertCount(1, $annotations);
         foreach ($annotations as $annotation) {
-            $this->assertInstanceOf('net\stubbles\lang\\reflect\annotation\Annotation',
+            $this->assertInstanceOf('stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
             $this->assertTrue($annotation->requiresValue());
@@ -152,4 +152,3 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
         }
     }
 }
-?>

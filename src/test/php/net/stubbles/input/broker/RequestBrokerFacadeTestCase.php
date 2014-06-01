@@ -9,9 +9,9 @@
  */
 namespace net\stubbles\input\broker;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang;
-use net\stubbles\lang\reflect\annotation\Annotation;
-use net\stubbles\lang\types\LocalizedString;
+use stubbles\lang;
+use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\types\LocalizedString;
 use org\stubbles\input\test\BrokerClass;
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerFacade.
@@ -151,7 +151,7 @@ class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
      */
     private function expectWrite($expect)
     {
-        $mockOutputStream = $this->getMock('net\stubbles\streams\OutputStream');
+        $mockOutputStream = $this->getMock('stubbles\streams\OutputStream');
         if (null === $expect) {
             $mockOutputStream->expects($this->never())
                              ->method('writeLine');
@@ -203,4 +203,3 @@ class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

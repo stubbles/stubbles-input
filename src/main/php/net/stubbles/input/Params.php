@@ -124,4 +124,3 @@ class Params implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->params);
     }
 }
-?>

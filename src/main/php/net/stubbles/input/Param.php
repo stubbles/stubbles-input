@@ -8,7 +8,6 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang\exception\IllegalArgumentException;
 /**
  * Container for a parameter and its value.
  *

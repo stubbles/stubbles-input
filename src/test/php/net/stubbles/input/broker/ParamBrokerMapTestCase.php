@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use net\stubbles\lang;
+use stubbles\lang;
 /**
  * Tests for net\stubbles\input\broker\ParamBrokerMap.
  *
@@ -119,7 +119,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function getUnknownBrokerThrowsRuntimeException()
     {

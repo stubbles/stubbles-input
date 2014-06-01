@@ -8,9 +8,9 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use stubbles\date\Date;
+use stubbles\date\span\Month;
 use net\stubbles\input\filter\range\DatespanRange;
-use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Month;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\MonthFilter.
@@ -62,7 +62,7 @@ class MonthFilterTestCase extends FilterTestCase
     public function validParamsAreReturnedAsDateInstance()
     {
         $month = $this->monthFilter->apply($this->createParam('2008-09-27'));
-        $this->assertInstanceOf('net\stubbles\lang\types\datespan\Month', $month);
+        $this->assertInstanceOf('stubbles\date\span\Month', $month);
         $this->assertEquals('2008-09', $month->asString());
     }
 

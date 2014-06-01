@@ -10,8 +10,8 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\peer\MalformedUriException;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\peer\MalformedUriException;
+use stubbles\peer\http\HttpUri;
 /**
  * Class for filtering strings for valid HTTP URIs.
  *
@@ -19,7 +19,7 @@ use net\stubbles\peer\http\HttpUri;
  * - Given param value is null or empty string.
  * - Given param value contains an invalid http uri.
  * - Given http uri doesn't have a DNS record but DNS record is enforced.
- * In all other cases an instance of net\stubbles\peer\http\HttpUri is returned.
+ * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
  */
 class HttpUriFilter implements Filter
 {
@@ -68,4 +68,3 @@ class HttpUriFilter implements Filter
         return $httpUri;
     }
 }
-?>

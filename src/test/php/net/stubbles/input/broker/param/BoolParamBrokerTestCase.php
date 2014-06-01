@@ -56,4 +56,3 @@ class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

@@ -8,16 +8,16 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
+use stubbles\date\Date;
+use stubbles\date\span\Day;
+use stubbles\date\span\Month;
 use net\stubbles\input\filter\ArrayFilter;
 use net\stubbles\input\filter\PasswordFilter;
 use net\stubbles\input\filter\range\DateRange;
 use net\stubbles\input\filter\range\DatespanRange;
 use net\stubbles\input\filter\range\StringLength;
 use net\stubbles\input\filter\range\NumberRange;
-use net\stubbles\lang\types\Date;
-use net\stubbles\lang\types\datespan\Day;
-use net\stubbles\lang\types\datespan\Month;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
  *
@@ -320,7 +320,7 @@ class ValueReader
      * @api
      * @param   int|string|\DateTime|Date  $default
      * @param   DateRange                  $range
-     * @return  net\stubbles\lang\types\Date
+     * @return  stubbles\date\Date
 
      */
     public function asDate($default = null, DateRange $range = null)
@@ -341,7 +341,7 @@ class ValueReader
      * @api
      * @param   Day            $default
      * @param   DatespanRange  $range
-     * @return  net\stubbles\lang\types\datespan\Day
+     * @return  stubbles\date\span\Day
      * @since   2.0.0
 
      */
@@ -363,7 +363,7 @@ class ValueReader
      * @api
      * @param   Month          $default
      * @param   DatespanRange  $range
-     * @return  \net\stubbles\lang\types\datespan\Month
+     * @return  stubbles\date\span\Month
      * @since   2.5.1
      */
     public function asMonth(Month $default = null, DatespanRange $range = null)

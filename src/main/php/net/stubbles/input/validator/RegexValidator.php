@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\lang\exception\RuntimeException;
+use stubbles\lang\exception\RuntimeException;
 /**
  * Validator to ensure a value complies to a given regular expression.
  *
@@ -56,4 +56,3 @@ class RegexValidator implements Validator
         return ((1 != $check) ? (false) : (true));
     }
 }
-?>

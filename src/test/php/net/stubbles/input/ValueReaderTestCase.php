@@ -381,4 +381,3 @@ class ValueFilterTestCase extends filter\FilterTestCase
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_303'));
     }
 }
-?>

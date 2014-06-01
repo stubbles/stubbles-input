@@ -133,7 +133,7 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      * @expectedExceptionMessage  Given error must either be an error id or an instance of net\stubbles\input\ParamError
      * @since  2.3.3
      * @group  issue_46

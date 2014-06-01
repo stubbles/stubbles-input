@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use net\stubbles\lang;
-use net\stubbles\lang\types\LocalizedString;
+use stubbles\lang;
+use stubbles\lang\types\LocalizedString;
 /**
  * Tests for net\stubbles\input\ParamError.
  *
@@ -120,4 +120,3 @@ class ParamErrorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue(lang\reflect($this->paramError, 'getId')->hasAnnotation('XmlAttribute'));
     }
 }
-?>

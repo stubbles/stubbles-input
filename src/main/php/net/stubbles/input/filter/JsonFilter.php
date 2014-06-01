@@ -73,4 +73,3 @@ class JsonFilter implements Filter
         return true;
     }
 }
-?>

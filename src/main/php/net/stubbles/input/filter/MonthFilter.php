@@ -8,10 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use stubbles\date\span\Month;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\types\datespan\Month;
-use net\stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for filtering months.
  *
@@ -19,7 +19,7 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  * - If given value is empty the returned value is null.
  * - If given value is not a valid month the returned value is null.
  * - If given value is a valid month the returned value is an instance of
- *   net\stubbles\lang\types\datespan\Month.
+ *   stubbles\date\span\Month.
  *
  * @since  2.5.1
  */

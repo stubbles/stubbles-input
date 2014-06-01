@@ -92,4 +92,3 @@ class MailValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->mailValidator->validate('Example.Foo.Bar@EXAMPLE.org'));
     }
 }
-?>

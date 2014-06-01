@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\exception\MethodNotSupportedException;
+use stubbles\lang\exception\MethodNotSupportedException;
 /**
  * Description of a number range.
  *

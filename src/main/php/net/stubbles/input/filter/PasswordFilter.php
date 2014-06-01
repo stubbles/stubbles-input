@@ -99,4 +99,3 @@ class PasswordFilter implements Filter
         return null;
     }
 }
-?>

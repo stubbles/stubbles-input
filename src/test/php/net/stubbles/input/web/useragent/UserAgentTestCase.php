@@ -8,7 +8,7 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\web\useragent;
-use net\stubbles\lang\reflect\ReflectionObject;
+use stubbles\lang;
 /**
  * Test for net\stubbles\input\web\useragent\UserAgent.
  *
@@ -38,8 +38,8 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function iocAnnotationPresentOnClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->userAgent)
-                                          ->hasAnnotation('ProvidedBy')
+        $this->assertTrue(
+                lang\reflect($this->userAgent)->hasAnnotation('ProvidedBy')
         );
     }
 
@@ -48,8 +48,8 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function xmlAnnotationsPresentClass()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->userAgent)
-                                          ->hasAnnotation('XmlTag')
+        $this->assertTrue(
+                lang\reflect($this->userAgent)->hasAnnotation('XmlTag')
         );
     }
 
@@ -73,7 +73,7 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function xmlAnnotationsPresentOnMethods($method, $annotation)
     {
-        $class = ReflectionObject::fromInstance($this->userAgent);
+        $class = lang\reflect($this->userAgent);
         $this->assertTrue($class->hasAnnotation('XmlTag'));
         $this->assertTrue($class->getMethod($method)->hasAnnotation($annotation));
     }
@@ -103,4 +103,3 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->userAgent->acceptsCookies());
     }
 }
-?>

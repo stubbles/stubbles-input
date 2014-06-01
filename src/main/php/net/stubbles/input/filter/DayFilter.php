@@ -8,10 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use stubbles\date\span\Day;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\lang\types\datespan\Day;
-use net\stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for filtering dates.
  *
@@ -19,7 +19,7 @@ use net\stubbles\lang\exception\IllegalArgumentException;
  * - If given value is empty the returned value is null.
  * - If given value is not a valid date the returned value is null.
  * - If given value is a valid date the returned value is an instance of
- *   net\stubbles\lang\types\datespan\Day.
+ *   stubbles\date\span\Day.
  *
  * @see  http://php.net/manual/de/datetime.formats.php
  */
@@ -50,4 +50,3 @@ class DayFilter implements Filter
         return null;
     }
 }
-?>

@@ -10,7 +10,7 @@
 namespace net\stubbles\input\filter;
 use net\stubbles\input\Filter;
 use net\stubbles\input\Param;
-use net\stubbles\peer\http\AcceptHeader;
+use stubbles\peer\http\AcceptHeader;
 /**
  * Filters accept headers.
  *
@@ -32,9 +32,8 @@ class AcceptFilter implements Filter
 
         try {
             return AcceptHeader::parse($param->getValue());
-        } catch (\net\stubbles\lang\exception\IllegalArgumentException $iae) {
+        } catch (\stubbles\lang\exception\IllegalArgumentException $iae) {
             return new AcceptHeader();
         }
     }
 }
-?>

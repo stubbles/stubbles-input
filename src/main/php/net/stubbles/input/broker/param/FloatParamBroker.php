@@ -10,7 +10,7 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\range\NumberRange;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter float values based on a @Request[Float] annotation.
  */
@@ -33,4 +33,3 @@ class FloatParamBroker extends MultipleSourceParamBroker
         );
     }
 }
-?>

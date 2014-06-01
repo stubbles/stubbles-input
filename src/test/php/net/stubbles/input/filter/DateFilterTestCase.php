@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\filter;
+use stubbles\date\Date;
 use net\stubbles\input\filter\range\DateRange;
-use net\stubbles\lang\types\Date;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
  * Tests for net\stubbles\input\filter\DateFilter.
@@ -60,7 +60,7 @@ class DateFilterTestCase extends FilterTestCase
     public function validParamsAreReturnedAsDateInstance()
     {
         $date = $this->dateFilter->apply($this->createParam('2008-09-27'));
-        $this->assertInstanceOf('net\\stubbles\\lang\\types\\Date', $date);
+        $this->assertInstanceOf('stubbles\date\Date', $date);
         $this->assertEquals(2008, $date->getYear());
         $this->assertEquals(9, $date->getMonth());
         $this->assertEquals(27, $date->getDay());
@@ -183,4 +183,3 @@ class DateFilterTestCase extends FilterTestCase
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 }
-?>

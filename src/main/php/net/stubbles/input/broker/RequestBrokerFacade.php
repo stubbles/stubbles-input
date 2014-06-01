@@ -90,11 +90,10 @@ class RequestBrokerFacade
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  net\stubbles\lang\reflect\annotation\Annotation[]
+     * @return  stubbles\lang\reflect\annotation\Annotation[]
      */
     public function getAnnotations($object, $group = null)
     {
         return $this->requestBroker->getAnnotations($object, $group);
     }
 }
-?>

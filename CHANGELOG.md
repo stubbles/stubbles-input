@@ -1,3 +1,18 @@
+3.0.0 (2014-06-??)
+------------------
+
+### BC breaks
+
+  * usage of date and datespan filters now requires stubbles/date, using applications must require stubbles/date explicitly
+    * `net\stubbles\input\ValueReader::asDate()`
+    * `net\stubbles\input\ValueReader::asDay()`
+    * `net\stubbles\input\ValueReader::asMonth()`
+
+### Other changes
+
+  * upgraded to stubbles/core 4.x
+
+
 2.5.1 (2014-05-07)
 ------------------
 

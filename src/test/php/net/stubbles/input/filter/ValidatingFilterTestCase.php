@@ -93,4 +93,3 @@ class ValidatingFilterTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($param->hasError('ERROR'));
     }
 }
-?>

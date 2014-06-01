@@ -54,4 +54,3 @@ interface ConsoleRequest extends Request
      */
     public function readEnv($envName);
 }
-?>

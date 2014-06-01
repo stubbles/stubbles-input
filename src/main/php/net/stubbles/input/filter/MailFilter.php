@@ -72,4 +72,3 @@ class MailFilter implements Filter
         return 'MAILADDRESS_INCORRECT';
     }
 }
-?>

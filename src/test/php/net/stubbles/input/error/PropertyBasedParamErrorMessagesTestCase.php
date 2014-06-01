@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\error;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang;
-use net\stubbles\lang\types\LocalizedString;
+use stubbles\lang;
+use stubbles\lang\types\LocalizedString;
 use org\bovigo\vfs\vfsStream;
 /**
  * Tests for net\stubbles\input\error\PropertyBasedParamErrorMessages.
@@ -49,7 +49,7 @@ en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
                  ->at($root->getChild('package2/input/error'));
-        $mockResourceLoader  = $this->getMock('net\\stubbles\\lang\\ResourceLoader');
+        $mockResourceLoader  = $this->getMock('stubbles\lang\ResourceLoader');
         $mockResourceLoader->expects($this->any())
                            ->method('getResourceUris')
                            ->will($this->returnValue(array(vfsStream::url('root/package1/input/error/message.ini'),
@@ -220,4 +220,3 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
         );
     }
 }
-?>

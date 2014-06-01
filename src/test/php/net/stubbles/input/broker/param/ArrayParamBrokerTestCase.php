@@ -164,4 +164,3 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

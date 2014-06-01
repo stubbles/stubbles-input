@@ -66,4 +66,3 @@ class TextFilter extends StringFilter
         return '';
     }
 }
-?>

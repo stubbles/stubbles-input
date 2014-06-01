@@ -79,4 +79,3 @@ class AndValidatorTestCase extends CompositeValidatorTestCase
         );
     }
 }
-?>

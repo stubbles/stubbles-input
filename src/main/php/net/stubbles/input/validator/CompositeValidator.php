@@ -27,4 +27,3 @@ interface CompositeValidator extends Validator
      */
     public function addValidator(Validator $validator);
 }
-?>

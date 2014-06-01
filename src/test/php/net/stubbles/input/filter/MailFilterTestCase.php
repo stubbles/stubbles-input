@@ -166,4 +166,3 @@ class MailFilterTestCase extends FilterTestCase
         $this->assertTrue($param->hasError('MAILADDRESS_CONTAINS_TWO_FOLLOWING_DOTS'));
     }
 }
-?>

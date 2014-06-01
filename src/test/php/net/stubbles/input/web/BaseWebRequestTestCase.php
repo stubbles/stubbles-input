@@ -256,7 +256,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
     {
@@ -608,4 +608,3 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

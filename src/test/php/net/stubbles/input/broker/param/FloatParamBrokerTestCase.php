@@ -105,4 +105,3 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
         );
     }
 }
-?>

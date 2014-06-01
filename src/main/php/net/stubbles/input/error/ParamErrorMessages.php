@@ -52,4 +52,3 @@ interface ParamErrorMessages
      */
     public function messageFor(ParamError $error, $locale = null);
 }
-?>

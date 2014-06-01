@@ -78,4 +78,3 @@ interface Request
      */
     public function readParam($paramName);
 }
-?>

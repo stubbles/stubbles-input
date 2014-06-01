@@ -10,7 +10,7 @@
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Base tests for net\stubbles\input\broker\param\MultipleSourceParamBroker.
  */
@@ -72,7 +72,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
 
     /**
      * @test
-     * @expectedException  net\stubbles\lang\exception\RuntimeException
+     * @expectedException  stubbles\lang\exception\RuntimeException
      */
     public function failsForUnknownSource()
     {
@@ -151,4 +151,3 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
         );
     }
 }
-?>

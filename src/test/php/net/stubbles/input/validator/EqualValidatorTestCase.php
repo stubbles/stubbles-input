@@ -19,7 +19,7 @@ class EqualValidatorTestCase extends \PHPUnit_Framework_TestCase
      * assure that construction works correct
      *
      * @test
-     * @expectedException  net\stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  stubbles\lang\exception\IllegalArgumentException
      */
     public function constructionWithObject()
     {
@@ -87,4 +87,3 @@ class EqualValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($validator->validate($value));
     }
 }
-?>

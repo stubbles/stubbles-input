@@ -202,4 +202,3 @@ class ValueValidator
         return $validator($this->param->getValue());
     }
 }
-?>

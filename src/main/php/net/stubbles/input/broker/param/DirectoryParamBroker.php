@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Read string values based on a @Request[Directory] annotation.
  */
@@ -29,4 +29,3 @@ class DirectoryParamBroker extends MultipleSourceParamBroker
         );
     }
 }
-?>

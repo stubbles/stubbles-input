@@ -8,10 +8,10 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker\param;
+use stubbles\date\Date;
 use net\stubbles\input\ValueReader;
 use net\stubbles\input\filter\range\DateRange;
-use net\stubbles\lang\reflect\annotation\Annotation;
-use net\stubbles\lang\types\Date;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Date] annotation.
  */
@@ -63,4 +63,3 @@ class DateParamBroker extends MultipleSourceParamBroker
         return new Date($value);
     }
 }
-?>

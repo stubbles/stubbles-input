@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\validator;
 use net\stubbles\input\Validator;
-use net\stubbles\peer\MalformedUriException;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\peer\MalformedUriException;
+use stubbles\peer\http\HttpUri;
 /**
  * Validator to ensure that a string is a http uri.
  *
@@ -63,4 +63,3 @@ class HttpUriValidator implements Validator
         return true;
     }
 }
-?>

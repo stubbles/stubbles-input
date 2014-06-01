@@ -39,4 +39,3 @@ class IpV4Validator implements Validator
         return self::validateAddress($value);
     }
 }
-?>

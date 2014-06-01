@@ -9,7 +9,7 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Json] annotation.
  */
@@ -42,4 +42,3 @@ class JsonParamBroker extends MultipleSourceParamBroker
         return null;
     }
 }
-?>

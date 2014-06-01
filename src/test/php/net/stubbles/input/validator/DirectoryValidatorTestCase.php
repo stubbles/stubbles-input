@@ -115,4 +115,3 @@ class DirectoryValidatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse($directoryValidator->validate(__FILE__));
     }
 }
-?>

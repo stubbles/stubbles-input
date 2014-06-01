@@ -65,4 +65,3 @@ interface Range
      */
     public function getMaxParamError();
 }
-?>

@@ -11,8 +11,8 @@ namespace net\stubbles\input\broker\param;
 use net\stubbles\input\Param;
 use net\stubbles\input\Request;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\exception\RuntimeException;
-use net\stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\exception\RuntimeException;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker to be used to retrieve parameters based on annotations.
  */
@@ -90,4 +90,3 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      */
     protected abstract function filter(ValueReader $valueReader, Annotation $annotation);
 }
-?>

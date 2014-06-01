@@ -68,4 +68,3 @@ abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
                );
     }
 }
-?>

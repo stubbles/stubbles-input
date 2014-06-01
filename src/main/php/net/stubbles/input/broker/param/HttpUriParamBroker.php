@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\broker\param;
 use net\stubbles\input\ValueReader;
-use net\stubbles\lang\reflect\annotation\Annotation;
-use net\stubbles\peer\http\HttpUri;
+use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\peer\http\HttpUri;
 /**
  * Filter http uris based on a @Request[HttpUri] annotation.
  */
@@ -47,4 +47,3 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
         return null;
     }
 }
-?>

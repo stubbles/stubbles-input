@@ -59,4 +59,3 @@ class FloatFilter implements NumberFilter
         return (int) ($value * pow(10, $this->decimals));
     }
 }
-?>

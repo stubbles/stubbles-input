@@ -9,8 +9,8 @@
  */
 namespace net\stubbles\input\filter\range;
 use net\stubbles\input\ParamError;
-use net\stubbles\lang\exception\IllegalArgumentException;
-use net\stubbles\lang\exception\RuntimeException;
+use stubbles\lang\exception\IllegalArgumentException;
+use stubbles\lang\exception\RuntimeException;
 /**
  * String length limitation.
  *
