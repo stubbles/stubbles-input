@@ -55,9 +55,9 @@ class RequestBrokerFacade
     /**
      * fills given object with values from request
      *
-     * @param  object   $object
-     * @param  string   $group
-     * @param  Closure  $write   function to call when errors should be processed
+     * @param  object    $object
+     * @param  string    $group
+     * @param  \Closure  $write   function to call when errors should be processed
      */
     public function procure($object, $group = null, \Closure $write = null)
     {

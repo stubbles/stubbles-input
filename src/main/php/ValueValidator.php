@@ -194,7 +194,7 @@ class ValueValidator
      *
      * @api
      * @since   2.2.0
-     * @param   Closure  $validator
+     * @param   \Closure  $validator
      * @return  bool
      */
     public function withFunction(\Closure $validator)

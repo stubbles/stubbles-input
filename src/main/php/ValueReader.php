@@ -101,8 +101,8 @@ class ValueReader
      * read as array value
      *
      * @api
-     * @param   ValueExpectation  $expect
-     * @param   string            $separator  character to split input value with
+     * @param   array   $default    optional
+     * @param   string  $separator  optional  character to split input value with
      * @return  array
      * @since   2.0.0
      */
@@ -241,7 +241,6 @@ class ValueReader
      * @api
      * @param   int       $minDiffChars      minimum amount of different characters within password
      * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
-     * @param   bool      $required          if a value is required, defaults to true
      * @return  string
      */
     public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
@@ -484,7 +483,9 @@ class ValueReader
      *
      * @api
      * @param   Validator  $validator  validator to use
-     * @param   string     $default    default value to fall back to
+     * @param   string     $errorId    error id to be used in case validation fails
+     * @param   array      $details    optional  details for param error in case validation fails
+     * @param   string     $default    optional  default value to fall back to
      * @return  string
      */
     public function withValidator(Validator $validator, $errorId, array $details = [], $default = null)
@@ -500,8 +501,8 @@ class ValueReader
     /**
      * handles a filter
      *
-     * @param   Closure  $createFilter
-     * @param   mixed    $default
+     * @param   \Closure  $createFilter
+     * @param   mixed     $default       optional  default value to fall back to
      * @return  mixed
      */
     private function handleFilter(\Closure $createFilter, $default = null)
@@ -584,7 +585,7 @@ class ValueReader
      *
      * @api
      * @since   2.2.0
-     * @param   Closure  $filter
+     * @param   \Closure  $filter
      * @return  bool
      */
     public function withFunction(\Closure $filter)

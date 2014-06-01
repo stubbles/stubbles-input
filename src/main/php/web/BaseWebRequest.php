@@ -50,10 +50,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * constructor
      *
-     * @param  array    $params      map of request parameters
-     * @param  array    $headers     map of request headers
-     * @param  array    $cookies     map of request cookies
-     * @param  Closure  $bodyParser  function which returns the request body
+     * @param  array     $params      map of request parameters
+     * @param  array     $headers     map of request headers
+     * @param  array     $cookies     map of request cookies
+     * @param  \Closure  $bodyParser  function which returns the request body
      */
     public function __construct(array $params, array $headers, array $cookies, \Closure $bodyParser)
     {

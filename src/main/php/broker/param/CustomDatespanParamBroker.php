@@ -52,8 +52,8 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * retrieves start date
      *
-     * @param   Request    $request
-     * @param   string     $name
+     * @param   Request     $request
+     * @param   Annotation  $annotation
      * @return  Date
      */
     private function getStartDate(Request $request, Annotation $annotation)
@@ -69,8 +69,8 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * retrieves start date
      *
-     * @param   Request    $request
-     * @param   string     $name
+     * @param   Request     $request
+     * @param   Annotation  $annotation
      * @return  Date
      */
     private function getEndDate(Request $request, Annotation $annotation)
@@ -88,7 +88,7 @@ class CustomDatespanParamBroker implements ParamBroker
      *
      * @param   Request    $request
      * @param   string     $paramName
-     * @parsm   bool       $required
+     * @param   bool       $required
      * @return  stubbles\input\filter\FilterValue
      */
     private function readValue(Request $request, $paramName, $required)
@@ -105,6 +105,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * reads default value from annotation
      *
      * @param   Annotation $annotation
+     * @param   string     $field
      * @return  Date
      */
     private function parseDate(Annotation $annotation, $field)
