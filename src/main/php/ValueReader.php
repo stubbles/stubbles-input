@@ -205,7 +205,7 @@ class ValueReader
      * @param   string[]      $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText($default = null, StringLength $length = null, $allowedTags = array())
+    public function asText($default = null, StringLength $length = null, $allowedTags = [])
     {
         return $this->handleFilter(function() use($length, $allowedTags)
                                    {
@@ -244,7 +244,7 @@ class ValueReader
      * @param   bool      $required          if a value is required, defaults to true
      * @return  string
      */
-    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = array())
+    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
     {
         $passWordFilter = new PasswordFilter();
         return $this->withFilter($passWordFilter->minDiffChars($minDiffChars)
@@ -389,7 +389,7 @@ class ValueReader
     {
         return $this->withValidator(new validator\IpValidator(),
                                     'INVALID_IP_ADDRESS',
-                                    array(),
+                                    [],
                                     $default
         );
     }
@@ -406,7 +406,7 @@ class ValueReader
     {
         return $this->withValidator(new validator\PreSelectValidator($allowedValues),
                                     'FIELD_NO_SELECT',
-                                    array('ALLOWED' => join('|', $allowedValues)),
+                                    ['ALLOWED' => join('|', $allowedValues)],
                                     $default
         );
     }
@@ -423,7 +423,7 @@ class ValueReader
     {
         return $this->withValidator(new validator\RegexValidator($regex),
                                     'FIELD_WRONG_VALUE',
-                                    array(),
+                                    [],
                                     $default
         );
     }
@@ -447,7 +447,7 @@ class ValueReader
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\FileValidator($basePath),
                                     'FILE_INVALID',
-                                    array('PATH' => $path . $this->param->getValue()),
+                                    ['PATH' => $path . $this->param->getValue()],
                                     $default
         );
     }
@@ -471,7 +471,7 @@ class ValueReader
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\DirectoryValidator($basePath),
                                     'DIRECTORY_INVALID',
-                                    array('PATH' => $path . $this->param->getValue()),
+                                    ['PATH' => $path . $this->param->getValue()],
                                     $default
         );
     }
@@ -487,7 +487,7 @@ class ValueReader
      * @param   string     $default    default value to fall back to
      * @return  string
      */
-    public function withValidator(Validator $validator, $errorId, array $details = array(), $default = null)
+    public function withValidator(Validator $validator, $errorId, array $details = [], $default = null)
     {
         return $this->handleFilter(function() use($validator, $errorId, $details)
                                    {

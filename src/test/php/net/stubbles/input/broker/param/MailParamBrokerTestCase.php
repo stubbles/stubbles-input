@@ -51,7 +51,7 @@ class MailParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }

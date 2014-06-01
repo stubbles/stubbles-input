@@ -21,7 +21,7 @@ class PreSelectValidator implements Validator
      *
      * @type  array
      */
-    private $allowedValues = array();
+    private $allowedValues = [];
 
     /**
      * constructor

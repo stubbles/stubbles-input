@@ -45,6 +45,6 @@ class TextParamBroker extends MultipleSourceParamBroker
             return array_map('trim', explode(',', $annotation->getAllowedTags()));
         }
 
-        return array();
+        return [];
     }
 }

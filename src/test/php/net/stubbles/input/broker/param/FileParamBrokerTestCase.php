@@ -52,7 +52,7 @@ class FileParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('/home/user/foo.txt',
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => '/home/user/foo.txt'))
+                                                        $this->createRequestAnnotation(['default' => '/home/user/foo.txt'])
                             )
         );
     }
@@ -64,9 +64,9 @@ class FileParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('../RequestBrokerTestCase.php',
                             $this->paramBroker->procure($this->mockRequest('../RequestBrokerTestCase.php'),
-                                                        $this->createRequestAnnotation(array('basePath'      => __DIR__,
-                                                                                             'allowRelative' => true
-                                                                                       )
+                                                        $this->createRequestAnnotation(['basePath'      => __DIR__,
+                                                                                        'allowRelative' => true
+                                                                                       ]
                                                         )
                             )
         );

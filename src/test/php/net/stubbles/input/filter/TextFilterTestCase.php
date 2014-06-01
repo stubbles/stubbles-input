@@ -56,11 +56,11 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function getAllowedTags()
     {
-        return array(array(array(), 'this is bold and cursive and underlined with a link'),
-                     array(array('b', 'i'), 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'),
-                     array(array('b', 'i', 'a'), 'this is <b>bold</b> and <i>cursive</i> and underlined with a <a href="http://example.org/">link</a>')
+        return [[[], 'this is bold and cursive and underlined with a link'],
+                [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],
+                [['b', 'i', 'a'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a <a href="http://example.org/">link</a>']
 
-        );
+        ];
     }
 
     /**
@@ -181,7 +181,7 @@ class TextFilterTestCase extends FilterTestCase
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, null, array('b')));
+        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, null, ['b']));
 
     }
 }

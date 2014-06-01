@@ -25,7 +25,7 @@ class TextFilter extends StringFilter
      *
      * @type  string[]
      */
-    private $allowedTags = array();
+    private $allowedTags = [];
 
     /**
      * set the list of allowed tags
@@ -49,7 +49,7 @@ class TextFilter extends StringFilter
      */
     protected function getNonAllowedCharacters()
     {
-        return array(chr(13));
+        return [chr(13)];
     }
 
     /**

@@ -40,9 +40,9 @@ class DayFilterTestCase extends FilterTestCase
      */
     public function getEmptyValues()
     {
-        return array(array(''),
-                     array(null)
-        );
+        return [[''],
+                [null]
+        ];
     }
 
     /**

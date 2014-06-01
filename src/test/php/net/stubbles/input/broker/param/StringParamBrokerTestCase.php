@@ -52,7 +52,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('No Mr Bond, I expect you to die!',
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
+                                                        $this->createRequestAnnotation(['default' => 'No Mr Bond, I expect you to die!'])
                           )
         );
     }
@@ -63,7 +63,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -74,7 +74,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfShorterThanMinLength()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(array('minLength' => 30))
+                                                      $this->createRequestAnnotation(['minLength' => 30])
                           )
         );
     }
@@ -85,7 +85,7 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLongerThanMaxLength()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(array('maxLength' => 10))
+                                                      $this->createRequestAnnotation(['maxLength' => 10])
                           )
         );
     }
@@ -97,9 +97,9 @@ class StringParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('Do you expect me to talk?',
                             $this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                        $this->createRequestAnnotation(array('minLength' => 10,
-                                                                                             'maxLength' => 30
-                                                                                       )
+                                                        $this->createRequestAnnotation(['minLength' => 10,
+                                                                                        'maxLength' => 30
+                                                                                       ]
                                                         )
                             )
         );

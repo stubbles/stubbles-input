@@ -36,7 +36,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
      * @param   array  $values
      * @return  Annotation
      */
-    protected function createRequestAnnotation(array $values)
+    protected function createRequestAnnotation(array $values = [])
     {
         $annotation = new Annotation($this->getRequestAnnotationName());
         $annotation->name = 'foo';
@@ -77,7 +77,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
     public function failsForUnknownSource()
     {
         $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(array('source' => 'foo'))
+                                    $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -88,7 +88,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procureParam(new Param('name', ((string) $this->getExpectedValue())),
-                                                             $this->createRequestAnnotation(array())
+                                                             $this->createRequestAnnotation()
                             )
         );
     }
@@ -100,7 +100,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(array())
+                                                        $this->createRequestAnnotation()
                             )
         );
     }
@@ -112,7 +112,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(array('source' => 'param'))
+                                                        $this->createRequestAnnotation(['source' => 'param'])
                             )
         );
     }
@@ -129,7 +129,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
                     ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'header'))
+                                                        $this->createRequestAnnotation(['source' => 'header'])
                             )
         );
     }
@@ -146,7 +146,7 @@ abstract class MultipleSourceParamBrokerTestCase extends \PHPUnit_Framework_Test
                     ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'cookie'))
+                                                        $this->createRequestAnnotation(['source' => 'cookie'])
                             )
         );
     }

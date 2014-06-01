@@ -35,10 +35,10 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_serverBackup      = $_SERVER;
-        $this->baseConsoleRequest = new BaseConsoleRequest(array('foo' => 'bar', 'roland' => 'TB-303'),
-                                                           array('SCRIPT_NAME' => 'example.php',
-                                                                 'PHP_SELF'    => 'example.php'
-                                                           )
+        $this->baseConsoleRequest = new BaseConsoleRequest(['foo' => 'bar', 'roland' => 'TB-303'],
+                                                           ['SCRIPT_NAME' => 'example.php',
+                                                            'PHP_SELF'    => 'example.php'
+                                                           ]
                                     );
     }
 
@@ -63,7 +63,7 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(array('foo', 'roland'),
+        $this->assertEquals(['foo', 'roland'],
                             $this->baseConsoleRequest->getParamNames()
         );
     }
@@ -73,8 +73,8 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function createFromRawSourceUsesServerArgsForParams()
     {
-        $_SERVER['argv'] = array('foo' => 'bar', 'roland' => 'TB-303');
-        $this->assertEquals(array('foo', 'roland'),
+        $_SERVER['argv'] = ['foo' => 'bar', 'roland' => 'TB-303'];
+        $this->assertEquals(['foo', 'roland'],
                             BaseConsoleRequest::fromRawSource()
                                               ->getParamNames()
         );
@@ -85,7 +85,7 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfEnvNames()
     {
-        $this->assertEquals(array('SCRIPT_NAME', 'PHP_SELF'),
+        $this->assertEquals(['SCRIPT_NAME', 'PHP_SELF'],
                             $this->baseConsoleRequest->getEnvNames()
         );
     }
@@ -161,10 +161,10 @@ class BaseConsoleRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function createFromRawSourceUsesServerForEnv()
     {
-        $_SERVER = array('argv'        => array('foo' => 'bar', 'roland' => 'TB-303'),
-                         'SCRIPT_NAME' => 'example.php'
-                   );
-        $this->assertEquals(array('argv', 'SCRIPT_NAME'),
+        $_SERVER = ['argv'        => ['foo' => 'bar', 'roland' => 'TB-303'],
+                    'SCRIPT_NAME' => 'example.php'
+                   ];
+        $this->assertEquals(['argv', 'SCRIPT_NAME'],
                             BaseConsoleRequest::fromRawSource()
                                               ->getEnvNames()
         );

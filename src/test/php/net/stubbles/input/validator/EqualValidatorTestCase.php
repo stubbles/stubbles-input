@@ -33,12 +33,12 @@ class EqualValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getTuplesEvaluatingToTrue()
     {
-        return array(array(true, true),
-                     array(false, false),
-                     array(5, 5),
-                     array(null, null),
-                     array('foo', 'foo')
-        );
+        return [[true, true],
+                [false, false],
+                [5, 5],
+                [null, null],
+                ['foo', 'foo']
+        ];
     }
 
     /**
@@ -60,19 +60,19 @@ class EqualValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getTuplesEvaluatingToFalse()
     {
-        return array(array(true, false),
-                     array(false, true),
-                     array(false, new \stdClass()),
-                     array(false, null),
-                     array(5, 'foo'),
-                     array(5, 6),
-                     array(true, 5),
-                     array(false, 0),
-                     array(true, 'foo'),
-                     array('foo', 'bar'),
-                     array(5, new \stdClass()),
-                     array('foo', new \stdClass())
-        );
+        return [[true, false],
+                [false, true],
+                [false, new \stdClass()],
+                [false, null],
+                [5, 'foo'],
+                [5, 6],
+                [true, 5],
+                [false, 0],
+                [true, 'foo'],
+                ['foo', 'bar'],
+                [5, new \stdClass()],
+                ['foo', new \stdClass()]
+        ];
     }
 
     /**

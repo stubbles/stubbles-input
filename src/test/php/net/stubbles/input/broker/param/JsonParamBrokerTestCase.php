@@ -46,7 +46,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $phpJsonObj = new \stdClass();
         $phpJsonObj->method = 'add';
-        $phpJsonObj->params = array(1, 2);
+        $phpJsonObj->params = [1, 2];
         $phpJsonObj->id = 1;
         return $phpJsonObj;
     }
@@ -58,7 +58,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => '{"method":"add","params":[1,2],"id":1}'))
+                                                        $this->createRequestAnnotation(['default' => '{"method":"add","params":[1,2],"id":1}'])
                             )
         );
     }
@@ -69,7 +69,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -80,7 +80,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullForInvalidJson()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('{invalid'),
-                                                      $this->createRequestAnnotation(array())
+                                                      $this->createRequestAnnotation([])
                           )
         );
     }
@@ -92,7 +92,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procureParam(new Param('name', '{"method":"add","params":[1,2],"id":1}'),
-                                                             $this->createRequestAnnotation(array())
+                                                             $this->createRequestAnnotation([])
                             )
         );
     }
@@ -104,7 +104,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('{"method":"add","params":[1,2],"id":1}'),
-                                                        $this->createRequestAnnotation(array())
+                                                        $this->createRequestAnnotation([])
                             )
         );
     }
@@ -116,7 +116,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('{"method":"add","params":[1,2],"id":1}'),
-                                                        $this->createRequestAnnotation(array('source' => 'param'))
+                                                        $this->createRequestAnnotation(['source' => 'param'])
                             )
         );
     }
@@ -133,7 +133,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'header'))
+                                                        $this->createRequestAnnotation(['source' => 'header'])
                             )
         );
     }
@@ -150,7 +150,7 @@ class JsonParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'cookie'))
+                                                        $this->createRequestAnnotation(['source' => 'cookie'])
                             )
         );
     }

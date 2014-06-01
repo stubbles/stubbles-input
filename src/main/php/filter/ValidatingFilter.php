@@ -45,7 +45,7 @@ class ValidatingFilter implements Filter
      * @param  string     $errorId    error id to be used in case validation fails
      * @param  array      $details    details for param error in case validation fails
      */
-    public function __construct(Validator $validator, $errorId, array $details = array())
+    public function __construct(Validator $validator, $errorId, array $details = [])
     {
         $this->validator = $validator;
         $this->errorId   = $errorId;

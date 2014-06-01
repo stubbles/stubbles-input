@@ -62,7 +62,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
                              ->will($this->returnValue(ValueReader::forValue('foo')));
         $this->mockWebRequest->expects($this->once())
                              ->method('getCookieNames')
-                             ->will($this->returnValue(array('chocolateChip')));
+                             ->will($this->returnValue(['chocolateChip']));
         $this->assertEquals(new UserAgent('foo', false, true), $this->userAgentProvider->get());
     }
 
@@ -78,7 +78,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
                              ->will($this->returnValue(ValueReader::forValue('Googlebot /v1.1')));
         $this->mockWebRequest->expects($this->once())
                              ->method('getCookieNames')
-                             ->will($this->returnValue(array()));
+                             ->will($this->returnValue([]));
         $this->assertEquals(new UserAgent('Googlebot /v1.1', true, false), $this->userAgentProvider->get());
     }
 }

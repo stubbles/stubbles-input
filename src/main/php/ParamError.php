@@ -36,7 +36,7 @@ class ParamError
      * @param  string  $id       id of the current param error
      * @param  array   $details  details of what caused the error
      */
-    public function __construct($id, array $details = array())
+    public function __construct($id, array $details = [])
     {
         $this->id      = $id;
         $this->details = $details;
@@ -53,7 +53,7 @@ class ParamError
      * @return  ParamError
      * @throws  IllegalArgumentException
      */
-    public static function fromData($error, array $details = array())
+    public static function fromData($error, array $details = [])
     {
         if ($error instanceof self) {
             return $error;
@@ -85,7 +85,7 @@ class ParamError
      */
     public function fillMessages(array $templates)
     {
-        $messages = array();
+        $messages = [];
         foreach ($templates as $locale => $message) {
             $messages[] = $this->fillMessage($message, $locale);
         }

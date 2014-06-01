@@ -35,9 +35,9 @@ class MailValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getValidValues()
     {
-        return array(array('example@example.org'),
-                     array('example.foo.bar@example.org')
-        );
+        return [['example@example.org'],
+                ['example.foo.bar@example.org']
+        ];
     }
 
     /**
@@ -55,20 +55,20 @@ class MailValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidValues()
     {
-        return array(array('space in@mailadre.ss'),
-                     array('fäö@mailadre.ss'),
-                     array('foo@bar@mailadre.ss'),
-                     array('foo&/4@mailadre.ss'),
-                     array('foo..bar@mailadre.ss'),
-                     array(null),
-                     array(''),
-                     array('xcdsfad'),
-                     array('foobar@thishost.willnever.exist'),
-                     array('.foo.bar@example.org'),
-                     array('example@example.org\n'),
-                     array('example@exa"mple.org'),
-                     array('example@example.org\nBcc: example@example.com')
-        );
+        return [['space in@mailadre.ss'],
+                ['fäö@mailadre.ss'],
+                ['foo@bar@mailadre.ss'],
+                ['foo&/4@mailadre.ss'],
+                ['foo..bar@mailadre.ss'],
+                [null],
+                [''],
+                ['xcdsfad'],
+                ['foobar@thishost.willnever.exist'],
+                ['.foo.bar@example.org'],
+                ['example@example.org\n'],
+                ['example@exa"mple.org'],
+                ['example@example.org\nBcc: example@example.com']
+        ];
     }
 
     /**

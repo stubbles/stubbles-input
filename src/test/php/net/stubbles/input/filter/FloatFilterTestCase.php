@@ -22,18 +22,18 @@ class FloatFilterTestCase extends FilterTestCase
      */
     public function getValueResultTuples()
     {
-        return array(array('8.4533', 8453),
-                     array('8.4538', 8453),
-                     array('8.45', 8450),
-                     array('8', 8000),
-                     array(8.4533, 8453),
-                     array(8.4538, 8453),
-                     array(8.45, 8450),
-                     array(8, 8000),
-                     array(null, null),
-                     array(true, 1000),
-                     array(false, 0)
-        );
+        return [['8.4533', 8453],
+                ['8.4538', 8453],
+                ['8.45', 8450],
+                ['8', 8000],
+                [8.4533, 8453],
+                [8.4538, 8453],
+                [8.45, 8450],
+                [8, 8000],
+                [null, null],
+                [true, 1000],
+                [false, 0]
+        ];
     }
 
     /**

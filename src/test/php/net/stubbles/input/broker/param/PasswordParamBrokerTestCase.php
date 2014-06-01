@@ -51,7 +51,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array())
+                                                      $this->createRequestAnnotation()
                           )
         );
     }
@@ -62,7 +62,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndNotRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => false))
+                                                      $this->createRequestAnnotation(['required' => false])
                           )
         );
     }
@@ -73,7 +73,7 @@ class PasswordParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfTooLessMinDiffChars()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
-                                                      $this->createRequestAnnotation(array('minDiffChars' => 20))
+                                                      $this->createRequestAnnotation(['minDiffChars' => 20])
                           )
         );
     }

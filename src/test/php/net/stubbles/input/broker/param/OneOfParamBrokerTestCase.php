@@ -54,8 +54,10 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('baz',
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('allowed' => 'foo|bar',
-                                                                                             'default' => 'baz'))
+                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
+                                                                                        'default' => 'baz'
+                                                                                       ]
+                                                        )
                             )
         );
     }
@@ -66,8 +68,10 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('allowed' => 'foo|bar',
-                                                                                           'required' => true))
+                                                      $this->createRequestAnnotation(['allowed' => 'foo|bar',
+                                                                                      'required' => true
+                                                                                     ]
+                                                      )
                           )
         );
     }
@@ -79,7 +83,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function failsForUnknownSource()
     {
         $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(array('source' => 'foo'))
+                                    $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -90,7 +94,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procureParam(new Param('name', ((string) $this->getExpectedValue())),
-                                                             $this->createRequestAnnotation(array('allowed' => 'foo|bar'))
+                                                             $this->createRequestAnnotation(['allowed' => 'foo|bar'])
                             )
         );
     }
@@ -102,7 +106,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(array('allowed' => 'foo|bar'))
+                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
                             )
         );
     }
@@ -114,8 +118,10 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(array('allowed' => 'foo|bar',
-                                                                                             'source'  => 'param'))
+                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
+                                                                                        'source'  => 'param'
+                                                                                       ]
+                                                        )
                             )
         );
     }
@@ -132,8 +138,10 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('allowed' => 'foo|bar',
-                                                                                             'source'  => 'header'))
+                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
+                                                                                        'source'  => 'header'
+                                                                                       ]
+                                                        )
                             )
         );
     }
@@ -150,8 +158,10 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('allowed' => 'foo|bar',
-                                                                                             'source'  => 'cookie'))
+                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
+                                                                                        'source'  => 'cookie'
+                                                                                       ]
+                                                        )
                             )
         );
     }

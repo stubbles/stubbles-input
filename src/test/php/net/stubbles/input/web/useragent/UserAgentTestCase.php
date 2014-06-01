@@ -60,11 +60,11 @@ class UserAgentTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getXmlRelatedMethodAnnotations()
     {
-        return array(array('getName', 'XmlAttribute'),
-                     array('isBot', 'XmlAttribute'),
-                     array('acceptsCookies', 'XmlAttribute'),
-                     array('__toString', 'XmlIgnore')
-        );
+        return [['getName', 'XmlAttribute'],
+                ['isBot', 'XmlAttribute'],
+                ['acceptsCookies', 'XmlAttribute'],
+                ['__toString', 'XmlIgnore']
+        ];
     }
 
     /**

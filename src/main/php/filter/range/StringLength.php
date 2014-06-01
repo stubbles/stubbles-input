@@ -136,7 +136,7 @@ class StringLength implements Range
      */
     public function getMinParamError()
     {
-        return new ParamError('STRING_TOO_SHORT', array('minLength' => $this->minLength));
+        return new ParamError('STRING_TOO_SHORT', ['minLength' => $this->minLength]);
     }
 
     /**
@@ -146,6 +146,6 @@ class StringLength implements Range
      */
     public function getMaxParamError()
     {
-        return new ParamError('STRING_TOO_LONG', array('maxNumber' => $this->maxLength));
+        return new ParamError('STRING_TOO_LONG', ['maxNumber' => $this->maxLength]);
     }
 }

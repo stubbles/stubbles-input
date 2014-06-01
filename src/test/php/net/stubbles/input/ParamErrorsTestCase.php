@@ -51,7 +51,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function initialErrorListIsEmpty()
     {
-        $this->assertEquals(array(), $this->paramErrors->asList());
+        $this->assertEquals([], $this->paramErrors->asList());
     }
 
     /**
@@ -96,7 +96,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsContainedInList()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        $this->assertEquals(array('foo' => array('errorid' => $paramError)),
+        $this->assertEquals(['foo' => ['errorid' => $paramError]],
                             $this->paramErrors->asList()
         );
     }
@@ -107,7 +107,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsContainedInListForParam()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        $this->assertEquals(array('errorid' => $paramError),
+        $this->assertEquals(['errorid' => $paramError],
                             $this->paramErrors->getFor('foo')
         );
     }
@@ -142,7 +142,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->paramErrors->exist());
         $this->assertEquals(1, $this->paramErrors->count());
-        $this->assertEquals(array('foo' => array('id' => $paramError)),
+        $this->assertEquals(['foo' => ['id' => $paramError]],
                             $this->paramErrors->get()
         );
     }
@@ -160,7 +160,7 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getForReturnsEmptyArrayIfNoErrorAddedBefore()
     {
-        $this->assertEquals(array(), $this->paramErrors->getFor('foo'));
+        $this->assertEquals([], $this->paramErrors->getFor('foo'));
     }
 
     /**
@@ -209,14 +209,14 @@ class ParamErrorsTestCase extends \PHPUnit_Framework_TestCase
         foreach ($this->paramErrors as $paramName => $paramErrors) {
             if (0 === $i) {
                 $this->assertEquals('foo', $paramName);
-                $this->assertEquals(array('id1' => $paramError1,
-                                          'id2' => $paramError2
-                                    ),
+                $this->assertEquals(['id1' => $paramError1,
+                                     'id2' => $paramError2
+                                    ],
                                     $paramErrors
                 );
             } else {
                 $this->assertEquals('bar', $paramName);
-                $this->assertEquals(array('id1' => $paramError3),
+                $this->assertEquals(['id1' => $paramError3],
                                     $paramErrors
                 );
             }

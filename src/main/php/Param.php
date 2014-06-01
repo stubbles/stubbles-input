@@ -32,7 +32,7 @@ class Param
      *
      * @type  ParamError[]
      */
-    private $errors = array();
+    private $errors = [];
 
     /**
      * constructor
@@ -106,7 +106,7 @@ class Param
      * @return  ParamError
      * @deprecated  since 2.3.3, will be removed with 2.4.0
      */
-    public function addErrorWithId($errorId, array $details = array())
+    public function addErrorWithId($errorId, array $details = [])
     {
         return $this->addError(new ParamError($errorId, $details));
     }
@@ -118,7 +118,7 @@ class Param
      * @param   array              $details  details of what caused the error
      * @return  ParamError
      */
-    public function addError($error, array $details = array())
+    public function addError($error, array $details = [])
     {
         $error = ParamError::fromData($error, $details);
         $this->errors[$error->getId()] = $error;

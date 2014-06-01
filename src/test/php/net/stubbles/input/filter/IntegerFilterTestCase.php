@@ -22,14 +22,14 @@ class IntegerFilterTestCase extends FilterTestCase
      */
     public function getValueResultTuples()
     {
-        return array(array(8, 8),
-                     array('8', 8),
-                     array('', 0),
-                     array(null, null),
-                     array(true, 1),
-                     array(false, 0),
-                     array(1.564, 1)
-        );
+        return [[8, 8],
+                ['8', 8],
+                ['', 0],
+                [null, null],
+                [true, 1],
+                [false, 0],
+                [1.564, 1]
+        ];
     }
 
     /**

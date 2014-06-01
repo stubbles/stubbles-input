@@ -52,7 +52,7 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(3.03,
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 3.03))
+                                                        $this->createRequestAnnotation(['default' => 3.03])
                           )
         );
     }
@@ -63,7 +63,7 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -74,7 +74,7 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLowerThanMinValue()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
-                                                      $this->createRequestAnnotation(array('minValue' => 4))
+                                                      $this->createRequestAnnotation(['minValue' => 4])
                           )
         );
     }
@@ -85,7 +85,7 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfGreaterThanMaxValue()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
-                                                      $this->createRequestAnnotation(array('maxValue' => 3))
+                                                      $this->createRequestAnnotation(['maxValue' => 3])
                           )
         );
     }
@@ -97,9 +97,9 @@ class FloatParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(3.03,
                             $this->paramBroker->procure($this->mockRequest('3.03'),
-                                                        $this->createRequestAnnotation(array('minValue' => 3,
-                                                                                            'maxValue' => 4
-                                                                                      )
+                                                        $this->createRequestAnnotation(['minValue' => 3,
+                                                                                        'maxValue' => 4
+                                                                                       ]
                                                         )
                             )
         );

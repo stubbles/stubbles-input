@@ -40,7 +40,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      * @param   array  $values
      * @return  Annotation
      */
-    private function createRequestAnnotation(array $values)
+    private function createRequestAnnotation(array $values = [])
     {
         $annotation = new Annotation('CustomDatespan');
         $annotation->startName = 'foo';
@@ -81,7 +81,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest('2012-02-05',
                                                                                          '2012-04-21'
                                                                       ),
-                                                                      $this->createRequestAnnotation(array())
+                                                                      $this->createRequestAnnotation([])
                             )
         );
     }
@@ -94,7 +94,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('invalid',
                                                                                        '2012-04-21'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('required' => true))
+                                                                    $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -107,7 +107,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('2012-02-05',
                                                                                        'invalid'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('required' => true))
+                                                                    $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -120,7 +120,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(null,
                                                                                        '2012-04-21'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array())
+                                                                    $this->createRequestAnnotation()
                           )
         );
     }
@@ -133,7 +133,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('2012-02-05',
                                                                                        null
                                                                     ),
-                                                                    $this->createRequestAnnotation(array())
+                                                                    $this->createRequestAnnotation()
                           )
         );
     }
@@ -146,7 +146,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest(null,
                                                                                        null
                                                                     ),
-                                                                    $this->createRequestAnnotation(array())
+                                                                    $this->createRequestAnnotation()
                           )
         );
     }
@@ -160,7 +160,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest(null,
                                                                                          '2012-04-21'
                                                                       ),
-                                                                      $this->createRequestAnnotation(array('defaultStart' => 'today'))
+                                                                      $this->createRequestAnnotation(['defaultStart' => 'today'])
                             )
         );
     }
@@ -174,7 +174,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest('2012-02-05',
                                                                                          null
                                                                       ),
-                                                                      $this->createRequestAnnotation(array('defaultEnd' => 'today'))
+                                                                      $this->createRequestAnnotation(['defaultEnd' => 'today'])
                             )
         );
     }
@@ -188,9 +188,9 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest(null,
                                                                                          null
                                                                       ),
-                                                                      $this->createRequestAnnotation(array('defaultStart' => 'yesterday',
-                                                                                                           'defaultEnd'   => 'tomorrow'
-                                                                                                     )
+                                                                      $this->createRequestAnnotation(['defaultStart' => 'yesterday',
+                                                                                                      'defaultEnd'   => 'tomorrow'
+                                                                                                     ]
                                                                       )
                             )
         );
@@ -204,7 +204,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('yesterday',
                                                                                        'today'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('minStartDate' => 'today'))
+                                                                    $this->createRequestAnnotation(['minStartDate' => 'today'])
                                                             )
         );
     }
@@ -217,7 +217,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('today',
                                                                                        'tomorrow'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('maxStartDate' => 'yesterday'))
+                                                                    $this->createRequestAnnotation(['maxStartDate' => 'yesterday'])
                                                             )
         );
     }
@@ -231,9 +231,9 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest('today',
                                                                                          'tomorrow'
                                                                       ),
-                                                                      $this->createRequestAnnotation(array('minStartDate' => 'yesterday',
-                                                                                                           'maxStartDate' => 'tomorrow'
-                                                                                                     )
+                                                                      $this->createRequestAnnotation(['minStartDate' => 'yesterday',
+                                                                                                      'maxStartDate' => 'tomorrow'
+                                                                                                     ]
                                                                       )
                             )
         );
@@ -247,7 +247,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('yesterday',
                                                                                        'yesterday'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('minEndDate' => 'today'))
+                                                                    $this->createRequestAnnotation(['minEndDate' => 'today'])
                                                             )
         );
     }
@@ -260,7 +260,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->customDatespanParamBroker->procure($this->mockRequest('yesterday',
                                                                                        'today'
                                                                     ),
-                                                                    $this->createRequestAnnotation(array('maxEndDate' => 'yesterday'))
+                                                                    $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
                                                             )
         );
     }
@@ -274,9 +274,9 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
                             $this->customDatespanParamBroker->procure($this->mockRequest('yesterday',
                                                                                          'today'
                                                                       ),
-                                                                      $this->createRequestAnnotation(array('minEndDate' => 'yesterday',
-                                                                                                           'maxEndDate' => 'tomorrow'
-                                                                                                     )
+                                                                      $this->createRequestAnnotation(['minEndDate' => 'yesterday',
+                                                                                                      'maxEndDate' => 'tomorrow'
+                                                                                                     ]
                                                                       )
                             )
         );

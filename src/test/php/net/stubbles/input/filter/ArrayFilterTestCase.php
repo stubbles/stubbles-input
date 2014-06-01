@@ -22,12 +22,12 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function getValueResultTuples()
     {
-        return array(array(null, null),
-                     array('', array()),
-                     array('foo', array('foo')),
-                     array(' foo ', array('foo')),
-                     array('foo, bar', array('foo', 'bar')),
-        );
+        return [[null, null],
+                ['', []],
+                ['foo', ['foo']],
+                [' foo ', ['foo']],
+                ['foo, bar', ['foo', 'bar']],
+        ];
     }
 
     /**
@@ -49,7 +49,7 @@ class ArrayFilterTestCase extends FilterTestCase
     public function usingDifferentSeparator()
     {
         $arrayFilter = new ArrayFilter();
-        $this->assertEquals(array('foo', 'bar'),
+        $this->assertEquals(['foo', 'bar'],
                             $arrayFilter->setSeparator('|')
                                         ->apply($this->createParam('foo|bar')));
     }
@@ -59,7 +59,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $default = array('foo' => 'bar');
+        $default = ['foo' => 'bar'];
         $this->assertEquals($default,
                             $this->createValueReader(null)
                                  ->asArray($default)
@@ -88,7 +88,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsEmptyArrayIfParamIsEmpty()
     {
-        $this->assertEquals(array(), $this->createValueReader('')->asArray());
+        $this->assertEquals([], $this->createValueReader('')->asArray());
     }
 
     /**
@@ -96,7 +96,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsValidValue()
     {
-        $value = array('foo', 'bar');
+        $value = ['foo', 'bar'];
         $this->assertEquals($value, $this->createValueReader('foo, bar')->asArray());
 
     }
@@ -106,7 +106,7 @@ class ArrayFilterTestCase extends FilterTestCase
      */
     public function asArrayReturnsValidValueWithDifferentSeparator()
     {
-        $value = array('foo', 'bar');
+        $value = ['foo', 'bar'];
         $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray(null, '|'));
 
     }

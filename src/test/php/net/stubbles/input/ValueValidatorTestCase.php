@@ -214,7 +214,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function isOneOfReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('foo')->isOneOf(array('foo', 'bar', 'baz')));
+        $this->assertTrue($this->createValueValidator('foo')->isOneOf(['foo', 'bar', 'baz']));
     }
 
     /**
@@ -222,7 +222,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function isOneOfReturnsFalseIfValidatorNotSatisfied()
     {
-        $this->assertFalse($this->createValueValidator('foo')->isOneOf(array('bar', 'baz')));
+        $this->assertFalse($this->createValueValidator('foo')->isOneOf(['bar', 'baz']));
     }
 
     /**

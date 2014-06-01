@@ -20,12 +20,12 @@ class DenyValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getValues()
     {
-        return array(array(123),
-                     array('1234'),
-                     array(true),
-                     array(null),
-                     array(new \stdClass())
-        );
+        return [[123],
+                ['1234'],
+                [true],
+                [null],
+                [new \stdClass()]
+        ];
     }
 
     /**

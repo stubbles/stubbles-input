@@ -41,6 +41,6 @@ class OneOfParamBroker extends MultipleSourceParamBroker
             return array_map('trim', explode('|', $annotation->getAllowed()));
         }
 
-        return array();
+        return [];
     }
 }

@@ -27,7 +27,7 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->params = new Params(array('foo' => 'bar', 'baz' => 'value'));
+        $this->params = new Params(['foo' => 'bar', 'baz' => 'value']);
     }
 
     /**
@@ -83,7 +83,7 @@ class ParamsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(array('foo', 'baz'), $this->params->getNames());
+        $this->assertEquals(['foo', 'baz'], $this->params->getNames());
     }
 
     /**

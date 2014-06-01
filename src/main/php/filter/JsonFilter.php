@@ -36,7 +36,7 @@ class JsonFilter implements Filter
         }
 
         $value = $param->getValue();
-        if ($this->isValidJsonStructure($value) === false) {
+        if (!$this->isValidJsonStructure($value)) {
             $param->addErrorWithId('JSON_INVALID');
             return null;
         }
@@ -44,7 +44,7 @@ class JsonFilter implements Filter
         $decodedJson = json_decode($value);
         $errorCode   = json_last_error();
         if (JSON_ERROR_NONE !== $errorCode) {
-            $param->addErrorWithId('JSON_SYNTAX_ERROR', array('errorCode' => $errorCode));
+            $param->addErrorWithId('JSON_SYNTAX_ERROR', ['errorCode' => $errorCode]);
             return null;
         }
 

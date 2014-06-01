@@ -45,7 +45,7 @@ class StringFilter implements Filter
      */
     protected function getNonAllowedCharacters()
     {
-        return array(chr(10), chr(13));
+        return [chr(10), chr(13)];
     }
 
     /**

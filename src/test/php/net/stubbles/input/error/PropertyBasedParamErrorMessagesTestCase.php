@@ -52,9 +52,9 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
         $mockResourceLoader  = $this->getMock('stubbles\lang\ResourceLoader');
         $mockResourceLoader->expects($this->any())
                            ->method('getResourceUris')
-                           ->will($this->returnValue(array(vfsStream::url('root/package1/input/error/message.ini'),
-                                                           vfsStream::url('root/package2/input/error/message.ini')
-                                                     )
+                           ->will($this->returnValue([vfsStream::url('root/package1/input/error/message.ini'),
+                                                      vfsStream::url('root/package2/input/error/message.ini')
+                                                     ]
                                   )
                              );
         $this->errorMessages = new PropertyBasedParamErrorMessages($mockResourceLoader);
@@ -65,8 +65,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function hasMessagesForErrorsFromBothSources()
     {
-        $this->assertTrue($this->errorMessages->existFor(new ParamError('id', array('foo' => 'bar'))));
-        $this->assertTrue($this->errorMessages->existFor(new ParamError('id2', array('foo' => 'bar'))));
+        $this->assertTrue($this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar'])));
+        $this->assertTrue($this->errorMessages->existFor(new ParamError('id2', ['foo' => 'bar'])));
     }
 
     /**
@@ -74,7 +74,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsTrueOnCheckForExistingError()
     {
-        $this->assertTrue($this->errorMessages->existFor(new ParamError('id', array('foo' => 'bar'))));
+        $this->assertTrue($this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar'])));
     }
 
     /**
@@ -91,8 +91,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalesForExistingError()
     {
 
-        $this->assertEquals(array('default', 'en_*', 'de_DE'),
-                            $this->errorMessages->localesFor(new ParamError('id', array('foo' => 'bar')))
+        $this->assertEquals(['default', 'en_*', 'de_DE'],
+                            $this->errorMessages->localesFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
 
@@ -102,7 +102,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyListOfLocalesForNonExistingError()
     {
 
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->errorMessages->localesFor(new ParamError('doesNotExist'))
         );
     }
@@ -113,11 +113,11 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalizedMessagesForExistingError()
     {
 
-        $this->assertEquals(array(new LocalizedString('default', 'An error of type bar occurred.'),
-                                  new LocalizedString('en_*', 'An error of type bar occurred.'),
-                                  new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
-                            ),
-                            $this->errorMessages->messagesFor(new ParamError('id', array('foo' => 'bar')))
+        $this->assertEquals([new LocalizedString('default', 'An error of type bar occurred.'),
+                             new LocalizedString('en_*', 'An error of type bar occurred.'),
+                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
+                            ],
+                            $this->errorMessages->messagesFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
 
@@ -127,7 +127,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageListForNonExistingError()
     {
 
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->errorMessages->messagesFor(new ParamError('doesNotExist'))
         );
     }
@@ -139,7 +139,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     {
 
         $this->assertEquals(new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'),
-                            $this->errorMessages->messageFor(new ParamError('id', array('foo' => 'bar')), 'de_DE')
+                            $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'de_DE')
         );
     }
 
@@ -150,7 +150,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     {
 
         $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
-                            $this->errorMessages->messageFor(new ParamError('id', array('foo' => 'bar')), 'en_UK')
+                            $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'en_UK')
         );
     }
 
@@ -161,7 +161,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     {
 
         $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
-                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', array('foo' => 'bar')), 'fr_FR')
+                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
         );
     }
 
@@ -172,7 +172,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     {
 
         $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
-                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', array('foo' => 'bar')))
+                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
 
@@ -183,7 +183,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     {
 
         $this->assertEquals(new LocalizedString('default', 'An error of type bar occurred.'),
-                            $this->errorMessages->messageFor(new ParamError('id', array('foo' => 'bar')), 'fr_FR')
+                            $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
         );
     }
 

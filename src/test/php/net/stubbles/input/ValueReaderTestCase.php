@@ -93,7 +93,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     public function ifIsOneOfReturnsValidatedValue()
     {
         $this->assertEquals('Hardfloor',
-                            $this->createValueReader('Hardfloor')->ifIsOneOf(array('Hardfloor', 'Dr DNA'))
+                            $this->createValueReader('Hardfloor')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
@@ -103,7 +103,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('Moby',
-                            $this->createValueReader(null)->ifIsOneOf(array('Hardfloor', 'Dr DNA'), 'Moby')
+                            $this->createValueReader(null)->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby')
         );
     }
 
@@ -112,7 +112,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA'), 'Moby'));
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby'));
     }
 
     /**
@@ -120,7 +120,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfReturnsNullIfValidationFailsAndNoDefaultValueGiven()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA']));
     }
 
     /**
@@ -128,7 +128,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfReturnsNullIfValidationFailsAndDefaultValueGiven()
     {
-        $this->assertNull($this->createValueReader('invalid')->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+        $this->assertNull($this->createValueReader('invalid')->required()->ifIsOneOf(['Hardfloor', 'Dr DNA']));
     }
 
     /**
@@ -136,7 +136,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfAddsParamErrorIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA']));
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_NO_SELECT'));
     }
 
@@ -145,7 +145,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA')));
+        $this->assertNull($this->createValueReader(null)->required()->ifIsOneOf(['Hardfloor', 'Dr DNA']));
     }
 
     /**
@@ -153,7 +153,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function ifIsOneOfAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->ifIsOneOf(array('Hardfloor', 'Dr DNA'));
+        $this->createValueReader(null)->required()->ifIsOneOf(['Hardfloor', 'Dr DNA']);
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 

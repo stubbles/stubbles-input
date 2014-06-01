@@ -35,14 +35,14 @@ class HttpUriValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidValues()
     {
-        return array(array(null),
-                     array(303),
-                     array(true),
-                     array(false),
-                     array(''),
-                     array('invalid'),
-                     array('ftp://example.net')
-        );
+        return [[null],
+                [303],
+                [true],
+                [false],
+                [''],
+                ['invalid'],
+                ['ftp://example.net']
+        ];
     }
 
     /**

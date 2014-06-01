@@ -52,7 +52,7 @@ class DirectoryParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('/home/user',
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => '/home/user'))
+                                                        $this->createRequestAnnotation(['default' => '/home/user'])
                             )
         );
     }
@@ -64,9 +64,9 @@ class DirectoryParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('../',
                             $this->paramBroker->procure($this->mockRequest('../'),
-                                                        $this->createRequestAnnotation(array('basePath'      => __DIR__,
-                                                                                             'allowRelative' => true
-                                                                                       )
+                                                        $this->createRequestAnnotation(['basePath'      => __DIR__,
+                                                                                        'allowRelative' => true
+                                                                                       ]
                                                         )
                             )
         );

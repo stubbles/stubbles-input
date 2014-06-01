@@ -26,7 +26,7 @@ class PasswordParamBroker extends MultipleSourceParamBroker
     protected function filter(ValueReader $valueReader, Annotation $annotation)
     {
         return $valueReader->asPassword($annotation->getMinDiffChars(PasswordFilter::MIN_DIFF_CHARS_DEFAULT),
-                                        array()
+                                        []
         );
     }
 }

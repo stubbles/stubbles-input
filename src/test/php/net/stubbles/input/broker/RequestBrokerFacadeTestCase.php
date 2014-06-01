@@ -135,7 +135,7 @@ class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
                         ->will($this->returnValue(true));
         $mockParamErrors->expects($this->once())
                         ->method('getIterator')
-                        ->will($this->returnValue(new \ArrayIterator(array('foo' => array('wth' => new ParamError('wth'))))));
+                        ->will($this->returnValue(new \ArrayIterator(['foo' => ['wth' => new ParamError('wth')]])));
         $this->mockParamErrorMessages->expects($this->once())
                                      ->method('messageFor')
                                      ->with()
@@ -173,7 +173,7 @@ class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
     public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
     {
         $brokeredClass = new BrokerClass();
-        $expected      = array(lang\reflect($brokeredClass, 'setBar'));
+        $expected      = [lang\reflect($brokeredClass, 'setBar')];
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getMethods')
                                 ->with($this->equalTo($brokeredClass),
@@ -191,7 +191,7 @@ class RequestBrokerFacadeTestCase extends \PHPUnit_Framework_TestCase
     public function getAnnotationsReturnsListOfAllRequestAnnotation()
     {
         $brokeredClass = new BrokerClass();
-        $expected      = array(new Annotation('Test'));
+        $expected      = [new Annotation('Test')];
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getAnnotations')
                                 ->with($this->equalTo($brokeredClass),

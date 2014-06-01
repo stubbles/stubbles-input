@@ -117,7 +117,7 @@ class DatespanRange implements Range
      */
     public function getMinParamError()
     {
-        return new ParamError('DATE_TOO_EARLY', array('earliestDate' => $this->minDate->asString()));
+        return new ParamError('DATE_TOO_EARLY', ['earliestDate' => $this->minDate->asString()]);
     }
 
     /**
@@ -127,6 +127,6 @@ class DatespanRange implements Range
      */
     public function getMaxParamError()
     {
-        return new ParamError('DATE_TOO_LATE', array('latestDate' => $this->maxDate->asString()));
+        return new ParamError('DATE_TOO_LATE', ['latestDate' => $this->maxDate->asString()]);
     }
 }

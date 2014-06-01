@@ -20,10 +20,10 @@ class RegexValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getValidValues()
     {
-        return array(array('/^([a-z]{3})$/', 'foo'),
-                     array('/^([a-z]{3})$/i', 'foo'),
-                     array('/^([a-z]{3})$/i', 'Bar')
-        );
+        return [['/^([a-z]{3})$/', 'foo'],
+                ['/^([a-z]{3})$/i', 'foo'],
+                ['/^([a-z]{3})$/i', 'Bar']
+        ];
     }
 
     /**
@@ -43,12 +43,12 @@ class RegexValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidValues()
     {
-        return array(array('/^([a-z]{3})$/', 'Bar'),
-                     array('/^([a-z]{3})$/', 'baz0123'),
-                     array('/^([a-z]{3})$/', null),
-                     array('/^([a-z]{3})$/i', 'baz0123'),
-                     array('/^([a-z]{3})$/i', null)
-        );
+        return [['/^([a-z]{3})$/', 'Bar'],
+                ['/^([a-z]{3})$/', 'baz0123'],
+                ['/^([a-z]{3})$/', null],
+                ['/^([a-z]{3})$/i', 'baz0123'],
+                ['/^([a-z]{3})$/i', null]
+        ];
     }
 
     /**

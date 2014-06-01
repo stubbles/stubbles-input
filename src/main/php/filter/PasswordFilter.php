@@ -34,7 +34,7 @@ class PasswordFilter implements Filter
      *
      * @type  string[]
      */
-    private $nonAllowedValues    = array();
+    private $nonAllowedValues    = [];
 
     /**
      * set a list of values that are not allowed as password

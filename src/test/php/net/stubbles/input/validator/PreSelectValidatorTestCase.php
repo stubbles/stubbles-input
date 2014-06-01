@@ -27,7 +27,7 @@ class PreSelectValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->preSelectValidator = new PreSelectValidator(array('foo', 'bar'));
+        $this->preSelectValidator = new PreSelectValidator(['foo', 'bar']);
     }
 
     /**
@@ -35,10 +35,10 @@ class PreSelectValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getValidValues()
     {
-        return array(array('foo'),
-                     array('bar'),
-                     array(array('bar', 'foo'))
-        );
+        return [['foo'],
+                ['bar'],
+                [['bar', 'foo']]
+        ];
     }
 
     /**
@@ -56,10 +56,10 @@ class PreSelectValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidValues()
     {
-        return array(array('baz'),
-                     array(null),
-                     array(array('bar', 'foo', 'baz'))
-        );
+        return [['baz'],
+                [null],
+                [['bar', 'foo', 'baz']]
+        ];
     }
 
     /**

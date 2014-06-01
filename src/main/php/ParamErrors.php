@@ -20,7 +20,7 @@ class ParamErrors implements \IteratorAggregate, \Countable
      *
      * @type  array
      */
-    private $errors = array();
+    private $errors = [];
 
     /**
      * appends an error to the list of errors for given param name
@@ -31,11 +31,11 @@ class ParamErrors implements \IteratorAggregate, \Countable
      * @return  ParamError
      * @since   2.3.3
      */
-    public function append($paramName, $error, array $details = array())
+    public function append($paramName, $error, array $details = [])
     {
         $error = ParamError::fromData($error, $details);
         if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = array($error->getId() => $error);
+            $this->errors[$paramName] = [$error->getId() => $error];
         } else {
             $this->errors[$paramName][$error->getId()] = $error;
         }
@@ -54,7 +54,7 @@ class ParamErrors implements \IteratorAggregate, \Countable
     public function add(ParamError $error, $paramName)
     {
         if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = array($error->getId() => $error);
+            $this->errors[$paramName] = [$error->getId() => $error];
         } else {
             $this->errors[$paramName][$error->getId()] = $error;
         }
@@ -138,11 +138,11 @@ class ParamErrors implements \IteratorAggregate, \Countable
      */
     public function getFor($paramName)
     {
-        if (isset($this->errors[$paramName]) === true) {
+        if (isset($this->errors[$paramName])) {
             return $this->errors[$paramName];
         }
 
-        return array();
+        return [];
     }
 
     /**

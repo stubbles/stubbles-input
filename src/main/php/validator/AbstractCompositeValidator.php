@@ -24,7 +24,7 @@ abstract class AbstractCompositeValidator implements CompositeValidator
      *
      * @type  Validator[]
      */
-    protected $validators = array();
+    protected $validators = [];
 
     /**
      * add a validator

@@ -51,7 +51,7 @@ class BoolParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
         $this->assertTrue($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('default' => true))
+                                                      $this->createRequestAnnotation(['default' => true])
                           )
         );
     }

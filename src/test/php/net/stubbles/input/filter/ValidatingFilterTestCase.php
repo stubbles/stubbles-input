@@ -36,7 +36,7 @@ class ValidatingFilterTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mockValidator    = $this->getMock('stubbles\input\Validator');
-        $this->validatingFilter = new ValidatingFilter($this->mockValidator, 'ERROR', array('foo' => 'bar'));
+        $this->validatingFilter = new ValidatingFilter($this->mockValidator, 'ERROR', ['foo' => 'bar']);
     }
 
     /**

@@ -66,7 +66,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function returnsPasswordIfBothArrayValuesAreEqual()
     {
-        $this->assertEquals('foo', $this->passwordFilter->apply($this->createParam(array('foo', 'foo'))));
+        $this->assertEquals('foo', $this->passwordFilter->apply($this->createParam(['foo', 'foo'])));
     }
 
     /**
@@ -74,7 +74,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function returnsNullIfBothArrayValuesAreDifferent()
     {
-        $this->assertNull($this->passwordFilter->apply($this->createParam(array('foo', 'bar'))));
+        $this->assertNull($this->passwordFilter->apply($this->createParam(['foo', 'bar'])));
     }
 
     /**
@@ -82,7 +82,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function addsErrorToParamWhenBothArrayValuesAreDifferent()
     {
-        $param = $this->createParam(array('foo', 'bar'));
+        $param = $this->createParam(['foo', 'bar']);
         $this->passwordFilter->apply($param);
         $this->assertTrue($param->hasError('PASSWORDS_NOT_EQUAL'));
     }
@@ -92,7 +92,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function returnsNullIfValueIsNotAllowed()
     {
-        $this->assertNull($this->passwordFilter->disallowValues(array('bar'))
+        $this->assertNull($this->passwordFilter->disallowValues(['bar'])
                                                ->apply($this->createParam('bar'))
         );
     }
@@ -103,7 +103,7 @@ class PasswordFilterTestCase extends FilterTestCase
     public function addsErrorToParamWhenValueIsNotAllowed()
     {
         $param = $this->createParam('bar');
-        $this->passwordFilter->disallowValues(array('bar'))
+        $this->passwordFilter->disallowValues(['bar'])
                              ->apply($param);
         $this->assertTrue($param->hasError('PASSWORD_INVALID'));
     }
@@ -115,7 +115,7 @@ class PasswordFilterTestCase extends FilterTestCase
     {
         $this->assertEquals('abcde',
                             $this->passwordFilter->minDiffChars(5)
-                                                 ->apply($this->createParam(array('abcde', 'abcde')))
+                                                 ->apply($this->createParam(['abcde', 'abcde']))
         );
     }
 
@@ -125,7 +125,7 @@ class PasswordFilterTestCase extends FilterTestCase
     public function returnsNullIfValueHasLessThenGivenAmountOfDifferentCharacters()
     {
         $this->assertNull($this->passwordFilter->minDiffChars(5)
-                                               ->apply($this->createParam(array('abcdd', 'abcdd')))
+                                               ->apply($this->createParam(['abcdd', 'abcdd']))
         );
     }
 
@@ -134,7 +134,7 @@ class PasswordFilterTestCase extends FilterTestCase
      */
     public function addsErrorToParamWhenValueHasLessThenGivenAmountOfDifferentCharacters()
     {
-        $param = $this->createParam(array('abcdd', 'abcdd'));
+        $param = $this->createParam(['abcdd', 'abcdd']);
         $this->passwordFilter->minDiffChars(5)
                              ->apply($param);
         $this->assertTrue($param->hasError('PASSWORD_TOO_LESS_DIFF_CHARS'));

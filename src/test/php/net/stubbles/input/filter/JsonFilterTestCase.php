@@ -45,7 +45,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function filterValidJsonArray()
     {
-        $this->assertEquals(array(1), $this->jsonFilter->apply($this->createParam('[1]')));
+        $this->assertEquals([1], $this->jsonFilter->apply($this->createParam('[1]')));
     }
 
     /**
@@ -65,7 +65,7 @@ class JsonFilterTestCase extends FilterTestCase
     {
         $phpJsonObj = new \stdClass();
         $phpJsonObj->method = 'add';
-        $phpJsonObj->params = array(1, 2);
+        $phpJsonObj->params = [1, 2];
         $phpJsonObj->id = 1;
 
         $this->assertEquals($phpJsonObj,
@@ -169,7 +169,7 @@ class JsonFilterTestCase extends FilterTestCase
      */
     public function asJsonReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $default = array('foo' => 'bar');
+        $default = ['foo' => 'bar'];
         $this->assertEquals($default,
                             $this->createValueReader(null)->asJson($default)
         );
@@ -217,7 +217,7 @@ class JsonFilterTestCase extends FilterTestCase
      * @test
      */
     public function asJsonReturnsValidValue() {
-        $value = array('foo', 'bar');
+        $value = ['foo', 'bar'];
         $this->assertEquals($value, $this->createValueReader(json_encode($value))->asJson());
     }
 }

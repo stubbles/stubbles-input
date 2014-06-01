@@ -42,7 +42,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->abstractRequest = new TestAbstractRequest(new Params(array('foo' => 'bar', 'roland' => 'TB-303')));
+        $this->abstractRequest = new TestAbstractRequest(new Params(['foo' => 'bar', 'roland' => 'TB-303']));
     }
 
     /**
@@ -66,7 +66,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(array('foo', 'roland'),
+        $this->assertEquals(['foo', 'roland'],
                             $this->abstractRequest->getParamNames()
         );
     }

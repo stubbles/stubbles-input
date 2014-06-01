@@ -41,9 +41,9 @@ class MonthFilterTestCase extends FilterTestCase
      */
     public function getEmptyValues()
     {
-        return array(array(''),
-                     array(null)
-        );
+        return [[''],
+                [null]
+        ];
     }
 
     /**

@@ -53,7 +53,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 'http://localhost/'))
+                                                        $this->createRequestAnnotation(['default' => 'http://localhost/'])
                             )
         );
     }
@@ -65,7 +65,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('http://localhost/'),
-                                                        $this->createRequestAnnotation(array('dnsCheck' => true))
+                                                        $this->createRequestAnnotation(['dnsCheck' => true])
                             )
         );
     }
@@ -76,7 +76,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -87,7 +87,7 @@ class HttpUriParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullForInvalidHttpUri()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('invalid'),
-                                                      $this->createRequestAnnotation(array())
+                                                      $this->createRequestAnnotation()
                           )
         );
     }

@@ -52,7 +52,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('No Mr Bond, I expect you to die!',
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 'No Mr Bond, I expect you to die!'))
+                                                        $this->createRequestAnnotation(['default' => 'No Mr Bond, I expect you to die!'])
                           )
         );
     }
@@ -63,7 +63,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -74,7 +74,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfShorterThanMinLength()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                                                      $this->createRequestAnnotation(array('minLength' => 40))
+                                                      $this->createRequestAnnotation(['minLength' => 40])
                           )
         );
     }
@@ -85,7 +85,7 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLongerThanMaxLength()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                                                      $this->createRequestAnnotation(array('maxLength' => 10))
+                                                      $this->createRequestAnnotation(['maxLength' => 10])
                           )
         );
     }
@@ -97,9 +97,9 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('Do you expect me to talk?',
                             $this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                                                        $this->createRequestAnnotation(array('minLength' => 10,
-                                                                                            'maxLength' => 40
-                                                                                      )
+                                                        $this->createRequestAnnotation(['minLength' => 10,
+                                                                                        'maxLength' => 40
+                                                                                       ]
                                                         )
                             )
         );
@@ -112,10 +112,10 @@ class TextParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals('Do <u>you</u> expect me to <b>talk</b>?',
                             $this->paramBroker->procure($this->mockRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                                                        $this->createRequestAnnotation(array('minLength'   => 10,
-                                                                                            'maxLength'   => 40,
-                                                                                            'allowedTags' => 'b, u'
-                                                                                      )
+                                                        $this->createRequestAnnotation(['minLength'   => 10,
+                                                                                        'maxLength'   => 40,
+                                                                                        'allowedTags' => 'b, u'
+                                                                                       ]
                                                         )
                             )
         );

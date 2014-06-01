@@ -33,15 +33,15 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->globals        = array('GET'    => $_GET,
-                                      'POST'   => $_POST,
-                                      'SERVER' => $_SERVER,
-                                      'COOKIE' => $_COOKIE
+        $this->globals        = ['GET'    => $_GET,
+                                 'POST'   => $_POST,
+                                 'SERVER' => $_SERVER,
+                                 'COOKIE' => $_COOKIE
 
-                                );
-        $this->baseWebRequest = $this->createBaseWebRequest(array('foo' => 'bar', 'roland' => 'TB-303'),
-                                                            array('HTTP_ACCEPT' => 'text/html', 'REQUEST_METHOD' => 'post'),
-                                                            array('chocolateChip' => 'Omnomnomnom', 'master' => 'servant')
+                                ];
+        $this->baseWebRequest = $this->createBaseWebRequest(['foo' => 'bar', 'roland' => 'TB-303'],
+                                                            ['HTTP_ACCEPT' => 'text/html', 'REQUEST_METHOD' => 'post'],
+                                                            ['chocolateChip' => 'Omnomnomnom', 'master' => 'servant']
                                 );
     }
 
@@ -59,12 +59,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     /**
      * creates instance to test
      *
-     * @param   array  $params
-     * @param   array  $headers
-     * @param   array  $cookies
+     * @param   array  $params   optional
+     * @param   array  $headers  optional
+     * @param   array  $cookies  optional
      * @return  BaseWebRequest
      */
-    private function createBaseWebRequest(array $params = array(), array $headers = array(), array $cookies = array())
+    private function createBaseWebRequest(array $params = [], array $headers = [], array $cookies = [])
     {
         return new BaseWebRequest($params,
                                   $headers,
@@ -80,10 +80,10 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     private function fillGlobals($requestMethod = 'GET')
     {
-        $_GET    = array('foo' => 'bar', 'roland' => 'TB-303');
-        $_POST   = array('baz' => 'blubb', 'donald' => '313');
-        $_SERVER = array('REQUEST_METHOD' => $requestMethod, 'HTTP_ACCEPT' => 'text/html');
-        $_COOKIE = array('chocolateChip'  => 'Omnomnomnom', 'master' => 'servant');
+        $_GET    = ['foo' => 'bar', 'roland' => 'TB-303'];
+        $_POST   = ['baz' => 'blubb', 'donald' => '313'];
+        $_SERVER = ['REQUEST_METHOD' => $requestMethod, 'HTTP_ACCEPT' => 'text/html'];
+        $_COOKIE = ['chocolateChip'  => 'Omnomnomnom', 'master' => 'servant'];
     }
 
     /**
@@ -92,7 +92,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function usesGetParamsFromRawSourceWhenRequestMethodIsGET()
     {
         $this->fillGlobals('GET');
-        $this->assertEquals(array('foo', 'roland'),
+        $this->assertEquals(['foo', 'roland'],
                             BaseWebRequest::fromRawSource()->getParamNames()
         );
     }
@@ -103,7 +103,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function usesPostParamsFromRawSourceWhenRequestMethodIsPOST()
     {
         $this->fillGlobals('POST');
-        $this->assertEquals(array('baz', 'donald'),
+        $this->assertEquals(['baz', 'donald'],
                             BaseWebRequest::fromRawSource()->getParamNames()
         );
     }
@@ -114,7 +114,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function usesServerForHeaderFromRawSource()
     {
         $this->fillGlobals();
-        $this->assertEquals(array('REQUEST_METHOD', 'HTTP_ACCEPT'),
+        $this->assertEquals(['REQUEST_METHOD', 'HTTP_ACCEPT'],
                             BaseWebRequest::fromRawSource()->getHeaderNames()
         );
     }
@@ -125,7 +125,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function usesCookieForCookieFromRawSource()
     {
         $this->fillGlobals();
-        $this->assertEquals(array('chocolateChip', 'master'),
+        $this->assertEquals(['chocolateChip', 'master'],
                             BaseWebRequest::fromRawSource()->getCookieNames()
         );
     }
@@ -154,8 +154,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function sslCheckReturnsTrueIfHttpsSet()
     {
-        $this->assertTrue($this->createBaseWebRequest(array(),
-                                                      array('HTTPS' => true)
+        $this->assertTrue($this->createBaseWebRequest([],
+                                                      ['HTTPS' => true]
                                  )
                                ->isSsl()
         );
@@ -166,8 +166,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function sslCheckReturnsFalseIfHttpsNotSet()
     {
-        $this->assertFalse($this->createBaseWebRequest(array(),
-                                                       array('HTTPS' => null)
+        $this->assertFalse($this->createBaseWebRequest([],
+                                                       ['HTTPS' => null]
                                   )
                                 ->isSsl()
         );
@@ -180,9 +180,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function reportsVersion1_0WhenNoServerProtocolSet()
     {
          $this->assertEquals('1.0',
-                             $this->createBaseWebRequest(array(),
-                                                         array()
-                                    )
+                             $this->createBaseWebRequest([], [])
                                   ->getProtocolVersion()
         );
     }
@@ -193,8 +191,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function reportsNullNoServerProtocolContainsInvalidVersion()
     {
-         $this->assertNull($this->createBaseWebRequest(array(),
-                                                       array('SERVER_PROTOCOL' => 'foo')
+         $this->assertNull($this->createBaseWebRequest([],
+                                                       ['SERVER_PROTOCOL' => 'foo']
                                   )
                                 ->getProtocolVersion()
         );
@@ -206,8 +204,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function reportsNullNoServerProtocolContainsVersionTooLow()
     {
-         $this->assertNull($this->createBaseWebRequest(array(),
-                                                       array('SERVER_PROTOCOL' => 'HTTP/0.9')
+         $this->assertNull($this->createBaseWebRequest([],
+                                                       ['SERVER_PROTOCOL' => 'HTTP/0.9']
                                   )
                                 ->getProtocolVersion()
         );
@@ -219,8 +217,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function reportsNullNoServerProtocolContainsVersionTooGreat()
     {
-         $this->assertNull($this->createBaseWebRequest(array(),
-                                                       array('SERVER_PROTOCOL' => 'HTTP/1.2')
+         $this->assertNull($this->createBaseWebRequest([],
+                                                       ['SERVER_PROTOCOL' => 'HTTP/1.2']
                                   )
                                 ->getProtocolVersion()
         );
@@ -233,8 +231,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function reportsVersion1_0NoServerProtocolContains1_0()
     {
          $this->assertEquals('1.0',
-                             $this->createBaseWebRequest(array(),
-                                                         array('SERVER_PROTOCOL' => 'HTTP/1.0')
+                             $this->createBaseWebRequest([],
+                                                         ['SERVER_PROTOCOL' => 'HTTP/1.0']
                                     )
                                   ->getProtocolVersion()
         );
@@ -247,8 +245,8 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function reportsVersion1_1NoServerProtocolContains1_1()
     {
          $this->assertEquals('1.1',
-                             $this->createBaseWebRequest(array(),
-                                                         array('SERVER_PROTOCOL' => 'HTTP/1.1')
+                             $this->createBaseWebRequest([],
+                                                         ['SERVER_PROTOCOL' => 'HTTP/1.1']
                                     )
                                   ->getProtocolVersion()
         );
@@ -260,10 +258,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
     {
-        $this->createBaseWebRequest(array(),
-                                    array()
-               )
-             ->getUri();
+        $this->createBaseWebRequest([], [])->getUri();
     }
 
     /**
@@ -272,12 +267,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function getUriReturnsCompleteRequestUri()
     {
         $this->assertEquals('http://stubbles.net:80/index.php?foo=bar',
-                            $this->createBaseWebRequest(array('foo'         => 'bar'),
-                                                        array('HTTPS'       => null,
-                                                              'HTTP_HOST'   => 'stubbles.net',
-                                                              'SERVER_PORT' => 80,
-                                                              'REQUEST_URI' => '/index.php?foo=bar'
-                                                        )
+                            $this->createBaseWebRequest(['foo'         => 'bar'],
+                                                        ['HTTPS'       => null,
+                                                         'HTTP_HOST'   => 'stubbles.net',
+                                                         'SERVER_PORT' => 80,
+                                                         'REQUEST_URI' => '/index.php?foo=bar'
+                                                        ]
                                    )
                                  ->getUri()
                                  ->asString()
@@ -291,12 +286,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function getUriReturnsCompleteRequestUriWithoutDoublePortIfPortIsInHost()
     {
         $this->assertEquals('http://localhost:8080/index.php?foo=bar',
-                            $this->createBaseWebRequest(array('foo'         => 'bar'),
-                                                        array('HTTPS'       => null,
-                                                              'HTTP_HOST'   => 'localhost:8080',
-                                                              'SERVER_PORT' => 80,
-                                                              'REQUEST_URI' => '/index.php?foo=bar'
-                                                        )
+                            $this->createBaseWebRequest(['foo'         => 'bar'],
+                                                        ['HTTPS'       => null,
+                                                         'HTTP_HOST'   => 'localhost:8080',
+                                                         'SERVER_PORT' => 80,
+                                                         'REQUEST_URI' => '/index.php?foo=bar'
+                                                        ]
                                    )
                                  ->getUri()
                                  ->asString()
@@ -310,12 +305,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function getUriReturnsCompleteRequestUriWithNonDefaultPort()
     {
         $this->assertEquals('http://example.net:8080/index.php?foo=bar',
-                            $this->createBaseWebRequest(array('foo'         => 'bar'),
-                                                        array('HTTPS'       => null,
-                                                              'HTTP_HOST'   => 'example.net',
-                                                              'SERVER_PORT' => 8080,
-                                                              'REQUEST_URI' => '/index.php?foo=bar'
-                                                        )
+                            $this->createBaseWebRequest(['foo'         => 'bar'],
+                                                        ['HTTPS'       => null,
+                                                         'HTTP_HOST'   => 'example.net',
+                                                         'SERVER_PORT' => 8080,
+                                                         'REQUEST_URI' => '/index.php?foo=bar'
+                                                        ]
                                    )
                                  ->getUri()
                                  ->asString()
@@ -328,12 +323,12 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
     public function getUriReturnsCompleteRequestUriForHttps()
     {
         $this->assertEquals('https://stubbles.net:443/index.php?foo=bar',
-                            $this->createBaseWebRequest(array('foo'         => 'bar'),
-                                                        array('HTTPS'       => true,
-                                                              'HTTP_HOST'   => 'stubbles.net',
-                                                              'SERVER_PORT' => 443,
-                                                              'REQUEST_URI' => '/index.php?foo=bar'
-                                                        )
+                            $this->createBaseWebRequest(['foo'         => 'bar'],
+                                                        ['HTTPS'       => true,
+                                                         'HTTP_HOST'   => 'stubbles.net',
+                                                         'SERVER_PORT' => 443,
+                                                         'REQUEST_URI' => '/index.php?foo=bar'
+                                                        ]
                                    )
                                  ->getUri()
                                  ->asString()
@@ -345,7 +340,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(array('foo', 'roland'),
+        $this->assertEquals(['foo', 'roland'],
                             $this->baseWebRequest->getParamNames()
         );
     }
@@ -421,7 +416,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfHeaderNames()
     {
-        $this->assertEquals(array('HTTP_ACCEPT', 'REQUEST_METHOD'),
+        $this->assertEquals(['HTTP_ACCEPT', 'REQUEST_METHOD'],
                             $this->baseWebRequest->getHeaderNames()
         );
     }
@@ -497,7 +492,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfCookieNames()
     {
-        $this->assertEquals(array('chocolateChip', 'master'),
+        $this->assertEquals(['chocolateChip', 'master'],
                             $this->baseWebRequest->getCookieNames()
         );
     }

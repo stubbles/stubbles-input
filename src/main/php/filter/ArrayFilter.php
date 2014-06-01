@@ -58,7 +58,7 @@ class ArrayFilter implements Filter
         }
 
         if ($param->isEmpty()) {
-            return array();
+            return [];
         }
 
         return array_map('trim', explode($this->separator, $param->getValue()));

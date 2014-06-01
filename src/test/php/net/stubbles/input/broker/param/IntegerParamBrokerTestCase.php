@@ -52,7 +52,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(303,
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 303))
+                                                        $this->createRequestAnnotation(['default' => 303])
                           )
         );
     }
@@ -63,7 +63,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -74,7 +74,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfLowerThanMinValue()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('303'),
-                                                      $this->createRequestAnnotation(array('minValue' => 400))
+                                                      $this->createRequestAnnotation(['minValue' => 400])
                           )
         );
     }
@@ -85,7 +85,7 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfGreaterThanMaxValue()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest('303'),
-                                                      $this->createRequestAnnotation(array('maxValue' => 300))
+                                                      $this->createRequestAnnotation(['maxValue' => 300])
                           )
         );
     }
@@ -97,9 +97,9 @@ class IntegerParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals(303,
                             $this->paramBroker->procure($this->mockRequest('303'),
-                                                        $this->createRequestAnnotation(array('minValue' => 300,
-                                                                                            'maxValue' => 400
-                                                                                      )
+                                                        $this->createRequestAnnotation(['minValue' => 300,
+                                                                                        'maxValue' => 400
+                                                                                       ]
                                                         )
                             )
         );

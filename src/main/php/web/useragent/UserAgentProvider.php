@@ -36,11 +36,11 @@ class UserAgentProvider implements InjectionProvider
      *
      * @type  array
      */
-    private $botUserAgents = array('google' => '~Googlebot~',
-                                   'msnbot' => '~msnbot~',
-                                   'slurp'  => '~Slurp~',
-                                   'dotbot' => '~DotBot~'
-                             );
+    private $botUserAgents = ['google' => '~Googlebot~',
+                              'msnbot' => '~msnbot~',
+                              'slurp'  => '~Slurp~',
+                              'dotbot' => '~DotBot~'
+                             ];
 
     /**
      * constructor

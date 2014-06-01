@@ -84,7 +84,7 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
     public function hasEmptyErrorListByDefault()
     {
         $param = new Param('foo', 'bar');
-        $this->assertEquals(array(), $param->getErrors());
+        $this->assertEquals([], $param->getErrors());
     }
 
     /**
@@ -103,8 +103,8 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
     public function hasNonEmptyErrorListIfErrorAddedWithIdAndDetails()
     {
         $param = new Param('foo', 'bar');
-        $error = $param->addError('SOME_ERROR', array('some' => 'detail'));
-        $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
+        $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
+        $this->assertEquals(['SOME_ERROR' => $error], $param->getErrors());
     }
 
     /**
@@ -127,8 +127,8 @@ class ParamTestCase extends \PHPUnit_Framework_TestCase
     public function hasNonEmptyErrorListIfErrorAddedAsInstance()
     {
         $param = new Param('foo', 'bar');
-        $error = $param->addError(new ParamError('SOME_ERROR', array('some' => 'detail')));
-        $this->assertEquals(array('SOME_ERROR' => $error), $param->getErrors());
+        $error = $param->addError(new ParamError('SOME_ERROR', ['some' => 'detail']));
+        $this->assertEquals(['SOME_ERROR' => $error], $param->getErrors());
     }
 
     /**

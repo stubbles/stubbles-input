@@ -44,7 +44,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     protected function getExpectedValue()
     {
-        return array('foo', 'bar');
+        return ['foo', 'bar'];
     }
 
     /**
@@ -52,9 +52,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals(array('foo', 'bar'),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(array('default' => 'foo|bar'))
+                                                        $this->createRequestAnnotation(['default' => 'foo|bar'])
                             )
         );
     }
@@ -64,9 +64,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsValueWithDifferentSeparator()
     {
-        $this->assertEquals(array('foo', 'bar'),
+        $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('foo|bar'),
-                                                        $this->createRequestAnnotation(array('separator' => '|'))
+                                                        $this->createRequestAnnotation(['separator' => '|'])
                             )
         );
     }
@@ -77,7 +77,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(array('required' => true))
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -87,9 +87,9 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function returnsEmptyArrayForEmptyValue()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->paramBroker->procure($this->mockRequest(''),
-                                                        $this->createRequestAnnotation(array())
+                                                        $this->createRequestAnnotation([])
                             )
         );
     }
@@ -101,7 +101,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procureParam(new Param('name', 'foo, bar'),
-                                                             $this->createRequestAnnotation(array())
+                                                             $this->createRequestAnnotation([])
                             )
         );
     }
@@ -113,7 +113,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('foo, bar'),
-                                                        $this->createRequestAnnotation(array())
+                                                        $this->createRequestAnnotation([])
                             )
         );
     }
@@ -125,7 +125,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
     {
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($this->mockRequest('foo, bar'),
-                                                        $this->createRequestAnnotation(array('source' => 'param'))
+                                                        $this->createRequestAnnotation(['source' => 'param'])
                             )
         );
     }
@@ -142,7 +142,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'header'))
+                                                        $this->createRequestAnnotation(['source' => 'header'])
                             )
         );
     }
@@ -159,7 +159,7 @@ class ArrayParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
                     ->will($this->returnValue(ValueReader::forValue('foo, bar')));
         $this->assertEquals($this->getExpectedValue(),
                             $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(array('source' => 'cookie'))
+                                                        $this->createRequestAnnotation(['source' => 'cookie'])
                             )
         );
     }

@@ -104,7 +104,7 @@ class NumberRange implements Range
      */
     public function getMinParamError()
     {
-        return new ParamError('VALUE_TOO_SMALL', array('minNumber' => $this->minValue));
+        return new ParamError('VALUE_TOO_SMALL', ['minNumber' => $this->minValue]);
     }
 
     /**
@@ -114,6 +114,6 @@ class NumberRange implements Range
      */
     public function getMaxParamError()
     {
-        return new ParamError('VALUE_TOO_GREAT', array('maxNumber' => $this->maxValue));
+        return new ParamError('VALUE_TOO_GREAT', ['maxNumber' => $this->maxValue]);
     }
 }
