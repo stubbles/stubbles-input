@@ -7,7 +7,7 @@
  *
  * @package  net\stubbles\input
  */
-namespace org\stubbles\input\test;
+namespace net\stubbles\input\broker;
 /**
  * Helper class for the test.
  */
@@ -112,4 +112,3 @@ class BrokerClass
         return $this->baz;
     }
 }
-?>

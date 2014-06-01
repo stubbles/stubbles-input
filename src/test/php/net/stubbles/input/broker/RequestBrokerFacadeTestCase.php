@@ -12,7 +12,7 @@ use net\stubbles\input\ParamError;
 use stubbles\lang;
 use stubbles\lang\reflect\annotation\Annotation;
 use stubbles\lang\types\LocalizedString;
-use org\stubbles\input\test\BrokerClass;
+require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerFacade.
  *

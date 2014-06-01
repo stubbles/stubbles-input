@@ -8,7 +8,21 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input;
-use org\stubbles\input\test\TestAbstractRequest;
+/**
+ * Helper class for the test.
+ */
+class TestAbstractRequest extends AbstractRequest
+{
+    /**
+     * returns the request method
+     *
+     * @return  string
+     */
+    public function getMethod()
+    {
+        return 'test';
+    }
+}
 /**
  * Tests for net\stubbles\input\AbstractRequest.
  *

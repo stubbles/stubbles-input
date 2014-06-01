@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use org\stubbles\input\test\BrokerClass;
 use stubbles\lang;
+require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for net\stubbles\input\broker\RequestBrokerMethods.
  *
@@ -69,7 +69,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getReturnsListOfAllMethodsWithRequestAnnotationOnClassName()
     {
-        $methods = $this->requestBrokerMethods->get('org\stubbles\input\\test\BrokerClass');
+        $methods = $this->requestBrokerMethods->get('net\stubbles\input\broker\BrokerClass');
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
             $this->assertInstanceOf('stubbles\lang\\reflect\ReflectionMethod',
@@ -126,7 +126,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsReturnsListOfAllRequestAnnotationInGivenGroupOnClassName()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('org\stubbles\input\\test\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('net\stubbles\input\broker\BrokerClass',
                                                                    'main'
         );
         $this->assertCount(1, $annotations);
@@ -143,7 +143,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsDoesNotSetRequiresValueForMethodsWithoutParameters()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('org\stubbles\input\\test\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('net\stubbles\input\broker\BrokerClass',
                                                                    'noparam'
         );
         $this->assertCount(1, $annotations);

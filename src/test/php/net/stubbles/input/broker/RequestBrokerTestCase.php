@@ -8,8 +8,8 @@
  * @package  net\stubbles\input
  */
 namespace net\stubbles\input\broker;
-use org\stubbles\input\test\BrokerClass;
 use stubbles\lang;
+require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for net\stubbles\input\broker\RequestBroker.
  *
