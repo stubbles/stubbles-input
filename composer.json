@@ -17,8 +17,8 @@
         "stubbles/date": "~4.0"
     },
     "autoload": {
-        "psr-0": {
-            "net\\stubbles\\input": "src/main/php"
+        "psr-4": {
+            "net\\stubbles\\input\\": "src/main/php"
         }
     },
     "extra": {
