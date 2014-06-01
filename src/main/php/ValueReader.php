@@ -509,7 +509,7 @@ class ValueReader
     {
         if ($this->param->isNull()) {
             if ($this->required) {
-                $this->paramErrors->add(new ParamError($this->requiredErrorId), $this->param->getName());
+                $this->paramErrors->append($this->param->getName(), $this->requiredErrorId);
                 return null;
             }
 
@@ -534,7 +534,7 @@ class ValueReader
     public function withFilter(Filter $filter)
     {
         if ($this->required && $this->param->isEmpty()) {
-            $this->paramErrors->add(new ParamError($this->requiredErrorId), $this->param->getName());
+            $this->paramErrors->append($this->param->getName(), $this->requiredErrorId);
             return null;
         }
 
@@ -558,7 +558,7 @@ class ValueReader
         }
 
         foreach ($this->param->getErrors() as $error) {
-            $this->paramErrors->add($error, $this->param->getName());
+            $this->paramErrors->append($this->param->getName(), $error);
         }
 
         return null;
@@ -596,7 +596,7 @@ class ValueReader
         }
 
         foreach ($this->param->getErrors() as $error) {
-            $this->paramErrors->add($error, $this->param->getName());
+            $this->paramErrors->append($this->param->getName(), $error);
         }
 
         return null;

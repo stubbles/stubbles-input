@@ -44,7 +44,7 @@ class MonthFilter implements Filter
         try {
             return Month::fromString($param->getValue());
         } catch (IllegalArgumentException $iae) {
-            $param->addErrorWithId('MONTH_INVALID');
+            $param->addError('MONTH_INVALID');
         }
 
         return null;

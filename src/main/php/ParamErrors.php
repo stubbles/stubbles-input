@@ -44,25 +44,6 @@ class ParamErrors implements \IteratorAggregate, \Countable
     }
 
     /**
-     * adds error with given id for given parameter name
-     *
-     * @param   ParamError  $error      error to add
-     * @param   string      $paramName  name of parameter to add error for
-     * @return  ParamError
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function add(ParamError $error, $paramName)
-    {
-        if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = [$error->getId() => $error];
-        } else {
-            $this->errors[$paramName][$error->getId()] = $error;
-        }
-
-        return $error;
-    }
-
-    /**
      * returns number of collected errors
      *
      * @return  int
@@ -115,17 +96,6 @@ class ParamErrors implements \IteratorAggregate, \Countable
      * @since   2.3.3
      */
     public function asList()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * returns list of all errors for all parameters
-     *
-     * @return  array
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function get()
     {
         return $this->errors;
     }

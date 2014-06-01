@@ -101,19 +101,6 @@ class Param
     /**
      * adds error with given id
      *
-     * @param   string  $errorId
-     * @param   array   $details  details of what caused the error
-     * @return  ParamError
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function addErrorWithId($errorId, array $details = [])
-    {
-        return $this->addError(new ParamError($errorId, $details));
-    }
-
-    /**
-     * adds error with given id
-     *
      * @param   ParamError|string  $error    id of error or an instance of ParamError
      * @param   array              $details  details of what caused the error
      * @return  ParamError

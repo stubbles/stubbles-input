@@ -126,30 +126,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function addSameErrorForSameValueNameDoesNotResultInTwoErrorsOfSameKind()
-    {
-        $paramError = new ParamError('id');
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
-
-        $this->assertTrue($this->paramErrors->exist());
-        $this->assertEquals(1, $this->paramErrors->count());
-        $this->assertEquals(['foo' => ['id' => $paramError]],
-                            $this->paramErrors->get()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function existForReturnsFalseIfNoErrorAddedBefore()
     {
         $this->assertFalse($this->paramErrors->existFor('foo'));

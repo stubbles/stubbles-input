@@ -44,7 +44,7 @@ class DateFilter implements Filter
         try {
             return new Date($param->getValue());
         } catch (IllegalArgumentException $iae) {
-            $param->addErrorWithId('DATE_INVALID');
+            $param->addError('DATE_INVALID');
         }
 
         return null;

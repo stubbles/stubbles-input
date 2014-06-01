@@ -35,7 +35,7 @@ class MailFilter implements Filter
         $value = $param->getValue();
         $mailValidator = new MailValidator();
         if (!$mailValidator->validate($value)) {
-            $param->addErrorWithId($this->detectErrorId($value));
+            $param->addError($this->detectErrorId($value));
             return null;
         }
 
