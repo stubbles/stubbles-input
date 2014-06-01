@@ -157,7 +157,7 @@ class MonthFilterTestCase extends FilterTestCase
     public function asMonthReturnsNullIfParamIsOutOfRange()
     {
         $this->assertNull($this->createValueReader(new Month())
-                               ->asMonth(null, new DatespanRange(Date::now(), null))
+                               ->asMonth(null, new DatespanRange(new Date('tomorrow'), null))
         );
     }
 
@@ -167,7 +167,7 @@ class MonthFilterTestCase extends FilterTestCase
     public function asMonthAddsParamErrorIfParamIsOutOfRange()
     {
         $this->createValueReader(new Month())
-             ->asMonth(null, new DatespanRange(Date::now(), null));
+             ->asMonth(null, new DatespanRange(new Date('tomorrow'), null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 }
