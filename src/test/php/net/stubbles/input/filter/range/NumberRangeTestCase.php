@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter\range;
+namespace stubbles\input\filter\range;
 /**
- * Tests for net\stubbles\input\filter\range\NumberRange.
+ * Tests for stubbles\input\filter\range\NumberRange.
  *
  * @since  2.0.0
  * @group  filter

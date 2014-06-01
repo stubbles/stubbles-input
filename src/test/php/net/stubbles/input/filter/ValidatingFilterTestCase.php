@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
-use net\stubbles\input\Param;
+namespace stubbles\input\filter;
+use stubbles\input\Param;
 /**
- * Tests for net\stubbles\input\filter\ValidatingFilter.
+ * Tests for stubbles\input\filter\ValidatingFilter.
  *
  * @since  2.0.0
  * @group  filter
@@ -35,7 +35,7 @@ class ValidatingFilterTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockValidator    = $this->getMock('net\\stubbles\\input\\Validator');
+        $this->mockValidator    = $this->getMock('stubbles\input\Validator');
         $this->validatingFilter = new ValidatingFilter($this->mockValidator, 'ERROR', array('foo' => 'bar'));
     }
 

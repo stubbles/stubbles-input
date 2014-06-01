@@ -5,15 +5,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web\useragent;
+namespace stubbles\input\web\useragent;
 /**
  * Value object for user agents.
  *
  * @since  1.2.0
  * @XmlTag(tagName='userAgent')
- * @ProvidedBy(net\stubbles\input\web\useragent\UserAgentProvider.class)
+ * @ProvidedBy(stubbles\input\web\useragent\UserAgentProvider.class)
  */
 class UserAgent
 {

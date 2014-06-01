@@ -5,18 +5,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
-use net\stubbles\input\filter\ArrayFilter;
-use net\stubbles\input\filter\PasswordFilter;
-use net\stubbles\input\filter\range\DateRange;
-use net\stubbles\input\filter\range\DatespanRange;
-use net\stubbles\input\filter\range\StringLength;
-use net\stubbles\input\filter\range\NumberRange;
+use stubbles\input\filter\ArrayFilter;
+use stubbles\input\filter\PasswordFilter;
+use stubbles\input\filter\range\DateRange;
+use stubbles\input\filter\range\DatespanRange;
+use stubbles\input\filter\range\StringLength;
+use stubbles\input\filter\range\NumberRange;
 use stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -566,7 +566,7 @@ class ValueReader
     /**
      * checks value with given closure
      *
-     * The closure must accept an instance of net\stubbles\input\Param and
+     * The closure must accept an instance of stubbles\input\Param and
      * return the filtered value.
      * <code>
      * $result = $request->readParam('name')

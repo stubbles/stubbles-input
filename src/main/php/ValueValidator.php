@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
-use net\stubbles\input\Param;
+namespace stubbles\input;
+use stubbles\input\Param;
 /**
  * Value object for request values to check them against validators.
  *

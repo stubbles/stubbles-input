@@ -5,15 +5,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web;
-use net\stubbles\input\AbstractRequest;
-use net\stubbles\input\Param;
-use net\stubbles\input\ParamErrors;
-use net\stubbles\input\Params;
-use net\stubbles\input\ValueReader;
-use net\stubbles\input\ValueValidator;
+namespace stubbles\input\web;
+use stubbles\input\AbstractRequest;
+use stubbles\input\Param;
+use stubbles\input\ParamErrors;
+use stubbles\input\Params;
+use stubbles\input\ValueReader;
+use stubbles\input\ValueValidator;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\http\HttpUri;
@@ -178,7 +178,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request headers
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors()
@@ -238,7 +238,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request cookies
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors()

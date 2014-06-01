@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
-use net\stubbles\input\Filter;
-use net\stubbles\input\Param;
-use net\stubbles\input\filter\range\Range;
+namespace stubbles\input\filter;
+use stubbles\input\Filter;
+use stubbles\input\Param;
+use stubbles\input\filter\range\Range;
 /**
  * Range filter to ensure a value is inbetween a certain range.
  */

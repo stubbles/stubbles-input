@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\validator;
-use net\stubbles\input\Validator;
+namespace stubbles\input\validator;
+use stubbles\input\Validator;
 use stubbles\lang\exception\IllegalStateException;
 /**
  * Base class for composite validators.

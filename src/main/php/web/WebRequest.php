@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web;
-use net\stubbles\input\Request;
+namespace stubbles\input\web;
+use stubbles\input\Request;
 /**
  * Interface for web applications requests.
  *
@@ -60,7 +60,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request headers
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors();
@@ -69,7 +69,7 @@ interface WebRequest extends Request
      * checks whether a request value from headers is valid or not
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\ValueValidator
+     * @return  stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateHeader($headerName);
@@ -78,7 +78,7 @@ interface WebRequest extends Request
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  net\stubbles\input\ValueReader
+     * @return  stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readHeader($headerName);
@@ -103,7 +103,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request cookies
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors();
@@ -112,7 +112,7 @@ interface WebRequest extends Request
      * checks whether a request value from cookie is valid or not
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\ValueValidator
+     * @return  stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateCookie($cookieName);
@@ -121,7 +121,7 @@ interface WebRequest extends Request
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  net\stubbles\input\ValueReader
+     * @return  stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readCookie($cookieName);
@@ -129,7 +129,7 @@ interface WebRequest extends Request
     /**
      * checks whether a request body is valid or not
      *
-     * @return  net\stubbles\input\ValueValidator
+     * @return  stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateBody();
@@ -137,7 +137,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request body
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors();
@@ -145,7 +145,7 @@ interface WebRequest extends Request
     /**
      * returns request body for filtering or validation
      *
-     * @return  net\stubbles\input\ValueReader
+     * @return  stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readBody();

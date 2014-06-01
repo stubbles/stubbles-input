@@ -5,14 +5,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\console;
-use net\stubbles\input\AbstractRequest;
-use net\stubbles\input\ParamErrors;
-use net\stubbles\input\Params;
-use net\stubbles\input\ValueReader;
-use net\stubbles\input\ValueValidator;
+namespace stubbles\input\console;
+use stubbles\input\AbstractRequest;
+use stubbles\input\ParamErrors;
+use stubbles\input\Params;
+use stubbles\input\ValueReader;
+use stubbles\input\ValueValidator;
 /**
  * Request implementation for command line.
  *

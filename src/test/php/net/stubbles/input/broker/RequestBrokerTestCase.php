@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker;
+namespace stubbles\input\broker;
 use stubbles\lang;
 require_once __DIR__ . '/BrokerClass.php';
 /**
- * Tests for net\stubbles\input\broker\RequestBroker.
+ * Tests for stubbles\input\broker\RequestBroker.
  *
  * @group  broker
  * @group  broker_core
@@ -42,11 +42,11 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockParamBrokerMap = $this->getMockBuilder('net\\stubbles\\input\\broker\\ParamBrokerMap')
+        $this->mockParamBrokerMap = $this->getMockBuilder('stubbles\input\broker\ParamBrokerMap')
                                          ->disableOriginalConstructor()
                                          ->getMock();
         $this->requestBroker = new RequestBroker(new RequestBrokerMethods(), $this->mockParamBrokerMap);
-        $this->mockRequest   = $this->getMock('net\\stubbles\\input\\Request');
+        $this->mockRequest   = $this->getMock('stubbles\input\Request');
     }
 
     /**
@@ -83,7 +83,7 @@ class RequestBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     private function getMockParamBroker($returnValue)
     {
-        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
+        $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
         $mockParamBroker->expects($this->once())
                         ->method('procure')
                         ->will($this->returnValue($returnValue));

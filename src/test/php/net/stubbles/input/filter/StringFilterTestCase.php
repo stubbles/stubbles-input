@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
-use net\stubbles\input\filter\range\StringLength;
+namespace stubbles\input\filter;
+use stubbles\input\filter\range\StringLength;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
- * Tests for net\stubbles\input\filter\StringFilter.
+ * Tests for stubbles\input\filter\StringFilter.
  *
  * @group  filter
  */

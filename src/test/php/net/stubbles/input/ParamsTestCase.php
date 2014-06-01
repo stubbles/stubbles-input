@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 /**
- * Tests for net\stubbles\input\Params.
+ * Tests for stubbles\input\Params.
  *
  * @group  core
  */

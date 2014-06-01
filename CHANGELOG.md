@@ -3,6 +3,7 @@
 
 ### BC breaks
 
+  * removed namespace prefix `net`, base namespace is now `stubbles\input` only
   * usage of date and datespan filters now requires stubbles/date, using applications must require stubbles/date explicitly
     * `net\stubbles\input\ValueReader::asDate()`
     * `net\stubbles\input\ValueReader::asDay()`

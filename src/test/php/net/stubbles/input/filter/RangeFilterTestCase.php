@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
-use net\stubbles\input\ParamError;
+namespace stubbles\input\filter;
+use stubbles\input\ParamError;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
- * Tests for net\stubbles\input\filter\RangeFilter.
+ * Tests for stubbles\input\filter\RangeFilter.
  *
  * @group  filter
  */
@@ -41,8 +41,8 @@ class RangeFilterTestCase extends FilterTestCase
      */
     public function setUp()
     {
-        $this->mockFilter  = $this->getMock('net\stubbles\input\Filter');
-        $this->mockRange   = $this->getMock('net\stubbles\input\filter\range\Range');
+        $this->mockFilter  = $this->getMock('stubbles\input\Filter');
+        $this->mockRange   = $this->getMock('stubbles\input\filter\range\Range');
         $this->rangeFilter = new RangeFilter($this->mockFilter, $this->mockRange);
     }
 

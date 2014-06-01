@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker;
+namespace stubbles\input\broker;
 use stubbles\lang\exception\RuntimeException;
 /**
  * Map which contains all single parameter brokers.
@@ -43,7 +43,7 @@ class ParamBrokerMap
      * @param   ParamBroker[]  $paramBrokers
      * @return  ParamBrokerMap
      * @Inject(optional=true)
-     * @Map(net\stubbles\input\broker\param\ParamBroker.class)
+     * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
     public function setParamBrokers(array $paramBrokers)
     {

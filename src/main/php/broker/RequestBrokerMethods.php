@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker;
+namespace stubbles\input\broker;
 use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\reflect\ReflectionMethod;
 use stubbles\lang\reflect\matcher\MethodMatcher;

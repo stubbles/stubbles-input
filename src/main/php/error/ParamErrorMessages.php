@@ -5,15 +5,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\error;
-use net\stubbles\input\ParamError;
+namespace stubbles\input\error;
+use stubbles\input\ParamError;
 /**
  * Interface to translate param errors into error messages.
  *
  * @api
- * @ImplementedBy(net\stubbles\input\error\PropertyBasedParamErrorMessages.class)
+ * @ImplementedBy(stubbles\input\error\PropertyBasedParamErrorMessages.class)
  */
 interface ParamErrorMessages
 {

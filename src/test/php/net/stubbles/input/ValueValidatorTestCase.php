@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 /**
- * Tests for net\stubbles\input\ValueValidator.
+ * Tests for stubbles\input\ValueValidator.
  *
  * @since  1.3.0
  * @group  validator
@@ -246,7 +246,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function withValidatorReturnsValidatorResult()
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
+        $mockValidator = $this->getMock('stubbles\input\Validator');
         $mockValidator->expects($this->once())
                       ->method('validate')
                       ->with($this->equalTo('foo'))
@@ -259,7 +259,7 @@ class ValueValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function canBeCreatedAsMock()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 ValueValidator::forValue('bar')
         );
     }

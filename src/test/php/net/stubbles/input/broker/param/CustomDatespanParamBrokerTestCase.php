@@ -5,14 +5,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
+namespace stubbles\input\broker\param;
 use stubbles\date\span\CustomDatespan;
-use net\stubbles\input\ValueReader;
+use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
- * Tests for net\stubbles\input\broker\param\CustomDatespanParamBroker.
+ * Tests for stubbles\input\broker\param\CustomDatespanParamBroker.
  *
  * @group  broker
  * @group  broker_param
@@ -60,7 +60,7 @@ class CustomDatespanParamBrokerTestCase extends \PHPUnit_Framework_TestCase
      */
     private function mockRequest($startValue, $endValue)
     {
-        $mockRequest = $this->getMock('net\\stubbles\\input\\Request');
+        $mockRequest = $this->getMock('stubbles\input\Request');
         $mockRequest->expects($this->at(0))
                     ->method('readParam')
                     ->with($this->equalTo('foo'))

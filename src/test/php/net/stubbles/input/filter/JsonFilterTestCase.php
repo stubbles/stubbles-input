@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace stubbles\input\filter;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
- * Tests for net\stubbles\input\filter\JsonFilter.
+ * Tests for stubbles\input\filter\JsonFilter.
  *
  * @package  filter
  */

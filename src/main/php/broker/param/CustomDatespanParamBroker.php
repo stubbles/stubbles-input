@@ -5,14 +5,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
+namespace stubbles\input\broker\param;
 use stubbles\date\Date;
 use stubbles\date\span\CustomDatespan;
-use net\stubbles\input\Param;
-use net\stubbles\input\Request;
-use net\stubbles\input\filter\range\DateRange;
+use stubbles\input\Param;
+use stubbles\input\Request;
+use stubbles\input\filter\range\DateRange;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter parameters based on a @Request[CustomDatespan] annotation.
@@ -89,7 +89,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   Request    $request
      * @param   string     $paramName
      * @parsm   bool       $required
-     * @return  net\stubbles\input\filter\FilterValue
+     * @return  stubbles\input\filter\FilterValue
      */
     private function readValue(Request $request, $paramName, $required)
     {

@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker;
+namespace stubbles\input\broker;
 use stubbles\lang;
 require_once __DIR__ . '/BrokerClass.php';
 /**
- * Tests for net\stubbles\input\broker\RequestBrokerMethods.
+ * Tests for stubbles\input\broker\RequestBrokerMethods.
  *
  * @group  broker
  * @group  broker_core
@@ -69,7 +69,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getReturnsListOfAllMethodsWithRequestAnnotationOnClassName()
     {
-        $methods = $this->requestBrokerMethods->get('net\stubbles\input\broker\BrokerClass');
+        $methods = $this->requestBrokerMethods->get('stubbles\input\broker\BrokerClass');
         $this->assertCount(3, $methods);
         foreach ($methods as $method) {
             $this->assertInstanceOf('stubbles\lang\\reflect\ReflectionMethod',
@@ -126,7 +126,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsReturnsListOfAllRequestAnnotationInGivenGroupOnClassName()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('net\stubbles\input\broker\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('stubbles\input\broker\BrokerClass',
                                                                    'main'
         );
         $this->assertCount(1, $annotations);
@@ -143,7 +143,7 @@ class RequestBrokerMethodsTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getAnnotationsDoesNotSetRequiresValueForMethodsWithoutParameters()
     {
-        $annotations = $this->requestBrokerMethods->getAnnotations('net\stubbles\input\broker\BrokerClass',
+        $annotations = $this->requestBrokerMethods->getAnnotations('stubbles\input\broker\BrokerClass',
                                                                    'noparam'
         );
         $this->assertCount(1, $annotations);

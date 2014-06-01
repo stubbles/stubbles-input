@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web;
+namespace stubbles\input\web;
 /**
- * Tests for net\stubbles\input\web\BaseWebRequest.
+ * Tests for stubbles\input\web\BaseWebRequest.
  *
  * @group  web
  */
@@ -355,7 +355,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\ParamErrors',
                                 $this->baseWebRequest->paramErrors()
         );
     }
@@ -381,7 +381,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateParam('foo')
         );
     }
@@ -391,7 +391,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateParam('baz')
         );
     }
@@ -401,7 +401,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readParam('foo')
         );
     }
@@ -411,7 +411,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readParam('baz')
         );
     }
@@ -431,7 +431,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsHeaderErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\ParamErrors',
                                 $this->baseWebRequest->headerErrors()
         );
     }
@@ -457,7 +457,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateHeaderReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateHeader('HTTP_ACCEPT')
         );
     }
@@ -467,7 +467,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateHeaderReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateHeader('baz')
         );
     }
@@ -477,7 +477,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readHeaderReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readHeader('HTTP_ACCEPT')
         );
     }
@@ -487,7 +487,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readHeaderReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readHeader('baz')
         );
     }
@@ -507,7 +507,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsCookieErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\ParamErrors',
                                 $this->baseWebRequest->cookieErrors()
         );
     }
@@ -533,7 +533,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateCookieReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateCookie('chocolateChip')
         );
     }
@@ -543,7 +543,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateCookieReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateCookie('baz')
         );
     }
@@ -553,7 +553,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readCookieReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readCookie('chocolateChip')
         );
     }
@@ -563,7 +563,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readCookieReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readCookie('baz')
         );
     }
@@ -573,7 +573,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsBodyErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\ParamErrors',
                                 $this->baseWebRequest->bodyErrors()
         );
     }
@@ -583,7 +583,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateBodyReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->baseWebRequest->validateBody()
         );
     }
@@ -593,7 +593,7 @@ class BaseWebRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readBodyReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readBody()
         );
     }

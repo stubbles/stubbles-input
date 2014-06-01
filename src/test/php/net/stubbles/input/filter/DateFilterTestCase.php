@@ -5,14 +5,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter;
+namespace stubbles\input\filter;
 use stubbles\date\Date;
-use net\stubbles\input\filter\range\DateRange;
+use stubbles\input\filter\range\DateRange;
 require_once __DIR__ . '/FilterTestCase.php';
 /**
- * Tests for net\stubbles\input\filter\DateFilter.
+ * Tests for stubbles\input\filter\DateFilter.
  *
  * @group  filter
  */

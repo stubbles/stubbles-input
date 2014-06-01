@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\filter\range;
+namespace stubbles\input\filter\range;
 use stubbles\date\Date;
 /**
- * Tests for net\stubbles\input\filter\range\DateRange.
+ * Tests for stubbles\input\filter\range\DateRange.
  *
  * @since  2.0.0
  * @group  filter

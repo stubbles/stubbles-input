@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\validator;
+namespace stubbles\input\validator;
 require_once __DIR__ . '/CompositeValidatorTestCase.php';
 /**
- * Tests for net\stubbles\input\validator\OrValidator.
+ * Tests for stubbles\input\validator\OrValidator.
  *
  * @group  validator
  */

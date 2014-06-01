@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web\useragent;
-use net\stubbles\input\ValueReader;
+namespace stubbles\input\web\useragent;
+use stubbles\input\ValueReader;
 use stubbles\lang;
 /**
- * Test for net\stubbles\input\web\useragent\UserAgentProvider.
+ * Test for stubbles\input\web\useragent\UserAgentProvider.
  *
  * @since  1.2.0
  * @group  web
@@ -37,7 +37,7 @@ class UserAgentProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockWebRequest    = $this->getMock('net\\stubbles\\input\\web\\WebRequest');
+        $this->mockWebRequest    = $this->getMock('stubbles\input\web\WebRequest');
         $this->userAgentProvider = new UserAgentProvider($this->mockWebRequest);
     }
 

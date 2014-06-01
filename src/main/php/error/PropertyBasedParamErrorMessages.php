@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\error;
-use net\stubbles\input\ParamError;
+namespace stubbles\input\error;
+use stubbles\input\ParamError;
 use stubbles\lang\Properties;
 use stubbles\lang\ResourceLoader;
 /**
@@ -55,7 +55,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      * @param   string  $locale
      * @return  PropertyBasedParamErrorMessages
      * @Inject(optional=true)
-     * @Property('net.stubbles.locale')
+     * @Property('stubbles.locale')
      */
     public function setLocale($locale)
     {

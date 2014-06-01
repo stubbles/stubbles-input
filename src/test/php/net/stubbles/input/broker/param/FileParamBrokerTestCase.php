@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
+namespace stubbles\input\broker\param;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
- * Tests for net\stubbles\input\broker\param\FileParamBroker.
+ * Tests for stubbles\input\broker\param\FileParamBroker.
  *
  * @group  broker
  * @group  broker_param

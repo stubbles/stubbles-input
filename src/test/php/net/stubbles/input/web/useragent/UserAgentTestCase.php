@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web\useragent;
+namespace stubbles\input\web\useragent;
 use stubbles\lang;
 /**
- * Test for net\stubbles\input\web\useragent\UserAgent.
+ * Test for stubbles\input\web\useragent\UserAgent.
  *
  * @since  1.2.0
  * @group  web

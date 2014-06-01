@@ -5,14 +5,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
-use net\stubbles\input\Param;
-use net\stubbles\input\ValueReader;
+namespace stubbles\input\broker\param;
+use stubbles\input\Param;
+use stubbles\input\ValueReader;
 require_once __DIR__ . '/MultipleSourceParamBrokerTestCase.php';
 /**
- * Tests for net\stubbles\input\broker\param\OneOfParamBroker.
+ * Tests for stubbles\input\broker\param\OneOfParamBroker.
  *
  * @group  broker
  * @group  broker_param
@@ -78,7 +78,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure($this->getMock('net\\stubbles\\input\\Request'),
+        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
                                     $this->createRequestAnnotation(array('source' => 'foo'))
         );
     }
@@ -125,7 +125,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
+        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
         $mockRequest->expects($this->once())
                     ->method('readHeader')
                     ->with($this->equalTo('foo'))
@@ -143,7 +143,7 @@ class OneOfParamBrokerTestCase extends MultipleSourceParamBrokerTestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('net\\stubbles\\input\\web\WebRequest');
+        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
         $mockRequest->expects($this->once())
                     ->method('readCookie')
                     ->with($this->equalTo('foo'))

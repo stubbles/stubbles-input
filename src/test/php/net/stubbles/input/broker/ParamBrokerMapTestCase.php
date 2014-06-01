@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker;
+namespace stubbles\input\broker;
 use stubbles\lang;
 /**
- * Tests for net\stubbles\input\broker\ParamBrokerMap.
+ * Tests for stubbles\input\broker\ParamBrokerMap.
  *
  * @group  broker
  * @group  broker_core
@@ -74,22 +74,22 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     private function getBcDefaultBrokerList()
     {
-        return array(array('Array', 'net\stubbles\input\broker\param\ArrayParamBroker'),
-                     array('Bool', 'net\stubbles\input\broker\param\BoolParamBroker'),
-                     array('CustomDatespan', 'net\stubbles\input\broker\param\CustomDatespanParamBroker'),
-                     array('Date', 'net\stubbles\input\broker\param\DateParamBroker'),
-                     array('Day', 'net\stubbles\input\broker\param\DayParamBroker'),
-                     array('Directory', 'net\stubbles\input\broker\param\DirectoryParamBroker'),
-                     array('File', 'net\stubbles\input\broker\param\FileParamBroker'),
-                     array('Float', 'net\stubbles\input\broker\param\FloatParamBroker'),
-                     array('HttpUri', 'net\stubbles\input\broker\param\HttpUriParamBroker'),
-                     array('Integer', 'net\stubbles\input\broker\param\IntegerParamBroker'),
-                     array('Json', 'net\stubbles\input\broker\param\JsonParamBroker'),
-                     array('Mail', 'net\stubbles\input\broker\param\MailParamBroker'),
-                     array('OneOf', 'net\stubbles\input\broker\param\OneOfParamBroker'),
-                     array('Password', 'net\stubbles\input\broker\param\PasswordParamBroker'),
-                     array('String', 'net\stubbles\input\broker\param\StringParamBroker'),
-                     array('Text', 'net\stubbles\input\broker\param\TextParamBroker'),
+        return array(array('Array', 'stubbles\input\broker\param\ArrayParamBroker'),
+                     array('Bool', 'stubbles\input\broker\param\BoolParamBroker'),
+                     array('CustomDatespan', 'stubbles\input\broker\param\CustomDatespanParamBroker'),
+                     array('Date', 'stubbles\input\broker\param\DateParamBroker'),
+                     array('Day', 'stubbles\input\broker\param\DayParamBroker'),
+                     array('Directory', 'stubbles\input\broker\param\DirectoryParamBroker'),
+                     array('File', 'stubbles\input\broker\param\FileParamBroker'),
+                     array('Float', 'stubbles\input\broker\param\FloatParamBroker'),
+                     array('HttpUri', 'stubbles\input\broker\param\HttpUriParamBroker'),
+                     array('Integer', 'stubbles\input\broker\param\IntegerParamBroker'),
+                     array('Json', 'stubbles\input\broker\param\JsonParamBroker'),
+                     array('Mail', 'stubbles\input\broker\param\MailParamBroker'),
+                     array('OneOf', 'stubbles\input\broker\param\OneOfParamBroker'),
+                     array('Password', 'stubbles\input\broker\param\PasswordParamBroker'),
+                     array('String', 'stubbles\input\broker\param\StringParamBroker'),
+                     array('Text', 'stubbles\input\broker\param\TextParamBroker'),
          );
     }
 
@@ -132,7 +132,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function settingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
-        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
+        $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
         $this->assertInstanceOf($brokerClass,
                                 $this->paramBrokerMap->setParamBrokers(array('Mock' => $mockParamBroker))
                                                      ->getBroker($key)
@@ -144,7 +144,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsAddedBroker()
     {
-        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
+        $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
         $this->assertSame($mockParamBroker,
                           $this->paramBrokerMap->setParamBrokers(array('Mock' => $mockParamBroker))
                                                ->getBroker('Mock')
@@ -156,7 +156,7 @@ class ParamBrokerMapTestCase extends \PHPUnit_Framework_TestCase
      */
     public function canOverwriteDefaultBroker()
     {
-        $mockParamBroker = $this->getMock('net\stubbles\input\broker\param\ParamBroker');
+        $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
         $this->assertSame($mockParamBroker,
                           $this->paramBrokerMap->setParamBrokers(array('string' => $mockParamBroker))
                                                ->getBroker('string')

@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 /**
  * Interface for handling input data.
  *
@@ -64,7 +64,7 @@ interface Request
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\ValueValidator
+     * @return  stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateParam($paramName);
@@ -73,7 +73,7 @@ interface Request
      * returns request value from params for validation
      *
      * @param   string  $paramName  name of request value
-     * @return  net\stubbles\input\ValueReader
+     * @return  stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readParam($paramName);

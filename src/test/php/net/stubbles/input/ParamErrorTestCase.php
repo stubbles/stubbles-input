@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 use stubbles\lang;
 use stubbles\lang\types\LocalizedString;
 /**
- * Tests for net\stubbles\input\ParamError.
+ * Tests for stubbles\input\ParamError.
  *
  * @group  core
  */

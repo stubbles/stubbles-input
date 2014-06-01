@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\validator;
+namespace stubbles\input\validator;
 /**
  * Base class for composite validator tests.
  */
@@ -52,7 +52,7 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createMockValidatorWhichValidatesTo($validateResult)
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
+        $mockValidator = $this->getMock('stubbles\input\Validator');
         $mockValidator->expects($this->once())
                       ->method('validate')
                       ->will($this->returnValue($validateResult));
@@ -66,7 +66,7 @@ abstract class CompositeValidatorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createMockValidatorWhichIsNeverCalled()
     {
-        $mockValidator = $this->getMock('net\\stubbles\\input\\Validator');
+        $mockValidator = $this->getMock('stubbles\input\Validator');
         $mockValidator->expects($this->never())
                       ->method('validate');
         return $mockValidator;

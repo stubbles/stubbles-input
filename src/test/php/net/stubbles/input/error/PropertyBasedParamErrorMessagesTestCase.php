@@ -5,15 +5,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\error;
-use net\stubbles\input\ParamError;
+namespace stubbles\input\error;
+use stubbles\input\ParamError;
 use stubbles\lang;
 use stubbles\lang\types\LocalizedString;
 use org\bovigo\vfs\vfsStream;
 /**
- * Tests for net\stubbles\input\error\PropertyBasedParamErrorMessages.
+ * Tests for stubbles\input\error\PropertyBasedParamErrorMessages.
  *
  * @since  1.3.0
  * @group  error
@@ -215,7 +215,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
         $this->assertTrue($setLocaleMethod->hasAnnotation('Inject'));
         $this->assertTrue($setLocaleMethod->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setLocaleMethod->hasAnnotation('Property'));
-        $this->assertEquals('net.stubbles.locale',
+        $this->assertEquals('stubbles.locale',
                             $setLocaleMethod->getAnnotation('Property')->getValue()
         );
     }

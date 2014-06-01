@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\validator;
+namespace stubbles\input\validator;
 use org\bovigo\vfs\vfsStream;
 /**
- * Tests for net\stubbles\input\validator\DirectoryValidator.
+ * Tests for stubbles\input\validator\DirectoryValidator.
  *
  * @since  2.0.0
  * @group  validator

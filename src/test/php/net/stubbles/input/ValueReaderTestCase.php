@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 require_once __DIR__ . '/filter/FilterTestCase.php';
 /**
- * Tests for net\stubbles\input\ValueFilter.
+ * Tests for stubbles\input\ValueFilter.
  *
  * @since  1.3.0
  * @group  filter
@@ -243,7 +243,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     {
         $param = new Param('bar', 'foo');
         $param->addErrorWithId('SOME_ERROR');
-        $mockFilter = $this->getMock('net\\stubbles\\input\\Filter');
+        $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
                    ->method('apply')
                    ->with($this->equalTo($param))
@@ -258,7 +258,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
     {
         $param = new Param('bar', 'foo');
         $param->addErrorWithId('SOME_ERROR');
-        $mockFilter = $this->getMock('net\\stubbles\\input\\Filter');
+        $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
                    ->method('apply')
                    ->with($this->equalTo($param))
@@ -272,7 +272,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function returnsValueFromFilter()
     {
-        $mockFilter = $this->getMock('net\\stubbles\\input\\Filter');
+        $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
                    ->method('apply')
                    ->will($this->returnValue('foo'));
@@ -285,7 +285,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function canChangeRequiredParamErrorId()
     {
-        $this->createValueReader(null)->required('OTHER')->withFilter($this->getMock('net\\stubbles\\input\\Filter'));
+        $this->createValueReader(null)->required('OTHER')->withFilter($this->getMock('stubbles\input\Filter'));
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
     }
 
@@ -302,7 +302,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function canBeCreatedWithoutParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 ValueReader::forValue('bar')
         );
     }
@@ -312,7 +312,7 @@ class ValueFilterTestCase extends filter\FilterTestCase
      */
     public function canBeCreatedforParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 ValueReader::forParam(new Param('foo', 'bar'))
         );
     }

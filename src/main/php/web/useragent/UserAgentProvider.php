@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\web\useragent;
-use net\stubbles\input\web\WebRequest;
+namespace stubbles\input\web\useragent;
+use stubbles\input\web\WebRequest;
 use stubbles\ioc\InjectionProvider;
 /**
  * Factory to create user agent instances.

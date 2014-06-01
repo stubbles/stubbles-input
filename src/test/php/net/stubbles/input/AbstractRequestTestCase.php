@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input;
+namespace stubbles\input;
 /**
  * Helper class for the test.
  */
@@ -24,7 +24,7 @@ class TestAbstractRequest extends AbstractRequest
     }
 }
 /**
- * Tests for net\stubbles\input\AbstractRequest.
+ * Tests for stubbles\input\AbstractRequest.
  *
  * @group  core
  */
@@ -76,7 +76,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\ParamErrors',
                                 $this->abstractRequest->paramErrors()
         );
     }
@@ -102,7 +102,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->abstractRequest->validateParam('foo')
         );
     }
@@ -112,7 +112,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueValidator',
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 $this->abstractRequest->validateParam('baz')
         );
     }
@@ -122,7 +122,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReader()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->abstractRequest->readParam('foo')
         );
     }
@@ -132,7 +132,7 @@ class AbstractRequestTestCase extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('net\\stubbles\\input\\ValueReader',
+        $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->abstractRequest->readParam('baz')
         );
     }

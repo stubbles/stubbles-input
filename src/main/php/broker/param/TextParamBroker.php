@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
-use net\stubbles\input\ValueReader;
-use net\stubbles\input\filter\range\StringLength;
+namespace stubbles\input\broker\param;
+use stubbles\input\ValueReader;
+use stubbles\input\filter\range\StringLength;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Text] annotation.

@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\console;
-use net\stubbles\input\Request;
+namespace stubbles\input\console;
+use stubbles\input\Request;
 /**
  * Interface for command line requests.
  *
@@ -26,7 +26,7 @@ interface ConsoleRequest extends Request
     /**
      * returns list of errors for environment parameters
      *
-     * @return  net\stubbles\input\ParamErrors
+     * @return  stubbles\input\ParamErrors
      */
     public function envErrors();
 
@@ -42,7 +42,7 @@ interface ConsoleRequest extends Request
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $envName  name of environment value
-     * @return  net\stubbles\input\ValueValidator
+     * @return  stubbles\input\ValueValidator
      */
     public function validateEnv($envName);
 
@@ -50,7 +50,7 @@ interface ConsoleRequest extends Request
      * returns request value from params for validation
      *
      * @param   string  $envName  name of environment value
-     * @return  net\stubbles\input\ValueFilter
+     * @return  stubbles\input\ValueFilter
      */
     public function readEnv($envName);
 }

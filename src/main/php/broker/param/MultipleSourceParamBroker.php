@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\input
+ * @package  stubbles\input
  */
-namespace net\stubbles\input\broker\param;
-use net\stubbles\input\Param;
-use net\stubbles\input\Request;
-use net\stubbles\input\ValueReader;
+namespace stubbles\input\broker\param;
+use stubbles\input\Param;
+use stubbles\input\Request;
+use stubbles\input\ValueReader;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
