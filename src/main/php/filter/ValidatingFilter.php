@@ -64,7 +64,7 @@ class ValidatingFilter implements Filter
             return $param->value();
         }
 
-        $param->addError(new ParamError($this->errorId, $this->details));
+        $param->addError($this->errorId, $this->details);
         return null;
     }
 }
