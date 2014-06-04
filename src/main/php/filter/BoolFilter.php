@@ -28,7 +28,7 @@ class BoolFilter implements Filter
      */
     public function apply(Param $param)
     {
-        if (in_array($param->getValue(), [1, '1', 'true', true, 'yes'], true)) {
+        if (in_array($param->value(), [1, '1', 'true', true, 'yes'], true)) {
             return true;
         }
 

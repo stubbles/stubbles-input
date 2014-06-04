@@ -172,7 +172,7 @@ class ValueValidator
      */
     public function withValidator(Validator $validator)
     {
-        return $validator->validate($this->param->getValue());
+        return $validator->validate($this->param->value());
     }
 
     /**
@@ -199,6 +199,6 @@ class ValueValidator
      */
     public function withFunction(\Closure $validator)
     {
-        return $validator($this->param->getValue());
+        return $validator($this->param->value());
     }
 }

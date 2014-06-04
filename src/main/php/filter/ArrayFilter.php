@@ -61,6 +61,6 @@ class ArrayFilter implements Filter
             return [];
         }
 
-        return array_map('trim', explode($this->separator, $param->getValue()));
+        return array_map('trim', explode($this->separator, $param->value()));
     }
 }

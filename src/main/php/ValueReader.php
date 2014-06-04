@@ -446,7 +446,7 @@ class ValueReader
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\FileValidator($basePath),
                                     'FILE_INVALID',
-                                    ['PATH' => $path . $this->param->getValue()],
+                                    ['PATH' => $path . $this->param->value()],
                                     $default
         );
     }
@@ -470,7 +470,7 @@ class ValueReader
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\DirectoryValidator($basePath),
                                     'DIRECTORY_INVALID',
-                                    ['PATH' => $path . $this->param->getValue()],
+                                    ['PATH' => $path . $this->param->value()],
                                     $default
         );
     }
@@ -509,7 +509,7 @@ class ValueReader
     {
         if ($this->param->isNull()) {
             if ($this->required) {
-                $this->paramErrors->append($this->param->getName(), $this->requiredErrorId);
+                $this->paramErrors->append($this->param->name(), $this->requiredErrorId);
                 return null;
             }
 
@@ -534,7 +534,7 @@ class ValueReader
     public function withFilter(Filter $filter)
     {
         if ($this->required && $this->param->isEmpty()) {
-            $this->paramErrors->append($this->param->getName(), $this->requiredErrorId);
+            $this->paramErrors->append($this->param->name(), $this->requiredErrorId);
             return null;
         }
 
@@ -557,8 +557,8 @@ class ValueReader
             return $value;
         }
 
-        foreach ($this->param->getErrors() as $error) {
-            $this->paramErrors->append($this->param->getName(), $error);
+        foreach ($this->param->errors() as $error) {
+            $this->paramErrors->append($this->param->name(), $error);
         }
 
         return null;
@@ -595,8 +595,8 @@ class ValueReader
             return $value;
         }
 
-        foreach ($this->param->getErrors() as $error) {
-            $this->paramErrors->append($this->param->getName(), $error);
+        foreach ($this->param->errors() as $error) {
+            $this->paramErrors->append($this->param->name(), $error);
         }
 
         return null;
@@ -612,6 +612,6 @@ class ValueReader
      */
     public function unsecure()
     {
-        return $this->param->getValue();
+        return $this->param->value();
     }
 }

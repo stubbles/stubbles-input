@@ -328,7 +328,7 @@ class ValueReaderTest extends filter\FilterTest
                             $this->createValueReader('303')
                                  ->withFunction(function(Param $param)
                                                 {
-                                                    if ($param->getValue() == 303) {
+                                                    if ($param->value() == 303) {
                                                         return 'Roland TB-303';
                                                     }
 
@@ -349,7 +349,7 @@ class ValueReaderTest extends filter\FilterTest
         $this->assertNull($this->createValueReader('909')
                                ->withFunction(function(Param $param)
                                               {
-                                                  if ($param->getValue() == 303) {
+                                                  if ($param->value() == 303) {
                                                       return 'Roland TB-303';
                                                   }
 
@@ -370,7 +370,7 @@ class ValueReaderTest extends filter\FilterTest
         $this->createValueReader('909')
              ->withFunction(function(Param $param)
                             {
-                                if ($param->getValue() == 303) {
+                                if ($param->value() == 303) {
                                     return 'Roland TB-303';
                                 }
 

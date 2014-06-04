@@ -60,8 +60,8 @@ class ValidatingFilter implements Filter
      */
     public function apply(Param $param)
     {
-        if ($this->validator->validate($param->getValue())) {
-            return $param->getValue();
+        if ($this->validator->validate($param->value())) {
+            return $param->value();
         }
 
         $param->addError(new ParamError($this->errorId, $this->details));

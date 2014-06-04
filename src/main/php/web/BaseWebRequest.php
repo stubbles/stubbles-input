@@ -122,7 +122,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
         }
 
         $minor = null;
-        if (1 != sscanf($this->headers->get('SERVER_PROTOCOL')->getValue(), 'HTTP/1.%[01]', $minor)) {
+        if (1 != sscanf($this->headers->get('SERVER_PROTOCOL')->value(), 'HTTP/1.%[01]', $minor)) {
             return null;
         }
 

@@ -50,7 +50,7 @@ class FloatFilter implements NumberFilter
             return null;
         }
 
-        $value = $param->getValue();
+        $value = $param->value();
         settype($value, 'float');
         if (empty($this->decimals)) {
             return $value;

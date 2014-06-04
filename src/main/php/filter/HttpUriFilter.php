@@ -50,7 +50,7 @@ class HttpUriFilter implements Filter
     public function apply(Param $param)
     {
         try {
-            $httpUri = HttpUri::fromString($param->getValue());
+            $httpUri = HttpUri::fromString($param->value());
         } catch (MalformedUriException $murle) {
             $param->addError('HTTP_URI_INCORRECT');
             return null;

@@ -35,7 +35,7 @@ class JsonFilter implements Filter
             return null;
         }
 
-        $value = $param->getValue();
+        $value = $param->value();
         if (!$this->isValidJsonStructure($value)) {
             $param->addError('JSON_INVALID');
             return null;

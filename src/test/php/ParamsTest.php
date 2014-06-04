@@ -59,7 +59,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamWithValueIfParamExists()
     {
-        $this->assertEquals('bar', $this->params->get('foo')->getValue());
+        $this->assertEquals('bar', $this->params->get('foo')->value());
     }
 
     /**

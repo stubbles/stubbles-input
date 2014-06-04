@@ -70,7 +70,7 @@ class PasswordFilter implements Filter
      */
     public function apply(Param $param)
     {
-        $value = $param->getValue();
+        $value = $param->value();
         if (is_array($value)) {
             if ($value[0] !== $value[1]) {
                 $param->addError('PASSWORDS_NOT_EQUAL');
