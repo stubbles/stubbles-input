@@ -65,7 +65,7 @@ abstract class AbstractRequest implements Request
      */
     public function getParamNames()
     {
-        return $this->params->getNames();
+        return $this->params->names();
     }
 
     /**

@@ -70,7 +70,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      */
     public function getEnvNames()
     {
-        return $this->env->getNames();
+        return $this->env->names();
     }
 
     /**

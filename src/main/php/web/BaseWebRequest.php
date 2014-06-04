@@ -94,7 +94,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getMethod()
     {
-        return strtoupper($this->headers->getValue('REQUEST_METHOD'));
+        return strtoupper($this->headers->value('REQUEST_METHOD'));
     }
 
     /**
@@ -137,14 +137,14 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getUri()
     {
-        $host = $this->headers->getValue('HTTP_HOST');
+        $host = $this->headers->value('HTTP_HOST');
         if (strstr($host, ':') === false) {
-            $host .= ':' . $this->headers->getValue('SERVER_PORT');
+            $host .= ':' . $this->headers->value('SERVER_PORT');
         }
 
         $uri  = (($this->headers->has('HTTPS')) ? ('https') : ('http')) . '://'
               . $host
-              . $this->headers->getValue('REQUEST_URI');
+              . $this->headers->value('REQUEST_URI');
         try {
             return HttpUri::fromString($uri);
         } catch (MalformedUriException $murie) {
@@ -160,7 +160,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getHeaderNames()
     {
-        return $this->headers->getNames();
+        return $this->headers->names();
     }
 
     /**
@@ -220,7 +220,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getCookieNames()
     {
-        return $this->cookies->getNames();
+        return $this->cookies->names();
     }
 
     /**
