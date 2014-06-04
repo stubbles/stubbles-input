@@ -51,7 +51,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
                  ->at($root->getChild('package2/input/error'));
         $mockResourceLoader  = $this->getMock('stubbles\lang\ResourceLoader');
         $mockResourceLoader->expects($this->any())
-                           ->method('getResourceUris')
+                           ->method('availableResourceUris')
                            ->will($this->returnValue([vfsStream::url('root/package1/input/error/message.ini'),
                                                       vfsStream::url('root/package2/input/error/message.ini')
                                                      ]

@@ -31,12 +31,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      * @type  string
      */
     private $defaultLocale  = 'default';
-    /**
-     * parsed properties
-     *
-     * @type  Properties
-     */
-    private $properties;
 
     /**
      * constructor
@@ -71,7 +65,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     public function existFor(ParamError $error)
     {
-        return $this->getProperties()->hasSection($error->getId());
+        return $this->properties()->containSection($error->getId());
     }
 
     /**
@@ -82,7 +76,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     public function localesFor(ParamError $error)
     {
-        return $this->getProperties()->getSectionKeys($error->getId());
+        return $this->properties()->keysForSection($error->getId());
     }
 
     /**
@@ -93,7 +87,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     public function messagesFor(ParamError $error)
     {
-        return $error->fillMessages($this->getProperties()->getSection($error->getId()));
+        return $error->fillMessages($this->properties()->section($error->getId()));
     }
 
     /**
@@ -108,9 +102,9 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     public function messageFor(ParamError $error, $locale = null)
     {
         $usedLocale = $this->selectLocale($error->getId(), $locale);
-        return $error->fillMessage($this->getProperties()
-                                        ->getValue($error->getId(), $usedLocale),
-                                   $usedLocale
+        return $error->fillMessage(
+                $this->properties()->value($error->getId(), $usedLocale),
+                $usedLocale
         );
     }
 
@@ -123,19 +117,19 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     private function selectLocale($errorId, $requestedLocale = null)
     {
-        $properties = $this->getProperties();
+        $properties = $this->properties();
         if (null !== $requestedLocale) {
-            if ($properties->hasValue($errorId, $requestedLocale)) {
+            if ($properties->containValue($errorId, $requestedLocale)) {
                 return $requestedLocale;
             }
 
             $baseLocale = substr($requestedLocale, 0, strpos($requestedLocale, '_')) . '_*';
-            if ($properties->hasValue($errorId, $baseLocale)) {
+            if ($properties->containValue($errorId, $baseLocale)) {
                 return $baseLocale;
             }
         }
 
-        if ($properties->hasValue($errorId, $this->defaultLocale)) {
+        if ($properties->containValue($errorId, $this->defaultLocale)) {
             return $this->defaultLocale;
         }
 
@@ -147,15 +141,16 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      *
      * @return  Properties
      */
-    private function getProperties()
+    private function properties()
     {
-        if (null === $this->properties) {
-            $this->properties = new Properties();
-            foreach ($this->resourceLoader->getResourceUris('input/error/message.ini') as $resourceUri) {
-                $this->properties = $this->properties->merge(Properties::fromFile($resourceUri));
+        static $properties = null;
+        if (null === $properties) {
+            $properties = new Properties();
+            foreach ($this->resourceLoader->availableResourceUris('input/error/message.ini') as $resourceUri) {
+                $properties = $properties->merge(Properties::fromFile($resourceUri));
             }
         }
 
-        return $this->properties;
+        return $properties;
     }
 }
