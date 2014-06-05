@@ -23,6 +23,7 @@
     * deprecated `stubbles\input\web\WebRequest::getUri()`, use `stubbles\input\web\WebRequest::uri()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getHeaderNames()`, use `stubbles\input\web\WebRequest::headerNames()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getCookieNames()`, use `stubbles\input\web\WebRequest::cookieNames()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\web\useragent\UserAgent::getName()` use `stubbles\input\web\useragent\UserAgent::name()` instead, will be removed with 4.0.0
 
 ### Other changes
 
