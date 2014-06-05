@@ -7,8 +7,8 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input\error;
-use stubbles\input\ParamError;
+namespace stubbles\input\errors\messages;
+use stubbles\input\errors\ParamError;
 use stubbles\lang\Properties;
 use stubbles\lang\ResourceLoader;
 /**
@@ -65,7 +65,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     public function existFor(ParamError $error)
     {
-        return $this->properties()->containSection($error->getId());
+        return $this->properties()->containSection($error->id());
     }
 
     /**
@@ -76,18 +76,18 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      */
     public function localesFor(ParamError $error)
     {
-        return $this->properties()->keysForSection($error->getId());
+        return $this->properties()->keysForSection($error->id());
     }
 
     /**
      * creates a list of message for given param error
      *
      * @param   ParamError  $error
-     * @return  LocalizedString[]
+     * @return  LocalizedMessage[]
      */
     public function messagesFor(ParamError $error)
     {
-        return $error->fillMessages($this->properties()->section($error->getId()));
+        return $error->fillMessages($this->properties()->section($error->id()));
     }
 
     /**
@@ -97,13 +97,13 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      *
      * @param   ParamError  $error
      * @param   string      $locale
-     * @return  LocalizedString
+     * @return  LocalizedMessage
      */
     public function messageFor(ParamError $error, $locale = null)
     {
-        $usedLocale = $this->selectLocale($error->getId(), $locale);
+        $usedLocale = $this->selectLocale($error->id(), $locale);
         return $error->fillMessage(
-                $this->properties()->value($error->getId(), $usedLocale),
+                $this->properties()->value($error->id(), $usedLocale),
                 $usedLocale
         );
     }

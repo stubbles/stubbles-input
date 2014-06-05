@@ -7,11 +7,11 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 /**
- * Tests for stubbles\input\ParamErrors.
+ * Tests for stubbles\input\errors\ParamErrors.
  *
- * @group  core
+ * @group  errors
  */
 class ParamErrorsTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      *
      * @type  ParamErrors
      */
-    protected $paramErrors;
+    private $paramErrors;
 
     /**
      * set up test environment

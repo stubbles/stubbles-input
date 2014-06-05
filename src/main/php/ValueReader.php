@@ -11,6 +11,7 @@ namespace stubbles\input;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
+use stubbles\input\errors\ParamErrors;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\PasswordFilter;
 use stubbles\input\filter\range\DateRange;

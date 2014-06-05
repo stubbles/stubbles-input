@@ -8,10 +8,10 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\input\ParamError;
+use stubbles\input\errors\ParamError;
+use stubbles\input\errors\messages\LocalizedMessage;
 use stubbles\lang;
 use stubbles\lang\reflect\annotation\Annotation;
-use stubbles\lang\types\LocalizedString;
 require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBrokerFacade.
@@ -56,7 +56,7 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
         $this->mockRequestBroker      = $this->getMockBuilder('stubbles\input\broker\RequestBroker')
                                              ->disableOriginalConstructor()
                                              ->getMock();
-        $this->mockParamErrorMessages = $this->getMock('stubbles\input\error\ParamErrorMessages');
+        $this->mockParamErrorMessages = $this->getMock('stubbles\input\errors\messages\ParamErrorMessages');
         $this->requestBrokerFacade    = new RequestBrokerFacade($this->mockRequest,
                                                                 $this->mockRequestBroker,
                                                                 $this->mockParamErrorMessages
@@ -102,7 +102,7 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
                                        $this->equalTo($brokeredClass),
                                        $this->equalTo(null)
                                   );
-        $mockParamErrors = $this->getMock('stubbles\input\ParamErrors');
+        $mockParamErrors = $this->getMock('stubbles\input\errors\ParamErrors');
         $this->mockRequest->expects($this->once())
                           ->method('paramErrors')
                           ->will($this->returnValue($mockParamErrors));
@@ -126,7 +126,7 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
                                        $this->equalTo($brokeredClass),
                                        $this->equalTo(null)
                                   );
-        $mockParamErrors = $this->getMock('stubbles\input\ParamErrors');
+        $mockParamErrors = $this->getMock('stubbles\input\errors\ParamErrors');
         $this->mockRequest->expects($this->any())
                           ->method('paramErrors')
                           ->will($this->returnValue($mockParamErrors));
@@ -139,7 +139,7 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
         $this->mockParamErrorMessages->expects($this->once())
                                      ->method('messageFor')
                                      ->with()
-                                     ->will($this->returnValue(new LocalizedString('en_EN', 'Error, dude!')));
+                                     ->will($this->returnValue(new LocalizedMessage('en_EN', 'Error, dude!')));
         $this->requestBrokerFacade->procure($brokeredClass, null, $this->expectWrite('foo: Error, dude!'));
     }
 

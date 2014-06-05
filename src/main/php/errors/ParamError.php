@@ -7,9 +7,9 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 use stubbles\lang\exception\IllegalArgumentException;
-use stubbles\lang\types\LocalizedString;
+use stubbles\input\errors\messages\LocalizedMessage;
 /**
  * Class representing parameter errors after filtering parameter values.
  *
@@ -72,7 +72,7 @@ class ParamError
      * @XmlAttribute(attributeName='id')
      * @return  string
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
@@ -81,7 +81,7 @@ class ParamError
      * fills given list of messages with details
      *
      * @param   array  $templates  map of locales and message templates
-     * @return  LocalizedString[]
+     * @return  LocalizedMessage[]
      */
     public function fillMessages(array $templates)
     {
@@ -98,7 +98,7 @@ class ParamError
      *
      * @param   string  $message  message template to fill up
      * @param   string  $locale   locale of the message
-     * @return  LocalizedString
+     * @return  LocalizedMessage
      */
     public function fillMessage($message, $locale)
     {
@@ -106,7 +106,7 @@ class ParamError
             $message = str_replace('{' . $key . '}', $this->flattenDetail($detail), $message);
         }
 
-        return new LocalizedString($locale, $message);
+        return new LocalizedMessage($locale, $message);
     }
 
     /**

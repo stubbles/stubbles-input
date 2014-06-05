@@ -7,16 +7,16 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input\error;
-use stubbles\input\ParamError;
+namespace stubbles\input\errors\messages;
+use stubbles\input\errors\ParamError;
 use stubbles\lang;
-use stubbles\lang\types\LocalizedString;
 use org\bovigo\vfs\vfsStream;
 /**
- * Tests for stubbles\input\error\PropertyBasedParamErrorMessages.
+ * Tests for stubbles\input\errors\messages\PropertyBasedParamErrorMessages.
  *
  * @since  1.3.0
- * @group  error
+ * @group  errors
+ * @group  errors_message
  */
 class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
 {
@@ -113,9 +113,9 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalizedMessagesForExistingError()
     {
 
-        $this->assertEquals([new LocalizedString('default', 'An error of type bar occurred.'),
-                             new LocalizedString('en_*', 'An error of type bar occurred.'),
-                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
+        $this->assertEquals([new LocalizedMessage('default', 'An error of type bar occurred.'),
+                             new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                             new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
                             ],
                             $this->errorMessages->messagesFor(new ParamError('id', ['foo' => 'bar']))
         );
@@ -138,7 +138,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingLocale()
     {
 
-        $this->assertEquals(new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'),
+        $this->assertEquals(new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'),
                             $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'de_DE')
         );
     }
@@ -149,7 +149,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingBaseLocale()
     {
 
-        $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
+        $this->assertEquals(new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                             $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'en_UK')
         );
     }
@@ -160,7 +160,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInDefaultLocale()
     {
 
-        $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
+        $this->assertEquals(new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                             $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
         );
     }
@@ -171,7 +171,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
     {
 
-        $this->assertEquals(new LocalizedString('en_*', 'An error of type bar occurred.'),
+        $this->assertEquals(new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                             $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
@@ -182,7 +182,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInFallbackLocale()
     {
 
-        $this->assertEquals(new LocalizedString('default', 'An error of type bar occurred.'),
+        $this->assertEquals(new LocalizedMessage('default', 'An error of type bar occurred.'),
                             $this->errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
         );
     }
@@ -193,7 +193,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageForNonExistingError()
     {
 
-        $this->assertEquals(new LocalizedString('default', ''),
+        $this->assertEquals(new LocalizedMessage('default', ''),
                             $this->errorMessages->messageFor(new ParamError('doesNotExist'), 'en_*')
         );
     }

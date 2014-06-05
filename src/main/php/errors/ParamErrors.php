@@ -7,7 +7,7 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 /**
  * Container for a filter error list.
  *
@@ -35,9 +35,9 @@ class ParamErrors implements \IteratorAggregate, \Countable
     {
         $error = ParamError::fromData($error, $details);
         if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = [$error->getId() => $error];
+            $this->errors[$paramName] = [$error->id() => $error];
         } else {
-            $this->errors[$paramName][$error->getId()] = $error;
+            $this->errors[$paramName][$error->id()] = $error;
         }
 
         return $error;

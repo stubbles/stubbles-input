@@ -10,10 +10,10 @@
 namespace stubbles\input\web;
 use stubbles\input\AbstractRequest;
 use stubbles\input\Param;
-use stubbles\input\ParamErrors;
 use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
+use stubbles\input\errors\ParamErrors;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\http\HttpUri;
@@ -178,7 +178,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors()
@@ -238,7 +238,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors()
@@ -275,7 +275,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request body
      *
-     * @return  ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors()

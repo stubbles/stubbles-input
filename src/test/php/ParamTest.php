@@ -115,7 +115,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasErrorIfAddedAsInstance()
     {
         $param = new Param('foo', 'bar');
-        $param->addError(new ParamError('SOME_ERROR'));
+        $param->addError('SOME_ERROR');
         $this->assertTrue($param->hasErrors());
     }
 
@@ -127,14 +127,14 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasNonEmptyErrorListIfErrorAddedAsInstance()
     {
         $param = new Param('foo', 'bar');
-        $error = $param->addError(new ParamError('SOME_ERROR', ['some' => 'detail']));
+        $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
         $this->assertEquals(['SOME_ERROR' => $error], $param->errors());
     }
 
     /**
      * @test
      * @expectedException  stubbles\lang\exception\IllegalArgumentException
-     * @expectedExceptionMessage  Given error must either be an error id or an instance of stubbles\input\ParamError
+     * @expectedExceptionMessage  Given error must either be an error id or an instance of stubbles\input\errors\ParamError
      * @since  2.3.3
      * @group  issue_46
      */

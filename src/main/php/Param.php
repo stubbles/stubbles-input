@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamError;
 /**
  * Container for a parameter and its value.
  *
@@ -132,7 +133,7 @@ class Param
     public function addError($error, array $details = [])
     {
         $error = ParamError::fromData($error, $details);
-        $this->errors[$error->getId()] = $error;
+        $this->errors[$error->id()] = $error;
         return $error;
     }
 

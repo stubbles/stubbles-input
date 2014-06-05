@@ -9,10 +9,10 @@
  */
 namespace stubbles\input\console;
 use stubbles\input\AbstractRequest;
-use stubbles\input\ParamErrors;
 use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
+use stubbles\input\errors\ParamErrors;
 /**
  * Request implementation for command line.
  *
