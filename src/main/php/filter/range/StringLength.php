@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use stubbles\input\ParamError;
 use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\exception\RuntimeException;
 /**
@@ -17,7 +16,7 @@ use stubbles\lang\exception\RuntimeException;
  * @api
  * @since  2.0.0
  */
-class StringLength implements Range
+class StringLength extends AbstractRange
 {
     /**
      * minimum length
@@ -77,7 +76,7 @@ class StringLength implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function belowMinBorder($value)
+    protected function belowMinBorder($value)
     {
         if (null === $this->minLength) {
             return false;
@@ -92,7 +91,7 @@ class StringLength implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value)
     {
         if (null === $this->maxLength) {
             return false;
@@ -104,12 +103,13 @@ class StringLength implements Range
     /**
      * checks whether string can be truncated to maximum length
      *
+     * @param   mixed  $value
      * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate()
+    public function allowsTruncate($value)
     {
-        return $this->allowsTruncate;
+        return $this->allowsTruncate && $this->aboveMaxBorder($value);
     }
 
     /**
@@ -122,7 +122,7 @@ class StringLength implements Range
      */
     public function truncateToMaxBorder($value)
     {
-        if ($this->allowsTruncate()) {
+        if ($this->allowsTruncate($value)) {
             return substr($value, 0, $this->maxLength);
         }
 
@@ -130,22 +130,22 @@ class StringLength implements Range
     }
 
     /**
-     * returns a param error denoting violation of min border
+     * returns error details for violations of lower border
      *
-     * @return  ParamError
+     * @return  array
      */
-    public function getMinParamError()
+    protected function minBorderViolation()
     {
-        return new ParamError('STRING_TOO_SHORT', ['minLength' => $this->minLength]);
+        return ['STRING_TOO_SHORT' => ['minLength' => $this->minLength]];
     }
 
     /**
-     * returns a param error denoting violation of min border
+     * returns error details for violations of upper border
      *
-     * @return  ParamError
+     * @return  array
      */
-    public function getMaxParamError()
+    protected function maxBorderViolation()
     {
-        return new ParamError('STRING_TOO_LONG', ['maxNumber' => $this->maxLength]);
+        return ['STRING_TOO_LONG' => ['maxLength' => $this->maxLength]];
     }
 }

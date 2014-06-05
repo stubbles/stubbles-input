@@ -10,7 +10,6 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\input\ParamError;
 use stubbles\input\Validator;
 /**
  * Class for filtering values based on validators.

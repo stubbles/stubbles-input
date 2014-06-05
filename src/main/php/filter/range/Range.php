@@ -8,39 +8,40 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use stubbles\lang\exception\MethodNotSupportedException;
 /**
  * Interface for range definitions.
  *
  * Range definitions can be used to set up valid ranges for values.
  *
- * @api
  * @since  2.0.0
  */
 interface Range
 {
     /**
-     * checks if given value is below min border of range
+     * checks if range contains given value
      *
      * @param   mixed  $value
      * @return  bool
      */
-    public function belowMinBorder($value);
+    public function contains($value);
 
     /**
-     * checks if given value is above max border of range
+     * returns list of errors when range does not contain given value
      *
      * @param   mixed  $value
-     * @return  bool
+     * @return  array
      */
-    public function aboveMaxBorder($value);
+    public function errorsOf($value);
 
     /**
      * checks whether value can be truncated to maximum value
      *
+     * @param   mixed  $value
      * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate();
+    public function allowsTruncate($value);
 
     /**
      * truncates given value to max border
@@ -50,18 +51,34 @@ interface Range
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value);
+}
+/**
+ * Trait for ranges that don't support truncation.
+ *
+ * @since  3.0.0
+ */
+trait NonTruncatingRange
+{
+    /**
+     * checks whether value can be truncated to maximum value
+     *
+     * @param   mixed  $value
+     * @return  bool
+     */
+    public function allowsTruncate($value)
+    {
+        return false;
+    }
 
     /**
-     * returns a param error denoting violation of min border
+     * truncates given value to max border, which is not supported for numbers
      *
-     * @return  ParamError
+     * @param   string  $value
+     * @return  string
+     * @throws  MethodNotSupportedException
      */
-    public function getMinParamError();
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMaxParamError();
+    public function truncateToMaxBorder($value)
+    {
+        throw new MethodNotSupportedException('Truncating is not supported');
+    }
 }

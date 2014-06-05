@@ -9,8 +9,6 @@
  */
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
-use stubbles\input\ParamError;
-use stubbles\lang\exception\MethodNotSupportedException;
 use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a date range.
@@ -18,8 +16,9 @@ use stubbles\lang\exception\RuntimeException;
  * @api
  * @since  2.0.0
  */
-class DateRange implements Range
+class DateRange extends AbstractRange
 {
+    use NonTruncatingRange;
     /**
      * minimum date
      *
@@ -52,17 +51,13 @@ class DateRange implements Range
      * @return  bool
      * @throws  RuntimeException
      */
-    public function belowMinBorder($value)
+    protected function belowMinBorder($value)
     {
-        if (null === $value || null === $this->minDate) {
+        if (null === $this->minDate) {
             return false;
         }
 
-        if (!($value instanceof Date)) {
-            throw new RuntimeException('Given value must be of instance stubbles\date\Date');
-        }
-
-        return $this->minDate->isAfter($value);
+        return $this->minDate->isAfter(Date::castFrom($value, 'value'));
     }
 
     /**
@@ -72,60 +67,32 @@ class DateRange implements Range
      * @return  bool
      * @throws  RuntimeException
      */
-    public function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value)
     {
-        if (null === $value || null === $this->maxDate) {
+        if (null === $this->maxDate) {
             return false;
         }
 
-        if (!($value instanceof Date)) {
-            throw new RuntimeException('Given value must be of instance stubbles\date\Date');
-        }
-
-        return $this->maxDate->isBefore($value);
+        return $this->maxDate->isBefore(Date::castFrom($value, 'value'));
     }
 
     /**
-     * checks whether value can be truncated to maximum value
+     * returns error details for violations of lower border
      *
-     * @return  bool
-     * @since   2.3.1
+     * @return  array
      */
-    public function allowsTruncate()
+    protected function minBorderViolation()
     {
-        return false;
+        return ['DATE_TOO_EARLY' => ['earliestDate' => $this->minDate->asString()]];
     }
 
     /**
-     * truncates given value to max border, which is not supported for dates
+     * returns error details for violations of upper border
      *
-     * @param   string  $value
-     * @return  string
-     * @throws  MethodNotSupportedException
-     * @since   2.3.1
+     * @return  array
      */
-    public function truncateToMaxBorder($value)
+    protected function maxBorderViolation()
     {
-        throw new MethodNotSupportedException('Truncating a date is not possible');
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMinParamError()
-    {
-        return new ParamError('DATE_TOO_EARLY', ['earliestDate' => $this->minDate->asString()]);
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMaxParamError()
-    {
-        return new ParamError('DATE_TOO_LATE', ['latestDate' => $this->maxDate->asString()]);
+        return ['DATE_TOO_LATE' => ['latestDate' => $this->maxDate->asString()]];
     }
 }
