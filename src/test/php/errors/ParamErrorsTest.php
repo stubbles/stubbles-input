@@ -49,14 +49,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function initialErrorListIsEmpty()
-    {
-        $this->assertEquals([], $this->paramErrors->asList());
-    }
-
-    /**
-     * @test
-     */
     public function paramErrorsExistIfOneAppended()
     {
         $this->paramErrors->append('foo', 'errorid');
@@ -88,17 +80,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     {
         $this->paramErrors->append('foo', 'errorid');
         $this->assertEquals(1, $this->paramErrors->count());
-    }
-
-    /**
-     * @test
-     */
-    public function appendedErrorIsContainedInList()
-    {
-        $paramError = $this->paramErrors->append('foo', 'errorid');
-        $this->assertEquals(['foo' => ['errorid' => $paramError]],
-                            $this->paramErrors->asList()
-        );
     }
 
     /**

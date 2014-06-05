@@ -90,17 +90,6 @@ class ParamErrors implements \IteratorAggregate, \Countable
     }
 
     /**
-     * returns list of all errors for all parameters
-     *
-     * @return  array
-     * @since   2.3.3
-     */
-    public function asList()
-    {
-        return $this->errors;
-    }
-
-    /**
      * returns a list of errors for given param
      *
      * @param   string  $paramName
