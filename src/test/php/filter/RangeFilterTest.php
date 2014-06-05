@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\ParamError;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\RangeFilter.
