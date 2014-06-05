@@ -10,8 +10,6 @@
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
 use stubbles\date\span\Datespan;
-use stubbles\input\ParamError;
-use stubbles\lang\exception\MethodNotSupportedException;
 use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a datespan range.
@@ -19,8 +17,9 @@ use stubbles\lang\exception\RuntimeException;
  * @api
  * @since  2.0.0
  */
-class DatespanRange implements Range
+class DatespanRange extends AbstractRange
 {
+    use NonTruncatingRange;
     /**
      * minimum date
      *
@@ -53,9 +52,9 @@ class DatespanRange implements Range
      * @return  bool
      * @throws  RuntimeException
      */
-    public function belowMinBorder($value)
+    protected function belowMinBorder($value)
     {
-        if (null === $value || null === $this->minDate) {
+        if (null === $this->minDate) {
             return false;
         }
 
@@ -63,7 +62,7 @@ class DatespanRange implements Range
             throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
-        return $this->minDate->change()->timeTo('00:00:00')->isAfter($value->getStart());
+        return $value->startsBefore($this->minDate->change()->timeTo('00:00:00'));
     }
 
     /**
@@ -73,9 +72,9 @@ class DatespanRange implements Range
      * @return  bool
      * @throws  RuntimeException
      */
-    public function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value)
     {
-        if (null === $value || null === $this->maxDate) {
+        if (null === $this->maxDate) {
             return false;
         }
 
@@ -83,50 +82,26 @@ class DatespanRange implements Range
             throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
-        return $this->maxDate->change()->timeTo('23:59:59')->isBefore($value->getEnd());
+        return $value->endsAfter($this->maxDate->change()->timeTo('23:59:59'));
     }
 
     /**
-     * checks whether value can be truncated to maximum value
+     * returns error details for violations of lower border
      *
-     * @return  bool
-     * @since   2.3.1
+     * @return  array
      */
-    public function allowsTruncate()
+    protected function minBorderViolation()
     {
-        return false;
+        return ['DATE_TOO_EARLY' => ['earliestDate' => $this->minDate->asString()]];
     }
 
     /**
-     * truncates given value to max border, which is not supported for datespans
+     * returns error details for violations of upper border
      *
-     * @param   string  $value
-     * @return  string
-     * @throws  MethodNotSupportedException
-     * @since   2.3.1
+     * @return  array
      */
-    public function truncateToMaxBorder($value)
+    protected function maxBorderViolation()
     {
-        throw new MethodNotSupportedException('Truncating a datespan is not possible');
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMinParamError()
-    {
-        return new ParamError('DATE_TOO_EARLY', ['earliestDate' => $this->minDate->asString()]);
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMaxParamError()
-    {
-        return new ParamError('DATE_TOO_LATE', ['latestDate' => $this->maxDate->asString()]);
+        return ['DATE_TOO_LATE' => ['latestDate' => $this->maxDate->asString()]];
     }
 }

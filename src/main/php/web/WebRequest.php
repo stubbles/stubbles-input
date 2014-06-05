@@ -31,6 +31,17 @@ interface WebRequest extends Request
      * @return  string
      * @since   2.0.2
      */
+    public function protocolVersion();
+
+    /**
+     * returns HTTP protocol version of request
+     *
+     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
+     *
+     * @return  string
+     * @since   2.0.2
+     * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
+     */
     public function getProtocolVersion();
 
     /**
@@ -38,13 +49,30 @@ interface WebRequest extends Request
      *
      * @return  stubbles\peer\http\HttpUri
      */
+    public function uri();
+
+    /**
+     * returns the uri of the request
+     *
+     * @return  stubbles\peer\http\HttpUri
+     * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
+     */
     public function getUri();
+
+    /**
+     * return a list of all header names registered in this request
+     *
+     * @return  string[]
+     * @since   1.3.0
+     */
+    public function headerNames();
 
     /**
      * return an array of all header names registered in this request
      *
      * @return  string[]
      * @since   1.3.0
+     * @deprecated  since 3.0.0, use headerNames() instead, will be removed with 4.0.0
      */
     public function getHeaderNames();
 
@@ -60,7 +88,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors();
@@ -89,6 +117,15 @@ interface WebRequest extends Request
      * @return  string[]
      * @since   1.3.0
      */
+    public function cookieNames();
+
+    /**
+     * return an array of all cookie names registered in this request
+     *
+     * @return  string[]
+     * @since   1.3.0
+     * @deprecated  since 3.0.0, use cookieNames() instead, will be removed with 4.0.0
+     */
     public function getCookieNames();
 
     /**
@@ -103,7 +140,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors();
@@ -137,7 +174,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request body
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors();

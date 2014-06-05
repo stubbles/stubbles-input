@@ -28,7 +28,7 @@ class IntegerFilter implements NumberFilter
             return null;
         }
 
-        $value = $param->getValue();
+        $value = $param->value();
         settype($value, 'integer');
         return $value;
     }

@@ -57,9 +57,21 @@ class UserAgent
      * @api
      * @return  string
      */
-    public function getName()
+    public function name()
     {
         return $this->name;
+    }
+
+    /**
+     * returns name of user agent
+     *
+     * @api
+     * @return  string
+     * @deprecated  since 3.0.0, use name() instead, will be removed with 4.0.0
+     */
+    public function getName()
+    {
+        return $this->name();
     }
 
     /**

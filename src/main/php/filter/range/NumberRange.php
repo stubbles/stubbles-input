@@ -8,16 +8,15 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use stubbles\input\ParamError;
-use stubbles\lang\exception\MethodNotSupportedException;
 /**
  * Description of a number range.
  *
  * @api
  * @since  2.0.0
  */
-class NumberRange implements Range
+class NumberRange extends AbstractRange
 {
+    use NonTruncatingRange;
     /**
      * minimum value
      *
@@ -49,7 +48,7 @@ class NumberRange implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function belowMinBorder($value)
+    protected function belowMinBorder($value)
     {
         if (null === $this->minValue) {
             return false;
@@ -64,7 +63,7 @@ class NumberRange implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value)
     {
         if (null === $this->maxValue) {
             return false;
@@ -74,46 +73,22 @@ class NumberRange implements Range
     }
 
     /**
-     * checks whether value can be truncated to maximum value
+     * returns error details for violations of lower border
      *
-     * @return  bool
-     * @since   2.3.1
+     * @return  array
      */
-    public function allowsTruncate()
+    protected function minBorderViolation()
     {
-        return false;
+        return ['VALUE_TOO_SMALL' => ['minNumber' => $this->minValue]];
     }
 
     /**
-     * truncates given value to max border, which is not supported for numbers
+     * returns error details for violations of upper border
      *
-     * @param   string  $value
-     * @return  string
-     * @throws  MethodNotSupportedException
-     * @since   2.3.1
+     * @return  array
      */
-    public function truncateToMaxBorder($value)
+    protected function maxBorderViolation()
     {
-        throw new MethodNotSupportedException('Truncating a number is not possible');
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMinParamError()
-    {
-        return new ParamError('VALUE_TOO_SMALL', ['minNumber' => $this->minValue]);
-    }
-
-    /**
-     * returns a param error denoting violation of min border
-     *
-     * @return  ParamError
-     */
-    public function getMaxParamError()
-    {
-        return new ParamError('VALUE_TOO_GREAT', ['maxNumber' => $this->maxValue]);
+        return ['VALUE_TOO_GREAT' => ['maxNumber' => $this->maxValue]];
     }
 }

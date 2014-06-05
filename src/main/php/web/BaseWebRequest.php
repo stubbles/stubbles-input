@@ -10,10 +10,10 @@
 namespace stubbles\input\web;
 use stubbles\input\AbstractRequest;
 use stubbles\input\Param;
-use stubbles\input\ParamErrors;
 use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
+use stubbles\input\errors\ParamErrors;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\http\HttpUri;
@@ -92,9 +92,20 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      *
      * @return  string
      */
+    public function method()
+    {
+        return strtoupper($this->headers->value('REQUEST_METHOD'));
+    }
+
+    /**
+     * returns the request method
+     *
+     * @return  string
+     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
+     */
     public function getMethod()
     {
-        return strtoupper($this->headers->getValue('REQUEST_METHOD'));
+        return $this->method();
     }
 
     /**
@@ -115,18 +126,32 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * @return  string
      * @since   2.0.2
      */
-    public function getProtocolVersion()
+    public function protocolVersion()
     {
         if (!$this->headers->has('SERVER_PROTOCOL')) {
             return '1.0';
         }
 
         $minor = null;
-        if (1 != sscanf($this->headers->get('SERVER_PROTOCOL')->getValue(), 'HTTP/1.%[01]', $minor)) {
+        if (1 != sscanf($this->headers->get('SERVER_PROTOCOL')->value(), 'HTTP/1.%[01]', $minor)) {
             return null;
         }
 
         return '1.' . $minor;
+    }
+
+    /**
+     * returns HTTP protocol version of request
+     *
+     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
+     *
+     * @return  string
+     * @since   2.0.2
+     * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
+     */
+    public function getProtocolVersion()
+    {
+        return $this->protocolVersion();
     }
 
     /**
@@ -135,16 +160,16 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * @return  HttpUri
      * @throws  RuntimeException
      */
-    public function getUri()
+    public function uri()
     {
-        $host = $this->headers->getValue('HTTP_HOST');
+        $host = $this->headers->value('HTTP_HOST');
         if (strstr($host, ':') === false) {
-            $host .= ':' . $this->headers->getValue('SERVER_PORT');
+            $host .= ':' . $this->headers->value('SERVER_PORT');
         }
 
         $uri  = (($this->headers->has('HTTPS')) ? ('https') : ('http')) . '://'
               . $host
-              . $this->headers->getValue('REQUEST_URI');
+              . $this->headers->value('REQUEST_URI');
         try {
             return HttpUri::fromString($uri);
         } catch (MalformedUriException $murie) {
@@ -153,14 +178,38 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
+     * returns the uri of the request
+     *
+     * @return  HttpUri
+     * @throws  RuntimeException
+     * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
+     */
+    public function getUri()
+    {
+        return $this->uri();
+    }
+
+    /**
      * return an array of all header names registered in this request
      *
      * @return  string[]
      * @since   1.3.0
      */
+    public function headerNames()
+    {
+        return $this->headers->names();
+    }
+
+    /**
+     * return an array of all header names registered in this request
+     *
+     * @return  string[]
+     * @since   1.3.0
+     * @deprecated  since 3.0.0, use headerNames() instead, will be removed with 4.0.0
+     */
     public function getHeaderNames()
     {
-        return $this->headers->getNames();
+        return $this->headersNames();
     }
 
     /**
@@ -178,7 +227,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors()
@@ -218,9 +267,21 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * @return  string[]
      * @since   1.3.0
      */
+    public function cookieNames()
+    {
+        return $this->cookies->names();
+    }
+
+    /**
+     * return an array of all cookie names registered in this request
+     *
+     * @return  string[]
+     * @since   1.3.0
+     * @deprecated  since 3.0.0, use cookieNames() instead, will be removed with 4.0.0
+     */
     public function getCookieNames()
     {
-        return $this->cookies->getNames();
+        return $this->cookiesNames();
     }
 
     /**
@@ -238,7 +299,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors()
@@ -275,7 +336,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request body
      *
-     * @return  ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors()

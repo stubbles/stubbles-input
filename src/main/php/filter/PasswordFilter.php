@@ -70,10 +70,10 @@ class PasswordFilter implements Filter
      */
     public function apply(Param $param)
     {
-        $value = $param->getValue();
+        $value = $param->value();
         if (is_array($value)) {
             if ($value[0] !== $value[1]) {
-                $param->addErrorWithId('PASSWORDS_NOT_EQUAL');
+                $param->addError('PASSWORDS_NOT_EQUAL');
                 return null;
             }
 
@@ -81,13 +81,13 @@ class PasswordFilter implements Filter
         }
 
         if (in_array($value, $this->nonAllowedValues)) {
-            $param->addErrorWithId('PASSWORD_INVALID');
+            $param->addError('PASSWORD_INVALID');
             return null;
         }
 
         if (null !== $this->minDiffChars) {
             if (count(count_chars($value, 1)) < $this->minDiffChars) {
-                $param->addErrorWithId('PASSWORD_TOO_LESS_DIFF_CHARS');
+                $param->addError('PASSWORD_TOO_LESS_DIFF_CHARS');
                 return null;
             }
         }

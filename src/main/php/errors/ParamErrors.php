@@ -7,7 +7,7 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 /**
  * Container for a filter error list.
  *
@@ -35,28 +35,9 @@ class ParamErrors implements \IteratorAggregate, \Countable
     {
         $error = ParamError::fromData($error, $details);
         if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = [$error->getId() => $error];
+            $this->errors[$paramName] = [$error->id() => $error];
         } else {
-            $this->errors[$paramName][$error->getId()] = $error;
-        }
-
-        return $error;
-    }
-
-    /**
-     * adds error with given id for given parameter name
-     *
-     * @param   ParamError  $error      error to add
-     * @param   string      $paramName  name of parameter to add error for
-     * @return  ParamError
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function add(ParamError $error, $paramName)
-    {
-        if (!isset($this->errors[$paramName])) {
-            $this->errors[$paramName] = [$error->getId() => $error];
-        } else {
-            $this->errors[$paramName][$error->getId()] = $error;
+            $this->errors[$paramName][$error->id()] = $error;
         }
 
         return $error;
@@ -106,28 +87,6 @@ class ParamErrors implements \IteratorAggregate, \Countable
     public function existForWithId($paramName, $errorId)
     {
         return (isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId]));
-    }
-
-    /**
-     * returns list of all errors for all parameters
-     *
-     * @return  array
-     * @since   2.3.3
-     */
-    public function asList()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * returns list of all errors for all parameters
-     *
-     * @return  array
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function get()
-    {
-        return $this->errors;
     }
 
     /**

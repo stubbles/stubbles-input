@@ -10,6 +10,8 @@
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
+use stubbles\date\span\Month;
+use stubbles\date\span\Year;
 /**
  * Tests for stubbles\input\filter\range\DatespanRange.
  *
@@ -35,138 +37,129 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @return  array
      */
-    public function belowMinBorderThrowsRuntimeExceptionOnInvalidType()
+    public function outOfRangeValues()
     {
-        $this->datespanRange->belowMinBorder('foo');
+        return [
+            [new Day('2012-03-16')],
+            [new Day('2012-03-20')]
+        ];
     }
 
     /**
      * @test
+     * @dataProvider  outOfRangeValues
      */
-    public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
+    public function valueOutOfRangeIsNotContainedInRange($value)
     {
-        $datespanRange = new DatespanRange(null, new Date('2012-03-19'));
-        $this->assertFalse($datespanRange->belowMinBorder(0));
+        $this->assertFalse(
+                $this->datespanRange->contains($value)
+        );
+    }
+
+    /**
+     * @return  array
+     */
+    public function withinRangeValues()
+    {
+        return [
+            [new Day('2012-03-17')],
+            [new Day('2012-03-18')],
+            [new Day('2012-03-19')]
+        ];
     }
 
     /**
      * @test
+     * @dataProvider  withinRangeValues
      */
-    public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
+    public function valueWithinRangeIsContainedInRange($value)
     {
-        $this->assertTrue($this->datespanRange->belowMinBorder(new Day('2012-03-16')));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueIsNull()
-    {
-        $this->assertFalse($this->datespanRange->belowMinBorder(null));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
-    {
-        $this->assertFalse($this->datespanRange->belowMinBorder(new Day('2012-03-17')));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
-    {
-        $this->assertFalse($this->datespanRange->belowMinBorder(new Day('2012-03-18')));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
-    {
-        $this->assertFalse($this->datespanRange->belowMinBorder(new Day('2012-03-20')));
-    }
-
-    /**
-     * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
-     */
-    public function aboveMaxBorderThrowsRuntimeExceptionOnInvalidType()
-    {
-        $this->datespanRange->aboveMaxBorder('foo');
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
-    {
-        $datespanRange = new DatespanRange(new Date('2012-03-17'), null);
-        $this->assertFalse($datespanRange->aboveMaxBorder(new Day('2012-03-18')));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
-    {
-        $this->assertFalse($this->datespanRange->aboveMaxBorder(new Day('2012-03-18')));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
-    {
-        $this->assertFalse($this->datespanRange->aboveMaxBorder(new Day('2012-03-19')));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
-    {
-        $this->assertFalse($this->datespanRange->aboveMaxBorder(new Day('2012-03-16')));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueIsNull()
-    {
-        $this->assertFalse($this->datespanRange->aboveMaxBorder(null));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
-    {
-        $this->assertTrue($this->datespanRange->aboveMaxBorder(new Day('2012-03-20')));
-    }
-
-    /**
-     * @test
-     */
-    public function createsMinParamError()
-    {
-        $this->assertEquals('DATE_TOO_EARLY',
-                            $this->datespanRange->getMinParamError()->getId()
+        $this->assertTrue(
+                $this->datespanRange->contains($value)
         );
     }
 
     /**
      * @test
      */
-    public function createsMaxParamError()
+    public function rangeContainsLowValuesIfMinValueIsNull()
     {
-        $this->assertEquals('DATE_TOO_LATE',
-                            $this->datespanRange->getMaxParamError()->getId()
+        $numberRange = new DatespanRange(null, '2012-03-19');
+        $this->assertTrue($numberRange->contains(new Month('1970-12')));
+    }
+
+    /**
+     * @test
+     */
+    public function rangeContainsHighValuesIfMaxValueIsNull()
+    {
+        $numberRange = new DatespanRange('2012-03-17', null);
+        $this->assertTrue($numberRange->contains(new Year(2037)));
+    }
+
+    /**
+     * @return  array
+     */
+    public function ranges()
+    {
+        return [
+            [new DatespanRange('2012-03-17', '2012-03-19')],
+            [new DatespanRange(null, '2012-03-19')],
+            [new DatespanRange('2012-03-17', null)]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider  ranges
+     */
+    public function rangeDoesNotContainNull(DatespanRange $range)
+    {
+        $this->assertFalse($range->contains(null));
+    }
+
+    /**
+     * @text
+     * @dataProvider  ranges
+     * @expectedException  stubbles\lang\exception\RuntimeException
+     */
+    public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range)
+    {
+        $range->contains('foo');
+    }
+
+    /**
+     * @test
+     */
+    public function errorListIsEmptyIfValueContainedInRange()
+    {
+        $this->assertEquals(
+                [],
+                $this->datespanRange->errorsOf(new Day('2012-03-17'))
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    {
+        $this->assertEquals(
+                ['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]],
+                $this->datespanRange->errorsOf(new Day('2012-03-16'))
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    {
+        $this->assertEquals(
+                ['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]],
+                $this->datespanRange->errorsOf(new Day('2012-03-20'))
         );
     }
 
@@ -177,7 +170,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAllowToTruncate()
     {
-        $this->assertFalse($this->datespanRange->allowsTruncate());
+        $this->assertFalse($this->datespanRange->allowsTruncate(new Day('2012-03-20')));
     }
 
     /**

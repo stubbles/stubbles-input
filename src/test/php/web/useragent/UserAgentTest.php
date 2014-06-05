@@ -46,7 +46,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function xmlAnnotationsPresentClass()
+    public function xmlAnnotationPresentClass()
     {
         $this->assertTrue(
                 lang\reflect($this->userAgent)->hasAnnotation('XmlTag')
@@ -60,7 +60,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function getXmlRelatedMethodAnnotations()
     {
-        return [['getName', 'XmlAttribute'],
+        return [['name', 'XmlAttribute'],
                 ['isBot', 'XmlAttribute'],
                 ['acceptsCookies', 'XmlAttribute'],
                 ['__toString', 'XmlIgnore']
@@ -73,17 +73,17 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function xmlAnnotationsPresentOnMethods($method, $annotation)
     {
-        $class = lang\reflect($this->userAgent);
-        $this->assertTrue($class->hasAnnotation('XmlTag'));
-        $this->assertTrue($class->getMethod($method)->hasAnnotation($annotation));
+        $this->assertTrue(
+                lang\reflect($this->userAgent, $method)->hasAnnotation($annotation)
+        );
     }
 
     /**
      * @test
      */
-    public function instanceReturnsGivenNAme()
+    public function instanceReturnsGivenName()
     {
-        $this->assertEquals('name', $this->userAgent->getName());
+        $this->assertEquals('name', $this->userAgent->name());
     }
 
     /**

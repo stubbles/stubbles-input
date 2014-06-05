@@ -7,13 +7,13 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 use stubbles\lang;
-use stubbles\lang\types\LocalizedString;
+use stubbles\input\errors\messages\LocalizedMessage;
 /**
- * Tests for stubbles\input\ParamError.
+ * Tests for stubbles\input\errors\ParamError.
  *
- * @group  core
+ * @group  errors
  */
 class ParamErrorTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenId()
     {
-        $this->assertEquals('id', $this->paramError->getId());
+        $this->assertEquals('id', $this->paramError->id());
     }
 
     /**
@@ -46,8 +46,8 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithDetails()
     {
 
-        $this->assertEquals([new LocalizedString('en_*', 'An error of type bar occurred.'),
-                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
+        $this->assertEquals([new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                             new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
                             ],
                             $this->paramError->fillMessages(['en_*'  => 'An error of type {foo} occurred.',
                                                              'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -62,8 +62,8 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => ['bar', 'baz']]);
-        $this->assertEquals([new LocalizedString('en_*', 'An error of type bar, baz occurred.'),
-                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
+        $this->assertEquals([new LocalizedMessage('en_*', 'An error of type bar, baz occurred.'),
+                             new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
                             ],
                             $this->paramError->fillMessages(['en_*'  => 'An error of type {foo} occurred.',
                                                              'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -78,8 +78,8 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithObjectDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => new \stdClass()]);
-        $this->assertEquals([new LocalizedString('en_*', 'An error of type stdClass occurred.'),
-                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
+        $this->assertEquals([new LocalizedMessage('en_*', 'An error of type stdClass occurred.'),
+                             new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
                             ],
                             $this->paramError->fillMessages(['en_*'  => 'An error of type {foo} occurred.',
                                                              'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -94,8 +94,8 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet()
     {
         $this->paramError = new ParamError('id');
-        $this->assertEquals([new LocalizedString('en_*', 'An error of type {foo} occurred.'),
-                             new LocalizedString('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
+        $this->assertEquals([new LocalizedMessage('en_*', 'An error of type {foo} occurred.'),
+                             new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
                             ],
                             $this->paramError->fillMessages(['en_*'  => 'An error of type {foo} occurred.',
                                                              'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -115,8 +115,8 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnGetIdMethod()
+    public function annotationsPresentOnIdMethod()
     {
-        $this->assertTrue(lang\reflect($this->paramError, 'getId')->hasAnnotation('XmlAttribute'));
+        $this->assertTrue(lang\reflect($this->paramError, 'id')->hasAnnotation('XmlAttribute'));
     }
 }

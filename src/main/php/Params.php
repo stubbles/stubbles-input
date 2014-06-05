@@ -8,10 +8,12 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Interface for handling input data.
  *
  * @since  2.0.0
+ * @internal
  */
 class Params implements \IteratorAggregate, \Countable
 {
@@ -70,7 +72,7 @@ class Params implements \IteratorAggregate, \Countable
      * @param   string  $paramName
      * @return  string
      */
-    public function getValue($paramName)
+    public function value($paramName)
     {
         if (!isset($this->params[$paramName])) {
             return null;
@@ -84,7 +86,7 @@ class Params implements \IteratorAggregate, \Countable
      *
      * @return  string[]
      */
-    public function getNames()
+    public function names()
     {
         return array_keys($this->params);
     }
@@ -104,7 +106,7 @@ class Params implements \IteratorAggregate, \Countable
     }
 
     /**
-     * returns number of collected errors
+     * returns number of available params
      *
      * @return  int
      */

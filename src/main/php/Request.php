@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Interface for handling input data.
  *
@@ -19,6 +20,7 @@ interface Request
      * cancels the request, e.g. if it was detected that it is invalid
      *
      * @return  Request
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function cancel();
 
@@ -26,6 +28,7 @@ interface Request
      * checks whether the request has been cancelled or not
      *
      * @return  bool
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function isCancelled();
 
@@ -34,15 +37,32 @@ interface Request
      *
      * @return  string
      */
+    public function method();
+
+    /**
+     * returns the request method
+     *
+     * @return  string
+     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
+     */
     public function getMethod();
+
+    /**
+     * return a list of all param names registered in this request
+     *
+     * @return  string[]
+     */
+    public function paramNames();
 
     /**
      * return an array of all param names registered in this request
      *
      * @return  string[]
      * @since   1.3.0
+     * @deprecated  since 3.0.0, use paramNames() instead, will be removed with 4.0.0
      */
     public function getParamNames();
+
     /**
      * returns list of errors for request parameters
      *

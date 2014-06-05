@@ -32,7 +32,7 @@ class StringFilter implements Filter
 
         return strip_tags(str_replace($this->getNonAllowedCharacters(),
                                       '',
-                                      stripslashes($param->getValue())
+                                      stripslashes($param->value())
                           ),
                           $this->getAllowedTags()
         );

@@ -15,7 +15,7 @@ require_once __DIR__ . '/filter/FilterTest.php';
  * @since  1.3.0
  * @group  filter
  */
-class ValueFilterTest extends filter\FilterTest
+class ValueReaderTest extends filter\FilterTest
 {
     /**
      * @test
@@ -242,7 +242,7 @@ class ValueFilterTest extends filter\FilterTest
     public function returnsNullIfParamHasErrors()
     {
         $param = new Param('bar', 'foo');
-        $param->addErrorWithId('SOME_ERROR');
+        $param->addError('SOME_ERROR');
         $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
                    ->method('apply')
@@ -257,7 +257,7 @@ class ValueFilterTest extends filter\FilterTest
     public function errorListContainsParamError()
     {
         $param = new Param('bar', 'foo');
-        $param->addErrorWithId('SOME_ERROR');
+        $param->addError('SOME_ERROR');
         $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
                    ->method('apply')
@@ -328,7 +328,7 @@ class ValueFilterTest extends filter\FilterTest
                             $this->createValueReader('303')
                                  ->withFunction(function(Param $param)
                                                 {
-                                                    if ($param->getValue() == 303) {
+                                                    if ($param->value() == 303) {
                                                         return 'Roland TB-303';
                                                     }
 
@@ -349,11 +349,11 @@ class ValueFilterTest extends filter\FilterTest
         $this->assertNull($this->createValueReader('909')
                                ->withFunction(function(Param $param)
                                               {
-                                                  if ($param->getValue() == 303) {
+                                                  if ($param->value() == 303) {
                                                       return 'Roland TB-303';
                                                   }
 
-                                                  $param->addErrorWithId('INVALID_303');
+                                                  $param->addError('INVALID_303');
                                                   return null;
                                               }
                                    )
@@ -370,11 +370,11 @@ class ValueFilterTest extends filter\FilterTest
         $this->createValueReader('909')
              ->withFunction(function(Param $param)
                             {
-                                if ($param->getValue() == 303) {
+                                if ($param->value() == 303) {
                                     return 'Roland TB-303';
                                 }
 
-                                $param->addErrorWithId('INVALID_303');
+                                $param->addError('INVALID_303');
                                 return null;
                             }
         );

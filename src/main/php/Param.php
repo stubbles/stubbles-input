@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamError;
 /**
  * Container for a parameter and its value.
  *
@@ -50,20 +51,44 @@ class Param
      * returns name of param
      *
      * @return  string
+     * @since   3.0.0
+     */
+    public function name()
+    {
+        return $this->name;
+    }
+
+    /**
+     * returns name of param
+     *
+     * @return  string
+     * @deprecated since 3.0.0, use name() instead, will be removed with 4.0.0
      */
     public function getName()
     {
-        return $this->name;
+        return $this->name();
     }
 
     /**
      * returns value of param
      *
      * @return  string
+     * @since   3.0.0
+     */
+    public function value()
+    {
+        return $this->value;
+    }
+
+    /**
+     * returns value of param
+     *
+     * @return  string
+     * @deprecated since 3.0.0, use value() instead, will be removed with 4.0.0
      */
     public function getValue()
     {
-        return $this->value;
+        return $this->value();
     }
 
     /**
@@ -101,19 +126,6 @@ class Param
     /**
      * adds error with given id
      *
-     * @param   string  $errorId
-     * @param   array   $details  details of what caused the error
-     * @return  ParamError
-     * @deprecated  since 2.3.3, will be removed with 2.4.0
-     */
-    public function addErrorWithId($errorId, array $details = [])
-    {
-        return $this->addError(new ParamError($errorId, $details));
-    }
-
-    /**
-     * adds error with given id
-     *
      * @param   ParamError|string  $error    id of error or an instance of ParamError
      * @param   array              $details  details of what caused the error
      * @return  ParamError
@@ -121,7 +133,7 @@ class Param
     public function addError($error, array $details = [])
     {
         $error = ParamError::fromData($error, $details);
-        $this->errors[$error->getId()] = $error;
+        $this->errors[$error->id()] = $error;
         return $error;
     }
 
@@ -150,9 +162,21 @@ class Param
      * returns list of error ids
      *
      * @return  ParamError[]
+     * @since   3.0.0
+     */
+    public function errors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * returns list of error ids
+     *
+     * @return  ParamError[]
+     * @deprecated since 3.0.0, use errors() instead, will be removed with 4.0.0
      */
     public function getErrors()
     {
-        return $this->errors;
+        return $this->errors();
     }
 }

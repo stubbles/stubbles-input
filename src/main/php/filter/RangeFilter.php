@@ -70,18 +70,18 @@ class RangeFilter implements Filter
             return null;
         }
 
-        if ($this->range->belowMinBorder($value)) {
-            $param->addError($this->range->getMinParamError());
-            return null;
-        } elseif ($this->range->aboveMaxBorder($value)) {
-            if ($this->range->allowsTruncate()) {
-                return $this->range->truncateToMaxBorder($value);
-            }
-
-            $param->addError($this->range->getMaxParamError());
-            return null;
+        if ($this->range->contains($value)) {
+            return $value;
         }
 
-        return $value;
+        if ($this->range->allowsTruncate($value)) {
+            return $this->range->truncateToMaxBorder($value);
+        }
+
+        foreach ($this->range->errorsOf($value) as $errorId => $details) {
+            $param->addError($errorId, $details);
+        }
+
+        return null;
     }
 }

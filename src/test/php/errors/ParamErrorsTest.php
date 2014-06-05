@@ -7,11 +7,11 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input;
+namespace stubbles\input\errors;
 /**
- * Tests for stubbles\input\ParamErrors.
+ * Tests for stubbles\input\errors\ParamErrors.
  *
- * @group  core
+ * @group  errors
  */
 class ParamErrorsTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      *
      * @type  ParamErrors
      */
-    protected $paramErrors;
+    private $paramErrors;
 
     /**
      * set up test environment
@@ -44,14 +44,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function initialErrorCountIsZero()
     {
         $this->assertEquals(0, $this->paramErrors->count());
-    }
-
-    /**
-     * @test
-     */
-    public function initialErrorListIsEmpty()
-    {
-        $this->assertEquals([], $this->paramErrors->asList());
     }
 
     /**
@@ -93,17 +85,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function appendedErrorIsContainedInList()
-    {
-        $paramError = $this->paramErrors->append('foo', 'errorid');
-        $this->assertEquals(['foo' => ['errorid' => $paramError]],
-                            $this->paramErrors->asList()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function appendedErrorIsContainedInListForParam()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
@@ -120,30 +101,6 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
         $paramError = $this->paramErrors->append('foo', 'errorid');
         $this->assertSame($paramError,
                           $this->paramErrors->getForWithId('foo', 'errorid')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addSameErrorForSameValueNameDoesNotResultInTwoErrorsOfSameKind()
-    {
-        $paramError = new ParamError('id');
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
-        $this->assertSame($paramError,
-                          $this->paramErrors->add($paramError,
-                                                   'foo'
-                                               )
-        );
-
-        $this->assertTrue($this->paramErrors->exist());
-        $this->assertEquals(1, $this->paramErrors->count());
-        $this->assertEquals(['foo' => ['id' => $paramError]],
-                            $this->paramErrors->get()
         );
     }
 
