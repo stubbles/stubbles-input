@@ -58,19 +58,41 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      *
      * @return  string
      */
-    public function getMethod()
+    public function method()
     {
         return 'cli';
+    }
+
+    /**
+     * returns the request method
+     *
+     * @return  string
+     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
+     */
+    public function getMethod()
+    {
+        return $this->method();
+    }
+
+    /**
+     * return a list of all environment names registered in this request
+     *
+     * @return  string[]
+     */
+    public function envNames()
+    {
+        return $this->env->names();
     }
 
     /**
      * return an array of all environment names registered in this request
      *
      * @return  string[]
+     * @deprecated  since 3.0.0, use envNames() instead, will be removed with 4.0.0
      */
     public function getEnvNames()
     {
-        return $this->env->names();
+        return $this->envNames();
     }
 
     /**

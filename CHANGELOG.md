@@ -15,6 +15,14 @@
     * deprecated `stubbles\input\Param::getName()`, use `stubbles\input\Param::name()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\Param::getValue()`, use `stubbles\input\Param::value()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\Param::getErrors()`, use `stubbles\input\Param::errors()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\Request::cancel()`, will be removed with 4.0.0
+    * deprecated `stubbles\input\Request::isCancelled()`, will be removed with 4.0.0
+    * deprecated `stubbles\input\Request::getMethod()`, use `stubbles\input\Request::method()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\console\ConsoleRequest::getEnvNames()`, use `stubbles\input\console\ConsoleRequest::envNames()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\web\WebRequest::getProtocolVersion()`, use `stubbles\input\web\WebRequest::protocolVersion()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\web\WebRequest::getUri()`, use `stubbles\input\web\WebRequest::uri()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\web\WebRequest::getHeaderNames()`, use `stubbles\input\web\WebRequest::headerNames()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\web\WebRequest::getCookieNames()`, use `stubbles\input\web\WebRequest::cookieNames()` instead, will be removed with 4.0.0
 
 ### Other changes
 

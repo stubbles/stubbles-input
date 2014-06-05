@@ -55,7 +55,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function requestMethodIsAlwaysCli()
     {
-        $this->assertEquals('cli', $this->baseConsoleRequest->getMethod());
+        $this->assertEquals('cli', $this->baseConsoleRequest->method());
     }
 
     /**
@@ -64,7 +64,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfParamNames()
     {
         $this->assertEquals(['foo', 'roland'],
-                            $this->baseConsoleRequest->getParamNames()
+                            $this->baseConsoleRequest->paramNames()
         );
     }
 
@@ -76,7 +76,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER['argv'] = ['foo' => 'bar', 'roland' => 'TB-303'];
         $this->assertEquals(['foo', 'roland'],
                             BaseConsoleRequest::fromRawSource()
-                                              ->getParamNames()
+                                              ->paramNames()
         );
     }
 
@@ -86,7 +86,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfEnvNames()
     {
         $this->assertEquals(['SCRIPT_NAME', 'PHP_SELF'],
-                            $this->baseConsoleRequest->getEnvNames()
+                            $this->baseConsoleRequest->envNames()
         );
     }
 
@@ -166,7 +166,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
                    ];
         $this->assertEquals(['argv', 'SCRIPT_NAME'],
                             BaseConsoleRequest::fromRawSource()
-                                              ->getEnvNames()
+                                              ->envNames()
         );
     }
 }

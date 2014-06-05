@@ -18,9 +18,17 @@ use stubbles\input\Request;
 interface ConsoleRequest extends Request
 {
     /**
+     * return a list of all environment names registered in this request
+     *
+     * @return  string[]
+     */
+    public function envNames();
+
+    /**
      * return an array of all environment names registered in this request
      *
      * @return  string[]
+     * @deprecated  since 3.0.0, use envNames() instead, will be removed with 4.0.0
      */
     public function getEnvNames();
     /**

@@ -18,6 +18,17 @@ class TestAbstractRequest extends AbstractRequest
      *
      * @return  string
      */
+    public function method()
+    {
+        return 'test';
+    }
+
+    /**
+     * returns the request method
+     *
+     * @return  string
+     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
+     */
     public function getMethod()
     {
         return 'test';
@@ -47,6 +58,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function isNotCancelledInitially()
     {
@@ -55,6 +67,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function isCancelledAfterCancellation()
     {
@@ -67,7 +80,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfParamNames()
     {
         $this->assertEquals(['foo', 'roland'],
-                            $this->abstractRequest->getParamNames()
+                            $this->abstractRequest->paramNames()
         );
     }
 

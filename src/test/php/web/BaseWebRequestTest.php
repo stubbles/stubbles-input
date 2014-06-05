@@ -93,7 +93,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->fillGlobals('GET');
         $this->assertEquals(['foo', 'roland'],
-                            BaseWebRequest::fromRawSource()->getParamNames()
+                            BaseWebRequest::fromRawSource()->paramNames()
         );
     }
 
@@ -104,7 +104,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->fillGlobals('POST');
         $this->assertEquals(['baz', 'donald'],
-                            BaseWebRequest::fromRawSource()->getParamNames()
+                            BaseWebRequest::fromRawSource()->paramNames()
         );
     }
 
@@ -115,7 +115,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->fillGlobals();
         $this->assertEquals(['REQUEST_METHOD', 'HTTP_ACCEPT'],
-                            BaseWebRequest::fromRawSource()->getHeaderNames()
+                            BaseWebRequest::fromRawSource()->headerNames()
         );
     }
 
@@ -126,7 +126,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->fillGlobals();
         $this->assertEquals(['chocolateChip', 'master'],
-                            BaseWebRequest::fromRawSource()->getCookieNames()
+                            BaseWebRequest::fromRawSource()->cookieNames()
         );
     }
 
@@ -146,7 +146,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsRequestMethodInUpperCase()
     {
-        $this->assertEquals('POST', $this->baseWebRequest->getMethod());
+        $this->assertEquals('POST', $this->baseWebRequest->method());
     }
 
     /**
@@ -181,7 +181,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
          $this->assertEquals('1.0',
                              $this->createBaseWebRequest([], [])
-                                  ->getProtocolVersion()
+                                  ->protocolVersion()
         );
     }
 
@@ -194,7 +194,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
          $this->assertNull($this->createBaseWebRequest([],
                                                        ['SERVER_PROTOCOL' => 'foo']
                                   )
-                                ->getProtocolVersion()
+                                ->protocolVersion()
         );
     }
 
@@ -207,7 +207,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
          $this->assertNull($this->createBaseWebRequest([],
                                                        ['SERVER_PROTOCOL' => 'HTTP/0.9']
                                   )
-                                ->getProtocolVersion()
+                                ->protocolVersion()
         );
     }
 
@@ -220,7 +220,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
          $this->assertNull($this->createBaseWebRequest([],
                                                        ['SERVER_PROTOCOL' => 'HTTP/1.2']
                                   )
-                                ->getProtocolVersion()
+                                ->protocolVersion()
         );
     }
 
@@ -234,7 +234,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                              $this->createBaseWebRequest([],
                                                          ['SERVER_PROTOCOL' => 'HTTP/1.0']
                                     )
-                                  ->getProtocolVersion()
+                                  ->protocolVersion()
         );
     }
 
@@ -248,7 +248,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                              $this->createBaseWebRequest([],
                                                          ['SERVER_PROTOCOL' => 'HTTP/1.1']
                                     )
-                                  ->getProtocolVersion()
+                                  ->protocolVersion()
         );
     }
 
@@ -258,7 +258,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
     {
-        $this->createBaseWebRequest([], [])->getUri();
+        $this->createBaseWebRequest([], [])->uri();
     }
 
     /**
@@ -274,7 +274,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                                                          'REQUEST_URI' => '/index.php?foo=bar'
                                                         ]
                                    )
-                                 ->getUri()
+                                 ->uri()
                                  ->asString()
         );
     }
@@ -293,7 +293,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                                                          'REQUEST_URI' => '/index.php?foo=bar'
                                                         ]
                                    )
-                                 ->getUri()
+                                 ->uri()
                                  ->asString()
         );
     }
@@ -312,7 +312,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                                                          'REQUEST_URI' => '/index.php?foo=bar'
                                                         ]
                                    )
-                                 ->getUri()
+                                 ->uri()
                                  ->asString()
         );
     }
@@ -330,7 +330,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                                                          'REQUEST_URI' => '/index.php?foo=bar'
                                                         ]
                                    )
-                                 ->getUri()
+                                 ->uri()
                                  ->asString()
         );
     }
@@ -341,7 +341,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfParamNames()
     {
         $this->assertEquals(['foo', 'roland'],
-                            $this->baseWebRequest->getParamNames()
+                            $this->baseWebRequest->paramNames()
         );
     }
 
@@ -417,7 +417,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfHeaderNames()
     {
         $this->assertEquals(['HTTP_ACCEPT', 'REQUEST_METHOD'],
-                            $this->baseWebRequest->getHeaderNames()
+                            $this->baseWebRequest->headerNames()
         );
     }
 
@@ -493,7 +493,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsListOfCookieNames()
     {
         $this->assertEquals(['chocolateChip', 'master'],
-                            $this->baseWebRequest->getCookieNames()
+                            $this->baseWebRequest->cookieNames()
         );
     }
 
@@ -512,7 +512,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFalseOnCheckForNonExistingCookie()
     {
-        $this->assertFalse($this->baseWebRequest->hasHeader('baz'));
+        $this->assertFalse($this->baseWebRequest->hasCookie('baz'));
     }
 
     /**

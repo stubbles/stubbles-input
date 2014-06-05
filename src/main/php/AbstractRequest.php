@@ -41,6 +41,7 @@ abstract class AbstractRequest implements Request
      * cancels the request, e.g. if it was detected that it is invalid
      *
      * @return  Request
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function cancel()
     {
@@ -52,6 +53,7 @@ abstract class AbstractRequest implements Request
      * checks whether the request has been cancelled or not
      *
      * @return  bool
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function isCancelled()
     {
@@ -59,14 +61,25 @@ abstract class AbstractRequest implements Request
     }
 
     /**
+     * return a list of all param names registered in this request
+     *
+     * @return  string[]
+     */
+    public function paramNames()
+    {
+        return $this->params->names();
+    }
+
+    /**
      * return an array of all param names registered in this request
      *
      * @return  string[]
      * @since   1.3.0
+     * @deprecated  since 3.0.0, use paramNames() instead, will be removed with 4.0.0
      */
     public function getParamNames()
     {
-        return $this->params->names();
+        return $this->paramsNames();
     }
 
     /**
