@@ -8,6 +8,13 @@
     * `net\stubbles\input\ValueReader::asDate()`
     * `net\stubbles\input\ValueReader::asDay()`
     * `net\stubbles\input\ValueReader::asMonth()`
+  * removed `net\stubbles\input\Param::addErrorWithId()`, deprecated since 2.3.3
+  * removed `net\stubbles\input\ParamErrors::add()`, deprecated since 2.3.3
+  * removed `net\stubbles\input\ParamErrors::get()`, deprecated since 2.3.3
+  * api rework:
+    * deprecated `stubbles\input\Param::getName()`, use `stubbles\input\Param::name()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\Param::getValue()`, use `stubbles\input\Param::value()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\Param::getErrors()`, use `stubbles\input\Param::errors()` instead, will be removed with 4.0.0
 
 ### Other changes
 

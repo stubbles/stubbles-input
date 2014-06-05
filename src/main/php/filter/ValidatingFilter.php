@@ -10,7 +10,6 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\input\ParamError;
 use stubbles\input\Validator;
 /**
  * Class for filtering values based on validators.
@@ -60,11 +59,11 @@ class ValidatingFilter implements Filter
      */
     public function apply(Param $param)
     {
-        if ($this->validator->validate($param->getValue())) {
-            return $param->getValue();
+        if ($this->validator->validate($param->value())) {
+            return $param->value();
         }
 
-        $param->addError(new ParamError($this->errorId, $this->details));
+        $param->addError($this->errorId, $this->details);
         return null;
     }
 }

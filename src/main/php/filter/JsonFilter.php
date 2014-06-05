@@ -31,20 +31,20 @@ class JsonFilter implements Filter
         }
 
         if ($param->length() > 20000) {
-            $param->addErrorWithId('JSON_INPUT_TOO_BIG');
+            $param->addError('JSON_INPUT_TOO_BIG');
             return null;
         }
 
-        $value = $param->getValue();
+        $value = $param->value();
         if (!$this->isValidJsonStructure($value)) {
-            $param->addErrorWithId('JSON_INVALID');
+            $param->addError('JSON_INVALID');
             return null;
         }
 
         $decodedJson = json_decode($value);
         $errorCode   = json_last_error();
         if (JSON_ERROR_NONE !== $errorCode) {
-            $param->addErrorWithId('JSON_SYNTAX_ERROR', ['errorCode' => $errorCode]);
+            $param->addError('JSON_SYNTAX_ERROR', ['errorCode' => $errorCode]);
             return null;
         }
 

@@ -26,7 +26,7 @@ interface ConsoleRequest extends Request
     /**
      * returns list of errors for environment parameters
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      */
     public function envErrors();
 

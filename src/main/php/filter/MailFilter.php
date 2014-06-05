@@ -32,10 +32,10 @@ class MailFilter implements Filter
             return null;
         }
 
-        $value = $param->getValue();
+        $value = $param->value();
         $mailValidator = new MailValidator();
         if (!$mailValidator->validate($value)) {
-            $param->addErrorWithId($this->detectErrorId($value));
+            $param->addError($this->detectErrorId($value));
             return null;
         }
 

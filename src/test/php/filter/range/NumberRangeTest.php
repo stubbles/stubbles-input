@@ -33,120 +33,120 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
+     * @return  array
      */
-    public function belowMinBorderReturnsFalseIfNoMinBorderDefined()
+    public function outOfRangeValues()
     {
-        $numberRange = new NumberRange(null, 10);
-        $this->assertFalse($numberRange->belowMinBorder(0));
+        return [
+            [0],
+            [11]
+        ];
     }
 
     /**
      * @test
+     * @dataProvider  outOfRangeValues
      */
-    public function belowMinBorderReturnsTrueIfValueSmallerThanMinValue()
+    public function valueOutOfRangeIsNotContainedInRange($value)
     {
-        $this->assertTrue($this->numberRange->belowMinBorder(0));
+        $this->assertFalse(
+                $this->numberRange->contains($value)
+        );
+    }
+
+    /**
+     * @return  array
+     */
+    public function withinRangeValues()
+    {
+        return [
+            [1],
+            [4],
+            [8],
+            [10]
+        ];
     }
 
     /**
      * @test
+     * @dataProvider  withinRangeValues
      */
-    public function belowMinBorderReturnsTrueIfValueIsNull()
+    public function valueWithinRangeIsContainedInRange($value)
     {
-        $this->assertTrue($this->numberRange->belowMinBorder(null));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueEqualToMinValue()
-    {
-        $this->assertFalse($this->numberRange->belowMinBorder(1));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueGreaterThanMinValue()
-    {
-        $this->assertFalse($this->numberRange->belowMinBorder(2));
-    }
-
-    /**
-     * @test
-     */
-    public function belowMinBorderReturnsFalseIfValueGreaterThanMaxValue()
-    {
-        $this->assertFalse($this->numberRange->belowMinBorder(11));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfNoMaxBorderDefined()
-    {
-        $numberRange = new NumberRange(0, null);
-        $this->assertFalse($numberRange->aboveMaxBorder(9));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueSmallerThanMaxValue()
-    {
-        $this->assertFalse($this->numberRange->aboveMaxBorder(9));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueEqualToMaxValue()
-    {
-        $this->assertFalse($this->numberRange->aboveMaxBorder(10));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueSmallerThanMinValue()
-    {
-        $this->assertFalse($this->numberRange->aboveMaxBorder(0));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsFalseIfValueIsNull()
-    {
-        $this->assertFalse($this->numberRange->aboveMaxBorder(null));
-    }
-
-    /**
-     * @test
-     */
-    public function aboveMaxBorderReturnsTrueIfValueGreaterThanMaxValue()
-    {
-        $this->assertTrue($this->numberRange->aboveMaxBorder(11));
-    }
-
-    /**
-     * @test
-     */
-    public function createsMinParamError()
-    {
-        $this->assertEquals('VALUE_TOO_SMALL',
-                            $this->numberRange->getMinParamError()->getId()
+        $this->assertTrue(
+                $this->numberRange->contains($value)
         );
     }
 
     /**
      * @test
      */
-    public function createsMaxParamError()
+    public function rangeContainsLowValuesIfMinValueIsNull()
     {
-        $this->assertEquals('VALUE_TOO_GREAT',
-                            $this->numberRange->getMaxParamError()->getId()
+        $numberRange = new NumberRange(null, 10);
+        $this->assertTrue($numberRange->contains(PHP_INT_MAX * -1));
+    }
+
+    /**
+     * @test
+     */
+    public function rangeContainsHighValuesIfMaxValueIsNull()
+    {
+        $numberRange = new NumberRange(1, null);
+        $this->assertTrue($numberRange->contains(PHP_INT_MAX));
+    }
+
+    /**
+     * @return  array
+     */
+    public function ranges()
+    {
+        return [
+            [new NumberRange(1, 10)],
+            [new NumberRange(null, 10)],
+            [new NumberRange(1, null)]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider  ranges
+     */
+    public function rangeDoesNotContainNull(NumberRange $range)
+    {
+        $this->assertFalse($range->contains(null));
+    }
+
+    /**
+     * @test
+     */
+    public function errorListIsEmptyIfValueContainedInRange()
+    {
+        $this->assertEquals(
+                [],
+                $this->numberRange->errorsOf(3)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    {
+        $this->assertEquals(
+                ['VALUE_TOO_SMALL' => ['minNumber' => 1]],
+                $this->numberRange->errorsOf(0)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    {
+        $this->assertEquals(
+                ['VALUE_TOO_GREAT' => ['maxNumber' => 10]],
+                $this->numberRange->errorsOf(11)
         );
     }
 
@@ -157,7 +157,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAllowToTruncate()
     {
-        $this->assertFalse($this->numberRange->allowsTruncate());
+        $this->assertFalse($this->numberRange->allowsTruncate(11));
     }
 
     /**

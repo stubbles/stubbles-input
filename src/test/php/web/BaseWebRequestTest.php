@@ -350,7 +350,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        $this->assertInstanceOf('stubbles\input\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
                                 $this->baseWebRequest->paramErrors()
         );
     }
@@ -426,7 +426,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsHeaderErrors()
     {
-        $this->assertInstanceOf('stubbles\input\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
                                 $this->baseWebRequest->headerErrors()
         );
     }
@@ -502,7 +502,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsCookieErrors()
     {
-        $this->assertInstanceOf('stubbles\input\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
                                 $this->baseWebRequest->cookieErrors()
         );
     }
@@ -568,7 +568,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsBodyErrors()
     {
-        $this->assertInstanceOf('stubbles\input\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
                                 $this->baseWebRequest->bodyErrors()
         );
     }

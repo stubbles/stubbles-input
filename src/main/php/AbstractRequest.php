@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Abstract base class for requests.
  */
@@ -65,7 +66,7 @@ abstract class AbstractRequest implements Request
      */
     public function getParamNames()
     {
-        return $this->params->getNames();
+        return $this->params->names();
     }
 
     /**

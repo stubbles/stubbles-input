@@ -59,7 +59,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamWithValueIfParamExists()
     {
-        $this->assertEquals('bar', $this->params->get('foo')->getValue());
+        $this->assertEquals('bar', $this->params->get('foo')->value());
     }
 
     /**
@@ -67,7 +67,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullValueIfParamDoesNotExist()
     {
-        $this->assertNull($this->params->getValue('doesNotExist'));
+        $this->assertNull($this->params->value('doesNotExist'));
     }
 
     /**
@@ -75,7 +75,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfParamExists()
     {
-        $this->assertEquals('bar', $this->params->getValue('foo'));
+        $this->assertEquals('bar', $this->params->value('foo'));
     }
 
     /**
@@ -83,7 +83,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(['foo', 'baz'], $this->params->getNames());
+        $this->assertEquals(['foo', 'baz'], $this->params->names());
     }
 
     /**

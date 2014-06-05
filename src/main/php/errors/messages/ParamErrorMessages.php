@@ -7,13 +7,13 @@
  *
  * @package  stubbles\input
  */
-namespace stubbles\input\error;
-use stubbles\input\ParamError;
+namespace stubbles\input\errors\messages;
+use stubbles\input\errors\ParamError;
 /**
  * Interface to translate param errors into error messages.
  *
  * @api
- * @ImplementedBy(stubbles\input\error\PropertyBasedParamErrorMessages.class)
+ * @ImplementedBy(stubbles\input\errors\messages\PropertyBasedParamErrorMessages.class)
  */
 interface ParamErrorMessages
 {
@@ -37,7 +37,7 @@ interface ParamErrorMessages
      * creates a list of message for given param error
      *
      * @param   ParamError  $error
-     * @return  LocalizedString[]
+     * @return  LocalizedMessage[]
      */
     public function messagesFor(ParamError $error);
 
@@ -48,7 +48,7 @@ interface ParamErrorMessages
      *
      * @param   ParamError  $error
      * @param   string      $locale
-     * @return  LocalizedString
+     * @return  LocalizedMessage
      */
     public function messageFor(ParamError $error, $locale = null);
 }

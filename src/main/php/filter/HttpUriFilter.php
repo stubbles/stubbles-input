@@ -50,9 +50,9 @@ class HttpUriFilter implements Filter
     public function apply(Param $param)
     {
         try {
-            $httpUri = HttpUri::fromString($param->getValue());
+            $httpUri = HttpUri::fromString($param->value());
         } catch (MalformedUriException $murle) {
-            $param->addErrorWithId('HTTP_URI_INCORRECT');
+            $param->addError('HTTP_URI_INCORRECT');
             return null;
         }
 
@@ -61,7 +61,7 @@ class HttpUriFilter implements Filter
         }
 
         if (true === $this->enforceDnsRecord && !$httpUri->hasDnsRecord()) {
-            $param->addErrorWithId('HTTP_URI_NOT_AVAILABLE');
+            $param->addError('HTTP_URI_NOT_AVAILABLE');
             return null;
         }
 

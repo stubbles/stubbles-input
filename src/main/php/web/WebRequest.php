@@ -60,7 +60,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors();
@@ -103,7 +103,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors();
@@ -137,7 +137,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request body
      *
-     * @return  stubbles\input\ParamErrors
+     * @return  stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors();

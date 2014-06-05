@@ -95,7 +95,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEnvErrors()
     {
-        $this->assertInstanceOf('stubbles\input\ParamErrors',
+        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
                                 $this->baseConsoleRequest->envErrors()
         );
     }

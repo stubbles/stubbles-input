@@ -9,8 +9,8 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\Param;
-use stubbles\input\ParamErrors;
 use stubbles\input\ValueReader;
+use stubbles\input\errors\ParamErrors;
 /**
  * Base class for tests of stubbles\input\Filter instances.
  *

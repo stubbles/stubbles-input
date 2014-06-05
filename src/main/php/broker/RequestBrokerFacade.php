@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\Request;
-use stubbles\input\error\ParamErrorMessages;
+use stubbles\input\errors\messages\ParamErrorMessages;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
