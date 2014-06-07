@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use stubbles\lang\SecureString;
 use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\exception\RuntimeException;
 /**
@@ -82,7 +83,7 @@ class StringLength extends AbstractRange
             return false;
         }
 
-        return (iconv_strlen($value) < $this->minLength);
+        return $this->length($value) < $this->minLength;
     }
 
     /**
@@ -97,7 +98,22 @@ class StringLength extends AbstractRange
             return false;
         }
 
-        return (iconv_strlen($value) > $this->maxLength);
+        return $this->length($value) > $this->maxLength;
+    }
+
+    /**
+     * returns length of given value
+     *
+     * @param   string|SecureString $value
+     * @return  int
+     */
+    private function length($value)
+    {
+        if ($value instanceof SecureString) {
+            return $value->length();
+        }
+
+        return iconv_strlen($value);
     }
 
     /**
@@ -116,13 +132,17 @@ class StringLength extends AbstractRange
      * truncates given value to max length
      *
      * @param   string  $value
-     * @return  string
+     * @return  string|SecureString
      * @throws  RuntimeException
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value)
     {
         if ($this->allowsTruncate($value)) {
+            if ($value instanceof SecureString) {
+                return $value->substring(0, $this->maxLength);
+            }
+
             return substr($value, 0, $this->maxLength);
         }
 

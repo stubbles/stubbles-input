@@ -198,6 +198,25 @@ class ValueReader
     }
 
     /**
+     * read as string value
+     *
+     * @api
+     * @param   StringLength  $length
+     * @return  \stubbles\lang\SecureString
+     * @since   3.0.0
+     */
+    public function asSecureString(StringLength $length = null)
+    {
+        return $this->handleFilter(function() use($length)
+                                   {
+                                       return filter\RangeFilter::wrap(new filter\SecureStringFilter(),
+                                                                       $length
+                                       );
+                                   }
+        );
+    }
+
+    /**
      * read as text value
      *
      * @api
@@ -240,9 +259,9 @@ class ValueReader
      * read as password value
      *
      * @api
-     * @param   int           $minDiffChars      minimum amount of different characters within password
-     * @param   string[]      $nonAllowedValues  list of values that are not allowed as password
-     * @return  SecureString
+     * @param   int       $minDiffChars      minimum amount of different characters within password
+     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
+     * @return  \stubbles\lang\SecureString
      */
     public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
     {

@@ -33,6 +33,9 @@
 ### Other changes
 
   * upgraded to stubbles/core 4.x
+  * added `net\stubbles\input\ValueReader::asSecureString()`
+  * added `net\stubbles\input\filter\SecureStringFilter`
+  * added `net\stubbles\input\filter\range\StringLength` can also work with instances of `stubbles\lang\SecureString`
 
 
 2.5.1 (2014-05-07)
