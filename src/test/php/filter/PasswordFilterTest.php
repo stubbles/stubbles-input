@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use stubbles\lang\SecureString;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\PasswordFilter.
@@ -35,12 +36,24 @@ class PasswordFilterTest extends FilterTest
     }
 
     /**
+     * @param  string        $expectedPassword
+     * @param  SecureString  $actualPassword
+     */
+    private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
+    {
+        $this->assertEquals(
+                $expectedPassword,
+                $actualPassword->unveil()
+        );
+    }
+
+    /**
      * @test
      */
     public function value()
     {
-        $this->assertEquals('foo', $this->passwordFilter->apply($this->createParam('foo')));
-        $this->assertEquals('425%$%"�$%t 32', $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32')));
+        $this->assertPasswordEquals('foo', $this->passwordFilter->apply($this->createParam('foo')));
+        $this->assertPasswordEquals('425%$%"�$%t 32', $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32')));
     }
 
     /**
@@ -58,7 +71,6 @@ class PasswordFilterTest extends FilterTest
     public function returnsNullForEmptyString()
     {
         $this->assertNull($this->passwordFilter->apply($this->createParam('')));
-
     }
 
     /**
@@ -66,7 +78,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsPasswordIfBothArrayValuesAreEqual()
     {
-        $this->assertEquals('foo', $this->passwordFilter->apply($this->createParam(['foo', 'foo'])));
+        $this->assertPasswordEquals(
+                'foo',
+                $this->passwordFilter->apply($this->createParam(['foo', 'foo']))
+        );
     }
 
     /**
@@ -113,9 +128,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsPasswordIfValueHasGivenAmountOfDifferentCharacters()
     {
-        $this->assertEquals('abcde',
-                            $this->passwordFilter->minDiffChars(5)
-                                                 ->apply($this->createParam(['abcde', 'abcde']))
+        $this->assertPasswordEquals(
+                'abcde',
+                $this->passwordFilter->minDiffChars(5)
+                                     ->apply($this->createParam(['abcde', 'abcde']))
         );
     }
 
@@ -183,7 +199,9 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsValidValue()
     {
-        $this->assertEquals('abcde', $this->createValueReader('abcde')->asPassword());
-
+        $this->assertPasswordEquals(
+                'abcde',
+                $this->createValueReader('abcde')->asPassword()
+        );
     }
 }

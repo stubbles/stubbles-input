@@ -8,14 +8,17 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
+use stubbles\input\Param;
+use stubbles\input\ValueReader;
+use stubbles\lang\SecureString;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Tests for stubbles\input\broker\param\PasswordParamBroker.
  *
  * @group  broker
  * @group  broker_param
  */
-class PasswordParamBrokerTest extends MultipleSourceParamBrokerTest
+class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * set up test environment
@@ -26,23 +29,134 @@ class PasswordParamBrokerTest extends MultipleSourceParamBrokerTest
     }
 
     /**
-     * returns name of request annotation
-     *
-     * @return  string
+     * @param  string        $expectedPassword
+     * @param  SecureString  $actualPassword
      */
-    protected function getRequestAnnotationName()
+    private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
     {
-        return 'Password';
+        $this->assertEquals(
+                $expectedPassword,
+                $actualPassword->unveil()
+        );
     }
 
     /**
-     * returns expected filtered value
+     * creates request annotation
      *
-     * @return  string
+     * @param   array  $values
+     * @return  Annotation
      */
-    protected function getExpectedValue()
+    protected function createRequestAnnotation(array $values = [])
     {
-        return 'topsecret';
+        $annotation = new Annotation('Password');
+        $annotation->name = 'foo';
+        foreach ($values as $key => $value) {
+            $annotation->$key = $value;
+        }
+
+        return $annotation;
+    }
+
+    /**
+     * creates mocked request
+     *
+     * @param   mixed  $value
+     * @return  \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function mockRequest($value)
+    {
+        $mockRequest = $this->getMock('stubbles\input\Request');
+        $mockRequest->expects($this->once())
+                    ->method('readParam')
+                    ->with($this->equalTo('foo'))
+                    ->will($this->returnValue(ValueReader::forValue($value)));
+        return $mockRequest;
+    }
+
+    /**
+     * @test
+     * @expectedException  stubbles\lang\exception\RuntimeException
+     */
+    public function failsForUnknownSource()
+    {
+        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
+                                    $this->createRequestAnnotation(['source' => 'foo'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canWorkWithParam()
+    {
+        $this->assertPasswordEquals(
+                'topsecret',
+                $this->paramBroker->procureParam(new Param('name', ((string) 'topsecret')),
+                                                 $this->createRequestAnnotation()
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function usesParamAsDefaultSource()
+    {
+        $this->assertPasswordEquals(
+                'topsecret',
+                $this->paramBroker->procure($this->mockRequest(((string) 'topsecret')),
+                                            $this->createRequestAnnotation()
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function usesParamAsSource()
+    {
+        $this->assertPasswordEquals(
+                'topsecret',
+                $this->paramBroker->procure($this->mockRequest(((string) 'topsecret')),
+                                            $this->createRequestAnnotation(['source' => 'param'])
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canUseHeaderAsSourceForWebRequest()
+    {
+        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
+        $mockRequest->expects($this->once())
+                    ->method('readHeader')
+                    ->with($this->equalTo('foo'))
+                    ->will($this->returnValue(ValueReader::forValue(((string) 'topsecret'))));
+        $this->assertPasswordEquals(
+                'topsecret',
+                $this->paramBroker->procure($mockRequest,
+                                            $this->createRequestAnnotation(['source' => 'header'])
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canUseCookieAsSourceForWebRequest()
+    {
+        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
+        $mockRequest->expects($this->once())
+                    ->method('readCookie')
+                    ->with($this->equalTo('foo'))
+                    ->will($this->returnValue(ValueReader::forValue(((string) 'topsecret'))));
+        $this->assertPasswordEquals(
+                'topsecret',
+                $this->paramBroker->procure($mockRequest,
+                                            $this->createRequestAnnotation(['source' => 'cookie'])
+                )
+        );
     }
 
     /**

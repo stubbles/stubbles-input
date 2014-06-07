@@ -240,9 +240,9 @@ class ValueReader
      * read as password value
      *
      * @api
-     * @param   int       $minDiffChars      minimum amount of different characters within password
-     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
-     * @return  string
+     * @param   int           $minDiffChars      minimum amount of different characters within password
+     * @param   string[]      $nonAllowedValues  list of values that are not allowed as password
+     * @return  SecureString
      */
     public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
     {
