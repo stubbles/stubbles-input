@@ -93,6 +93,7 @@ class ParamBrokerMap
                                          'oneof'          => new param\OneOfParamBroker(),
                                          'password'       => new param\PasswordParamBroker(),
                                          'string'         => new param\StringParamBroker(),
+                                         'securestring'   => new param\SecureStringParamBroker(),
                                          'text'           => new param\TextParamBroker(),
                                         ];
         }

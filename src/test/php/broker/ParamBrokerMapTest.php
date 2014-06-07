@@ -89,6 +89,7 @@ class ParamBrokerMapTest extends \PHPUnit_Framework_TestCase
                 ['OneOf', 'stubbles\input\broker\param\OneOfParamBroker'],
                 ['Password', 'stubbles\input\broker\param\PasswordParamBroker'],
                 ['String', 'stubbles\input\broker\param\StringParamBroker'],
+                ['SecureString', 'stubbles\input\broker\param\SecureStringParamBroker'],
                 ['Text', 'stubbles\input\broker\param\TextParamBroker'],
          ];
     }
