@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use stubbles\lang\SecureString;
 /**
  * Tests for stubbles\input\filter\range\StringLength.
  *
@@ -39,7 +40,9 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [''],
-            ['abcdefghijk']
+            ['abcdefghijk'],
+            [SecureString::forNull()],
+            [SecureString::create('abcdefghijk')]
         ];
     }
 
@@ -63,7 +66,11 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
             ['a'],
             ['ab'],
             ['abcdefghi'],
-            ['abcdefghij']
+            ['abcdefghij'],
+            [SecureString::create('a')],
+            [SecureString::create('ab')],
+            [SecureString::create('abcdefghi')],
+            [SecureString::create('abcdefghij')]
         ];
     }
 
@@ -79,21 +86,39 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
+     * @return  array
      */
-    public function rangeContainsLowValuesIfMinValueIsNull()
+    public function lowValues()
     {
-        $numberRange = new StringLength(null, 10);
-        $this->assertTrue($numberRange->contains(''));
+        return [[''], [SecureString::forNull()]];
     }
 
     /**
      * @test
+     * @dataProvider  lowValues
      */
-    public function rangeContainsHighValuesIfMaxValueIsNull()
+    public function rangeContainsLowValuesIfMinValueIsNull($value)
+    {
+        $numberRange = new StringLength(null, 10);
+        $this->assertTrue($numberRange->contains($value));
+    }
+
+    /**
+     * @return  array
+     */
+    public function highValues()
+    {
+        return [[str_pad('a', 100)], [SecureString::create(str_pad('a', 100))]];
+    }
+
+    /**
+     * @test
+     * @dataProvider  highValues
+     */
+    public function rangeContainsHighValuesIfMaxValueIsNull($value)
     {
         $numberRange = new StringLength(1, null);
-        $this->assertTrue($numberRange->contains(str_pad('a', 100)));
+        $this->assertTrue($numberRange->contains($value));
     }
 
     /**
@@ -151,13 +176,22 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return  array
+     */
+    public function truncateValues()
+    {
+        return [['foobar'], [SecureString::create('foobar')]];
+    }
+
+    /**
      * @test
      * @since  2.3.1
      * @group  issue41
+     * @dataProvider  truncateValues
      */
-    public function doesNotAllowTruncateByDefault()
+    public function doesNotAllowTruncateByDefault($value)
     {
-        $this->assertFalse($this->stringLength->allowsTruncate('foobar'));
+        $this->assertFalse($this->stringLength->allowsTruncate($value));
     }
 
     /**
@@ -165,20 +199,22 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      * @expectedException  stubbles\lang\exception\RuntimeException
      * @since  2.3.1
      * @group  issue41
+     * @dataProvider  truncateValues
      */
-    public function truncateValueWhenNotAllowedThrowsRuntimeException()
+    public function truncateValueWhenNotAllowedThrowsRuntimeException($value)
     {
-        $this->stringLength->truncateToMaxBorder('foobar');
+        $this->stringLength->truncateToMaxBorder($value);
     }
 
     /**
      * @test
      * @since  2.3.1
      * @group  issue41
+     * @dataProvider  truncateValues
      */
-    public function allowsTruncateWhenCreatedThisWay()
+    public function allowsTruncateWhenCreatedThisWay($value)
     {
-        $this->assertTrue(StringLength::truncate(null, 3)->allowsTruncate('foobar'));
+        $this->assertTrue(StringLength::truncate(null, 3)->allowsTruncate($value));
     }
 
     /**
@@ -202,6 +238,20 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
                 'foo',
                 StringLength::truncate(null, 3)->truncateToMaxBorder('foobar')
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.0.0
+     */
+    public function truncateToMaxBorderReturnsSecureSubstringWithMaxLength()
+    {
+        $this->assertEquals(
+                'foo',
+                StringLength::truncate(null, 3)
+                            ->truncateToMaxBorder(SecureString::create('foobar'))
+                            ->unveil()
         );
     }
 }

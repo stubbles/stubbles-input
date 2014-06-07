@@ -13,30 +13,31 @@ use stubbles\input\ValueReader;
 use stubbles\lang\SecureString;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
- * Tests for stubbles\input\broker\param\PasswordParamBroker.
+ * Tests for stubbles\input\broker\param\SecureStringParamBroker.
  *
  * @group  broker
  * @group  broker_param
+ * @since  3.0.0
  */
-class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
+class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->paramBroker = new PasswordParamBroker();
+        $this->paramBroker = new SecureStringParamBroker();
     }
 
     /**
-     * @param  string        $expectedPassword
-     * @param  SecureString  $actualPassword
+     * @param  string        $expected
+     * @param  SecureString  $actual
      */
-    private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
+    private function assertSecureStringEquals($expected, SecureString $actual)
     {
         $this->assertEquals(
-                $expectedPassword,
-                $actualPassword->unveil()
+                $expected,
+                $actual->unveil()
         );
     }
 
@@ -48,7 +49,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequestAnnotation(array $values = [])
     {
-        $annotation = new Annotation('Password');
+        $annotation = new Annotation('SecureString');
         $annotation->name = 'foo';
         foreach ($values as $key => $value) {
             $annotation->$key = $value;
@@ -89,7 +90,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canWorkWithParam()
     {
-        $this->assertPasswordEquals(
+        $this->assertSecureStringEquals(
                 'topsecret',
                 $this->paramBroker->procureParam(new Param('name', 'topsecret'),
                                                  $this->createRequestAnnotation()
@@ -102,7 +103,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsDefaultSource()
     {
-        $this->assertPasswordEquals(
+        $this->assertSecureStringEquals(
                 'topsecret',
                 $this->paramBroker->procure($this->mockRequest('topsecret'),
                                             $this->createRequestAnnotation()
@@ -115,7 +116,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsSource()
     {
-        $this->assertPasswordEquals(
+        $this->assertSecureStringEquals(
                 'topsecret',
                 $this->paramBroker->procure($this->mockRequest('topsecret'),
                                             $this->createRequestAnnotation(['source' => 'param'])
@@ -133,7 +134,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
                     ->method('readHeader')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueReader::forValue('topsecret')));
-        $this->assertPasswordEquals(
+        $this->assertSecureStringEquals(
                 'topsecret',
                 $this->paramBroker->procure($mockRequest,
                                             $this->createRequestAnnotation(['source' => 'header'])
@@ -151,7 +152,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
                     ->method('readCookie')
                     ->with($this->equalTo('foo'))
                     ->will($this->returnValue(ValueReader::forValue('topsecret')));
-        $this->assertPasswordEquals(
+        $this->assertSecureStringEquals(
                 'topsecret',
                 $this->paramBroker->procure($mockRequest,
                                             $this->createRequestAnnotation(['source' => 'cookie'])
@@ -165,7 +166,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     public function returnsNullIfParamNotSetAndRequired()
     {
         $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation()
+                                                      $this->createRequestAnnotation(['required' => true])
                           )
         );
     }
@@ -173,10 +174,10 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndNotRequired()
+    public function returnsNullIfShorterThanMinLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => false])
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
+                                                      $this->createRequestAnnotation(['minLength' => 30])
                           )
         );
     }
@@ -184,11 +185,27 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnsNullIfTooLessMinDiffChars()
+    public function returnsNullIfLongerThanMaxLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
-                                                      $this->createRequestAnnotation(['minDiffChars' => 20])
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
+                                                      $this->createRequestAnnotation(['maxLength' => 10])
                           )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsValueIfInRange()
+    {
+        $this->assertSecureStringEquals(
+                'Do you expect me to talk?',
+                $this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
+                                            $this->createRequestAnnotation(['minLength' => 10,
+                                                                            'maxLength' => 30
+                                                                           ]
+                                            )
+                )
         );
     }
 }

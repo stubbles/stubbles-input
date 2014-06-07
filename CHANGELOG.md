@@ -11,6 +11,11 @@
   * removed `net\stubbles\input\Param::addErrorWithId()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::add()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::get()`, deprecated since 2.3.3
+  * all instances that filter passwords now return an instance of  `stubbles\lang\SecureString` instead of a basic string
+    * `net\stubbles\input\ValueReader::asPassword()`
+    * `net\stubbles\input\filter\PasswordFilter::apply()`
+    * `net\stubbles\input\broker\param\PasswordParamBroker::procure()`
+    * `net\stubbles\input\broker\param\PasswordParamBroker::procureParam()`
   * api rework:
     * deprecated `stubbles\input\Param::getName()`, use `stubbles\input\Param::name()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\Param::getValue()`, use `stubbles\input\Param::value()` instead, will be removed with 4.0.0
@@ -28,6 +33,10 @@
 ### Other changes
 
   * upgraded to stubbles/core 4.x
+  * added `net\stubbles\input\ValueReader::asSecureString()`
+  * added `net\stubbles\input\filter\SecureStringFilter`
+  * `net\stubbles\input\filter\range\StringLength` can also work with instances of `stubbles\lang\SecureString`
+  * request broker now supports turning param values into instances of `stubbles\lang\SecureString` with `@Request[SecureString]`
 
 
 2.5.1 (2014-05-07)
