@@ -8,9 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\date\Date;
-use stubbles\date\span\Day;
-use stubbles\date\span\Month;
 use stubbles\input\errors\ParamErrors;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\PasswordFilter;
@@ -24,7 +21,7 @@ use stubbles\peer\http\HttpUri;
  *
  * @since  1.3.0
  */
-class ValueReader
+class ValueReader implements valuereader\CommonValueReader
 {
     /**
      * request instance the value inherits from
@@ -38,18 +35,6 @@ class ValueReader
      * @type  Param
      */
     private $param;
-    /**
-     * switch whether value is required
-     *
-     * @type  bool
-     */
-    private $required        = false;
-    /**
-     * error id to be used if param is required but empty
-     *
-     * @type  string
-     */
-    private $requiredErrorId = 'FIELD_EMPTY';
 
     /**
      * constructor
@@ -88,13 +73,42 @@ class ValueReader
     /**
      * whether value is required or not
      *
-     * @param   string  $errorId
-     * @return  ValueReader
+     * @api
+     * @param   string  $errorId  optional
+     * @return  MissingValueReader
      */
     public function required($errorId = 'FIELD_EMPTY')
     {
-        $this->required        = true;
-        $this->requiredErrorId = $errorId;
+        if ($this->param->isNull()) {
+            return new valuereader\MissingValueReader(
+                    function($actualErrorId)
+                    {
+                        $this->paramErrors->append($this->param->name(), $actualErrorId);
+                    },
+                    $errorId
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * sets a default value to be used in case param value is null
+     *
+     * It should be noted that some of the as*() methods check that the default
+     * value is of the correct type. If it does not satisfy their type
+     * requirements they will throw an IllegalStateException.
+     *
+     * @api
+     * @param   mixed  $default
+     * @return  DefaultValueReader
+     */
+    public function defaultingTo($default)
+    {
+        if ($this->param->isNull()) {
+            return new valuereader\DefaultValueReader($default);
+        }
+
         return $this;
     }
 
@@ -102,36 +116,24 @@ class ValueReader
      * read as array value
      *
      * @api
-     * @param   array   $default    optional
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      * @since   2.0.0
      */
-    public function asArray(array $default = null, $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
-        return $this->handleFilter(function() use($separator)
-                                   {
-                                       $arrayFilter = new ArrayFilter();
-                                       return $arrayFilter->setSeparator($separator);
-                                   },
-                                   $default
-        );
+        return $this->handleFilter(function() use($separator) { return new ArrayFilter($separator);  } );
     }
 
     /**
      * read as boolean value
      *
      * @api
-     * @param   bool  $default  default value to fall back to
      * @return  bool
      * @since   1.7.0
      */
-    public function asBool($default = null)
+    public function asBool()
     {
-        if ($this->param->isNull() && null !== $default) {
-            return $default;
-        }
-
         return $this->applyFilter(new filter\BoolFilter());
     }
 
@@ -139,19 +141,17 @@ class ValueReader
      * read as integer value
      *
      * @api
-     * @param   int          $default
      * @param   NumberRange  $range
      * @return  int
      */
-    public function asInt($default = null, NumberRange $range = null)
+    public function asInt(NumberRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
                                        return filter\RangeFilter::wrap(new filter\IntegerFilter(),
                                                                        $range
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -159,12 +159,11 @@ class ValueReader
      * read as float value
      *
      * @api
-     * @param   int          $default
      * @param   NumberRange  $range
      * @param   int          $decimals  number of decimals
      * @return  float
      */
-    public function asFloat($default = null, NumberRange $range = null, $decimals = null)
+    public function asFloat(NumberRange $range = null, $decimals = null)
     {
         return $this->handleFilter(function() use($range, $decimals)
                                    {
@@ -172,8 +171,7 @@ class ValueReader
                                        return filter\RangeFilter::wrap($floatFilter->setDecimals($decimals),
                                                                        $range
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -181,19 +179,17 @@ class ValueReader
      * read as string value
      *
      * @api
-     * @param   string        $default
      * @param   StringLength  $length
      * @return  string
      */
-    public function asString($default = null, StringLength $length = null)
+    public function asString(StringLength $length = null)
     {
         return $this->handleFilter(function() use($length)
                                    {
                                        return filter\RangeFilter::wrap(new filter\StringFilter(),
                                                                        $length
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -220,12 +216,11 @@ class ValueReader
      * read as text value
      *
      * @api
-     * @param   string        $default
      * @param   StringLength  $length
      * @param   string[]      $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText($default = null, StringLength $length = null, $allowedTags = [])
+    public function asText(StringLength $length = null, $allowedTags = [])
     {
         return $this->handleFilter(function() use($length, $allowedTags)
                                    {
@@ -233,8 +228,7 @@ class ValueReader
                                        return filter\RangeFilter::wrap($textFilter->allowTags($allowedTags),
                                                                        $length
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -242,17 +236,11 @@ class ValueReader
      * read as json value
      *
      * @api
-     * @param   mixed  $default
      * @return  \stdClass|array
      */
-    public function asJson($default = null)
+    public function asJson()
     {
-        return $this->handleFilter(function()
-                                   {
-                                       return new filter\JsonFilter();
-                                   },
-                                   $default
-        );
+        return $this->handleFilter(function() { return new filter\JsonFilter(); });
     }
 
     /**
@@ -275,42 +263,26 @@ class ValueReader
      * read as http uri
      *
      * @api
-     * @param   HttpUri  $default
      * @return  HttpUri
      */
-    public function asHttpUri(HttpUri $default = null)
+    public function asHttpUri()
     {
-        if ('FIELD_EMPTY' === $this->requiredErrorId) {
-            $this->requiredErrorId = 'HTTP_URI_MISSING';
-        }
-
-        return $this->handleFilter(function()
-                                   {
-                                       return new filter\HttpUriFilter();
-                                   },
-                                   $default
-        );
+        return $this->handleFilter(function() { return new filter\HttpUriFilter(); });
     }
 
     /**
      * read as http uri if it does exist
      *
      * @api
-     * @param   HttpUri  $default
      * @return  HttpUri
      */
-    public function asExistingHttpUri(HttpUri $default = null)
+    public function asExistingHttpUri()
     {
-        if ('FIELD_EMPTY' === $this->requiredErrorId) {
-            $this->requiredErrorId = 'HTTP_URI_MISSING';
-        }
-
         return $this->handleFilter(function()
                                    {
                                        $httpUriFilter = new filter\HttpUriFilter();
                                        return $httpUriFilter->enforceDnsRecord();
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -322,35 +294,24 @@ class ValueReader
      */
     public function asMailAddress()
     {
-        if ('FIELD_EMPTY' === $this->requiredErrorId) {
-            $this->requiredErrorId = 'MAILADDRESS_MISSING';
-        }
-
-        return $this->handleFilter(function()
-                                   {
-                                       return new filter\MailFilter();
-                                   }
-        );
+        return $this->handleFilter(function() { return new filter\MailFilter(); });
     }
 
     /**
      * read as date value
      *
      * @api
-     * @param   int|string|\DateTime|Date  $default
      * @param   DateRange                  $range
-     * @return  stubbles\date\Date
-
+     * @return  \stubbles\date\Date
      */
-    public function asDate($default = null, DateRange $range = null)
+    public function asDate(DateRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
                                        return filter\RangeFilter::wrap(new filter\DateFilter(),
                                                                        $range
                                        );
-                                   },
-                                   (null === $default) ? (null) : (Date::castFrom($default, 'default'))
+                                   }
         );
     }
 
@@ -358,21 +319,18 @@ class ValueReader
      * read as day
      *
      * @api
-     * @param   Day            $default
      * @param   DatespanRange  $range
-     * @return  stubbles\date\span\Day
+     * @return  \stubbles\date\span\Day
      * @since   2.0.0
-
      */
-    public function asDay(Day $default = null, DatespanRange $range = null)
+    public function asDay(DatespanRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
                                        return filter\RangeFilter::wrap(new filter\DayFilter(),
                                                                        $range
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -380,20 +338,18 @@ class ValueReader
      * read as month
      *
      * @api
-     * @param   Month          $default
      * @param   DatespanRange  $range
-     * @return  stubbles\date\span\Month
+     * @return  \stubbles\date\span\Month
      * @since   2.5.1
      */
-    public function asMonth(Month $default = null, DatespanRange $range = null)
+    public function asMonth(DatespanRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
                                        return filter\RangeFilter::wrap(new filter\MonthFilter(),
                                                                        $range
                                        );
-                                   },
-                                   $default
+                                   }
         );
     }
 
@@ -401,15 +357,13 @@ class ValueReader
      * returns value if it is an ip address, and null otherwise
      *
      * @api
-     * @param   string  $default  default value to fall back to
      * @return  string
      */
-    public function ifIsIpAddress($default = null)
+    public function ifIsIpAddress()
     {
         return $this->withValidator(new validator\IpValidator(),
                                     'INVALID_IP_ADDRESS',
-                                    [],
-                                    $default
+                                    []
         );
     }
 
@@ -418,15 +372,13 @@ class ValueReader
      *
      * @api
      * @param   string[]  $allowedValues  list of allowed values
-     * @param   string    $default        default value to fall back to
      * @return  string
      */
-    public function ifIsOneOf(array $allowedValues, $default = null)
+    public function ifIsOneOf(array $allowedValues)
     {
         return $this->withValidator(new validator\PreSelectValidator($allowedValues),
                                     'FIELD_NO_SELECT',
-                                    ['ALLOWED' => join('|', $allowedValues)],
-                                    $default
+                                    ['ALLOWED' => join('|', $allowedValues)]
         );
     }
 
@@ -435,15 +387,13 @@ class ValueReader
      *
      * @api
      * @param   string  $regex    regular expression to apply
-     * @param   string  $default  default value to fall back to
      * @return  string
      */
-    public function ifSatisfiesRegex($regex, $default = null)
+    public function ifSatisfiesRegex($regex)
     {
         return $this->withValidator(new validator\RegexValidator($regex),
                                     'FIELD_WRONG_VALUE',
-                                    [],
-                                    $default
+                                    []
         );
     }
 
@@ -457,17 +407,15 @@ class ValueReader
      *
      * @api
      * @param   string  $basePath  base path where file must reside in
-     * @param   string  $default   default value to fall back to
      * @return  string
      * @since   2.0.0
      */
-    public function ifIsFile($basePath = null, $default = null)
+    public function ifIsFile($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\FileValidator($basePath),
                                     'FILE_INVALID',
-                                    ['PATH' => $path . $this->param->value()],
-                                    $default
+                                    ['PATH' => $path . $this->param->value()]
         );
     }
 
@@ -481,17 +429,15 @@ class ValueReader
      *
      * @api
      * @param   string  $basePath  base path where directory must reside in
-     * @param   string  $default   default value to fall back to
      * @return  string
      * @since   2.0.0
      */
-    public function ifIsDirectory($basePath = null, $default = null)
+    public function ifIsDirectory($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
         return $this->withValidator(new validator\DirectoryValidator($basePath),
                                     'DIRECTORY_INVALID',
-                                    ['PATH' => $path . $this->param->value()],
-                                    $default
+                                    ['PATH' => $path . $this->param->value()]
         );
     }
 
@@ -505,38 +451,15 @@ class ValueReader
      * @param   Validator  $validator  validator to use
      * @param   string     $errorId    error id to be used in case validation fails
      * @param   array      $details    optional  details for param error in case validation fails
-     * @param   string     $default    optional  default value to fall back to
      * @return  string
      */
-    public function withValidator(Validator $validator, $errorId, array $details = [], $default = null)
+    public function withValidator(Validator $validator, $errorId, array $details = [])
     {
         return $this->handleFilter(function() use($validator, $errorId, $details)
                                    {
                                        return new filter\ValidatingFilter($validator, $errorId, $details);
-                                   },
-                                   $default
+                                   }
         );
-    }
-
-    /**
-     * handles a filter
-     *
-     * @param   \Closure  $createFilter
-     * @param   mixed     $default       optional  default value to fall back to
-     * @return  mixed
-     */
-    private function handleFilter(\Closure $createFilter, $default = null)
-    {
-        if ($this->param->isNull()) {
-            if ($this->required) {
-                $this->paramErrors->append($this->param->name(), $this->requiredErrorId);
-                return null;
-            }
-
-            return $default;
-        }
-
-        return $this->applyFilter($createFilter());
     }
 
     /**
@@ -553,12 +476,22 @@ class ValueReader
      */
     public function withFilter(Filter $filter)
     {
-        if ($this->required && $this->param->isEmpty()) {
-            $this->paramErrors->append($this->param->name(), $this->requiredErrorId);
+        return $this->handleFilter(function() use ($filter) { return $filter;});
+    }
+
+    /**
+     * handles a filter
+     *
+     * @param   \Closure  $createFilter
+     * @return  mixed
+     */
+    private function handleFilter(\Closure $createFilter)
+    {
+        if ($this->param->isNull()) {
             return null;
         }
 
-        return $this->applyFilter($filter);
+        return $this->applyFilter($createFilter());
     }
 
     /**
@@ -573,6 +506,48 @@ class ValueReader
     public function applyFilter(Filter $filter)
     {
         $value = $filter->apply($this->param);
+        if (!$this->param->hasErrors()) {
+            return $value;
+        }
+
+        foreach ($this->param->errors() as $error) {
+            $this->paramErrors->append($this->param->name(), $error);
+        }
+
+        return null;
+    }
+
+    /**
+     * checks value with given callable
+     *
+     * The callable must accept an instance of stubbles\input\Param and
+     * return the filtered value.
+     * <code>
+     * $result = $request->readParam('name')
+     *                   ->withCallable(function(Param $param)
+     *                                  {
+     *                                      if ($param->getValue() == 303) {
+     *                                          return 'Roland TB-303';
+     *                                      }
+     *
+     *                                      $param->addErrorWithId('INVALID_303');
+     *                                      return null;
+     *                                  }
+     *                     );
+     * </code>
+     *
+     * @api
+     * @param   callable  $filter
+     * @return  mixed
+     * @since   3.0.0
+     */
+    public function withCallable(callable $filter)
+    {
+        if ($this->param->isNull()) {
+            return null;
+        }
+
+        $value = $filter($this->param);
         if (!$this->param->hasErrors()) {
             return $value;
         }
@@ -606,20 +581,12 @@ class ValueReader
      * @api
      * @since   2.2.0
      * @param   \Closure  $filter
-     * @return  bool
+     * @return  mixed
+     * @deprecated  since 3.0.0, use withCallable() instead, will be removed with 4.0.0
      */
     public function withFunction(\Closure $filter)
     {
-        $value = $filter($this->param);
-        if (!$this->param->hasErrors()) {
-            return $value;
-        }
-
-        foreach ($this->param->errors() as $error) {
-            $this->paramErrors->append($this->param->name(), $error);
-        }
-
-        return null;
+        return $this->withCallable($filter);
     }
 
     /**

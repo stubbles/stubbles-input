@@ -28,8 +28,8 @@ class CustomDatespanParamBroker implements ParamBroker
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $startDate = $this->getStartDate($request, $annotation);
-        $endDate   = $this->getEndDate($request, $annotation);
+        $startDate = $this->getDate($request, $annotation, 'Start');
+        $endDate   = $this->getDate($request, $annotation, 'End');
         if (null !== $startDate && null !== $endDate) {
             return new CustomDatespan($startDate, $endDate);
         }
@@ -54,31 +54,15 @@ class CustomDatespanParamBroker implements ParamBroker
      *
      * @param   Request     $request
      * @param   Annotation  $annotation
+     * @param   string      $type
      * @return  Date
      */
-    private function getStartDate(Request $request, Annotation $annotation)
+    private function getDate(Request $request, Annotation $annotation, $type)
     {
-        return $this->readValue($request, $annotation->getStartName(), $annotation->isRequired())
-                    ->asDate($this->parseDate($annotation, 'defaultStart'),
-                             new DateRange($this->parseDate($annotation, 'minStartDate'),
-                                           $this->parseDate($annotation, 'maxStartDate')
-                             )
-        );
-    }
-
-    /**
-     * retrieves start date
-     *
-     * @param   Request     $request
-     * @param   Annotation  $annotation
-     * @return  Date
-     */
-    private function getEndDate(Request $request, Annotation $annotation)
-    {
-        return $this->readValue($request, $annotation->getEndName(), $annotation->isRequired())
-                    ->asDate($this->parseDate($annotation, 'defaultEnd'),
-                             new DateRange($this->parseDate($annotation, 'minEndDate'),
-                                           $this->parseDate($annotation, 'maxEndDate')
+        $nameMethod = 'get' . $type . 'Name';
+        return $this->readValue($request, $annotation->$nameMethod(), $annotation->isRequired(), $this->parseDate($annotation, 'default' . $type))
+                    ->asDate(new DateRange($this->parseDate($annotation, "min{$type}Date"),
+                                           $this->parseDate($annotation, "max{$type}Date")
                              )
         );
     }
@@ -89,13 +73,15 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   Request    $request
      * @param   string     $paramName
      * @param   bool       $required
-     * @return  stubbles\input\filter\FilterValue
+     * @return  \stubbles\input\valuereader\CommonValueReader
      */
-    private function readValue(Request $request, $paramName, $required)
+    private function readValue(Request $request, $paramName, $required, $default)
     {
         $valueFilter = $request->readParam($paramName);
         if ($required) {
-            $valueFilter->required();
+            return $valueFilter->required();
+        } elseif (null !== $default) {
+            return $valueFilter->defaultingTo($default);
         }
 
         return $valueFilter;

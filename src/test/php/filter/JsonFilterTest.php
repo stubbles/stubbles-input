@@ -171,7 +171,7 @@ class JsonFilterTest extends FilterTest
     {
         $default = ['foo' => 'bar'];
         $this->assertEquals($default,
-                            $this->createValueReader(null)->asJson($default)
+                            $this->createValueReader(null)->defaultingTo($default)->asJson()
         );
     }
 

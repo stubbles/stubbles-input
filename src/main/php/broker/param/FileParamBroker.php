@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Read string values based on a @Request[File] annotation.
@@ -16,13 +16,13 @@ use stubbles\lang\reflect\annotation\Annotation;
 class FileParamBroker extends MultipleSourceParamBroker
 {
     /**
-     * filters single param
+     * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
-     * @return  mixed
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @return  string
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
         return $valueReader->ifIsFile($annotation->getBasePath(),
                                       $annotation->getDefault()

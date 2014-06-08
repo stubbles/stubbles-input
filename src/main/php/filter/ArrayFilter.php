@@ -34,10 +34,21 @@ class ArrayFilter implements Filter
     private $separator      = self::SEPARATOR_DEFAULT;
 
     /**
+     * constructor
+     *
+     * @param  string  $separator  optional  separator to be used to split parameter value
+     */
+    public function __construct($separator = self::SEPARATOR_DEFAULT)
+    {
+        $this->separator = $separator;
+    }
+
+    /**
      * sets separator to be used
      *
      * @param   string  $separator
      * @return  ArrayFilter
+     * @deprecated  since 3.0.0, pass separator with constructor instead, will be removed with 4.0.0
      */
     public function setSeparator($separator)
     {

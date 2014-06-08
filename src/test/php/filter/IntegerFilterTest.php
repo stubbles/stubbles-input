@@ -60,7 +60,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(303, $this->createValueReader(null)->asInt(303));
+        $this->assertEquals(303, $this->createValueReader(null)->defaultingTo(303)->asInt());
     }
 
     /**
@@ -88,7 +88,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader(4)->asInt(null, new NumberRange(5, null)));
+        $this->assertNull($this->createValueReader(4)->asInt(new NumberRange(5, null)));
     }
 
     /**
@@ -97,7 +97,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader(4)->asInt(null, new NumberRange(5, null)
+        $this->createValueReader(4)->asInt(new NumberRange(5, null)
         );
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }

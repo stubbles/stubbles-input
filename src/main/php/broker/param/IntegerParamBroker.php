@@ -8,8 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter integer values based on a @Request[Integer] annotation.
@@ -19,16 +19,26 @@ class IntegerParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
      * @return  int
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asInt($annotation->getDefault(),
-                                   new NumberRange($annotation->getMinValue(),
-                                                  $annotation->getMaxValue()
+        return $valueReader->asInt(new NumberRange($annotation->getMinValue(),
+                                                   $annotation->getMaxValue()
                                    )
         );
+    }
+
+    /**
+     * parses default value from annotation
+     *
+     * @param   string  $value
+     * @return  int
+     */
+    protected function parseDefault($value)
+    {
+        return (int) $value;
     }
 }

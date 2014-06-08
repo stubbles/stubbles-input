@@ -144,7 +144,8 @@ class HttpUrlFilterTest extends FilterTest
     {
         $this->assertEquals('http://example.com/',
                             $this->createValueReader(null)
-                                 ->asHttpUri(HttpUri::fromString('http://example.com/'))
+                                 ->defaultingTo(HttpUri::fromString('http://example.com/'))
+                                 ->asHttpUri()
                                  ->asString()
         );
     }
@@ -208,7 +209,8 @@ class HttpUrlFilterTest extends FilterTest
     {
         $this->assertEquals('http://example.com/',
                             $this->createValueReader(null)
-                                 ->asExistingHttpUri(HttpUri::fromString('http://example.com/'))
+                                 ->defaultingTo(HttpUri::fromString('http://example.com/'))
+                                 ->asExistingHttpUri()
                                  ->asString()
         );
     }

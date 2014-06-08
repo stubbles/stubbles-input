@@ -8,8 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter float values based on a @Request[Float] annotation.
@@ -19,17 +19,27 @@ class FloatParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
      * @return  float
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asFloat($annotation->getDefault(),
-                                     new NumberRange($annotation->getMinValue(),
+        return $valueReader->asFloat(new NumberRange($annotation->getMinValue(),
                                                      $annotation->getMaxValue()
                                      ),
                                      $annotation->getDecimals()
         );
+    }
+
+    /**
+     * parses default value from annotation
+     *
+     * @param   string  $value
+     * @return  float
+     */
+    protected function parseDefault($value)
+    {
+        return (float) $value;
     }
 }

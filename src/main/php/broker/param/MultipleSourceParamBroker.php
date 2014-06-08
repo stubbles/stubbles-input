@@ -11,6 +11,7 @@ namespace stubbles\input\broker\param;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
@@ -29,11 +30,35 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     {
         $method      = $this->getMethod($request, $annotation);
         $valueReader = $request->$method($annotation->getName());
+        /* @var $valueReader \stubbles\input\ValueReader */
         if ($annotation->isRequired()) {
-            $valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY'));
+            return $this->filter($valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')), $annotation);
+        } elseif ($this->supportsDefault() && $annotation->hasValueByName('default')) {
+            return $this->filter($valueReader->defaultingTo($this->parseDefault($annotation->getDefault())), $annotation);
         }
 
         return $this->filter($valueReader, $annotation);
+    }
+
+    /**
+     * whether a default value for this param is supported
+     *
+     * @return  bool
+     */
+    protected function supportsDefault()
+    {
+        return true;
+    }
+
+    /**
+     * parses default value from annotation
+     *
+     * @param   string  $value
+     * @return  mixed
+     */
+    protected function parseDefault($value)
+    {
+        return $value;
     }
 
     /**
@@ -84,9 +109,9 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * filters single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
      * @return  mixed
      */
-    protected abstract function filter(ValueReader $valueReader, Annotation $annotation);
+    protected abstract function filter(CommonValueReader $valueReader, Annotation $annotation);
 }

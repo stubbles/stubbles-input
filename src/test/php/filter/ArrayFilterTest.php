@@ -48,10 +48,9 @@ class ArrayFilterTest extends FilterTest
      */
     public function usingDifferentSeparator()
     {
-        $arrayFilter = new ArrayFilter();
+        $arrayFilter = new ArrayFilter('|');
         $this->assertEquals(['foo', 'bar'],
-                            $arrayFilter->setSeparator('|')
-                                        ->apply($this->createParam('foo|bar')));
+                            $arrayFilter->apply($this->createParam('foo|bar')));
     }
 
     /**
@@ -62,7 +61,8 @@ class ArrayFilterTest extends FilterTest
         $default = ['foo' => 'bar'];
         $this->assertEquals($default,
                             $this->createValueReader(null)
-                                 ->asArray($default)
+                                 ->defaultingTo($default)
+                                 ->asArray()
         );
     }
 
@@ -107,7 +107,7 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsValidValueWithDifferentSeparator()
     {
         $value = ['foo', 'bar'];
-        $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray(null, '|'));
+        $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray('|'));
 
     }
 }

@@ -105,7 +105,7 @@ class StringFilterTest extends FilterTest
     public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $this->assertEquals('baz',
-                            $this->createValueReader(null)->asString('baz')
+                            $this->createValueReader(null)->defaultingTo('baz')->asString()
         );
     }
 
@@ -135,7 +135,7 @@ class StringFilterTest extends FilterTest
     public function asStringReturnsNullIfParamIsInvalid()
     {
         $this->assertNull($this->createValueReader('foo')
-                               ->asString(null, new StringLength(5, null))
+                               ->asString(new StringLength(5, null))
         );
     }
 
@@ -145,7 +145,7 @@ class StringFilterTest extends FilterTest
      */
     public function asStringAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asString(null, new StringLength(5, null));
+        $this->createValueReader('foo')->asString(new StringLength(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 

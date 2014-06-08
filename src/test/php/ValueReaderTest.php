@@ -33,7 +33,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifIsIpAddressReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('127.0.0.1',
-                            $this->createValueReader(null)->ifIsIpAddress('127.0.0.1')
+                            $this->createValueReader(null)->defaultingTo('127.0.0.1')->ifIsIpAddress()
         );
     }
 
@@ -42,7 +42,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsIpAddress('127.0.0.1'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('127.0.0.1')->ifIsIpAddress());
     }
 
     /**
@@ -103,7 +103,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('Moby',
-                            $this->createValueReader(null)->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby')
+                            $this->createValueReader(null)->defaultingTo('Moby')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
@@ -112,7 +112,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsOneOfReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('Moby')->ifIsOneOf(['Hardfloor', 'Dr DNA']));
     }
 
     /**
@@ -173,7 +173,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('Moby',
-                            $this->createValueReader(null)->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby')
+                            $this->createValueReader(null)->defaultingTo('Moby')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
         );
     }
 
@@ -182,7 +182,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifSatisfiesRegexReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('Moby')->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
     }
 
     /**
@@ -322,11 +322,11 @@ class ValueReaderTest extends filter\FilterTest
      * @group  issue_33
      * @test
      */
-    public function withFunctionReturnsFilteredValue()
+    public function withCallableReturnsFilteredValue()
     {
         $this->assertEquals('Roland TB-303',
                             $this->createValueReader('303')
-                                 ->withFunction(function(Param $param)
+                                 ->withCallable(function(Param $param)
                                                 {
                                                     if ($param->value() == 303) {
                                                         return 'Roland TB-303';
@@ -344,10 +344,10 @@ class ValueReaderTest extends filter\FilterTest
      * @group  issue_33
      * @test
      */
-    public function withFunctionReturnsNullOnError()
+    public function withCallableReturnsNullOnError()
     {
         $this->assertNull($this->createValueReader('909')
-                               ->withFunction(function(Param $param)
+                               ->withCallable(function(Param $param)
                                               {
                                                   if ($param->value() == 303) {
                                                       return 'Roland TB-303';
@@ -365,10 +365,10 @@ class ValueReaderTest extends filter\FilterTest
      * @group  issue_33
      * @test
      */
-    public function withFunctionAddsErrorsToErrorList()
+    public function withCallableAddsErrorsToErrorList()
     {
         $this->createValueReader('909')
-             ->withFunction(function(Param $param)
+             ->withCallable(function(Param $param)
                             {
                                 if ($param->value() == 303) {
                                     return 'Roland TB-303';
