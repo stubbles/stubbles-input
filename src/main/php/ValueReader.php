@@ -21,7 +21,7 @@ use stubbles\peer\http\HttpUri;
  *
  * @since  1.3.0
  */
-class ValueReader implements valuereader\NoDefaultValueReader
+class ValueReader implements valuereader\CommonValueReader
 {
     /**
      * request instance the value inherits from
@@ -75,7 +75,7 @@ class ValueReader implements valuereader\NoDefaultValueReader
      *
      * @api
      * @param   string  $errorId  optional  error id to use when value not set
-     * @return  \stubbles\input\valuereader\NoDefaultValueReader
+     * @return  \stubbles\input\valuereader\CommonValueReader
      */
     public function required($errorId = 'FIELD_EMPTY')
     {

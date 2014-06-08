@@ -63,6 +63,14 @@ interface CommonValueReader
     public function asString(StringLength $length = null);
 
     /**
+     * read as string value
+     *
+     * @param   StringLength  $length
+     * @return  \stubbles\lang\SecureString
+     */
+    public function asSecureString(StringLength $length = null);
+
+    /**
      * read as text value
      *
      * @param   StringLength  $length
@@ -77,6 +85,15 @@ interface CommonValueReader
      * @return  \stdClass|array
      */
     public function asJson();
+
+    /**
+     * read as password value
+     *
+     * @param   int       $minDiffChars      minimum amount of different characters within password
+     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
+     * @return  \stubbles\lang\SecureString
+     */
+    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = []);
 
     /**
      * read as http uri
@@ -97,6 +114,13 @@ interface CommonValueReader
      * @return  \stubbles\peer\http\HttpUri
      */
     public function asExistingHttpUri();
+
+    /**
+     * returns value if it is a mail address, and null otherwise
+     *
+     * @return  string
+     */
+    public function asMailAddress();
 
     /**
      * read as date value

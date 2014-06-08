@@ -165,4 +165,74 @@ class MailFilterTest extends FilterTest
         $this->mailFilter->apply($param);
         $this->assertTrue($param->hasError('MAILADDRESS_CONTAINS_TWO_FOLLOWING_DOTS'));
     }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressReturnsEmptyStringIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('', $this->createValueReader(null)->asMailAddress());
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertEquals('baz@example.org',
+                            $this->createValueReader(null)->defaultingTo('baz@example.org')->asMailAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressReturnsNullIfParamIsNullAndRequired()
+    {
+        $this->assertNull($this->createValueReader(null)->required()->asMailAddress());
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressAddsParamErrorIfParamIsNullAndRequired()
+    {
+        $this->createValueReader(null)->required()->asMailAddress();
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'MAILADDRESS_MISSING'));
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asStringReturnsNullIfParamIsInvalid()
+    {
+        $this->assertNull($this->createValueReader('foo')
+                               ->asMailAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressAddsParamErrorIfParamIsInvalid()
+    {
+        $this->createValueReader('foo')->asMailAddress();
+        $this->assertTrue($this->paramErrors->existFor('bar'));
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function asMailAddressReturnsValidValue()
+    {
+        $this->assertEquals('foo@example.org', $this->createValueReader('foo@example.org')->asMailAddress());
+
+    }
 }

@@ -14,11 +14,14 @@ use stubbles\date\span\Month;
 use stubbles\input\Filter;
 use stubbles\input\Validator;
 use stubbles\input\filter\ArrayFilter;
+use stubbles\input\filter\PasswordFilter;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\lang\SecureString;
 use stubbles\lang\exception\IllegalStateException;
+use stubbles\lang\exception\MethodNotSupportedException;
 use stubbles\peer\http\HttpUri;
 /**
  * Represents a default value if actual value is not present.
@@ -128,6 +131,18 @@ class DefaultValueReader implements CommonValueReader
     }
 
     /**
+     * read as string value
+     *
+     * @param   StringLength  $length
+     * @return  \stubbles\lang\SecureString
+     */
+    public function asSecureString(StringLength $length = null)
+    {
+        $this->checkDefaultType(function() { return ($this->default instanceof SecureString); }, 'stubbles\lang\SecureString');
+        return $this->default;
+    }
+
+    /**
      * read as text value
      *
      * @param   StringLength  $length
@@ -147,6 +162,22 @@ class DefaultValueReader implements CommonValueReader
     public function asJson()
     {
         return $this->default;
+    }
+
+    /**
+     * read as password value
+     *
+     * Default values for passwords make no sense, therefor all calls to this
+     * method trigger a MethodNotSupportedException.
+     *
+     * @param   int       $minDiffChars      minimum amount of different characters within password
+     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
+     * @return  \stubbles\lang\SecureString
+     * @throws  MethodNotSupportedException
+     */
+    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
+    {
+        throw new MethodNotSupportedException('Default passwords are not supported');
     }
 
     /**
@@ -174,6 +205,16 @@ class DefaultValueReader implements CommonValueReader
     public function asExistingHttpUri()
     {
         $this->checkDefaultType(function() { return ($this->default instanceof HttpUri); }, 'stubbles\peer\http\HttpUri');
+        return $this->default;
+    }
+
+    /**
+     * returns value if it is a mail address, and null otherwise
+     *
+     * @return  string
+     */
+    public function asMailAddress()
+    {
         return $this->default;
     }
 

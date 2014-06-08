@@ -33,7 +33,9 @@ abstract class MultipleSourceParamBroker implements ParamBroker
         /* @var $valueReader \stubbles\input\ValueReader */
         if ($annotation->isRequired()) {
             return $this->filter($valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')), $annotation);
-        } elseif ($this->supportsDefault() && $annotation->hasValueByName('default')) {
+        }
+
+        if ($this->supportsDefault() && $annotation->hasValueByName('default')) {
             return $this->filter($valueReader->defaultingTo($this->parseDefault($annotation->getDefault())), $annotation);
         }
 

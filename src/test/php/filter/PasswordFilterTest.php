@@ -166,6 +166,15 @@ class PasswordFilterTest extends FilterTest
     }
 
     /**
+     * @test
+     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
+     */
+    public function asPasswordWithDefaultValueThrowsMethodNotSupportedException()
+    {
+        $this->createValueReader(null)->defaultingTo('secret')->asPassword();
+    }
+
+    /**
      * @since  2.0.0
      * @test
      */

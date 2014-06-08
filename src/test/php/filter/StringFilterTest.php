@@ -157,5 +157,4 @@ class StringFilterTest extends FilterTest
         $this->assertEquals('foo', $this->createValueReader('foo')->asString());
 
     }
-
 }
