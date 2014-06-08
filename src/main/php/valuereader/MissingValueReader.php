@@ -21,7 +21,7 @@ use stubbles\input\filter\range\NumberRange;
  *
  * @since  3.0.0
  */
-class MissingValueReader implements CommonValueReader
+class MissingValueReader implements NoDefaultValueReader
 {
     /**
      * request instance the value inherits from

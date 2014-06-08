@@ -21,7 +21,7 @@ use stubbles\peer\http\HttpUri;
  *
  * @since  1.3.0
  */
-class ValueReader implements valuereader\CommonValueReader
+class ValueReader implements valuereader\NoDefaultValueReader
 {
     /**
      * request instance the value inherits from
@@ -71,11 +71,11 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
-     * whether value is required or not
+     * enforce the value to be required
      *
      * @api
-     * @param   string  $errorId  optional
-     * @return  MissingValueReader
+     * @param   string  $errorId  optional  error id to use when value not set
+     * @return  \stubbles\input\valuereader\NoDefaultValueReader
      */
     public function required($errorId = 'FIELD_EMPTY')
     {
@@ -101,7 +101,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   mixed  $default
-     * @return  DefaultValueReader
+     * @return  \stubbles\input\valuereader\CommonValueReader
      */
     public function defaultingTo($default)
     {
@@ -122,7 +122,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
-        return $this->handleFilter(function() use($separator) { return new ArrayFilter($separator);  } );
+        return $this->handleFilter(function() use($separator) { return new ArrayFilter($separator); } );
     }
 
     /**
