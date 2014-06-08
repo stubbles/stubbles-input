@@ -11,6 +11,10 @@
   * removed `net\stubbles\input\Param::addErrorWithId()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::add()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::get()`, deprecated since 2.3.3
+  * changed how default values are set in `net\stubbles\input\ValueReader`
+    * a default value can now be set via `net\stubbles\input\ValueReader::defaultingTo()`
+    * all default parameters on `as*()` and `ifIs*()` methods have been removed
+    * default values for `as*()` methods are now type checked, i.e. they must fit to the type later requested with the according `as*()` method
   * all instances that filter passwords now return an instance of  `stubbles\lang\SecureString` instead of a basic string
     * `net\stubbles\input\ValueReader::asPassword()`
     * `net\stubbles\input\filter\PasswordFilter::apply()`
@@ -23,6 +27,7 @@
     * deprecated `stubbles\input\Request::cancel()`, will be removed with 4.0.0
     * deprecated `stubbles\input\Request::isCancelled()`, will be removed with 4.0.0
     * deprecated `stubbles\input\Request::getMethod()`, use `stubbles\input\Request::method()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\ValueReader::withFunction()`, use `stubbles\input\ValueReader::withCallable()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\console\ConsoleRequest::getEnvNames()`, use `stubbles\input\console\ConsoleRequest::envNames()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getProtocolVersion()`, use `stubbles\input\web\WebRequest::protocolVersion()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getUri()`, use `stubbles\input\web\WebRequest::uri()` instead, will be removed with 4.0.0
