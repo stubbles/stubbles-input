@@ -32,7 +32,7 @@ class MonthFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->monthFilter = new MonthFilter();
+        $this->monthFilter = MonthFilter::instance();
         parent::setUp();
     }
 

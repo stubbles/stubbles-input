@@ -29,7 +29,7 @@ class StringFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->stringFilter = new StringFilter();
+        $this->stringFilter = StringFilter::instance();
         parent::setUp();
     }
 

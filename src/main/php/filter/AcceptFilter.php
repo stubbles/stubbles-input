@@ -18,6 +18,8 @@ use stubbles\peer\http\AcceptHeader;
  */
 class AcceptFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

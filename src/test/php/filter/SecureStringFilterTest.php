@@ -31,7 +31,7 @@ class SecureStringFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->secureStringFilter = new SecureStringFilter();
+        $this->secureStringFilter = SecureStringFilter::instance();
         parent::setUp();
     }
 

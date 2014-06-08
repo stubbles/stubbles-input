@@ -28,7 +28,7 @@ class JsonFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->jsonFilter = new JsonFilter();
+        $this->jsonFilter = JsonFilter::instance();
         parent::setUp();
     }
 

@@ -31,7 +31,7 @@ class DayFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->dayFilter = new DayFilter();
+        $this->dayFilter = DayFilter::instance();
         parent::setUp();
     }
 

@@ -29,7 +29,7 @@ class MailFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->mailFilter = new MailFilter();
+        $this->mailFilter = MailFilter::instance();
         parent::setUp();
     }
 

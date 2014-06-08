@@ -51,7 +51,7 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * create instance as mock with empty param errors
      *
-     * @param   string  $paramValue
+     * @param   string  $paramValue  actual value to use
      * @return  ValueReader
      */
     public static function forValue($paramValue)
@@ -62,7 +62,7 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * create instance as mock with empty param errors
      *
-     * @param   Param  $param
+     * @param   Param  $param  param to use
      * @return  ValueReader
      */
     public static function forParam(Param $param)
@@ -100,7 +100,7 @@ class ValueReader implements valuereader\CommonValueReader
      * requirements they will throw an IllegalStateException.
      *
      * @api
-     * @param   mixed  $default
+     * @param   mixed  $default  default value to use if no param value set
      * @return  \stubbles\input\valuereader\CommonValueReader
      */
     public function defaultingTo($default)
@@ -134,21 +134,21 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asBool()
     {
-        return $this->withFilter(new filter\BoolFilter());
+        return $this->withFilter(filter\BoolFilter::instance());
     }
 
     /**
      * read as integer value
      *
      * @api
-     * @param   NumberRange  $range
+     * @param   NumberRange  $range  optional  range of allowed values
      * @return  int
      */
     public function asInt(NumberRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\IntegerFilter(),
+                                       return filter\RangeFilter::wrap(filter\IntegerFilter::instance(),
                                                                        $range
                                        );
                                    }
@@ -159,8 +159,8 @@ class ValueReader implements valuereader\CommonValueReader
      * read as float value
      *
      * @api
-     * @param   NumberRange  $range
-     * @param   int          $decimals  number of decimals
+     * @param   NumberRange  $range     optional  range of allowed values
+     * @param   int          $decimals  optional  number of decimals
      * @return  float
      */
     public function asFloat(NumberRange $range = null, $decimals = null)
@@ -179,14 +179,14 @@ class ValueReader implements valuereader\CommonValueReader
      * read as string value
      *
      * @api
-     * @param   StringLength  $length
+     * @param   StringLength  $length  optional  allowed length of string
      * @return  string
      */
     public function asString(StringLength $length = null)
     {
         return $this->handleFilter(function() use($length)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\StringFilter(),
+                                       return filter\RangeFilter::wrap(filter\StringFilter::instance(),
                                                                        $length
                                        );
                                    }
@@ -197,7 +197,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as string value
      *
      * @api
-     * @param   StringLength  $length
+     * @param   StringLength  $length  optional  allowed length of string
      * @return  \stubbles\lang\SecureString
      * @since   3.0.0
      */
@@ -205,7 +205,7 @@ class ValueReader implements valuereader\CommonValueReader
     {
         return $this->handleFilter(function() use($length)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\SecureStringFilter(),
+                                       return filter\RangeFilter::wrap(filter\SecureStringFilter::instance(),
                                                                        $length
                                        );
                                    }
@@ -216,8 +216,8 @@ class ValueReader implements valuereader\CommonValueReader
      * read as text value
      *
      * @api
-     * @param   StringLength  $length
-     * @param   string[]      $allowedTags  list of allowed tags
+     * @param   StringLength  $length       optional  allowed length of text
+     * @param   string[]      $allowedTags  optional  list of allowed tags
      * @return  string
      */
     public function asText(StringLength $length = null, $allowedTags = [])
@@ -240,7 +240,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asJson()
     {
-        return $this->handleFilter(function() { return new filter\JsonFilter(); });
+        return $this->withFilter(filter\JsonFilter::instance());
     }
 
     /**
@@ -290,21 +290,21 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asMailAddress()
     {
-        return $this->handleFilter(function() { return new filter\MailFilter(); });
+        return $this->withFilter(filter\MailFilter::instance());
     }
 
     /**
      * read as date value
      *
      * @api
-     * @param   DateRange                  $range
+     * @param   DateRange  $range  optional  allowed range of allowed dates
      * @return  \stubbles\date\Date
      */
     public function asDate(DateRange $range = null)
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\DateFilter(),
+                                       return filter\RangeFilter::wrap(filter\DateFilter::instance(),
                                                                        $range
                                        );
                                    }
@@ -315,7 +315,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as day
      *
      * @api
-     * @param   DatespanRange  $range
+     * @param   DatespanRange  $range  optional  range where the day must be within
      * @return  \stubbles\date\span\Day
      * @since   2.0.0
      */
@@ -323,7 +323,7 @@ class ValueReader implements valuereader\CommonValueReader
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\DayFilter(),
+                                       return filter\RangeFilter::wrap(filter\DayFilter::instance(),
                                                                        $range
                                        );
                                    }
@@ -334,7 +334,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as month
      *
      * @api
-     * @param   DatespanRange  $range
+     * @param   DatespanRange  $range  optional  range where the month must be within
      * @return  \stubbles\date\span\Month
      * @since   2.5.1
      */
@@ -342,7 +342,7 @@ class ValueReader implements valuereader\CommonValueReader
     {
         return $this->handleFilter(function() use($range)
                                    {
-                                       return filter\RangeFilter::wrap(new filter\MonthFilter(),
+                                       return filter\RangeFilter::wrap(filter\MonthFilter::instance(),
                                                                        $range
                                        );
                                    }
@@ -382,7 +382,7 @@ class ValueReader implements valuereader\CommonValueReader
      * returns value if it complies to a given regular expression, and null otherwise
      *
      * @api
-     * @param   string  $regex    regular expression to apply
+     * @param   string  $regex  regular expression to apply
      * @return  string
      */
     public function ifSatisfiesRegex($regex)
@@ -402,7 +402,7 @@ class ValueReader implements valuereader\CommonValueReader
      * allow an attacker to reach e.g. /etc/passwd via ../../ constructions.
      *
      * @api
-     * @param   string  $basePath  base path where file must reside in
+     * @param   string  $basePath  optional  base path where file must reside in
      * @return  string
      * @since   2.0.0
      */
@@ -424,7 +424,7 @@ class ValueReader implements valuereader\CommonValueReader
      * allow an attacker to reach a certain directory via ../../ constructions.
      *
      * @api
-     * @param   string  $basePath  base path where directory must reside in
+     * @param   string  $basePath  optional  base path where directory must reside in
      * @return  string
      * @since   2.0.0
      */
@@ -464,7 +464,7 @@ class ValueReader implements valuereader\CommonValueReader
      * If value does not satisfy given filter return value will be null.
      *
      * @api
-     * @param   Filter  $filter
+     * @param   Filter  $filter  filter to apply
      * @return  mixed
      */
     public function withFilter(Filter $filter)
@@ -496,11 +496,10 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * If value does not satisfy given filter return value will be null.
      *
-     * @api
      * @param   Filter  $filter
      * @return  mixed
      */
-    public function applyFilter(Filter $filter)
+    private function applyFilter(Filter $filter)
     {
         $value = $filter->apply($this->param);
         if (!$this->param->hasErrors()) {
@@ -535,7 +534,7 @@ class ValueReader implements valuereader\CommonValueReader
      * </code>
      *
      * @api
-     * @param   callable  $filter
+     * @param   callable  $filter  function to apply for reading the value
      * @return  mixed
      * @since   3.0.0
      */

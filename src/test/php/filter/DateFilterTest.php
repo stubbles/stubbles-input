@@ -30,7 +30,7 @@ class DateFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->dateFilter = new DateFilter();
+        $this->dateFilter = DateFilter::instance();
         parent::setUp();
     }
 

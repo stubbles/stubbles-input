@@ -20,6 +20,8 @@ use stubbles\input\Param;
  */
 class BoolFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

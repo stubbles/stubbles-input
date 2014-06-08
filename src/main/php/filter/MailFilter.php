@@ -20,6 +20,8 @@ use stubbles\input\validator\MailValidator;
  */
 class MailFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

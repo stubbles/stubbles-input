@@ -29,7 +29,7 @@ class BoolFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->boolFilter = new BoolFilter();
+        $this->boolFilter = BoolFilter::instance();
         parent::setUp();
     }
 
