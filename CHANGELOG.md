@@ -22,6 +22,7 @@
     * `stubbles\input\filter\PasswordFilter::apply()`
     * `stubbles\input\broker\param\PasswordParamBroker::procure()`
     * `stubbles\input\broker\param\PasswordParamBroker::procureParam()`
+  * `stubbles\input\ValueReader::applyFilter()` is not public any more, use `stubbles\input\ValueReader::withFilter()` instead
   * api rework:
     * deprecated `stubbles\input\Param::getName()`, use `stubbles\input\Param::name()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\Param::getValue()`, use `stubbles\input\Param::value()` instead, will be removed with 4.0.0
