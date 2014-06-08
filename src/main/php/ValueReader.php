@@ -134,7 +134,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asBool()
     {
-        return $this->applyFilter(new filter\BoolFilter());
+        return $this->withFilter(new filter\BoolFilter());
     }
 
     /**
@@ -463,16 +463,17 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * If value does not satisfy given filter return value will be null.
      *
-     * If it is required but value is null an error will be added to the list
-     * of param errors.
-     *
      * @api
      * @param   Filter  $filter
      * @return  mixed
      */
     public function withFilter(Filter $filter)
     {
-        return $this->handleFilter(function() use ($filter) { return $filter;});
+        if ($this->param->isNull()) {
+            return null;
+        }
+
+        return $this->applyFilter($filter);
     }
 
     /**
@@ -517,16 +518,17 @@ class ValueReader implements valuereader\CommonValueReader
      * checks value with given callable
      *
      * The callable must accept an instance of stubbles\input\Param and
-     * return the filtered value.
+     * return the filtered value. It can add errors to the provided param when
+     * the param value is not satisfying.
      * <code>
      * $result = $request->readParam('name')
      *                   ->withCallable(function(Param $param)
      *                                  {
-     *                                      if ($param->getValue() == 303) {
+     *                                      if ($param->value() == 303) {
      *                                          return 'Roland TB-303';
      *                                      }
      *
-     *                                      $param->addErrorWithId('INVALID_303');
+     *                                      $param->addError('INVALID_303');
      *                                      return null;
      *                                  }
      *                     );
@@ -543,16 +545,7 @@ class ValueReader implements valuereader\CommonValueReader
             return null;
         }
 
-        $value = $filter($this->param);
-        if (!$this->param->hasErrors()) {
-            return $value;
-        }
-
-        foreach ($this->param->errors() as $error) {
-            $this->paramErrors->append($this->param->name(), $error);
-        }
-
-        return null;
+        return $this->applyFilter(new filter\WrapCallableFilter($filter));
     }
 
     /**
@@ -564,11 +557,11 @@ class ValueReader implements valuereader\CommonValueReader
      * $result = $request->readParam('name')
      *                   ->withFunction(function(Param $param)
      *                                  {
-     *                                      if ($param->getValue() == 303) {
+     *                                      if ($param->value() == 303) {
      *                                          return 'Roland TB-303';
      *                                      }
      *
-     *                                      $param->addErrorWithId('INVALID_303');
+     *                                      $param->addError('INVALID_303');
      *                                      return null;
      *                                  }
      *                     );

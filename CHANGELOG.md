@@ -15,6 +15,7 @@
     * a default value can now be set via `net\stubbles\input\ValueReader::defaultingTo()`
     * all default parameters on `as*()` and `ifIs*()` methods have been removed
     * default values for `as*()` methods are now type checked, i.e. they must fit to the type later requested with the according `as*()` method
+    * `stubbles\input\ValueReader::asBool()` now returns `null` instead of `false` when no param value set, use `stubbles\input\ValueReader::defaultingTo(false)->asBool()` to retain the old behavior
   * `net\stubbles\input\ValueReader::asPassword()` does not accept single config values any more, but an instance of `net\stubbles\input\filter\PasswordChecker`
   * all instances that filter passwords now return an instance of  `stubbles\lang\SecureString` instead of a basic string
     * `stubbles\input\ValueReader::asPassword()`

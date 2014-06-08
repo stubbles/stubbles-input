@@ -138,11 +138,10 @@ class BoolFilterTest extends FilterTest
     /**
      * @since  1.7.0
      * @test
-     * @group  bug266
      */
-    public function asBoolReturnsFalseIfParamAndDefaultIsNotNull()
+    public function asBoolReturnsNullIfParamIsNull()
     {
-        $this->assertFalse($this->createValueReader(null)->asBool());
+        $this->assertNull($this->createValueReader(null)->asBool());
     }
 
     /**
