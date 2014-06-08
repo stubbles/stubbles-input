@@ -40,7 +40,7 @@ class ArrayFilter implements Filter
      */
     public function __construct($separator = self::SEPARATOR_DEFAULT)
     {
-        $this->separator = $separator;
+        $this->setSeparator($separator);
     }
 
     /**
