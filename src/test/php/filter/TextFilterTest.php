@@ -123,7 +123,8 @@ class TextFilterTest extends FilterTest
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $this->assertEquals('baz', $this->createValueReader(null)
-                                        ->asText('baz')
+                                        ->defaultingTo('baz')
+                                        ->asText()
         );
     }
 
@@ -153,7 +154,7 @@ class TextFilterTest extends FilterTest
     public function asTextReturnsNullIfParamIsInvalid()
     {
         $this->assertNull($this->createValueReader('foo')
-                               ->asText(null, new StringLength(5, null))
+                               ->asText(new StringLength(5, null))
         );
     }
 
@@ -163,7 +164,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asText(null, new StringLength(5, null));
+        $this->createValueReader('foo')->asText(new StringLength(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -181,7 +182,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, null, ['b']));
+        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, ['b']));
 
     }
 }

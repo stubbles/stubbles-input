@@ -11,29 +11,38 @@ namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
 /**
- * Basic class for filters on request variables of type boolean.
+ * Wraps a callable as filter.
  *
- * If given value is 1 (int or string), 'true' (string) or true (boolean) the
- * filter returns boolean true; and boolean false in all other cases.
- *
- * @since  1.2.0
+ * @since  3.0.0
  */
-class BoolFilter implements Filter
+class WrapCallableFilter implements Filter
 {
-    use ReusableFilter;
+    /**
+     * actual filter logic
+     *
+     * @type  callable
+     */
+    private $filter;
+
+    /**
+     * constructor
+     *
+     * @param  callable  $filter
+     */
+    public function __construct(callable $filter)
+    {
+        $this->filter = $filter;
+    }
 
     /**
      * apply filter on given param
      *
      * @param   Param  $param
-     * @return  bool
+     * @return  mixed
      */
     public function apply(Param $param)
     {
-        if (in_array($param->value(), [1, '1', 'true', true, 'yes'], true)) {
-            return true;
-        }
-
-        return false;
+        $filter = $this->filter;
+        return $filter($param);
     }
 }

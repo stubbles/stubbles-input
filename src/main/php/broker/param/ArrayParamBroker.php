@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
@@ -19,29 +19,23 @@ class ArrayParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
-     * @return  HttpUri
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @return  array
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asArray($this->getDefault($annotation),
-                                     $annotation->getSeparator(ArrayFilter::SEPARATOR_DEFAULT)
-        );
+        return $valueReader->asArray($annotation->getSeparator(ArrayFilter::SEPARATOR_DEFAULT));
     }
 
     /**
-     * reads default value
+     * parses default value
      *
-     * @param   Annotation  $annotation
+     * @param   string  $value
      * @return  array
      */
-    private function getDefault(Annotation $annotation)
+    protected function parseDefault($value)
     {
-        if ($annotation->hasValueByName('default')) {
-            return array_map('trim', explode('|', $annotation->getDefault()));
-        }
-
-        return null;
+        return array_map('trim', explode('|', $value));
     }
 }

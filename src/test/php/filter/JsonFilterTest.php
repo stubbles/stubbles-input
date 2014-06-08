@@ -12,7 +12,7 @@ require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\JsonFilter.
  *
- * @package  filter
+ * @group  filter
  */
 class JsonFilterTest extends FilterTest
 {
@@ -28,7 +28,7 @@ class JsonFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->jsonFilter = new JsonFilter();
+        $this->jsonFilter = JsonFilter::instance();
         parent::setUp();
     }
 
@@ -171,7 +171,7 @@ class JsonFilterTest extends FilterTest
     {
         $default = ['foo' => 'bar'];
         $this->assertEquals($default,
-                            $this->createValueReader(null)->asJson($default)
+                            $this->createValueReader(null)->defaultingTo($default)->asJson()
         );
     }
 

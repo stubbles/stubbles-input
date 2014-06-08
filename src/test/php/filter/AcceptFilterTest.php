@@ -25,7 +25,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     private function apply($value)
     {
-        $acceptFilter = new AcceptFilter();
+        $acceptFilter = AcceptFilter::instance();
         return $acceptFilter->apply(new Param('Accept', $value));
     }
 

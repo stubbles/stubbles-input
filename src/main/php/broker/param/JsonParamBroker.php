@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter mail addresses based on a @Request[Json] annotation.
@@ -18,27 +18,23 @@ class JsonParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
-     * @return  string
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @return  \stdClass|array
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asJson($this->getDefault($annotation));
+        return $valueReader->asJson();
     }
 
     /**
-     * reads default value
+     * parses default value from annotation
      *
-     * @param   Annotation  $annotation
-     * @return  mixed
+     * @param   string  $value
+     * @return  \stdClass|array
      */
-    private function getDefault(Annotation $annotation)
+    protected function parseDefault($value)
     {
-        if ($annotation->hasValueByName('default')) {
-            return json_decode($annotation->getDefault());
-        }
-
-        return null;
+        return json_decode($value);
     }
 }

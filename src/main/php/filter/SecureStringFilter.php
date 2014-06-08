@@ -21,6 +21,8 @@ use stubbles\lang\SecureString;
  */
 class SecureStringFilter extends StringFilter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

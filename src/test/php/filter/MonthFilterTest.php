@@ -32,7 +32,7 @@ class MonthFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->monthFilter = new MonthFilter();
+        $this->monthFilter = MonthFilter::instance();
         parent::setUp();
     }
 
@@ -100,7 +100,8 @@ class MonthFilterTest extends FilterTest
         $default = new Month();
         $this->assertEquals($default,
                             $this->createValueReader(null)
-                                 ->asMonth($default)
+                                 ->defaultingTo($default)
+                                 ->asMonth()
         );
     }
 
@@ -157,7 +158,7 @@ class MonthFilterTest extends FilterTest
     public function asMonthReturnsNullIfParamIsOutOfRange()
     {
         $this->assertNull($this->createValueReader(new Month())
-                               ->asMonth(null, new DatespanRange(new Date('tomorrow'), null))
+                               ->asMonth(new DatespanRange(new Date('tomorrow'), null))
         );
     }
 
@@ -167,7 +168,7 @@ class MonthFilterTest extends FilterTest
     public function asMonthAddsParamErrorIfParamIsOutOfRange()
     {
         $this->createValueReader(new Month())
-             ->asMonth(null, new DatespanRange(new Date('tomorrow'), null));
+             ->asMonth(new DatespanRange(new Date('tomorrow'), null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 }

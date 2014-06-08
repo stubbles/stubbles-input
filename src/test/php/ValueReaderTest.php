@@ -33,7 +33,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifIsIpAddressReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('127.0.0.1',
-                            $this->createValueReader(null)->ifIsIpAddress('127.0.0.1')
+                            $this->createValueReader(null)->defaultingTo('127.0.0.1')->ifIsIpAddress()
         );
     }
 
@@ -42,7 +42,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsIpAddress('127.0.0.1'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('127.0.0.1')->ifIsIpAddress());
     }
 
     /**
@@ -103,7 +103,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('Moby',
-                            $this->createValueReader(null)->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby')
+                            $this->createValueReader(null)->defaultingTo('Moby')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
@@ -112,7 +112,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsOneOfReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'], 'Moby'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('Moby')->ifIsOneOf(['Hardfloor', 'Dr DNA']));
     }
 
     /**
@@ -173,7 +173,7 @@ class ValueReaderTest extends filter\FilterTest
     public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
     {
         $this->assertEquals('Moby',
-                            $this->createValueReader(null)->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby')
+                            $this->createValueReader(null)->defaultingTo('Moby')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
         );
     }
 
@@ -182,7 +182,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifSatisfiesRegexReturnsNullIfValidationFails()
     {
-        $this->assertNull($this->createValueReader('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/', 'Moby'));
+        $this->assertNull($this->createValueReader('invalid')->defaultingTo('Moby')->ifSatisfiesRegex('/[a-zA-Z]{9}/'));
     }
 
     /**
@@ -238,8 +238,37 @@ class ValueReaderTest extends filter\FilterTest
 
     /**
      * @test
+     * @since  3.0.0
      */
-    public function returnsNullIfParamHasErrors()
+    public function withFilterReturnsNullIfParameterNotSet()
+    {
+        $param = new Param('bar', null);
+        $mockFilter = $this->getMock('stubbles\input\Filter');
+        $mockFilter->expects($this->never())
+                   ->method('apply');
+        $this->assertNull($this->createValueReaderWithParam($param)->withFilter($mockFilter));
+    }
+
+    /**
+     * @test
+     * @since  3.0.0
+     */
+    public function withFilterReturnsDefaultValueIfParameterNotSet()
+    {
+        $param = new Param('bar', null);
+        $mockFilter = $this->getMock('stubbles\input\Filter');
+        $mockFilter->expects($this->never())
+                   ->method('apply');
+        $this->assertEquals(
+                'foo',
+                $this->createValueReaderWithParam($param)->defaultingTo('foo')->withFilter($mockFilter)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function withFilterReturnsNullIfParamHasErrors()
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
@@ -254,7 +283,7 @@ class ValueReaderTest extends filter\FilterTest
     /**
      * @test
      */
-    public function errorListContainsParamError()
+    public function withFilterErrorListContainsParamError()
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
@@ -270,7 +299,32 @@ class ValueReaderTest extends filter\FilterTest
     /**
      * @test
      */
-    public function returnsValueFromFilter()
+    public function withFilterReturnsNullIfParamRequiredButNotSet()
+    {
+        $param = new Param('bar', null);
+        $mockFilter = $this->getMock('stubbles\input\Filter');
+        $mockFilter->expects($this->never())
+                   ->method('apply');
+        $this->assertNull($this->createValueReaderWithParam($param)->required()->withFilter($mockFilter));
+    }
+
+    /**
+     * @test
+     */
+    public function withFilterAddsRequiredErrorWhenRequiredAndParamNotSet()
+    {
+        $param = new Param('bar', null);
+        $mockFilter = $this->getMock('stubbles\input\Filter');
+        $mockFilter->expects($this->never())
+                   ->method('apply');
+        $this->createValueReaderWithParam($param)->required()->withFilter($mockFilter);
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @test
+     */
+    public function withFilterReturnsValueFromFilter()
     {
         $mockFilter = $this->getMock('stubbles\input\Filter');
         $mockFilter->expects($this->once())
@@ -318,24 +372,77 @@ class ValueReaderTest extends filter\FilterTest
     }
 
     /**
+     * create a simple callable which filters a param value
+     *
+     * @return  \Closure
+     */
+    private function createCallable()
+    {
+        return function(Param $param)
+               {
+                   if ($param->value() == 303) {
+                       return 'Roland TB-303';
+                   }
+
+                   $param->addError('INVALID_303');
+                   return null;
+               };
+    }
+
+    /**
      * @since  2.2.0
      * @group  issue_33
      * @test
      */
-    public function withFunctionReturnsFilteredValue()
+    public function withCallableReturnsFilteredValue()
     {
-        $this->assertEquals('Roland TB-303',
-                            $this->createValueReader('303')
-                                 ->withFunction(function(Param $param)
-                                                {
-                                                    if ($param->value() == 303) {
-                                                        return 'Roland TB-303';
-                                                    }
+        $this->assertEquals(
+                'Roland TB-303',
+                $this->createValueReader('303')->withCallable($this->createCallable())
+        );
+    }
 
-                                                    $param->addErrorWithId('INVALID_303');
-                                                    return null;
-                                                }
-                                   )
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function withCallableReturnsNullWhenParamNotSet()
+    {
+        $this->assertNull(
+                $this->createValueReader(null)->withCallable($this->createCallable())
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function withCallableReturnsNullWhenParamNotSetAndRequired()
+    {
+        $this->assertNull(
+                $this->createValueReader(null)->required()->withCallable($this->createCallable())
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function withCallableAddsErrorWhenParamNotSetAndRequired()
+    {
+        $this->createValueReader(null)->required()->withCallable($this->createCallable());
+        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function withCallableReturnsDefaultValueWhenParamNotSet()
+    {
+        $this->assertEquals(
+                'Roland TB-303 w/ Hardfloor Mod',
+                $this->createValueReader(null)->defaultingTo('Roland TB-303 w/ Hardfloor Mod')->withCallable($this->createCallable())
         );
     }
 
@@ -344,19 +451,10 @@ class ValueReaderTest extends filter\FilterTest
      * @group  issue_33
      * @test
      */
-    public function withFunctionReturnsNullOnError()
+    public function withCallableReturnsNullOnError()
     {
-        $this->assertNull($this->createValueReader('909')
-                               ->withFunction(function(Param $param)
-                                              {
-                                                  if ($param->value() == 303) {
-                                                      return 'Roland TB-303';
-                                                  }
-
-                                                  $param->addError('INVALID_303');
-                                                  return null;
-                                              }
-                                   )
+        $this->assertNull(
+                $this->createValueReader('909')->withCallable($this->createCallable())
         );
     }
 
@@ -365,19 +463,9 @@ class ValueReaderTest extends filter\FilterTest
      * @group  issue_33
      * @test
      */
-    public function withFunctionAddsErrorsToErrorList()
+    public function withCallableAddsErrorsToErrorList()
     {
-        $this->createValueReader('909')
-             ->withFunction(function(Param $param)
-                            {
-                                if ($param->value() == 303) {
-                                    return 'Roland TB-303';
-                                }
-
-                                $param->addError('INVALID_303');
-                                return null;
-                            }
-        );
+        $this->createValueReader('909')->withCallable($this->createCallable());
         $this->assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_303'));
     }
 }

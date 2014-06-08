@@ -9,8 +9,8 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\date\Date;
-use stubbles\input\ValueReader;
 use stubbles\input\filter\range\DateRange;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Date] annotation.
@@ -20,32 +20,27 @@ class DateParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
      * @return  Date
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asDate($this->getDefault($annotation),
-                                   new DateRange($this->createDate($annotation->getMinDate()),
-                                                 $this->createDate($annotation->getMaxDate())
-                                   )
+        return $valueReader->asDate(new DateRange($this->createDate($annotation->getMinDate()),
+                                                  $this->createDate($annotation->getMaxDate())
+                                    )
         );
     }
 
     /**
-     * reads default value from annotation
+     * parses default value from annotation
      *
-     * @param   Annotation $annotation
+     * @param   string  $value
      * @return  Date
      */
-    private function getDefault(Annotation $annotation)
+    protected function parseDefault($value)
     {
-        if ($annotation->hasValueByName('default')) {
-            return new Date($annotation->getDefault());
-        }
-
-        return null;
+        return $this->createDate($value);
     }
 
     /**

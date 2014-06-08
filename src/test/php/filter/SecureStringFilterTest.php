@@ -31,7 +31,7 @@ class SecureStringFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->secureStringFilter = new SecureStringFilter();
+        $this->secureStringFilter = SecureStringFilter::instance();
         parent::setUp();
     }
 
@@ -110,6 +110,28 @@ class SecureStringFilterTest extends FilterTest
     public function asSecureStringReturnsNullSecureStringIfParamIsNullAndNotRequired()
     {
         $this->assertNull($this->createValueReader(null)->asSecureString());
+    }
+
+    /**
+     * @test
+     */
+    public function asSecureStringReturnsDefaultIfParamIsNullAndNotRequired()
+    {
+        $this->assertSecureStringEquals(
+                'baz',
+                $this->createValueReader(null)
+                     ->defaultingTo(SecureString::create('baz'))
+                     ->asSecureString()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException  stubbles\lang\exception\IllegalStateException
+     */
+    public function asSecureStringThrowsIllegalStateExceptionWhenDefaultValueNoInstanceOfSecureString()
+    {
+        $this->createValueReader(null)->defaultingTo('baz')->asSecureString()->unveil();
     }
 
     /**

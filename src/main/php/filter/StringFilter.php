@@ -18,6 +18,8 @@ use stubbles\input\Param;
  */
 class StringFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

@@ -29,7 +29,7 @@ class BoolFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->boolFilter = new BoolFilter();
+        $this->boolFilter = BoolFilter::instance();
         parent::setUp();
     }
 
@@ -132,17 +132,16 @@ class BoolFilterTest extends FilterTest
      */
     public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull()
     {
-        $this->assertTrue($this->createValueReader(null)->asBool(true));
+        $this->assertTrue($this->createValueReader(null)->defaultingTo(true)->asBool());
     }
 
     /**
      * @since  1.7.0
      * @test
-     * @group  bug266
      */
-    public function asBoolReturnsFalseIfParamAndDefaultIsNotNull()
+    public function asBoolReturnsNullIfParamIsNull()
     {
-        $this->assertFalse($this->createValueReader(null)->asBool());
+        $this->assertNull($this->createValueReader(null)->asBool());
     }
 
     /**

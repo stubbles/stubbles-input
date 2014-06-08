@@ -13,7 +13,7 @@ require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\FloatFilter.
  *
- * @package  filter
+ * @group  filter
  */
 class FloatFilterTest extends FilterTest
 {
@@ -87,7 +87,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(3.03, $this->createValueReader(null)->asFloat(3.03));
+        $this->assertEquals(3.03, $this->createValueReader(null)->defaultingTo(3.03)->asFloat());
     }
 
     /**
@@ -115,7 +115,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader(2.5)->asFloat(null, new NumberRange(5, null)));
+        $this->assertNull($this->createValueReader(2.5)->asFloat(new NumberRange(5, null)));
     }
 
     /**
@@ -124,7 +124,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader(2.5)->asFloat(null, new NumberRange(5, null));
+        $this->createValueReader(2.5)->asFloat(new NumberRange(5, null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -142,7 +142,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsValidValueUsingDecimals()
     {
-        $this->assertEquals(313, $this->createValueReader('3.13')->asFloat(null, null, 2));
+        $this->assertEquals(313, $this->createValueReader('3.13')->asFloat(null, 2));
 
     }
 }

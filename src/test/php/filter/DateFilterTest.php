@@ -30,7 +30,7 @@ class DateFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->dateFilter = new DateFilter();
+        $this->dateFilter = DateFilter::instance();
         parent::setUp();
     }
 
@@ -106,7 +106,8 @@ class DateFilterTest extends FilterTest
         $default = Date::now();
         $this->assertEquals($default,
                             $this->createValueReader(null)
-                                 ->asDate($default)
+                                 ->defaultingTo($default)
+                                 ->asDate()
         );
     }
 
@@ -168,7 +169,7 @@ class DateFilterTest extends FilterTest
     public function asDateReturnsNullIfParamIsOutOfRange()
     {
         $this->assertNull($this->createValueReader(new Date('yesterday'))
-                               ->asDate(null, new DateRange(Date::now(), null))
+                               ->asDate(new DateRange(Date::now(), null))
         );
     }
 
@@ -179,7 +180,7 @@ class DateFilterTest extends FilterTest
     public function asDateAddsParamErrorIfParamIsOutOfRange()
     {
         $this->createValueReader(new Date('yesterday'))
-             ->asDate(null, new DateRange(Date::now(), null));
+             ->asDate(new DateRange(Date::now(), null));
         $this->assertTrue($this->paramErrors->existFor('bar'));
     }
 }

@@ -16,6 +16,8 @@ use stubbles\input\Param;
  */
 class IntegerFilter implements NumberFilter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

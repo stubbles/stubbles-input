@@ -18,6 +18,8 @@ use stubbles\input\Param;
  */
 class JsonFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

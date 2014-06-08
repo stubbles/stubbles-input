@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\ValueReader;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 use stubbles\peer\http\HttpUri;
 /**
@@ -19,31 +19,27 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   ValueReader  $valueReader  instance to filter value with
-     * @param   Annotation   $annotation   annotation which contains filter metadata
+     * @param   CommonValueReader  $valueReader  instance to filter value with
+     * @param   Annotation         $annotation   annotation which contains filter metadata
      * @return  HttpUri
      */
-    protected function filter(ValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
         if ($annotation->hasValueByName('dnsCheck') && $annotation->dnsCheck()) {
-            return $valueReader->asExistingHttpUri($this->getDefault($annotation));
+            return $valueReader->asExistingHttpUri();
         }
 
-        return $valueReader->asHttpUri($this->getDefault($annotation));
+        return $valueReader->asHttpUri();
     }
 
     /**
-     * returns default value provided by annotation
+     * parses default value from annotation
      *
-     * @param   Annotation  $annotation
+     * @param   string  $value
      * @return  HttpUri
      */
-    private function getDefault(Annotation $annotation)
+    protected function parseDefault($value)
     {
-        if ($annotation->hasValueByName('default')) {
-            return HttpUri::fromString($annotation->getDefault());
-        }
-
-        return null;
+        return HttpUri::fromString($value);
     }
 }

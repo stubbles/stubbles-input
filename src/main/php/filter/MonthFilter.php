@@ -25,6 +25,8 @@ use stubbles\lang\exception\IllegalArgumentException;
  */
 class MonthFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

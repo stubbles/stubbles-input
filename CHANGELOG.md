@@ -11,11 +11,18 @@
   * removed `net\stubbles\input\Param::addErrorWithId()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::add()`, deprecated since 2.3.3
   * removed `net\stubbles\input\ParamErrors::get()`, deprecated since 2.3.3
+  * changed how default values are set in `net\stubbles\input\ValueReader`
+    * a default value can now be set via `net\stubbles\input\ValueReader::defaultingTo()`
+    * all default parameters on `as*()` and `ifIs*()` methods have been removed
+    * default values for `as*()` methods are now type checked, i.e. they must fit to the type later requested with the according `as*()` method
+    * `stubbles\input\ValueReader::asBool()` now returns `null` instead of `false` when no param value set, use `stubbles\input\ValueReader::defaultingTo(false)->asBool()` to retain the old behavior
+  * `net\stubbles\input\ValueReader::asPassword()` does not accept single config values any more, but an instance of `net\stubbles\input\filter\PasswordChecker`
   * all instances that filter passwords now return an instance of  `stubbles\lang\SecureString` instead of a basic string
-    * `net\stubbles\input\ValueReader::asPassword()`
-    * `net\stubbles\input\filter\PasswordFilter::apply()`
-    * `net\stubbles\input\broker\param\PasswordParamBroker::procure()`
-    * `net\stubbles\input\broker\param\PasswordParamBroker::procureParam()`
+    * `stubbles\input\ValueReader::asPassword()`
+    * `stubbles\input\filter\PasswordFilter::apply()`
+    * `stubbles\input\broker\param\PasswordParamBroker::procure()`
+    * `stubbles\input\broker\param\PasswordParamBroker::procureParam()`
+  * `stubbles\input\ValueReader::applyFilter()` is not public any more, use `stubbles\input\ValueReader::withFilter()` instead
   * api rework:
     * deprecated `stubbles\input\Param::getName()`, use `stubbles\input\Param::name()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\Param::getValue()`, use `stubbles\input\Param::value()` instead, will be removed with 4.0.0
@@ -23,6 +30,7 @@
     * deprecated `stubbles\input\Request::cancel()`, will be removed with 4.0.0
     * deprecated `stubbles\input\Request::isCancelled()`, will be removed with 4.0.0
     * deprecated `stubbles\input\Request::getMethod()`, use `stubbles\input\Request::method()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\ValueReader::withFunction()`, use `stubbles\input\ValueReader::withCallable()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\console\ConsoleRequest::getEnvNames()`, use `stubbles\input\console\ConsoleRequest::envNames()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getProtocolVersion()`, use `stubbles\input\web\WebRequest::protocolVersion()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getUri()`, use `stubbles\input\web\WebRequest::uri()` instead, will be removed with 4.0.0
@@ -37,6 +45,8 @@
   * added `net\stubbles\input\filter\SecureStringFilter`
   * `net\stubbles\input\filter\range\StringLength` can also work with instances of `stubbles\lang\SecureString`
   * request broker now supports turning param values into instances of `stubbles\lang\SecureString` with `@Request[SecureString]`
+  * added `net\stubbles\input\filter\PasswordChecker`
+  * request broker annotation `@Request[Password]` now supports `minLength` attribute, default value is 8
 
 
 2.5.1 (2014-05-07)
