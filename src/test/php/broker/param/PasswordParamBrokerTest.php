@@ -48,7 +48,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequestAnnotation(array $values = [])
     {
-        $annotation = new Annotation('Password');
+        $annotation = new Annotation('Password', 'foo');
         $annotation->name = 'foo';
         foreach ($values as $key => $value) {
             $annotation->$key = $value;

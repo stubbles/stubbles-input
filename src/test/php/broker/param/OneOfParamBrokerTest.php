@@ -169,6 +169,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedExceptionMessage  No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()
      * @since  3.0.0
      */
     public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing()
