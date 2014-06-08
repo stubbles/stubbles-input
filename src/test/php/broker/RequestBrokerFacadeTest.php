@@ -191,7 +191,7 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
     public function getAnnotationsReturnsListOfAllRequestAnnotation()
     {
         $brokeredClass = new BrokerClass();
-        $expected      = [new Annotation('Test')];
+        $expected      = [new Annotation('Test', 'foo')];
         $this->mockRequestBroker->expects($this->once())
                                 ->method('getAnnotations')
                                 ->with($this->equalTo($brokeredClass),
