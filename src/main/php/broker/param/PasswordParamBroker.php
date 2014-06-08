@@ -9,6 +9,7 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\filter\PasswordFilter;
+use stubbles\input\filter\SimplePasswordChecker;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
@@ -25,8 +26,10 @@ class PasswordParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asPassword($annotation->getMinDiffChars(PasswordFilter::MIN_DIFF_CHARS_DEFAULT),
-                                        []
+        return $valueReader->asPassword(
+                SimplePasswordChecker::create()
+                                     ->minDiffChars($annotation->getMinDiffChars(SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS))
+                                     ->minLength($annotation->getMinLength(SimplePasswordChecker::DEFAULT_MINLENGTH))
         );
     }
 

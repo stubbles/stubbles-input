@@ -15,52 +15,28 @@ use stubbles\lang\SecureString;
  * Class for filtering passwords.
  *
  * This filter allows to check password inputs and if they comply with the rules
- * for a password. It is possible to check against a list of non-allowed passwords
- * (e.g. the username or the login name).
+ * for a password.
  * If the value is an array the fields with key 0 and 1 are compared. If they are
  * not equal the password is not allowed (can be used to prevent mistyped
  * passwords in register or password change forms).
  */
 class PasswordFilter implements Filter
 {
-    const MIN_DIFF_CHARS_DEFAULT = 5;
     /**
-     * minimum amount of different characters in the password
+     * actual algorithm to check the password with
      *
-     * @type  int
+     * @type  PasswordChecker
      */
-    private $minDiffChars        = self::MIN_DIFF_CHARS_DEFAULT;
-    /**
-     * list of values that are not allowed as password
-     *
-     * @type  string[]
-     */
-    private $nonAllowedValues    = [];
+    private $checker;
 
     /**
-     * set a list of values that are not allowed as password
+     * constructor
      *
-     * @param   string[]  $values  list of values that are not allowed as password
-     * @return  PasswordFilter
+     * @param  PasswordChecker  $checker
      */
-    public function disallowValues(array $values)
+    public function __construct(PasswordChecker $checker)
     {
-        $this->nonAllowedValues = $values;
-        return $this;
-    }
-
-    /**
-     * set minimum amount of different characters within password
-     *
-     * Set the value with NULL to disable the check.
-     *
-     * @param   int  $minDiffChars
-     * @return  PasswordFilter
-     */
-    public function minDiffChars($minDiffChars)
-    {
-        $this->minDiffChars = $minDiffChars;
-        return $this;
+        $this->checker = $checker;
     }
 
     /**
@@ -70,6 +46,31 @@ class PasswordFilter implements Filter
      * @return  SecureString  secured password
      */
     public function apply(Param $param)
+    {
+        $proposedPassword = $this->parse($param);
+        if (null === $proposedPassword) {
+            return null;
+        }
+
+        $errors = $this->checker->check($proposedPassword);
+        if (count($errors) > 0) {
+            foreach ($errors as $errorId => $details) {
+                $param->addError($errorId, $details);
+            }
+
+            return null;
+        }
+
+        return $proposedPassword;
+    }
+
+    /**
+     * parses password from given param value
+     *
+     * @param   Param  $param
+     * @return  SecureString
+     */
+    private function parse(Param $param)
     {
         $value = $param->value();
         if (is_array($value)) {
@@ -81,22 +82,10 @@ class PasswordFilter implements Filter
             $value = $value[0];
         }
 
-        if (in_array($value, $this->nonAllowedValues)) {
-            $param->addError('PASSWORD_INVALID');
+        if (strlen($value) === 0) {
             return null;
         }
 
-        if (null !== $this->minDiffChars) {
-            if (count(count_chars($value, 1)) < $this->minDiffChars) {
-                $param->addError('PASSWORD_TOO_LESS_DIFF_CHARS');
-                return null;
-            }
-        }
-
-        if (strlen($value) > 0) {
-            return SecureString::create($value);
-        }
-
-        return null;
+        return SecureString::create($value);
     }
 }

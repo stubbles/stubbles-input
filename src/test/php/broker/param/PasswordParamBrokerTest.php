@@ -191,4 +191,16 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
                           )
         );
     }
+
+    /**
+     * @test
+     * @since  3.0.0
+     */
+    public function returnsNullIfTooShort()
+    {
+        $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
+                                                      $this->createRequestAnnotation(['minLength' => 20])
+                          )
+        );
+    }
 }

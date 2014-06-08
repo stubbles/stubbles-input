@@ -13,7 +13,7 @@ require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\IntegerFilter.
  *
- * @package  filter
+ * @group  filter
  */
 class IntegerFilterTest extends FilterTest
 {

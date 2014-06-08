@@ -12,7 +12,7 @@ require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\JsonFilter.
  *
- * @package  filter
+ * @group  filter
  */
 class JsonFilterTest extends FilterTest
 {

@@ -14,7 +14,7 @@ use stubbles\date\span\Month;
 use stubbles\input\Filter;
 use stubbles\input\Validator;
 use stubbles\input\filter\ArrayFilter;
-use stubbles\input\filter\PasswordFilter;
+use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
@@ -170,12 +170,11 @@ class DefaultValueReader implements CommonValueReader
      * Default values for passwords make no sense, therefor all calls to this
      * method trigger a MethodNotSupportedException.
      *
-     * @param   int       $minDiffChars      minimum amount of different characters within password
-     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
+     * @param   PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\lang\SecureString
      * @throws  MethodNotSupportedException
      */
-    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
+    public function asPassword(PasswordChecker $checker)
     {
         throw new MethodNotSupportedException('Default passwords are not supported');
     }

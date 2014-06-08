@@ -10,7 +10,7 @@
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
 use stubbles\input\filter\ArrayFilter;
-use stubbles\input\filter\PasswordFilter;
+use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
@@ -247,16 +247,12 @@ class ValueReader implements valuereader\CommonValueReader
      * read as password value
      *
      * @api
-     * @param   int       $minDiffChars      minimum amount of different characters within password
-     * @param   string[]  $nonAllowedValues  list of values that are not allowed as password
+     * @param   PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\lang\SecureString
      */
-    public function asPassword($minDiffChars = PasswordFilter::MIN_DIFF_CHARS_DEFAULT, array $nonAllowedValues = [])
+    public function asPassword(PasswordChecker $checker)
     {
-        $passWordFilter = new PasswordFilter();
-        return $this->withFilter($passWordFilter->minDiffChars($minDiffChars)
-                                                ->disallowValues($nonAllowedValues)
-        );
+        return $this->withFilter(new filter\PasswordFilter($checker));
     }
 
     /**
