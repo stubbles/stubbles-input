@@ -48,7 +48,6 @@ class ArrayFilter implements Filter
      *
      * @param   string  $separator
      * @return  ArrayFilter
-     * @deprecated  since 3.0.0, pass separator with constructor instead, will be removed with 4.0.0
      */
     public function setSeparator($separator)
     {
