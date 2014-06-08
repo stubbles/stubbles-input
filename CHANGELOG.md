@@ -47,6 +47,7 @@
   * request broker now supports turning param values into instances of `stubbles\lang\SecureString` with `@Request[SecureString]`
   * added `net\stubbles\input\filter\PasswordChecker`
   * request broker annotation `@Request[Password]` now supports `minLength` attribute, default value is 8
+  * request broker annotation `@Request[OneOf]` now throws an exception when list of allowed values is missing in annotation
 
 
 2.5.1 (2014-05-07)
