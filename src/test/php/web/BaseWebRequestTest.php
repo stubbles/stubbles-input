@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web;
+use stubbles\peer\http\HttpVersion;
 /**
  * Tests for stubbles\input\web\BaseWebRequest.
  *
@@ -179,7 +180,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsVersion1_0WhenNoServerProtocolSet()
     {
-         $this->assertEquals('1.0',
+         $this->assertEquals(HttpVersion::HTTP_1_0,
                              $this->createBaseWebRequest([], [])
                                   ->protocolVersion()
         );
@@ -218,10 +219,10 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider  protocolVersions
      */
-    public function reportsParsedProtocolVersion($protocol, $expectedVersion)
+    public function reportsParsedProtocolVersion($protocol)
     {
          $this->assertEquals(
-                 $expectedVersion,
+                 HttpVersion::fromString($protocol),
                  $this->createBaseWebRequest([], ['SERVER_PROTOCOL' => $protocol])
                       ->protocolVersion()
         );

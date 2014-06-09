@@ -26,7 +26,7 @@ interface WebRequest extends Request
     /**
      * returns HTTP protocol version of request
      *
-     * @return  string
+     * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */
     public function protocolVersion();
@@ -36,7 +36,7 @@ interface WebRequest extends Request
      *
      * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
      *
-     * @return  string
+     * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
      */
