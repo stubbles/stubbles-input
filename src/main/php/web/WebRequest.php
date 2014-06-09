@@ -26,8 +26,6 @@ interface WebRequest extends Request
     /**
      * returns HTTP protocol version of request
      *
-     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
-     *
      * @return  string
      * @since   2.0.2
      */
