@@ -14,9 +14,11 @@ use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
 use stubbles\input\errors\ParamErrors;
+use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\http\HttpUri;
+use stubbles\peer\http\HttpVersion;
 /**
  * Request implementation for web applications.
  */
@@ -121,21 +123,20 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns HTTP protocol version of request
      *
-     * @return  string
+     * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */
     public function protocolVersion()
     {
         if (!$this->headers->has('SERVER_PROTOCOL')) {
-            return '1.0';
+            return new HttpVersion(1, 0);
         }
 
-        $minor = null;
-        if (2 != sscanf($this->headers->get('SERVER_PROTOCOL')->value(), 'HTTP/%d.%d', $major, $minor)) {
+        try {
+            return HttpVersion::fromString($this->headers->get('SERVER_PROTOCOL')->value());
+        } catch (IllegalArgumentException $ex) {
             return null;
         }
-
-        return $major . '.' . $minor;
     }
 
     /**
@@ -143,7 +144,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      *
      * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
      *
-     * @return  string
+     * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
      */
