@@ -48,6 +48,7 @@
   * added `net\stubbles\input\filter\PasswordChecker`
   * request broker annotation `@Request[Password]` now supports `minLength` attribute, default value is 8
   * request broker annotation `@Request[OneOf]` now throws an exception when list of allowed values is missing in annotation
+  * changed `stubbles\input\web\WebRequest::protocolVersion()` to always report the protocol version when it can be detected, not just supported ones
 
 
 2.5.1 (2014-05-07)

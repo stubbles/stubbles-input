@@ -189,7 +189,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @since  2.0.2
      * @test
      */
-    public function reportsNullNoServerProtocolContainsInvalidVersion()
+    public function reportsNullWhenServerProtocolContainsInvalidVersion()
     {
          $this->assertNull($this->createBaseWebRequest([],
                                                        ['SERVER_PROTOCOL' => 'foo']
@@ -199,56 +199,31 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @since  2.0.2
-     * @test
+     * @return  array
      */
-    public function reportsNullNoServerProtocolContainsVersionTooLow()
+    public function protocolVersions()
     {
-         $this->assertNull($this->createBaseWebRequest([],
-                                                       ['SERVER_PROTOCOL' => 'HTTP/0.9']
-                                  )
-                                ->protocolVersion()
-        );
+        return [
+            ['HTTP/0.9', '0.9'],
+            ['HTTP/1.0', '1.0'],
+            ['HTTP/1.1', '1.1'],
+            ['HTTP/1.2', '1.2'],
+            ['HTTP/1.12', '1.12'],
+            ['HTTP/2.0', '2.0'],
+        ];
     }
 
     /**
-     * @since  2.0.2
+     * @since  3.0.0
      * @test
+     * @dataProvider  protocolVersions
      */
-    public function reportsNullNoServerProtocolContainsVersionTooGreat()
+    public function reportsParsedProtocolVersion($protocol, $expectedVersion)
     {
-         $this->assertNull($this->createBaseWebRequest([],
-                                                       ['SERVER_PROTOCOL' => 'HTTP/1.2']
-                                  )
-                                ->protocolVersion()
-        );
-    }
-
-    /**
-     * @since  2.0.2
-     * @test
-     */
-    public function reportsVersion1_0NoServerProtocolContains1_0()
-    {
-         $this->assertEquals('1.0',
-                             $this->createBaseWebRequest([],
-                                                         ['SERVER_PROTOCOL' => 'HTTP/1.0']
-                                    )
-                                  ->protocolVersion()
-        );
-    }
-
-    /**
-     * @since  2.0.2
-     * @test
-     */
-    public function reportsVersion1_1NoServerProtocolContains1_1()
-    {
-         $this->assertEquals('1.1',
-                             $this->createBaseWebRequest([],
-                                                         ['SERVER_PROTOCOL' => 'HTTP/1.1']
-                                    )
-                                  ->protocolVersion()
+         $this->assertEquals(
+                 $expectedVersion,
+                 $this->createBaseWebRequest([], ['SERVER_PROTOCOL' => $protocol])
+                      ->protocolVersion()
         );
     }
 

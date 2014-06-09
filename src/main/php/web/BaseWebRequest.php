@@ -121,8 +121,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns HTTP protocol version of request
      *
-     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
-     *
      * @return  string
      * @since   2.0.2
      */
@@ -133,11 +131,11 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
         }
 
         $minor = null;
-        if (1 != sscanf($this->headers->get('SERVER_PROTOCOL')->value(), 'HTTP/1.%[01]', $minor)) {
+        if (2 != sscanf($this->headers->get('SERVER_PROTOCOL')->value(), 'HTTP/%d.%d', $major, $minor)) {
             return null;
         }
 
-        return '1.' . $minor;
+        return $major . '.' . $minor;
     }
 
     /**
