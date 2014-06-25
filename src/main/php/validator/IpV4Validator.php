@@ -14,6 +14,7 @@ use stubbles\input\Validator;
  *
  * @since  1.7.0
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsIpV4Address instead, will be removed with 4.0.0
  */
 class IpV4Validator implements Validator
 {

@@ -16,6 +16,7 @@ namespace stubbles\input\validator;
  * false as well.
  *
  * @api
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 class AndValidator extends AbstractCompositeValidator
 {

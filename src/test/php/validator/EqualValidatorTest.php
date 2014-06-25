@@ -12,6 +12,7 @@ namespace stubbles\input\validator;
  * Tests for stubbles\input\validator\EqualValidator.
  *
  * @group  validator
+ * @deprecated  since 3.0.0, will be removed with 4.0.0
  */
 class EqualValidatorTest extends \PHPUnit_Framework_TestCase
 {

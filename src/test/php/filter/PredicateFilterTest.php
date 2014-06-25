@@ -10,87 +10,86 @@
 namespace stubbles\input\filter;
 use stubbles\input\Param;
 /**
- * Tests for stubbles\input\filter\ValidatingFilter.
+ * Tests for stubbles\input\filter\PredicateFilter.
  *
- * @since  2.0.0
+ * @since  3.0.0
  * @group  filter
- * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
-class ValidatingFilterTest extends \PHPUnit_Framework_TestCase
+class PredicateFilterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  ValidatingFilter
+     * @type  PredicateFilter
      */
-    private $validatingFilter;
+    private $predicateFilter;
     /**
-     * mocked validator
+     * mocked predicate
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    private $mockValidator;
+    private $mockPredicate;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockValidator    = $this->getMock('stubbles\input\Validator');
-        $this->validatingFilter = new ValidatingFilter($this->mockValidator, 'ERROR', ['foo' => 'bar']);
+        $this->mockPredicate   = $this->getMock('stubbles\predicate\Predicate');
+        $this->predicateFilter = new PredicateFilter($this->mockPredicate, 'ERROR', ['foo' => 'bar']);
     }
 
     /**
      * @test
      */
-    public function returnsValueIfValidatorSuccessful()
+    public function returnsValueWhenPredicateEvaluatesToTrue()
     {
-        $this->mockValidator->expects($this->once())
-                            ->method('validate')
+        $this->mockPredicate->expects($this->once())
+                            ->method('test')
                             ->with($this->equalTo('Acperience'))
                             ->will($this->returnValue(true));
         $this->assertEquals('Acperience',
-                            $this->validatingFilter->apply(new Param('example', 'Acperience'))
+                            $this->predicateFilter->apply(new Param('example', 'Acperience'))
         );
     }
 
     /**
      * @test
      */
-    public function doesNotAddErrorIfValidatorSuccessful()
+    public function doesNotAddErrorWhenPredicateEvaluatesToTrue()
     {
-        $this->mockValidator->expects($this->once())
-                            ->method('validate')
+        $this->mockPredicate->expects($this->once())
+                            ->method('test')
                             ->with($this->equalTo('Acperience'))
                             ->will($this->returnValue(true));
         $param = new Param('example', 'Acperience');
-        $this->validatingFilter->apply($param);
+        $this->predicateFilter->apply($param);
         $this->assertFalse($param->hasErrors());
     }
 
     /**
      * @test
      */
-    public function returnsNullIfValidatorFails()
+    public function returnsNullWhenPredicateEvaluatesToFalse()
     {
-        $this->mockValidator->expects($this->once())
-                            ->method('validate')
+        $this->mockPredicate->expects($this->once())
+                            ->method('test')
                             ->with($this->equalTo('Trancescript'))
                             ->will($this->returnValue(false));
-        $this->assertNull($this->validatingFilter->apply(new Param('example', 'Trancescript')));
+        $this->assertNull($this->predicateFilter->apply(new Param('example', 'Trancescript')));
     }
 
     /**
      * @test
      */
-    public function addsErrorIfValidatorFails()
+    public function addsErrorWhenPredicateEvaluatesToFalse()
     {
-        $this->mockValidator->expects($this->once())
-                            ->method('validate')
+        $this->mockPredicate->expects($this->once())
+                            ->method('test')
                             ->with($this->equalTo('Trancescript'))
                             ->will($this->returnValue(false));
         $param = new Param('example', 'Trancescript');
-        $this->validatingFilter->apply($param);
+        $this->predicateFilter->apply($param);
         $this->assertTrue($param->hasError('ERROR'));
     }
 }

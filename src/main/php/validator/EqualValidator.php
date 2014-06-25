@@ -18,6 +18,7 @@ use stubbles\lang\exception\IllegalArgumentException;
  * content as the expected value.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\Equals instead, will be removed with 4.0.0
  */
 class EqualValidator implements Validator
 {

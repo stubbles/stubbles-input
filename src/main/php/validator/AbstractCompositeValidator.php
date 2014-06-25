@@ -16,6 +16,8 @@ use stubbles\lang\exception\IllegalStateException;
  * A composite validator can be used to combine two or more validators
  * into a single validator which then applies all those validators for the
  * value to validate.
+ *
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 abstract class AbstractCompositeValidator implements CompositeValidator
 {

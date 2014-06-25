@@ -37,6 +37,19 @@
     * deprecated `stubbles\input\web\WebRequest::getHeaderNames()`, use `stubbles\input\web\WebRequest::headerNames()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\WebRequest::getCookieNames()`, use `stubbles\input\web\WebRequest::cookieNames()` instead, will be removed with 4.0.0
     * deprecated `stubbles\input\web\useragent\UserAgent::getName()` use `stubbles\input\web\useragent\UserAgent::name()` instead, will be removed with 4.0.0
+    * deprecated `stubbles\input\Validator` and all of its implementations:
+      * in general use predicates delivered by stubbles/core instead
+      * for `stubbles\input\validator\ContainsValidator` use `stubbles\predicate\Contains`
+      * for `stubbles\input\validator\DirectoryValidator` use `stubbles\predicate\IsExistingDirectory`
+      * for `stubbles\input\validator\EqualValidator` use `stubbles\predicate\Equals`
+      * for `stubbles\input\validator\FileValidator` use `stubbles\predicate\IsExistingFile`
+      * for `stubbles\input\validator\HttpUriValidator` use `stubbles\predicate\IsHttpUri`
+      * for `stubbles\input\validator\IpV4Validator` use `stubbles\predicate\IsIpV4Address`
+      * for `stubbles\input\validator\IpV6Validator` use `stubbles\predicate\IsIpV6Address`
+      * for `stubbles\input\validator\IpValidator` use `stubbles\predicate\IsIpAddress`
+      * for `stubbles\input\validator\MailValidator` use `stubbles\predicate\IsMailAddress`
+      * for `stubbles\input\validator\PreSelectValidator` use `stubbles\predicate\IsOneOf`
+      * for `stubbles\input\validator\RegexValidator` use `stubbles\predicate\Regex`
   * `stubbles\input\web\WebRequest::protocolVersion()` now returns an instance of `stubbles\peer\http\HttpVersion`
 
 ### Other changes

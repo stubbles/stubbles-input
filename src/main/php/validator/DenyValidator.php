@@ -13,6 +13,7 @@ use stubbles\input\Validator;
  * Validator that denies validaty of values.
  *
  * @api
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 class DenyValidator implements Validator
 {

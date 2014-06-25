@@ -10,21 +10,20 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\input\Validator;
+use stubbles\predicate\Predicate;
 /**
  * Class for filtering values based on validators.
  *
- * @since  2.0.0
- * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
+ * @since  3.0.0
  */
-class ValidatingFilter implements Filter
+class PredicateFilter implements Filter
 {
     /**
-     * validator to be used
+     * predicate to be used
      *
-     * @type  Validator
+     * @type  Predicate
      */
-    private $validator;
+    private $predicate;
     /**
      * error id to be used in case validation fails
      *
@@ -41,13 +40,13 @@ class ValidatingFilter implements Filter
     /**
      * constructor
      *
-     * @param  Validator  $validator  validator to be used
-     * @param  string     $errorId    error id to be used in case validation fails
-     * @param  array      $details    details for param error in case validation fails
+     * @param  \stubbles\predicate\Predicate|callable  $predicate  validator to be used
+     * @param  string                                  $errorId    error id to be used in case predicate fails
+     * @param  array                                   $details    details for param error in case predicate fails
      */
-    public function __construct(Validator $validator, $errorId, array $details = [])
+    public function __construct($predicate, $errorId, array $details = [])
     {
-        $this->validator = $validator;
+        $this->predicate = Predicate::castFrom($predicate);
         $this->errorId   = $errorId;
         $this->details   = $details;
     }
@@ -60,7 +59,7 @@ class ValidatingFilter implements Filter
      */
     public function apply(Param $param)
     {
-        if ($this->validator->validate($param->value())) {
+        if ($this->predicate->test($param->value())) {
             return $param->value();
         }
 

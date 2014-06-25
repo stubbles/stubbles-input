@@ -16,6 +16,7 @@ namespace stubbles\input\validator;
  * and any other validator returns false.
  *
  * @api
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 class XorValidator extends AbstractCompositeValidator
 {

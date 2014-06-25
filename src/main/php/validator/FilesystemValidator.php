@@ -12,8 +12,8 @@ use stubbles\input\Validator;
 /**
  * Class for validating that a string denotes an existing path.
  *
- *
  * @since  2.0.0
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 abstract class FilesystemValidator implements Validator
 {

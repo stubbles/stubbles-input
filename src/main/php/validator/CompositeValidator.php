@@ -16,6 +16,7 @@ use stubbles\input\Validator;
  * into a single validator.
  *
  * @api
+ * @deprecated  since 3.0.0, use predicates instead, will be removed with 4.0.0
  */
 interface CompositeValidator extends Validator
 {

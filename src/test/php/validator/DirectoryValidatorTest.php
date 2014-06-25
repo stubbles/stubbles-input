@@ -15,6 +15,7 @@ use org\bovigo\vfs\vfsStream;
  * @since  2.0.0
  * @group  validator
  * @group  filesystem
+ * @deprecated  since 3.0.0, will be removed with 4.0.0
  */
 class DirectoryValidatorTest extends \PHPUnit_Framework_TestCase
 {

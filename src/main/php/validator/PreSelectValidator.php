@@ -13,6 +13,7 @@ use stubbles\input\Validator;
  * Validator to validate a value against a list of allowed values.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsOneOf instead, will be removed with 4.0.0
  */
 class PreSelectValidator implements Validator
 {
