@@ -9,6 +9,16 @@
  */
 namespace stubbles\input;
 use stubbles\input\Param;
+use stubbles\predicate\Contains;
+use stubbles\predicate\Equals;
+use stubbles\predicate\IsHttpUri;
+use stubbles\predicate\IsIpAddress;
+use stubbles\predicate\IsIpV4Address;
+use stubbles\predicate\IsIpV6Address;
+use stubbles\predicate\IsMailAddress;
+use stubbles\predicate\IsOneOf;
+use stubbles\predicate\Predicate;
+use stubbles\predicate\Regex;
 /**
  * Value object for request values to check them against validators.
  *
@@ -53,7 +63,7 @@ class ValueValidator
      */
     public function contains($contained)
     {
-        return $this->withValidator(new validator\ContainsValidator($contained));
+        return $this->with(new Contains($contained));
     }
 
 
@@ -66,7 +76,7 @@ class ValueValidator
      */
     public function isEqualTo($expected)
     {
-        return $this->withValidator(new validator\EqualValidator($expected));
+        return $this->with(new Equals($expected));
     }
 
     /**
@@ -77,7 +87,7 @@ class ValueValidator
      */
     public function isHttpUri()
     {
-        return $this->withValidator(new validator\HttpUriValidator());
+        return $this->with(new IsHttpUri());
     }
 
     /**
@@ -89,8 +99,8 @@ class ValueValidator
      */
     public function isExistingHttpUri()
     {
-        $validator = new validator\HttpUriValidator();
-        return $this->withValidator($validator->enableDnsCheck());
+        $isHttpUri = new IsHttpUri();
+        return $this->with($isHttpUri->enableDnsCheck());
     }
 
     /**
@@ -101,7 +111,7 @@ class ValueValidator
      */
     public function isIpAddress()
     {
-        return $this->withValidator(new validator\IpValidator());
+        return $this->with(IsIpAddress::instance());
     }
 
     /**
@@ -113,7 +123,7 @@ class ValueValidator
      */
     public function isIpV4Address()
     {
-        return $this->withValidator(new validator\IpV4Validator());
+        return $this->with(IsIpV4Address::instance());
     }
 
     /**
@@ -125,7 +135,7 @@ class ValueValidator
      */
     public function isIpV6Address()
     {
-        return $this->withValidator(new validator\IpV6Validator());
+        return $this->with(IsIpV6Address::instance());
     }
 
     /**
@@ -136,7 +146,7 @@ class ValueValidator
      */
     public function isMailAddress()
     {
-        return $this->withValidator(new validator\MailValidator());
+        return $this->with(IsMailAddress::instance());
     }
 
     /**
@@ -148,7 +158,7 @@ class ValueValidator
      */
     public function isOneOf(array $allowedValues)
     {
-        return $this->withValidator(new validator\PreSelectValidator($allowedValues));
+        return $this->with(new IsOneOf($allowedValues));
     }
 
     /**
@@ -160,7 +170,7 @@ class ValueValidator
      */
     public function satisfiesRegex($regex)
     {
-        return $this->withValidator(new validator\RegexValidator($regex));
+        return $this->with(new Regex($regex));
     }
 
     /**
@@ -169,10 +179,27 @@ class ValueValidator
      * @api
      * @param   Validator  $validator  validator to use
      * @return  bool
+     * @deprecated  since 3.0.0, use with($predicate) instead, will be removed with 4.0.0
      */
     public function withValidator(Validator $validator)
     {
         return $validator->validate($this->param->value());
+    }
+
+    /**
+     * evaluates value with given predicate
+     *
+     * Given predicate can either be an instance of \stubbles\predicate\Predicate
+     * or any callable which returns a boolean value.
+     *
+     * @api
+     * @param   \stubbles\predicate\Predicate|callable  $predicate  predicate to use
+     * @return  bool
+     * @since   3.0.0
+     */
+    public function with($predicate)
+    {
+        return Predicate::castFrom($predicate)->test($this->param->value());
     }
 
     /**
@@ -196,6 +223,7 @@ class ValueValidator
      * @since   2.2.0
      * @param   \Closure  $validator
      * @return  bool
+     * @deprecated  since 3.0.0, use with($predicate) instead, will be removed with 4.0.0
      */
     public function withFunction(\Closure $validator)
     {

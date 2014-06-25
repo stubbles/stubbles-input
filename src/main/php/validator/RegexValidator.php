@@ -19,6 +19,7 @@ use stubbles\lang\exception\RuntimeException;
  * method throws a runtime exception in case the regular expression is invalid.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\Regex instead, will be removed with 4.0.0
  */
 class RegexValidator implements Validator
 {

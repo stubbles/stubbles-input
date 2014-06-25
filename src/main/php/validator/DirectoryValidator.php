@@ -13,6 +13,7 @@ namespace stubbles\input\validator;
  *
  * @api
  * @since  2.0.0
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsExistingDirectory instead, will be removed with 4.0.0
  */
 class DirectoryValidator extends FilesystemValidator
 {

@@ -243,6 +243,21 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  3.0.0
+     */
+    public function withPredicateReturnsPredicateResult()
+    {
+        $mockPredicate = $this->getMock('stubbles\predicate\Predicate');
+        $mockPredicate->expects($this->once())
+                      ->method('test')
+                      ->with($this->equalTo('foo'))
+                      ->will($this->returnValue(true));
+        $this->assertTrue($this->createValueValidator('foo')->with($mockPredicate));
+    }
+
+    /**
+     * @test
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function withValidatorReturnsValidatorResult()
     {
@@ -268,6 +283,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      * @since  2.2.0
      * @group  issue_33
      * @test
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function withFunctionReturnsClosureResult()
     {

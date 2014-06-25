@@ -13,6 +13,7 @@ require_once __DIR__ . '/CompositeValidatorTest.php';
  * Tests for stubbles\input\validator\XorValidator.
  *
  * @group  validator
+ * @deprecated  since 3.0.0, will be removed with 4.0.0
  */
 class XorValidatorTest extends CompositeValidatorTest
 {

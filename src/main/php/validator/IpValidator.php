@@ -13,6 +13,7 @@ use stubbles\input\Validator;
  * Class for validating that something is an ip address, either v4 or v6.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsIpAddress instead, will be removed with 4.0.0
  */
 class IpValidator implements Validator
 {

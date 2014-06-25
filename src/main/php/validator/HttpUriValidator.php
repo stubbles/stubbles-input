@@ -15,6 +15,7 @@ use stubbles\peer\http\HttpUri;
  * Validator to ensure that a string is a http uri.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsHttpUri instead, will be removed with 4.0.0
  */
 class HttpUriValidator implements Validator
 {

@@ -357,9 +357,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsIpAddress()
     {
-        return $this->withValidator(new validator\IpValidator(),
-                                    'INVALID_IP_ADDRESS',
-                                    []
+        return $this->when(\stubbles\predicate\IsIpAddress::instance(),
+                           'INVALID_IP_ADDRESS',
+                           []
         );
     }
 
@@ -372,9 +372,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsOneOf(array $allowedValues)
     {
-        return $this->withValidator(new validator\PreSelectValidator($allowedValues),
-                                    'FIELD_NO_SELECT',
-                                    ['ALLOWED' => join('|', $allowedValues)]
+        return $this->when(new \stubbles\predicate\IsOneOf($allowedValues),
+                           'FIELD_NO_SELECT',
+                           ['ALLOWED' => join('|', $allowedValues)]
         );
     }
 
@@ -387,9 +387,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifSatisfiesRegex($regex)
     {
-        return $this->withValidator(new validator\RegexValidator($regex),
-                                    'FIELD_WRONG_VALUE',
-                                    []
+        return $this->when(new \stubbles\predicate\Regex($regex),
+                           'FIELD_WRONG_VALUE',
+                           []
         );
     }
 
@@ -409,9 +409,9 @@ class ValueReader implements valuereader\CommonValueReader
     public function ifIsFile($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
-        return $this->withValidator(new validator\FileValidator($basePath),
-                                    'FILE_INVALID',
-                                    ['PATH' => $path . $this->param->value()]
+        return $this->when(new \stubbles\predicate\IsExistingFile($basePath),
+                           'FILE_INVALID',
+                           ['PATH' => $path . $this->param->value()]
         );
     }
 
@@ -431,12 +431,11 @@ class ValueReader implements valuereader\CommonValueReader
     public function ifIsDirectory($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
-        return $this->withValidator(new validator\DirectoryValidator($basePath),
-                                    'DIRECTORY_INVALID',
-                                    ['PATH' => $path . $this->param->value()]
+        return $this->when(new \stubbles\predicate\IsExistingDirectory($basePath),
+                           'DIRECTORY_INVALID',
+                           ['PATH' => $path . $this->param->value()]
         );
     }
-
 
     /**
      * checks value with given validator
@@ -448,12 +447,34 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string     $errorId    error id to be used in case validation fails
      * @param   array      $details    optional  details for param error in case validation fails
      * @return  string
+     * @deprecated  since 3.0.0, use with($predicate, $errorId) instead, will be removed with 4.0.0
      */
     public function withValidator(Validator $validator, $errorId, array $details = [])
     {
         return $this->handleFilter(function() use($validator, $errorId, $details)
                                    {
                                        return new filter\ValidatingFilter($validator, $errorId, $details);
+                                   }
+        );
+    }
+
+    /**
+     * returns param value when given predicate evaluates to true
+     *
+     * If value does not satisfy the predicate return value will be null.
+     *
+     * @api
+     * @param   \stubbles\predicate\Predicate|callable  $predicate  predicate to use
+     * @param   string                                  $errorId    error id to be used in case validation fails
+     * @param   array                                   $details    optional  details for param error in case validation fails
+     * @return  string
+     * @since   3.0.0
+     */
+    public function when($predicate, $errorId, array $details = [])
+    {
+        return $this->handleFilter(function() use($predicate, $errorId, $details)
+                                   {
+                                       return new filter\PredicateFilter($predicate, $errorId, $details);
                                    }
         );
     }

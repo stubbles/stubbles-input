@@ -13,6 +13,7 @@ use stubbles\input\Validator;
  * Validator to ensure that a string is a mail address.
  *
  * @api
+ * @deprecated  since 3.0.0, use stubbles\predicate\IsMailAddress instead, will be removed with 4.0.0
  */
 class MailValidator implements Validator
 {

@@ -10,7 +10,7 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\input\validator\MailValidator;
+use stubbles\predicate\IsMailAddress;
 /**
  * Class for filtering mail addresses.
  *
@@ -35,8 +35,7 @@ class MailFilter implements Filter
         }
 
         $value = $param->value();
-        $mailValidator = new MailValidator();
-        if (!$mailValidator->validate($value)) {
+        if (!IsMailAddress::instance()->test($value)) {
             $param->addError($this->detectErrorId($value));
             return null;
         }

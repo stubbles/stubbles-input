@@ -14,8 +14,9 @@ namespace stubbles\input\validator;
  * @since  1.7.0
  * @group  validator
  * @group  bug258
+ * @deprecated  since 3.0.0, will be removed with 4.0.0
  */
-class sIpV6ValidatorTest extends \PHPUnit_Framework_TestCase
+class IpV6ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test

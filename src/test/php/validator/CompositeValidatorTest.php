@@ -10,6 +10,8 @@
 namespace stubbles\input\validator;
 /**
  * Base class for composite validator tests.
+ *
+ * @deprecated  since 3.0.0, will be removed with 4.0.0
  */
 abstract class CompositeValidatorTest extends \PHPUnit_Framework_TestCase
 {
