@@ -25,7 +25,7 @@ trait ReusableFilter
     /**
      * returns reusable filter instance
      *
-     * @return  Filter
+     * @return  \stubbles\input\filter\Filter
      */
     public static function instance()
     {
