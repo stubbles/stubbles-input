@@ -280,7 +280,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function getCookieNames()
     {
-        return $this->cookiesNames();
+        return $this->cookieNames();
     }
 
     /**

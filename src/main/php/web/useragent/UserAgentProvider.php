@@ -102,6 +102,6 @@ class UserAgentProvider implements InjectionProvider
      */
     private function acceptsCookies()
     {
-        return count($this->request->getCookieNames()) > 0;
+        return count($this->request->cookieNames()) > 0;
     }
 }
