@@ -11,6 +11,7 @@ namespace stubbles\input;
 use stubbles\input\Param;
 use stubbles\predicate\Contains;
 use stubbles\predicate\Equals;
+use stubbles\predicate\IsExistingHttpUri;
 use stubbles\predicate\IsHttpUri;
 use stubbles\predicate\IsIpAddress;
 use stubbles\predicate\IsIpV4Address;
@@ -87,7 +88,7 @@ class ValueValidator
      */
     public function isHttpUri()
     {
-        return $this->with(new IsHttpUri());
+        return $this->with(IsHttpUri::instance());
     }
 
     /**
@@ -99,8 +100,7 @@ class ValueValidator
      */
     public function isExistingHttpUri()
     {
-        $isHttpUri = new IsHttpUri();
-        return $this->with($isHttpUri->enableDnsCheck());
+        return $this->with(IsExistingHttpUri::instance());
     }
 
     /**

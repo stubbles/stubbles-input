@@ -259,7 +259,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as http uri
      *
      * @api
-     * @return  HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      */
     public function asHttpUri()
     {
@@ -270,16 +270,11 @@ class ValueReader implements valuereader\CommonValueReader
      * read as http uri if it does exist
      *
      * @api
-     * @return  HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      */
     public function asExistingHttpUri()
     {
-        return $this->handleFilter(function()
-                                   {
-                                       $httpUriFilter = new filter\HttpUriFilter();
-                                       return $httpUriFilter->enforceDnsRecord();
-                                   }
-        );
+        return $this->handleFilter(function() { return new filter\ExistingHttpUriFilter(); });
     }
 
     /**
