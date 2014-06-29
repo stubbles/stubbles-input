@@ -31,7 +31,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->existinghttpUriFilter = new ExistingHttpUriFilter();
+        $this->existinghttpUriFilter = ExistingHttpUriFilter::instance();
         parent::setUp();
     }
 

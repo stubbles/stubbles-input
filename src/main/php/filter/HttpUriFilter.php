@@ -22,6 +22,8 @@ use stubbles\peer\http\HttpUri;
  */
 class HttpUriFilter implements Filter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *

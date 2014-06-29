@@ -30,7 +30,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->httpUriFilter = new HttpUriFilter();
+        $this->httpUriFilter = HttpUriFilter::instance();
         parent::setUp();
     }
 

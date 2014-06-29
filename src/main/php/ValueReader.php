@@ -263,7 +263,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asHttpUri()
     {
-        return $this->handleFilter(function() { return new filter\HttpUriFilter(); });
+        return $this->handleFilter(function() { return filter\HttpUriFilter::instance(); });
     }
 
     /**
@@ -274,7 +274,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asExistingHttpUri()
     {
-        return $this->handleFilter(function() { return new filter\ExistingHttpUriFilter(); });
+        return $this->handleFilter(function() { return filter\ExistingHttpUriFilter::instance(); });
     }
 
     /**

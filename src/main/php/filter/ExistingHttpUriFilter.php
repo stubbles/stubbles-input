@@ -23,6 +23,8 @@ use stubbles\peer\http\HttpUri;
  */
 class ExistingHttpUriFilter extends HttpUriFilter
 {
+    use ReusableFilter;
+
     /**
      * apply filter on given param
      *
