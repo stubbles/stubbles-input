@@ -30,7 +30,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->httpUriFilter = new HttpUriFilter();
+        $this->httpUriFilter = HttpUriFilter::instance();
         parent::setUp();
     }
 
@@ -39,9 +39,10 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithoutPortIfItIsDefaultPort()
     {
-        $this->assertEquals('http://example.org/',
-                            $this->httpUriFilter->apply($this->createParam('http://example.org'))
-                                                ->asString()
+        $this->assertEquals(
+                'http://example.org/',
+                $this->httpUriFilter->apply($this->createParam('http://example.org'))
+                                    ->asString()
         );
     }
 
@@ -52,9 +53,10 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithPortIfItIsNonDefaultPort()
     {
-        $this->assertEquals('http://example.org:45/',
-                            $this->httpUriFilter->apply($this->createParam('http://example.org:45'))
-                                                ->asString()
+        $this->assertEquals(
+                'http://example.org:45/',
+                $this->httpUriFilter->apply($this->createParam('http://example.org:45'))
+                                    ->asString()
         );
     }
 
@@ -95,45 +97,13 @@ class HttpUrlFilterTest extends FilterTest
     /**
      * @test
      */
-    public function dnsCheckIsDisabledByDefault()
+    public function doesNotPerformDnsCheck()
     {
-        $this->assertEquals('http://doesnotexist.foo/',
-                            $this->httpUriFilter->apply($this->createParam('http://doesnotexist.foo/'))
-                                                ->asString()
+        $this->assertEquals(
+                'http://doesnotexist.foo/',
+                $this->httpUriFilter->apply($this->createParam('http://doesnotexist.foo/'))
+                                    ->asString()
         );
-    }
-
-    /**
-     * @test
-     */
-    public function dnsCheckEnabledReturnsHttpUriIfUriHasDnsRecoed()
-    {
-        $this->assertEquals('http://stubbles.net/',
-                            $this->httpUriFilter->enforceDnsRecord()
-                                                ->apply($this->createParam('http://stubbles.net/'))
-                                                ->asString()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function dnsCheckEnabledReturnsNullIfUriHasNoDnsRecord()
-    {
-        $this->assertNull($this->httpUriFilter->enforceDnsRecord()
-                                              ->apply($this->createParam('http://doesnotexist.1und1.de/'))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function dnsCheckEnabledAddsErrorToParamIfUriHasNoDnsRecoed()
-    {
-        $param = $this->createParam('http://doesnotexist.foo/');
-        $this->httpUriFilter->enforceDnsRecord()
-                            ->apply($param);
-        $this->assertTrue($param->hasError('HTTP_URI_NOT_AVAILABLE'));
     }
 
     /**
@@ -142,11 +112,12 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('http://example.com/',
-                            $this->createValueReader(null)
-                                 ->defaultingTo(HttpUri::fromString('http://example.com/'))
-                                 ->asHttpUri()
-                                 ->asString()
+        $this->assertEquals(
+                'http://example.com/',
+                 $this->createValueReader(null)
+                      ->defaultingTo(HttpUri::fromString('http://example.com/'))
+                      ->asHttpUri()
+                      ->asString()
         );
     }
 
@@ -193,76 +164,12 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function asHttpUriReturnsValidValue()
     {
-        $this->assertEquals('http://example.com/',
-                            $this->createValueReader('http://example.com/')
-                                 ->asHttpUri()
-                                 ->asString()
+        $this->assertEquals(
+                'http://example.com/',
+                $this->createValueReader('http://example.com/')
+                     ->asHttpUri()
+                     ->asString()
         );
 
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
-    {
-        $this->assertEquals('http://example.com/',
-                            $this->createValueReader(null)
-                                 ->defaultingTo(HttpUri::fromString('http://example.com/'))
-                                 ->asExistingHttpUri()
-                                 ->asString()
-        );
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriReturnsNullIfParamIsNullAndRequired()
-    {
-        $this->assertNull($this->createValueReader(null)->required()->asExistingHttpUri());
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired()
-    {
-        $this->createValueReader(null)->required()->asExistingHttpUri();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'HTTP_URI_MISSING'));
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriReturnsNullIfParamIsInvalid()
-    {
-        $this->assertNull($this->createValueReader('foo')->asExistingHttpUri());
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriAddsParamErrorIfParamIsInvalid()
-    {
-        $this->createValueReader('foo')->asExistingHttpUri();
-        $this->assertTrue($this->paramErrors->existFor('bar'));
-    }
-
-    /**
-     * @since  2.0.0
-     * @test
-     */
-    public function asExistingHttpUriReturnsValidValue()
-    {
-        $this->assertEquals('http://localhost/',
-                            $this->createValueReader('http://localhost/')
-                                 ->asExistingHttpUri()
-                                 ->asString()
-        );
     }
 }
