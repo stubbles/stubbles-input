@@ -117,23 +117,28 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function isSsl()
     {
-        return $this->headers->has('HTTPS');
+        return $this->headers->contain('HTTPS');
     }
 
     /**
      * returns HTTP protocol version of request
+     *
+     * If no SERVER_PROTOCOL is present it is assumed that the protocol version
+     * is HTTP/1.0. In case the SERVER_PROTOCOL does not denote a valid HTTP
+     * version according to http://tools.ietf.org/html/rfc7230#section-2.6 the
+     * return value will be null.
      *
      * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */
     public function protocolVersion()
     {
-        if (!$this->headers->has('SERVER_PROTOCOL')) {
+        if (!$this->headers->contain('SERVER_PROTOCOL')) {
             return new HttpVersion(1, 0);
         }
 
         try {
-            return HttpVersion::fromString($this->headers->get('SERVER_PROTOCOL')->value());
+            return HttpVersion::fromString($this->headers->value('SERVER_PROTOCOL'));
         } catch (IllegalArgumentException $ex) {
             return null;
         }
@@ -175,12 +180,12 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function originatingIpAddress()
     {
-        if ($this->headers->has('HTTP_X_FORWARDED_FOR')) {
+        if ($this->headers->contain('HTTP_X_FORWARDED_FOR')) {
             $remoteAddresses = explode(',', $this->headers->value('HTTP_X_FORWARDED_FOR'));
             return trim($remoteAddresses[0]);
         }
 
-        if ($this->headers->has('REMOTE_ADDR')) {
+        if ($this->headers->contain('REMOTE_ADDR')) {
             return $this->headers->value('REMOTE_ADDR');
         }
 
@@ -200,7 +205,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
             $host .= ':' . $this->headers->value('SERVER_PORT');
         }
 
-        $uri  = (($this->headers->has('HTTPS')) ? ('https') : ('http')) . '://'
+        $uri  = (($this->headers->contain('HTTPS')) ? ('https') : ('http')) . '://'
               . $host
               . $this->headers->value('REQUEST_URI');
         try {
@@ -254,7 +259,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function hasHeader($headerName)
     {
-        return $this->headers->has($headerName);
+        return $this->headers->contain($headerName);
     }
 
     /**
@@ -326,7 +331,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function hasCookie($cookieName)
     {
-        return $this->cookies->has($cookieName);
+        return $this->cookies->contain($cookieName);
     }
 
     /**

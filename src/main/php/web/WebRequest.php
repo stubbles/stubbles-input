@@ -26,6 +26,11 @@ interface WebRequest extends Request
     /**
      * returns HTTP protocol version of request
      *
+     * If no SERVER_PROTOCOL is present it is assumed that the protocol version
+     * is HTTP/1.0. In case the SERVER_PROTOCOL does not denote a valid HTTP
+     * version according to http://tools.ietf.org/html/rfc7230#section-2.6 the
+     * return value will be null.
+     *
      * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */

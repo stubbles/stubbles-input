@@ -35,7 +35,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFalseIfParamDoesNotExist()
     {
-        $this->assertFalse($this->params->has('doesNotExist'));
+        $this->assertFalse($this->params->contain('doesNotExist'));
     }
 
     /**
@@ -43,7 +43,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsTrueIfParamDoesExist()
     {
-        $this->assertTrue($this->params->has('foo'));
+        $this->assertTrue($this->params->contain('foo'));
     }
 
     /**

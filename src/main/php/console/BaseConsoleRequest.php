@@ -113,7 +113,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      */
     public function hasEnv($envName)
     {
-        return $this->env->has($envName);
+        return $this->env->contain($envName);
     }
 
     /**
