@@ -46,7 +46,7 @@ class Params implements \IteratorAggregate, \Countable
      * @param   string  $paramName
      * @return  bool
      */
-    public function has($paramName)
+    public function contain($paramName)
     {
         return isset($this->params[$paramName]);
     }

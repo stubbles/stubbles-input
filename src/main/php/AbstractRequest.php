@@ -102,7 +102,7 @@ abstract class AbstractRequest implements Request
      */
     public function hasParam($paramName)
     {
-        return $this->params->has($paramName);
+        return $this->params->contain($paramName);
     }
 
     /**

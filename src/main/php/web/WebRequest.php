@@ -26,6 +26,11 @@ interface WebRequest extends Request
     /**
      * returns HTTP protocol version of request
      *
+     * If no SERVER_PROTOCOL is present it is assumed that the protocol version
+     * is HTTP/1.0. In case the SERVER_PROTOCOL does not denote a valid HTTP
+     * version according to http://tools.ietf.org/html/rfc7230#section-2.6 the
+     * return value will be null.
+     *
      * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */
@@ -43,7 +48,33 @@ interface WebRequest extends Request
     public function getProtocolVersion();
 
     /**
+     * returns the ip which issued the request originally
+     *
+     * The originating IP address is the IP address of the client which issued
+     * the request. In case the request was routed via several proxies it will
+     * still return the real client's IP, and not the IP address of the last
+     * proxy in the chain.
+     *
+     * Please note that the method relies on the values of REMOTE_ADDR provided
+     * by PHP and the X-Forwarded-For header. If none of these is present the
+     * return value will be null.
+     *
+     * Also, the return value might not neccessarily be a valid IP address nor
+     * the real IP address of the client, as it may be spoofed. You should check
+     * the return value for validity. We don't check the value here so callers
+     * can use the raw value.
+     *
+     * @return  string
+     * @since   3.0.0
+     */
+    public function originatingIpAddress();
+
+    /**
      * returns the uri of the request
+     *
+     * In case the composed uri for this request does not denote a valid HTTP
+     * uri a RuntimeException is thrown. If you came this far but the request
+     * is for an invalid HTTP uri something is completely wrong.
      *
      * @return  stubbles\peer\http\HttpUri
      */

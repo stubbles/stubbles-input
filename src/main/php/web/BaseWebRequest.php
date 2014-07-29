@@ -17,6 +17,7 @@ use stubbles\input\errors\ParamErrors;
 use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
+use stubbles\peer\http\Http;
 use stubbles\peer\http\HttpUri;
 use stubbles\peer\http\HttpVersion;
 /**
@@ -117,23 +118,28 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function isSsl()
     {
-        return $this->headers->has('HTTPS');
+        return $this->headers->contain('HTTPS');
     }
 
     /**
      * returns HTTP protocol version of request
+     *
+     * If no SERVER_PROTOCOL is present it is assumed that the protocol version
+     * is HTTP/1.0. In case the SERVER_PROTOCOL does not denote a valid HTTP
+     * version according to http://tools.ietf.org/html/rfc7230#section-2.6 the
+     * return value will be null.
      *
      * @return  \stubbles\peer\http\HttpVersion
      * @since   2.0.2
      */
     public function protocolVersion()
     {
-        if (!$this->headers->has('SERVER_PROTOCOL')) {
+        if (!$this->headers->contain('SERVER_PROTOCOL')) {
             return new HttpVersion(1, 0);
         }
 
         try {
-            return HttpVersion::fromString($this->headers->get('SERVER_PROTOCOL')->value());
+            return HttpVersion::fromString($this->headers->value('SERVER_PROTOCOL'));
         } catch (IllegalArgumentException $ex) {
             return null;
         }
@@ -154,7 +160,45 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
+     * returns the ip address which issued the request originally
+     *
+     * The originating IP address is the IP address of the client which issued
+     * the request. In case the request was routed via several proxies it will
+     * still return the real client's IP, and not the IP address of the last
+     * proxy in the chain.
+     *
+     * Please note that the method relies on the values of REMOTE_ADDR provided
+     * by PHP and the X-Forwarded-For header. If none of these is present the
+     * return value will be null.
+     *
+     * Also, the return value might not neccessarily be a valid IP address nor
+     * the real IP address of the client, as it may be spoofed. You should check
+     * the return value for validity. We don't check the value here so callers
+     * can use the raw value.
+     *
+     * @return  string
+     * @since   3.0.0
+     */
+    public function originatingIpAddress()
+    {
+        if ($this->headers->contain('HTTP_X_FORWARDED_FOR')) {
+            $remoteAddresses = explode(',', $this->headers->value('HTTP_X_FORWARDED_FOR'));
+            return trim($remoteAddresses[0]);
+        }
+
+        if ($this->headers->contain('REMOTE_ADDR')) {
+            return $this->headers->value('REMOTE_ADDR');
+        }
+
+        return null;
+    }
+
+    /**
      * returns the uri of the request
+     *
+     * In case the composed uri for this request does not denote a valid HTTP
+     * uri a RuntimeException is thrown. If you came this far but the request
+     * is for an invalid HTTP uri something is completely wrong.
      *
      * @return  HttpUri
      * @throws  RuntimeException
@@ -162,15 +206,13 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     public function uri()
     {
         $host = $this->headers->value('HTTP_HOST');
-        if (strstr($host, ':') === false) {
-            $host .= ':' . $this->headers->value('SERVER_PORT');
-        }
-
-        $uri  = (($this->headers->has('HTTPS')) ? ('https') : ('http')) . '://'
-              . $host
-              . $this->headers->value('REQUEST_URI');
         try {
-            return HttpUri::fromString($uri);
+            return HttpUri::fromParts(
+                    (($this->headers->contain('HTTPS')) ? (Http::SCHEME_SSL) : (Http::SCHEME)),
+                    $host,
+                    (strstr($host, ':') === false ? $this->headers->value('SERVER_PORT') : null),
+                    $this->headers->value('REQUEST_URI') // already contains query string
+            );
         } catch (MalformedUriException $murie) {
             throw new RuntimeException('Invalid request uri', $murie);
         }
@@ -220,7 +262,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function hasHeader($headerName)
     {
-        return $this->headers->has($headerName);
+        return $this->headers->contain($headerName);
     }
 
     /**
@@ -292,7 +334,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      */
     public function hasCookie($cookieName)
     {
-        return $this->cookies->has($cookieName);
+        return $this->cookies->contain($cookieName);
     }
 
     /**

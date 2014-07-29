@@ -229,6 +229,64 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAdressIsNullWhenAccordingHeadersNotPresent()
+    {
+        $this->assertNull($this->createBaseWebRequest()->originatingIpAddress());
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAddressIsRemoteAddressWhenNoForwardedForHeaderPresent()
+    {
+        $this->assertEquals(
+                '127.0.0.1',
+                $this->createBaseWebRequest([], ['REMOTE_ADDR' => '127.0.0.1'])
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAddressIsForwardedAddressWhenForwardedForHeaderPresent()
+    {
+        $this->assertEquals(
+                '172.19.120.122',
+                $this->createBaseWebRequest(
+                        [],
+                        ['REMOTE_ADDR'          => '127.0.0.1',
+                         'HTTP_X_FORWARDED_FOR' => '172.19.120.122'
+                        ]
+                       )
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAddressIsFirstFromForwardedAddressesWhenForwardedForHeaderContainsList()
+    {
+        $this->assertEquals(
+                '172.19.120.122',
+                $this->createBaseWebRequest(
+                        [],
+                        ['REMOTE_ADDR'          => '127.0.0.1',
+                         'HTTP_X_FORWARDED_FOR' => '172.19.120.122, 168.30.48.124'
+                        ]
+                       )
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
      * @test
      * @expectedException  stubbles\lang\exception\RuntimeException
      */
