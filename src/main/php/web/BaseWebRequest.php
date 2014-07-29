@@ -17,6 +17,7 @@ use stubbles\input\errors\ParamErrors;
 use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
+use stubbles\peer\http\Http;
 use stubbles\peer\http\HttpUri;
 use stubbles\peer\http\HttpVersion;
 /**
@@ -195,21 +196,23 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns the uri of the request
      *
+     * In case the composed uri for this request does not denote a valid HTTP
+     * uri a RuntimeException is thrown. If you came this far but the request
+     * is for an invalid HTTP uri something is completely wrong.
+     *
      * @return  HttpUri
      * @throws  RuntimeException
      */
     public function uri()
     {
         $host = $this->headers->value('HTTP_HOST');
-        if (strstr($host, ':') === false) {
-            $host .= ':' . $this->headers->value('SERVER_PORT');
-        }
-
-        $uri  = (($this->headers->contain('HTTPS')) ? ('https') : ('http')) . '://'
-              . $host
-              . $this->headers->value('REQUEST_URI');
         try {
-            return HttpUri::fromString($uri);
+            return HttpUri::fromParts(
+                    (($this->headers->contain('HTTPS')) ? (Http::SCHEME_SSL) : (Http::SCHEME)),
+                    $host,
+                    (strstr($host, ':') === false ? $this->headers->value('SERVER_PORT') : null),
+                    $this->headers->value('REQUEST_URI') // already contains query string
+            );
         } catch (MalformedUriException $murie) {
             throw new RuntimeException('Invalid request uri', $murie);
         }

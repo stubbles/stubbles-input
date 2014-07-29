@@ -72,6 +72,10 @@ interface WebRequest extends Request
     /**
      * returns the uri of the request
      *
+     * In case the composed uri for this request does not denote a valid HTTP
+     * uri a RuntimeException is thrown. If you came this far but the request
+     * is for an invalid HTTP uri something is completely wrong.
+     *
      * @return  stubbles\peer\http\HttpUri
      */
     public function uri();
