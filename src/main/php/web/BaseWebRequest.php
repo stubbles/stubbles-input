@@ -154,6 +154,40 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
+     * returns the ip address which issued the request originally
+     *
+     * The originating IP address is the IP address of the client which issued
+     * the request. In case the request was routed via several proxies it will
+     * still return the real client's IP, and not the IP address of the last
+     * proxy in the chain.
+     *
+     * Please note that the method relies on the values of REMOTE_ADDR provided
+     * by PHP and the X-Forwarded-For header. If none of these is present the
+     * return value will be null.
+     *
+     * Also, the return value might not neccessarily be a valid IP address nor
+     * the real IP address of the client, as it may be spoofed. You should check
+     * the return value for validity. We don't check the value here so callers
+     * can use the raw value.
+     *
+     * @return  string
+     * @since   3.0.0
+     */
+    public function originatingIpAddress()
+    {
+        if ($this->headers->has('HTTP_X_FORWARDED_FOR')) {
+            $remoteAddresses = explode(',', $this->headers->value('HTTP_X_FORWARDED_FOR'));
+            return trim($remoteAddresses[0]);
+        }
+
+        if ($this->headers->has('REMOTE_ADDR')) {
+            return $this->headers->value('REMOTE_ADDR');
+        }
+
+        return null;
+    }
+
+    /**
      * returns the uri of the request
      *
      * @return  HttpUri
