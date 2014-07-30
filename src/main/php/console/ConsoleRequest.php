@@ -34,7 +34,7 @@ interface ConsoleRequest extends Request
     /**
      * returns list of errors for environment parameters
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      */
     public function envErrors();
 
@@ -50,7 +50,7 @@ interface ConsoleRequest extends Request
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $envName  name of environment value
-     * @return  stubbles\input\ValueValidator
+     * @return  \stubbles\input\ValueValidator
      */
     public function validateEnv($envName);
 
@@ -58,7 +58,7 @@ interface ConsoleRequest extends Request
      * returns request value from params for validation
      *
      * @param   string  $envName  name of environment value
-     * @return  stubbles\input\ValueFilter
+     * @return  \stubbles\input\ValueReader
      */
     public function readEnv($envName);
 }

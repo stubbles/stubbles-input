@@ -46,7 +46,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      * Will use $_SERVER['argv'] for params and $_SERVER for env.
      *
      * @api
-     * @return  ConsoleRequest
+     * @return  \stubbles\input\console\ConsoleRequest
      */
     public static function fromRawSource()
     {
@@ -98,7 +98,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
     /**
      * returns list of errors for environment parameters
      *
-     * @return  ParamErrors
+     * @return  \stubbles\input\ParamErrors
      */
     public function envErrors()
     {
@@ -120,7 +120,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $envName  name of environment value
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      */
     public function validateEnv($envName)
     {
@@ -131,7 +131,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      * returns request value from params for validation
      *
      * @param   string  $envName  name of environment value
-     * @return  ValueFilter
+     * @return  \stubbles\input\ValueReader
      */
     public function readEnv($envName)
     {

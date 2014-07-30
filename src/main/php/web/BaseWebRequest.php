@@ -71,7 +71,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * creates an instance from raw data, meaning $_GET/$_POST, $_SERVER and $_COOKIE
      *
      * @api
-     * @return  WebRequest
+     * @return  \stubbles\input\web\WebRequest
      */
     public static function fromRawSource()
     {
@@ -205,7 +205,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * uri a RuntimeException is thrown. If you came this far but the request
      * is for an invalid HTTP uri something is completely wrong.
      *
-     * @return  HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      * @throws  RuntimeException
      */
     public function uri()
@@ -273,7 +273,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors()
@@ -285,7 +285,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * checks whether a request value from headers is valid or not
      *
      * @param   string  $headerName  name of header
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateHeader($headerName)
@@ -297,7 +297,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readHeader($headerName)
@@ -345,7 +345,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors()
@@ -357,7 +357,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * checks whether a request value from cookie is valid or not
      *
      * @param   string  $cookieName  name of cookie
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateCookie($cookieName)
@@ -369,7 +369,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readCookie($cookieName)
@@ -397,7 +397,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * checks whether a request body is valid or not
      *
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateBody()
@@ -408,7 +408,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns request body for filtering or validation
      *
-     * @return  ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readBody()
@@ -421,7 +421,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * read request body
      *
-     * @return  Param
+     * @return  \stubbles\input\Param
      */
     private function parseBody()
     {

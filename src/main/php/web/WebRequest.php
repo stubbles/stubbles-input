@@ -76,14 +76,14 @@ interface WebRequest extends Request
      * uri a RuntimeException is thrown. If you came this far but the request
      * is for an invalid HTTP uri something is completely wrong.
      *
-     * @return  stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      */
     public function uri();
 
     /**
      * returns the uri of the request
      *
-     * @return  stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
      */
     public function getUri();
@@ -117,7 +117,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request headers
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function headerErrors();
@@ -126,7 +126,7 @@ interface WebRequest extends Request
      * checks whether a request value from headers is valid or not
      *
      * @param   string  $headerName  name of header
-     * @return  stubbles\input\ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateHeader($headerName);
@@ -135,7 +135,7 @@ interface WebRequest extends Request
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
-     * @return  stubbles\input\ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readHeader($headerName);
@@ -169,7 +169,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request cookies
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function cookieErrors();
@@ -178,7 +178,7 @@ interface WebRequest extends Request
      * checks whether a request value from cookie is valid or not
      *
      * @param   string  $cookieName  name of cookie
-     * @return  stubbles\input\ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateCookie($cookieName);
@@ -187,7 +187,7 @@ interface WebRequest extends Request
      * returns request value from cookies for filtering or validation
      *
      * @param   string  $cookieName  name of cookie
-     * @return  stubbles\input\ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readCookie($cookieName);
@@ -195,7 +195,7 @@ interface WebRequest extends Request
     /**
      * checks whether a request body is valid or not
      *
-     * @return  stubbles\input\ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateBody();
@@ -203,7 +203,7 @@ interface WebRequest extends Request
     /**
      * returns error collection for request body
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors();
@@ -211,7 +211,7 @@ interface WebRequest extends Request
     /**
      * returns request body for filtering or validation
      *
-     * @return  stubbles\input\ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readBody();

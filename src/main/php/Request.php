@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\input\errors\ParamErrors;
 /**
  * Interface for handling input data.
  *
@@ -66,7 +65,7 @@ interface Request
     /**
      * returns list of errors for request parameters
      *
-     * @return  ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function paramErrors();
@@ -84,7 +83,7 @@ interface Request
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $paramName  name of request value
-     * @return  stubbles\input\ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateParam($paramName);
@@ -93,7 +92,7 @@ interface Request
      * returns request value from params for validation
      *
      * @param   string  $paramName  name of request value
-     * @return  stubbles\input\ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readParam($paramName);
