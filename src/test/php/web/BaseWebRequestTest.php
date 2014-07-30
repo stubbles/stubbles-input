@@ -241,10 +241,52 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @since  3.0.0
      * @test
      */
+    public function originatingIpAdressIsNullWhenRemoteAddressSyntacticallyInvalidAndNoForwardedForHeaderPresent()
+    {
+        $this->assertNull(
+                $this->createBaseWebRequest([], ['REMOTE_ADDR' => 'foo'])
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAdressIsNullWhenForwardedForHeaderSyntacticallyInvalid()
+    {
+        $this->assertNull(
+                $this->createBaseWebRequest(
+                        [],
+                        ['REMOTE_ADDR'          => '127.0.0.1',
+                         'HTTP_X_FORWARDED_FOR' => 'foo'
+                        ]
+                       )
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
     public function originatingIpAddressIsRemoteAddressWhenNoForwardedForHeaderPresent()
     {
         $this->assertEquals(
                 '127.0.0.1',
+                $this->createBaseWebRequest([], ['REMOTE_ADDR' => '127.0.0.1'])
+                     ->originatingIpAddress()
+        );
+    }
+
+    /**
+     * @since  3.0.0
+     * @test
+     */
+    public function originatingIpAddressIsInstanceOfIpAddress()
+    {
+        $this->assertInstanceOf(
+                'stubbles\peer\IpAddress',
                 $this->createBaseWebRequest([], ['REMOTE_ADDR' => '127.0.0.1'])
                      ->originatingIpAddress()
         );

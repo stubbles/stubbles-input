@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "6428bc83ac42d0e22d2a03cfbd24d609e38f1d54"
+                "reference": "744c937cc55038b928e4d2e3a1c15a02846eac42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/6428bc83ac42d0e22d2a03cfbd24d609e38f1d54",
-                "reference": "6428bc83ac42d0e22d2a03cfbd24d609e38f1d54",
+                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/744c937cc55038b928e4d2e3a1c15a02846eac42",
+                "reference": "744c937cc55038b928e4d2e3a1c15a02846eac42",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
             ],
             "description": "Provides base classes for Stubbles packages.",
             "homepage": "http://stubbles.net/",
-            "time": "2014-07-29 20:39:54"
+            "time": "2014-07-30 12:53:32"
         }
     ],
     "packages-dev": [
@@ -827,12 +827,17 @@
             "time": "2014-07-09 09:05:48"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
-    "stability-flags": [],
-    "prefer-stable": true,
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

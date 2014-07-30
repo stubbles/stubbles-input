@@ -52,19 +52,19 @@ interface WebRequest extends Request
      *
      * The originating IP address is the IP address of the client which issued
      * the request. In case the request was routed via several proxies it will
-     * still return the real client's IP, and not the IP address of the last
-     * proxy in the chain.
+     * still return the real client IP, and not the IP address of the last proxy
+     * in the chain.
      *
      * Please note that the method relies on the values of REMOTE_ADDR provided
      * by PHP and the X-Forwarded-For header. If none of these is present the
-     * return value will be null.
+     * return value will be null. Additionally, if the value of these headers
+     * does not contain a syntactically correct IP address, the return value
+     * will be null.
      *
-     * Also, the return value might not neccessarily be a valid IP address nor
-     * the real IP address of the client, as it may be spoofed. You should check
-     * the return value for validity. We don't check the value here so callers
-     * can use the raw value.
+     * Also, the return value might not neccessarily be an existing IP address
+     * nor the real IP address of the client, as it may be spoofed.
      *
-     * @return  string
+     * @return  \stubbles\peer\IpAddress
      * @since   3.0.0
      */
     public function originatingIpAddress();
