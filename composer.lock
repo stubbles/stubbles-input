@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "379027fbacafec674e69b467d0f03267",
+    "hash": "fdc00a59be4d53bd4378e3f5e1c0f859",
     "packages": [
         {
             "name": "stubbles/core",
-            "version": "dev-master",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "744c937cc55038b928e4d2e3a1c15a02846eac42"
+                "reference": "6e84ef039726b6eccc9536586f76e71948e20682"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/744c937cc55038b928e4d2e3a1c15a02846eac42",
-                "reference": "744c937cc55038b928e4d2e3a1c15a02846eac42",
+                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/6e84ef039726b6eccc9536586f76e71948e20682",
+                "reference": "6e84ef039726b6eccc9536586f76e71948e20682",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
             ],
             "description": "Provides base classes for Stubbles packages.",
             "homepage": "http://stubbles.net/",
-            "time": "2014-07-30 12:53:32"
+            "time": "2014-07-31 11:22:40"
         }
     ],
     "packages-dev": [
@@ -687,7 +687,8 @@
                 },
                 {
                     "name": "Adam Harvey",
-                    "email": "aharvey@php.net"
+                    "email": "aharvey@php.net",
+                    "role": "Lead"
                 },
                 {
                     "name": "Bernhard Schussek",
@@ -739,16 +740,16 @@
         },
         {
             "name": "stubbles/date",
-            "version": "dev-master",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-date.git",
-                "reference": "57302b8442fcaa9f504eab4dcb644d68277454df"
+                "reference": "604fd1e3b4147b4317fdda80471ec9d9589d396a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/57302b8442fcaa9f504eab4dcb644d68277454df",
-                "reference": "57302b8442fcaa9f504eab4dcb644d68277454df",
+                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/604fd1e3b4147b4317fdda80471ec9d9589d396a",
+                "reference": "604fd1e3b4147b4317fdda80471ec9d9589d396a",
                 "shasum": ""
             },
             "require": {
@@ -775,7 +776,7 @@
             ],
             "description": "Simplified handling of dates and datespans.",
             "homepage": "http://stubbles.net/",
-            "time": "2014-06-14 09:21:56"
+            "time": "2014-07-31 12:14:28"
         },
         {
             "name": "symfony/yaml",
