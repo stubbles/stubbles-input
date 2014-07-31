@@ -23,7 +23,7 @@ interface PasswordChecker
      * In case the password does not satisfy the return value is a map of
      * error ids with error details.
      *
-     * @param   SecureString  $proposedPassword
+     * @param   \stubbles\lang\SecureString  $proposedPassword
      * @return  array
      */
     public function check(SecureString $proposedPassword);

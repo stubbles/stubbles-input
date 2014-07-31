@@ -37,7 +37,7 @@ class WrapCallableFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  mixed
      */
     public function apply(Param $param)

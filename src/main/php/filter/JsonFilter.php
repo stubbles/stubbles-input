@@ -23,7 +23,7 @@ class JsonFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  \stdClass|array
      */
     public function apply(Param $param)

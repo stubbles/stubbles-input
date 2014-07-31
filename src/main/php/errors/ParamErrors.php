@@ -25,10 +25,10 @@ class ParamErrors implements \IteratorAggregate, \Countable
     /**
      * appends an error to the list of errors for given param name
      *
-     * @param   string             $paramName  name of parameter to add error for
-     * @param   ParamError|string  $error      id of error or an instance of ParamError
-     * @param   array              $details    details of what caused the error
-     * @return  ParamError
+     * @param   string                                    $paramName  name of parameter to add error for
+     * @param   \stubbles\input\errors\ParamError|string  $error      id of error or an instance of ParamError
+     * @param   array                                     $details    details of what caused the error
+     * @return  \stubbles\input\errors\ParamError
      * @since   2.3.3
      */
     public function append($paramName, $error, array $details = [])
@@ -93,7 +93,7 @@ class ParamErrors implements \IteratorAggregate, \Countable
      * returns a list of errors for given param
      *
      * @param   string  $paramName
-     * @return  ParamError[]
+     * @return  \stubbles\input\errors\ParamError[]
      */
     public function getFor($paramName)
     {
@@ -109,7 +109,7 @@ class ParamErrors implements \IteratorAggregate, \Countable
      *
      * @param   string  $paramName  name of param
      * @param   string  $errorId    id of error
-     * @return  ParamError
+     * @return  \stubbles\input\errors\ParamError
      */
     public function getForWithId($paramName, $errorId)
     {
@@ -124,7 +124,7 @@ class ParamErrors implements \IteratorAggregate, \Countable
      * provides an iterator to iterate over all errors
      *
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  Traversable
+     * @return  \Traversable
      * @since   2.0.0
      */
     public function getIterator()

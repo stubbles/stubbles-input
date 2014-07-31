@@ -22,7 +22,7 @@ class ValidatingFilter implements Filter
     /**
      * validator to be used
      *
-     * @type  Validator
+     * @type  \stubbles\input\Validator
      */
     private $validator;
     /**
@@ -41,9 +41,9 @@ class ValidatingFilter implements Filter
     /**
      * constructor
      *
-     * @param  Validator  $validator  validator to be used
-     * @param  string     $errorId    error id to be used in case validation fails
-     * @param  array      $details    details for param error in case validation fails
+     * @param  \stubbles\input\Validator  $validator  validator to be used
+     * @param  string                     $errorId    error id to be used in case validation fails
+     * @param  array                      $details    details for param error in case validation fails
      */
     public function __construct(Validator $validator, $errorId, array $details = [])
     {
@@ -55,7 +55,7 @@ class ValidatingFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  string
      */
     public function apply(Param $param)

@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\input\errors\ParamErrors;
 /**
  * Abstract base class for requests.
  */
@@ -30,7 +29,7 @@ abstract class AbstractRequest implements Request
     /**
      * constructor
      *
-     * @param  Params  $params
+     * @param  \stubbles\input\Params  $params
      */
     public function __construct(Params $params)
     {
@@ -40,7 +39,7 @@ abstract class AbstractRequest implements Request
     /**
      * cancels the request, e.g. if it was detected that it is invalid
      *
-     * @return  Request
+     * @return  \stubbles\input\Request
      * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function cancel()
@@ -85,7 +84,7 @@ abstract class AbstractRequest implements Request
     /**
      * returns list of errors for request parameters
      *
-     * @return  ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function paramErrors()
@@ -109,7 +108,7 @@ abstract class AbstractRequest implements Request
      * checks whether a request value from parameters is valid or not
      *
      * @param   string  $paramName  name of parameter
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
     public function validateParam($paramName)
@@ -121,7 +120,7 @@ abstract class AbstractRequest implements Request
      * returns request value from params for filtering or validation
      *
      * @param   string  $paramName  name of parameter
-     * @return  ValueReader
+     * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
     public function readParam($paramName)

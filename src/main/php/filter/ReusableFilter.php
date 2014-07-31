@@ -18,14 +18,14 @@ trait ReusableFilter
     /**
      * reusable instance
      *
-     * @type  Filter
+     * @type  \stubbles\input\Filter
      */
     private static $instance;
 
     /**
      * returns reusable filter instance
      *
-     * @return  \stubbles\input\filter\Filter
+     * @return  \stubbles\input\Filter
      */
     public static function instance()
     {

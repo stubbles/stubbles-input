@@ -21,7 +21,7 @@ class PredicateFilter implements Filter
     /**
      * predicate to be used
      *
-     * @type  Predicate
+     * @type  \stubbles\predicate\Predicate
      */
     private $predicate;
     /**
@@ -54,7 +54,7 @@ class PredicateFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  string
      */
     public function apply(Param $param)

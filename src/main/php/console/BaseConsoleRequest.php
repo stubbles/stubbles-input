@@ -12,7 +12,6 @@ use stubbles\input\AbstractRequest;
 use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
-use stubbles\input\errors\ParamErrors;
 /**
  * Request implementation for command line.
  *
@@ -24,7 +23,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
     /**
      * list of environment variables
      *
-     * @type  Params
+     * @type  \stubbles\input\Params
      */
     private $env;
 

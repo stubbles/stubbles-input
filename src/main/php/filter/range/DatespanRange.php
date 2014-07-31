@@ -23,21 +23,21 @@ class DatespanRange extends AbstractRange
     /**
      * minimum date
      *
-     * @type  Date
+     * @type  \stubbles\date\Date
      */
     private $minDate;
     /**
      * maximum date
      *
-     * @type  Date
+     * @type  \stubbles\date\Date
      */
     private $maxDate;
 
     /**
      * constructor
      *
-     * @param  int|string|\DateTime|Date  $minDate
-     * @param  int|string|\DateTime|Date  $maxDate
+     * @param  int|string|\DateTime|\stubbles\date\Date  $minDate
+     * @param  int|string|\DateTime|\stubbles\date\Date  $maxDate
      */
     public function __construct($minDate = null, $maxDate = null)
     {
@@ -50,7 +50,7 @@ class DatespanRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  RuntimeException
+     * @throws  \stubbles\lang\exception\RuntimeException
      */
     protected function belowMinBorder($value)
     {
@@ -70,7 +70,7 @@ class DatespanRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  RuntimeException
+     * @throws  \stubbles\lang\exception\RuntimeException
      */
     protected function aboveMaxBorder($value)
     {

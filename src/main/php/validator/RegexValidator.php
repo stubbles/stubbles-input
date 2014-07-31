@@ -45,7 +45,7 @@ class RegexValidator implements Validator
      *
      * @param   mixed  $value
      * @return  bool   true if value complies with regular expression, else false
-     * @throws  RuntimeException  in case the used regular expresion is invalid
+     * @throws  \stubbles\lang\exception\RuntimeException  in case the used regular expresion is invalid
      */
     public function validate($value)
     {

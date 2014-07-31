@@ -21,7 +21,7 @@ class IntegerFilter implements NumberFilter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  int
      */
     public function apply(Param $param)

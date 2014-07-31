@@ -23,7 +23,7 @@ class StringFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  string  filtered string
      */
     public function apply(Param $param)

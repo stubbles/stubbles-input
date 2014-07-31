@@ -19,13 +19,13 @@ class ParamBrokerMap
     /**
      * list of build in param brokers
      *
-     * @type  ParamBroker[]
+     * @type  \stubbles\input\param\broker\ParamBroker[]
      */
     private static $buildInParamBroker;
     /**
-     * factory to create filters with
+     * list of registered param brokers
      *
-     * @type  ParamBroker[]
+     * @type  \stubbles\input\param\broker\ParamBroker[]
      */
     private $paramBroker;
 
@@ -40,8 +40,8 @@ class ParamBrokerMap
     /**
      * sets map of param brokers
      *
-     * @param   ParamBroker[]  $paramBrokers
-     * @return  ParamBrokerMap
+     * @param   \stubbles\input\param\broker\ParamBroker[]  $paramBrokers
+     * @return  \stubbles\input\param\ParamBrokerMap
      * @Inject(optional=true)
      * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
@@ -58,8 +58,8 @@ class ParamBrokerMap
      * retrieves param broker for given key
      *
      * @param   string  $key
-     * @return  param\ParamBroker
-     * @throws  RuntimeException
+     * @return  \stubbles\input\param\broker\ParamBroker
+     * @throws  \stubbles\lang\exception\RuntimeException
      */
     public function getBroker($key)
     {
@@ -73,7 +73,7 @@ class ParamBrokerMap
     /**
      * returns list of build in param brokers
      *
-     * @return  ParamBroker[]
+     * @return  \stubbles\input\param\broker\ParamBroker[]
      */
     public static function getBuildInParamBroker()
     {

@@ -19,8 +19,8 @@ class TextParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   CommonValueReader  $valueReader  instance to filter value with
-     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
      * @return  string
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
@@ -35,7 +35,7 @@ class TextParamBroker extends MultipleSourceParamBroker
     /**
      * returns list of allowed tags
      *
-     * @param   Annotation  $annotation
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  string[]
      */
     private function getAllowedTags(Annotation $annotation)

@@ -15,7 +15,6 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
-use stubbles\peer\http\HttpUri;
 /**
  * Value object for request values to filter them or retrieve them after validation.
  *
@@ -26,21 +25,21 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * request instance the value inherits from
      *
-     * @type  ParamErrors
+     * @type  \stubbles\input\errors\ParamErrors
      */
     private $paramErrors;
     /**
      * parameter to filter
      *
-     * @type  Param
+     * @type  \stubbles\input\Param
      */
     private $param;
 
     /**
      * constructor
      *
-     * @param  ParamErrors  $paramErrors  list of errors to add any filter errors to
-     * @param  Param        $param        parameter to filter
+     * @param  \stubbles\input\errors\ParamErrors  $paramErrors  list of errors to add any filter errors to
+     * @param  \stubbles\input\Param               $param        parameter to filter
      */
     public function __construct(ParamErrors $paramErrors, Param $param)
     {
@@ -52,7 +51,7 @@ class ValueReader implements valuereader\CommonValueReader
      * create instance as mock with empty param errors
      *
      * @param   string  $paramValue  actual value to use
-     * @return  ValueReader
+     * @return  \stubbles\input\ValueReader
      */
     public static function forValue($paramValue)
     {
@@ -62,8 +61,8 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * create instance as mock with empty param errors
      *
-     * @param   Param  $param  param to use
-     * @return  ValueReader
+     * @param   \stubbles\input\Param  $param  param to use
+     * @return  \stubbles\input\ValueReader
      */
     public static function forParam(Param $param)
     {
@@ -141,7 +140,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as integer value
      *
      * @api
-     * @param   NumberRange  $range  optional  range of allowed values
+     * @param   \stubbles\input\filter\range\NumberRange  $range  optional  range of allowed values
      * @return  int
      */
     public function asInt(NumberRange $range = null)
@@ -159,8 +158,8 @@ class ValueReader implements valuereader\CommonValueReader
      * read as float value
      *
      * @api
-     * @param   NumberRange  $range     optional  range of allowed values
-     * @param   int          $decimals  optional  number of decimals
+     * @param   \stubbles\input\filter\range\NumberRange  $range     optional  range of allowed values
+     * @param   int                                       $decimals  optional  number of decimals
      * @return  float
      */
     public function asFloat(NumberRange $range = null, $decimals = null)
@@ -179,7 +178,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as string value
      *
      * @api
-     * @param   StringLength  $length  optional  allowed length of string
+     * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
      * @return  string
      */
     public function asString(StringLength $length = null)
@@ -197,7 +196,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as string value
      *
      * @api
-     * @param   StringLength  $length  optional  allowed length of string
+     * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
      * @return  \stubbles\lang\SecureString
      * @since   3.0.0
      */
@@ -216,8 +215,8 @@ class ValueReader implements valuereader\CommonValueReader
      * read as text value
      *
      * @api
-     * @param   StringLength  $length       optional  allowed length of text
-     * @param   string[]      $allowedTags  optional  list of allowed tags
+     * @param   \stubbles\input\filter\range\StringLength  $length       optional  allowed length of text
+     * @param   string[]                                   $allowedTags  optional  list of allowed tags
      * @return  string
      */
     public function asText(StringLength $length = null, $allowedTags = [])
@@ -247,7 +246,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as password value
      *
      * @api
-     * @param   PasswordChecker  $checker  checker to be used to ensure a good password
+     * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\lang\SecureString
      */
     public function asPassword(PasswordChecker $checker)
@@ -292,7 +291,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as date value
      *
      * @api
-     * @param   DateRange  $range  optional  allowed range of allowed dates
+     * @param   \stubbles\input\filter\range\DateRange  $range  optional  allowed range of allowed dates
      * @return  \stubbles\date\Date
      */
     public function asDate(DateRange $range = null)
@@ -310,7 +309,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as day
      *
      * @api
-     * @param   DatespanRange  $range  optional  range where the day must be within
+     * @param   \stubbles\input\filter\range\DatespanRange  $range  optional  range where the day must be within
      * @return  \stubbles\date\span\Day
      * @since   2.0.0
      */
@@ -329,7 +328,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as month
      *
      * @api
-     * @param   DatespanRange  $range  optional  range where the month must be within
+     * @param   \stubbles\input\filter\range\DatespanRange  $range  optional  range where the month must be within
      * @return  \stubbles\date\span\Month
      * @since   2.5.1
      */
@@ -438,9 +437,9 @@ class ValueReader implements valuereader\CommonValueReader
      * If value does not satisfy the validator return value will be null.
      *
      * @api
-     * @param   Validator  $validator  validator to use
-     * @param   string     $errorId    error id to be used in case validation fails
-     * @param   array      $details    optional  details for param error in case validation fails
+     * @param   \stubbles\input\Validator  $validator  validator to use
+     * @param   string                     $errorId    error id to be used in case validation fails
+     * @param   array                      $details    optional  details for param error in case validation fails
      * @return  string
      * @deprecated  since 3.0.0, use with($predicate, $errorId) instead, will be removed with 4.0.0
      */
@@ -480,7 +479,7 @@ class ValueReader implements valuereader\CommonValueReader
      * If value does not satisfy given filter return value will be null.
      *
      * @api
-     * @param   Filter  $filter  filter to apply
+     * @param   \stubbles\input\Filter  $filter  filter to apply
      * @return  mixed
      */
     public function withFilter(Filter $filter)
@@ -512,7 +511,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * If value does not satisfy given filter return value will be null.
      *
-     * @param   Filter  $filter
+     * @param   \stubbles\input\Filter  $filter
      * @return  mixed
      */
     private function applyFilter(Filter $filter)

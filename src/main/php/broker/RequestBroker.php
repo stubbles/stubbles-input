@@ -19,21 +19,21 @@ class RequestBroker
     /**
      * the matcher to be used for methods and properties
      *
-     * @type  RequestBrokerMethods
+     * @type  \stubbles\input\param\RequestBrokerMethods
      */
     private $brokerMethods;
     /**
      * factory to create filters with
      *
-     * @type  ParamBrokerMap
+     * @type  \stubbles\input\param\ParamBrokerMap
      */
     private $paramBrokerMap;
 
     /**
      * constructor
      *
-     * @param  RequestBrokerMethods  $brokerMethods
-     * @param  ParamBrokerMap        $paramBrokerMap
+     * @param  \stubbles\input\param\RequestBrokerMethods  $brokerMethods
+     * @param  \stubbles\input\param\ParamBrokerMap        $paramBrokerMap
      * @Inject
      */
     public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokerMap $paramBrokerMap)
@@ -45,9 +45,9 @@ class RequestBroker
     /**
      * fills given object with values from request
      *
-     * @param   Request  $request
-     * @param   object   $object   the object instance to fill with values
-     * @param   string   $group    restrict procurement to given group
+     * @param   \stubbles\input\Request  $request
+     * @param   object                   $object   the object instance to fill with values
+     * @param   string                   $group    restrict procurement to given group
      */
     public function procure(Request $request, $object, $group = null)
     {
@@ -66,7 +66,7 @@ class RequestBroker
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  ReflectionMethod[]
+     * @return  \stubbles\lang\reflect\ReflectionMethod[]
      */
     public function getMethods($object, $group = null)
     {
@@ -78,7 +78,7 @@ class RequestBroker
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  stubbles\lang\reflect\annotation\Annotation[]
+     * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
     public function getAnnotations($object, $group = null)
     {

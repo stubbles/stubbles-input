@@ -30,7 +30,7 @@ class FloatFilter implements NumberFilter
      * sets number of decimals
      *
      * @param   int  $decimals
-     * @return  FloatFilter
+     * @return  \stubbles\input\filter\FloatFilter
      */
     public function setDecimals($decimals)
     {
@@ -41,7 +41,7 @@ class FloatFilter implements NumberFilter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  int|float
      */
     public function apply(Param $param)

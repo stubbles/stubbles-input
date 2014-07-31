@@ -20,9 +20,9 @@ class DateParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   CommonValueReader  $valueReader  instance to filter value with
-     * @param   Annotation         $annotation   annotation which contains filter metadata
-     * @return  Date
+     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @return  \stubbles\date\Date
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
@@ -36,7 +36,7 @@ class DateParamBroker extends MultipleSourceParamBroker
      * parses default value from annotation
      *
      * @param   string  $value
-     * @return  Date
+     * @return  \stubbles\date\Date
      */
     protected function parseDefault($value)
     {
@@ -47,7 +47,7 @@ class DateParamBroker extends MultipleSourceParamBroker
      * creates date from value
      *
      * @param   string  $value
-     * @return  Date
+     * @return  \stubbles\date\Date
      */
     private function createDate($value)
     {

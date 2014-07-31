@@ -19,8 +19,8 @@ class StringParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   CommonValueReader  $valueReader  instance to filter value with
-     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
      * @return  string
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)

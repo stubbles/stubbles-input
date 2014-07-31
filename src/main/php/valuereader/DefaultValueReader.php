@@ -52,7 +52,7 @@ class DefaultValueReader implements CommonValueReader
      *
      * @param   \Closure  $isCorrectType         check to be executed when default value is not null
      * @param   string    $expectedType  expected type of default value
-     * @throws  IllegalStateException
+     * @throws  \stubbles\lang\exception\IllegalStateException
      */
     private function checkDefaultType(\Closure $isCorrectType, $expectedType)
     {
@@ -94,7 +94,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type int an IllegalStateException
      * will be thrown.
      *
-     * @param   NumberRange  $range
+     * @param   \stubbles\input\filter\range\NumberRange  $range
      * @return  int
      */
     public function asInt(NumberRange $range = null)
@@ -109,7 +109,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type float an IllegalStateException
      * will be thrown.
      *
-     * @param   NumberRange  $range
+     * @param   \stubbles\input\filter\range\NumberRange  $range
      * @param   int          $decimals  number of decimals
      * @return  float
      */
@@ -122,7 +122,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as string value
      *
-     * @param   StringLength  $length
+     * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  string
      */
     public function asString(StringLength $length = null)
@@ -133,7 +133,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as string value
      *
-     * @param   StringLength  $length
+     * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  \stubbles\lang\SecureString
      */
     public function asSecureString(StringLength $length = null)
@@ -145,8 +145,8 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as text value
      *
-     * @param   StringLength  $length
-     * @param   string[]      $allowedTags  list of allowed tags
+     * @param   \stubbles\input\filter\range\StringLength  $length
+     * @param   string[]                                   $allowedTags  list of allowed tags
      * @return  string
      */
     public function asText(StringLength $length = null, $allowedTags = [])
@@ -170,7 +170,7 @@ class DefaultValueReader implements CommonValueReader
      * Default values for passwords make no sense, therefor all calls to this
      * method trigger a MethodNotSupportedException.
      *
-     * @param   PasswordChecker  $checker  checker to be used to ensure a good password
+     * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\lang\SecureString
      * @throws  MethodNotSupportedException
      */
@@ -223,7 +223,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type stubbles\date\Date an IllegalStateException
      * will be thrown.
      *
-     * @param   DateRange  $range
+     * @param   \stubbles\input\filter\range\DateRange  $range
      * @return  \stubbles\date\Date
      */
     public function asDate(DateRange $range = null)
@@ -238,7 +238,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type stubbles\date\span\Day an
      * IllegalStateException will be thrown.
      *
-     * @param   DatespanRange  $range
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
      * @return  \stubbles\date\span\Day
      */
     public function asDay(DatespanRange $range = null)
@@ -253,7 +253,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type stubbles\date\span\Month an
      * IllegalStateException will be thrown.
      *
-     * @param   DatespanRange  $range
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
      * @return  \stubbles\date\span\Month
      */
     public function asMonth(DatespanRange $range = null)
@@ -331,9 +331,9 @@ class DefaultValueReader implements CommonValueReader
      *
      * If value does not satisfy the validator return value will be null.
      *
-     * @param   Validator  $validator  validator to use
-     * @param   string     $errorId    error id to be used in case validation fails
-     * @param   array      $details    optional  details for param error in case validation fails
+     * @param   \stubbles\input\Validator  $validator  validator to use
+     * @param   string                     $errorId    error id to be used in case validation fails
+     * @param   array                      $details    optional  details for param error in case validation fails
      * @return  string
      * @deprecated  since 3.0.0, use with($predicate, $errorId) instead, will be removed with 4.0.0
      */
@@ -367,7 +367,7 @@ class DefaultValueReader implements CommonValueReader
      * If it is required but value is null an error will be added to the list
      * of param errors.
      *
-     * @param   Filter  $filter
+     * @param   \stubbles\input\Filter  $filter
      * @return  mixed
      */
     public function withFilter(Filter $filter)

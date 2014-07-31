@@ -28,7 +28,7 @@ class UserAgentProvider implements InjectionProvider
     /**
      * request instance to be used
      *
-     * @type  WebRequest
+     * @type  \stubbles\input\web\WebRequest
      */
     private $request;
     /**
@@ -45,7 +45,7 @@ class UserAgentProvider implements InjectionProvider
     /**
      * constructor
      *
-     * @param  WebRequest  $request
+     * @param  \stubbles\input\web\WebRequest  $request
      * @Inject
      */
     public function __construct(WebRequest $request)
@@ -57,7 +57,7 @@ class UserAgentProvider implements InjectionProvider
      * returns the value to provide
      *
      * @param   string  $name
-     * @return  UserAgent
+     * @return  \stubbles\input\web\useragent\UserAgent
      */
     public function get($name = null)
     {

@@ -29,19 +29,19 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * list of params
      *
-     * @type  Params
+     * @type  \stubbles\input\Params
      */
     private $headers;
     /**
      * list of params
      *
-     * @type  Params
+     * @type  \stubbles\input\Params
      */
     private $cookies;
     /**
      * list of body errors
      *
-     * @type  BodyErrors
+     * @type  \stubbles\input\errors\ParamErrors
      */
     private $bodyErrors;
     /**
@@ -206,7 +206,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * is for an invalid HTTP uri something is completely wrong.
      *
      * @return  \stubbles\peer\http\HttpUri
-     * @throws  RuntimeException
+     * @throws  \stubbles\lang\exception\RuntimeException
      */
     public function uri()
     {
@@ -226,8 +226,8 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns the uri of the request
      *
-     * @return  HttpUri
-     * @throws  RuntimeException
+     * @return  \stubbles\peer\http\HttpUri
+     * @throws  \stubbles\lang\exception\RuntimeException
      * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
      */
     public function getUri()
@@ -382,7 +382,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     /**
      * returns error collection for request body
      *
-     * @return  stubbles\input\errors\ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
     public function bodyErrors()

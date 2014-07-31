@@ -19,9 +19,9 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
     /**
      * handles single param
      *
-     * @param   CommonValueReader  $valueReader  instance to filter value with
-     * @param   Annotation         $annotation   annotation which contains filter metadata
-     * @return  HttpUri
+     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @return  \stubbles\peer\http\HttpUri
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
@@ -36,7 +36,7 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
      * parses default value from annotation
      *
      * @param   string  $value
-     * @return  HttpUri
+     * @return  \stubbles\peer\http\HttpUri
      */
     protected function parseDefault($value)
     {

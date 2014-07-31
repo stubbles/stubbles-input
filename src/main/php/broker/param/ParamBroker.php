@@ -19,8 +19,8 @@ interface ParamBroker
     /**
      * handles single param
      *
-     * @param   Request     $request     instance to handle value with
-     * @param   Annotation  $annotation  annotation which contains request param metadata
+     * @param   \stubbles\input\Request                       $request     instance to handle value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
      * @return  mixed
      */
     public function procure(Request $request, Annotation $annotation);
@@ -28,8 +28,8 @@ interface ParamBroker
     /**
      * handles a single param
      *
-     * @param   Param       $param
-     * @param   Annotation  $annotation
+     * @param   \stubbles\input\Param                         $param
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */
     public function procureParam(Param $param, Annotation $annotation);

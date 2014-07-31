@@ -18,7 +18,7 @@ interface Request
     /**
      * cancels the request, e.g. if it was detected that it is invalid
      *
-     * @return  Request
+     * @return  \stubbles\input\Request
      * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function cancel();

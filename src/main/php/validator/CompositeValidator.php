@@ -23,8 +23,8 @@ interface CompositeValidator extends Validator
     /**
      * add a validator
      *
-     * @param   Validator  $validator
-     * @return  CompositeValidator
+     * @param   \stubbles\input\Validator  $validator
+     * @return  \stubbles\input\validator\CompositeValidator
      */
     public function addValidator(Validator $validator);
 }

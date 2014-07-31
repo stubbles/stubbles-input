@@ -19,21 +19,21 @@ class RangeFilter implements Filter
     /**
      * decorated filter
      *
-     * @type  NumberFilter
+     * @type  \stubbles\input\filter\NumberFilter
      */
     private $filter;
     /**
      * range definition
      *
-     * @type  Range
+     * @type  \stubbles\input\filter\rangeRange
      */
     private $range;
 
     /**
      * constructor
      *
-     * @param  Filter  $filter  decorated filter
-     * @param  Range   $range   range definition
+     * @param  \stubbles\input\Filter              $filter  decorated filter
+     * @param  \stubbles\input\filter\range\Range  $range   range definition
      */
     public function __construct(Filter $filter, Range $range)
     {
@@ -44,9 +44,9 @@ class RangeFilter implements Filter
     /**
      * utility method that wraps given filter with given range
      *
-     * @param   Filter  $filter
-     * @param   Range   $range
-     * @return  Filter
+     * @param   \stubbles\input\Filter              $filter  decorated filter
+     * @param   \stubbles\input\filter\range\Range  $range   range definition
+     * @return  \stubbles\input\Filter
      */
     public static function wrap(Filter $filter, Range $range = null)
     {
@@ -60,7 +60,7 @@ class RangeFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  number  filtered number
      */
     public function apply(Param $param)

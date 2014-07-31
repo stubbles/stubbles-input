@@ -21,7 +21,7 @@ interface Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  mixed  filtered value
      */
     public function apply(Param $param);

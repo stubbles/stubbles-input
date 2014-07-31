@@ -37,7 +37,7 @@ class ValueValidator
     /**
      * constructor
      *
-     * @param  Param  $param  original value
+     * @param  \stubbles\input\Param  $param  original value
      */
     public function __construct(Param $param)
     {
@@ -48,7 +48,7 @@ class ValueValidator
      * create instance as mock with empty param errors
      *
      * @param   string  $paramValue
-     * @return  ValueValidator
+     * @return  \stubbles\input\ValueValidator
      */
     public static function forValue($paramValue)
     {
@@ -177,7 +177,7 @@ class ValueValidator
      * checks value with given validator
      *
      * @api
-     * @param   Validator  $validator  validator to use
+     * @param   \stubbles\input\Validator  $validator  validator to use
      * @return  bool
      * @deprecated  since 3.0.0, use with($predicate) instead, will be removed with 4.0.0
      */

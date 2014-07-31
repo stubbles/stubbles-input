@@ -25,14 +25,14 @@ class PasswordFilter implements Filter
     /**
      * actual algorithm to check the password with
      *
-     * @type  PasswordChecker
+     * @type  \stubbles\input\filter\PasswordChecker
      */
     private $checker;
 
     /**
      * constructor
      *
-     * @param  PasswordChecker  $checker
+     * @param  \stubbles\input\filter\PasswordChecker  $checker
      */
     public function __construct(PasswordChecker $checker)
     {
@@ -42,8 +42,8 @@ class PasswordFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param         $param
-     * @return  SecureString  secured password
+     * @param   \stubbles\input\Param         $param
+     * @return  \stubbles\lang\SecureString  secured password
      */
     public function apply(Param $param)
     {
@@ -67,8 +67,8 @@ class PasswordFilter implements Filter
     /**
      * parses password from given param value
      *
-     * @param   Param  $param
-     * @return  SecureString
+     * @param   \stubbles\input\Param  $param
+     * @return  \stubbles\lang\SecureString
      */
     private function parse(Param $param)
     {

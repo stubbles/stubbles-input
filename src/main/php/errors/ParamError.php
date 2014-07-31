@@ -48,10 +48,10 @@ class ParamError
      * In case given error is already an instance of ParamError it is simply
      * returned.
      *
-     * @param   ParamError|string  $error    id of error or an instance of ParamError
-     * @param   array              $details  details of what caused the error
-     * @return  ParamError
-     * @throws  IllegalArgumentException
+     * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
+     * @param   array                                     $details  details of what caused the error
+     * @return  \stubbles\input\errors\ParamError
+     * @throws  \stubbles\lang\exception\IllegalArgumentException
      */
     public static function fromData($error, array $details = [])
     {
@@ -81,7 +81,7 @@ class ParamError
      * fills given list of messages with details
      *
      * @param   array  $templates  map of locales and message templates
-     * @return  LocalizedMessage[]
+     * @return  \stubbles\input\errors\messages\LocalizedMessage[]
      */
     public function fillMessages(array $templates)
     {
@@ -98,7 +98,7 @@ class ParamError
      *
      * @param   string  $message  message template to fill up
      * @param   string  $locale   locale of the message
-     * @return  LocalizedMessage
+     * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
     public function fillMessage($message, $locale)
     {

@@ -32,7 +32,7 @@ class HttpUriValidator implements Validator
      * Enabling the dns check means that even if the HTTP URI is syntactically
      * valid it must have an DNS entry to be valid at all.
      *
-     * @return  HttpUriValidator
+     * @return  \stubbles\input\validator\HttpUriValidator
      */
     public function enableDnsCheck()
     {

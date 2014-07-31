@@ -55,7 +55,7 @@ class Params implements \IteratorAggregate, \Countable
      * returns raw parameter with value or null if not set
      *
      * @param   string  $paramName
-     * @return  Param
+     * @return  \stubbles\input\Param
      */
     public function get($paramName)
     {
@@ -94,7 +94,7 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * returns error collection for request parameters
      *
-     * @return  ParamErrors
+     * @return  \stubbles\input\errors\ParamErrors
      */
     public function errors()
     {
@@ -119,7 +119,7 @@ class Params implements \IteratorAggregate, \Countable
      * provides an iterator to iterate over all errors
      *
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  Traversable
+     * @return  \Traversable
      */
     public function getIterator()
     {

@@ -25,8 +25,8 @@ class MailFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
-     * @return  string        the checked mail address to check
+     * @param   \stubbles\input\Param  $param
+     * @return  string  the checked mail address to check
      */
     public function apply(Param $param)
     {

@@ -126,9 +126,9 @@ class Param
     /**
      * adds error with given id
      *
-     * @param   ParamError|string  $error    id of error or an instance of ParamError
-     * @param   array              $details  details of what caused the error
-     * @return  ParamError
+     * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
+     * @param   array                                     $details  details of what caused the error
+     * @return  \stubbles\input\errors\ParamError
      */
     public function addError($error, array $details = [])
     {
@@ -161,7 +161,7 @@ class Param
     /**
      * returns list of error ids
      *
-     * @return  ParamError[]
+     * @return  \stubbles\input\errors\ParamError[]
      * @since   3.0.0
      */
     public function errors()
@@ -172,7 +172,7 @@ class Param
     /**
      * returns list of error ids
      *
-     * @return  ParamError[]
+     * @return  \stubbles\input\errors\ParamError[]
      * @deprecated since 3.0.0, use errors() instead, will be removed with 4.0.0
      */
     public function getErrors()

@@ -25,7 +25,7 @@ class BoolFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  bool
      */
     public function apply(Param $param)

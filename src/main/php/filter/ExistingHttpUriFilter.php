@@ -9,7 +9,6 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\Param;
-use stubbles\peer\http\HttpUri;
 /**
  * Class for filtering strings for valid HTTP URIs.
  *
@@ -28,8 +27,8 @@ class ExistingHttpUriFilter extends HttpUriFilter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
-     * @return  HttpUri
+     * @param   \stubbles\input\Param  $param
+     * @return  \stubbles\peer\http\HttpUri
      */
     public function apply(Param $param)
     {

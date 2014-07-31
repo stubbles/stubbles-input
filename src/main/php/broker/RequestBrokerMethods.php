@@ -23,8 +23,8 @@ class RequestBrokerMethods implements MethodMatcher
      *
      * @param   object|string  $object
      * @param   string  $group   restrict list to given group
-     * @return  ReflectionMethod[]
-     * @throws  IllegalArgumentException
+     * @return  \stubbles\lang\reflect\ReflectionMethod[]
+     * @throws  \stubbles\lang\exception\IllegalArgumentException
      */
     public function get($object, $group = null)
     {
@@ -51,7 +51,7 @@ class RequestBrokerMethods implements MethodMatcher
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  stubbles\lang\reflect\annotation\Annotation[]
+     * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
     public function getAnnotations($object, $group = null)
     {
@@ -88,7 +88,7 @@ class RequestBrokerMethods implements MethodMatcher
     /**
      * checks whether the matcher is satisfied with the given method
      *
-     * @param   ReflectionMethod  $method
+     * @param   \stubbles\lang\reflect\ReflectionMethod  $method
      * @return  bool
      */
     public function matchesAnnotatableMethod(ReflectionMethod $method)

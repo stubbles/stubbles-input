@@ -20,7 +20,7 @@ interface ParamErrorMessages
     /**
      * checks if any messages are known for given error
      *
-     * @param   ParamError  $error
+     * @param   \stubbles\input\errors\ParamError  $error
      * @return  bool
      */
     public function existFor(ParamError $error);
@@ -28,7 +28,7 @@ interface ParamErrorMessages
     /**
      * returns a list of available locales for given error
      *
-     * @param   ParamError  $error
+     * @param   \stubbles\input\errors\ParamError  $error
      * @return  string[]
      */
     public function localesFor(ParamError $error);
@@ -36,8 +36,8 @@ interface ParamErrorMessages
     /**
      * creates a list of message for given param error
      *
-     * @param   ParamError  $error
-     * @return  LocalizedMessage[]
+     * @param   \stubbles\input\errors\ParamError  $error
+     * @return  \stubbles\input\errors\messages\LocalizedMessage[]
      */
     public function messagesFor(ParamError $error);
 
@@ -46,9 +46,9 @@ interface ParamErrorMessages
      *
      * If no locale is given the method falls back to a default locale.
      *
-     * @param   ParamError  $error
+     * @param   \stubbles\input\errors\ParamError  $error
      * @param   string      $locale
-     * @return  LocalizedMessage
+     * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
     public function messageFor(ParamError $error, $locale = null);
 }

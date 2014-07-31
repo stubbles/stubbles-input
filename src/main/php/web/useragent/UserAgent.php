@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web\useragent;
+use stubbles\lang;
 /**
  * Value object for user agents.
  *
@@ -107,6 +108,6 @@ class UserAgent
      */
     public function __toString()
     {
-        return \stubbles\lang\__toString($this);
+        return lang\__toString($this);
     }
 }

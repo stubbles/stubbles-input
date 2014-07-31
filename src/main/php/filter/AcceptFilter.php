@@ -23,8 +23,8 @@ class AcceptFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
-     * @return  AcceptHeader
+     * @param   \stubbles\input\Param  $param
+     * @return  \stubbles\peer\http\AcceptHeader
      */
     public function apply(Param $param)
     {

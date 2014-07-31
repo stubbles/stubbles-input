@@ -34,8 +34,8 @@ class MonthFilter implements Filter
      * the return value is null. Additionally the $param instance is filled
      * with a FilterError.
      *
-     * @param   Param  $param
-     * @return  Date
+     * @param   \stubbles\input\Param  $param
+     * @return  \stubbles\date\span\Month
      */
     public function apply(Param $param)
     {

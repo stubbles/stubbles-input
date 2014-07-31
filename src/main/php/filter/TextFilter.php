@@ -34,7 +34,7 @@ class TextFilter extends StringFilter
      * possible XSS attacks!
      *
      * @param   string[]  $allowedTags
-     * @return  TextFilter
+     * @return  \stubbles\input\filter\TextFilter
      */
     public function allowTags(array $allowedTags)
     {

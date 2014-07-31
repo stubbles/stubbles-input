@@ -22,9 +22,9 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * handles single param
      *
-     * @param   Request     $request     instance to handle value with
-     * @param   Annotation  $annotation  annotation which contains request param metadata
-     * @return  CustomDatespan
+     * @param   \stubbles\input\Request                       $request     instance to handle value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
+     * @return  \stubbles\date\span\CustomDatespan
      */
     public function procure(Request $request, Annotation $annotation)
     {
@@ -40,8 +40,8 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * handles a single param
      *
-     * @param   Param       $param
-     * @param   Annotation  $annotation
+     * @param   \stubbles\input\Param                         $param
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */
     public function procureParam(Param $param, Annotation $annotation)
@@ -52,10 +52,10 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * retrieves start date
      *
-     * @param   Request     $request
-     * @param   Annotation  $annotation
+     * @param   \stubbles\input\Request                       $request
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @param   string      $type
-     * @return  Date
+     * @return  \stubbles\date\Date
      */
     private function getDate(Request $request, Annotation $annotation, $type)
     {
@@ -70,7 +70,7 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * handles single param
      *
-     * @param   Request    $request
+     * @param   \stubbles\input\Request    $request
      * @param   string     $paramName
      * @param   bool       $required
      * @return  \stubbles\input\valuereader\CommonValueReader
@@ -90,9 +90,9 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * reads default value from annotation
      *
-     * @param   Annotation $annotation
+     * @param   \stubbles\lang\reflect\annotation\Annotation $annotation
      * @param   string     $field
-     * @return  Date
+     * @return  \stubbles\date\Date
      */
     private function parseDate(Annotation $annotation, $field)
     {

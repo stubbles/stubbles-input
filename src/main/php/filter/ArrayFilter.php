@@ -47,7 +47,7 @@ class ArrayFilter implements Filter
      * sets separator to be used
      *
      * @param   string  $separator
-     * @return  ArrayFilter
+     * @return  \stubbles\input\filter\ArrayFilter
      */
     public function setSeparator($separator)
     {
@@ -58,7 +58,7 @@ class ArrayFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  array
      */
     public function apply(Param $param)

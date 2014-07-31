@@ -9,7 +9,6 @@
  */
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
-use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a date range.
  *
@@ -22,21 +21,21 @@ class DateRange extends AbstractRange
     /**
      * minimum date
      *
-     * @type  Date
+     * @type  \stubbles\date\Date
      */
     private $minDate;
     /**
      * maximum date
      *
-     * @type  Date
+     * @type  \stubbles\date\Date
      */
     private $maxDate;
 
     /**
      * constructor
      *
-     * @param  int|string|\DateTime|Date  $minDate
-     * @param  int|string|\DateTime|Date  $maxDate
+     * @param  int|string|\DateTime|\stubbles\date\Date  $minDate
+     * @param  int|string|\DateTime|\stubbles\date\Date  $maxDate
      */
     public function __construct($minDate = null, $maxDate = null)
     {
@@ -49,7 +48,6 @@ class DateRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  RuntimeException
      */
     protected function belowMinBorder($value)
     {
@@ -65,7 +63,6 @@ class DateRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  RuntimeException
      */
     protected function aboveMaxBorder($value)
     {

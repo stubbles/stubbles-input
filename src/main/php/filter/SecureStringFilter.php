@@ -26,8 +26,8 @@ class SecureStringFilter extends StringFilter
     /**
      * apply filter on given param
      *
-     * @param   Param         $param
-     * @return  SecureString  filtered string
+     * @param   \stubbles\input\Param         $param
+     * @return  \stubbles\lang\SecureString  filtered string
      */
     public function apply(Param $param)
     {

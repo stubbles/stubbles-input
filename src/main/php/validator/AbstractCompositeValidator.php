@@ -24,15 +24,15 @@ abstract class AbstractCompositeValidator implements CompositeValidator
     /**
      * list of validators to combine
      *
-     * @type  Validator[]
+     * @type  \stubbles\input\Validator[]
      */
     protected $validators = [];
 
     /**
      * add a validator
      *
-     * @param   Validator  $validator
-     * @return  CompositeValidator
+     * @param   \stubbles\input\Validator  $validator
+     * @return  \stubbles\input\validator\CompositeValidator
      */
     public function addValidator(Validator $validator)
     {
@@ -45,7 +45,7 @@ abstract class AbstractCompositeValidator implements CompositeValidator
      *
      * @param   mixed  $value
      * @return  bool   true if value is ok, else false
-     * @throws  IllegalStateException
+     * @throws  \stubbles\lang\exception\IllegalStateException
      */
     public function validate($value)
     {

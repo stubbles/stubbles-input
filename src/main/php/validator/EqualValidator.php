@@ -33,7 +33,7 @@ class EqualValidator implements Validator
      * constructor
      *
      * @param   scalar|null  $expected
-     * @throws  IllegalArgumentException
+     * @throws  \stubbles\lang\exception\IllegalArgumentException
      */
     public function __construct($expected)
     {

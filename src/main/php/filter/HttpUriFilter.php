@@ -27,7 +27,7 @@ class HttpUriFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   Param  $param
+     * @param   \stubbles\input\Param  $param
      * @return  \stubbles\peer\http\HttpUri
      */
     public function apply(Param $param)

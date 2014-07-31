@@ -21,28 +21,28 @@ class RequestBrokerFacade
     /**
      * request instance
      *
-     * @type  Request
+     * @type  \stubbles\input\Request
      */
     private $request;
     /**
      * factory to create filters with
      *
-     * @type  RequestBroker
+     * @type  \stubbles\input\param\RequestBroker
      */
     private $requestBroker;
     /**
      * access to error messages
      *
-     * @type  ParamErrorMessages
+     * @type  \stubbles\input\errors\ParamErrorMessages
      */
     private $errorMessages;
 
     /**
      * constructor
      *
-     * @param  Request             $request
-     * @param  RequestBroker       $requestBroker
-     * @param  ParamErrorMessages  $errorMessages
+     * @param  \stubbles\input\Request                    $request
+     * @param  \stubbles\input\param\RequestBroker        $requestBroker
+     * @param  \stubbles\input\errors\ParamErrorMessages  $errorMessages
      * @Inject
      */
     public function __construct(Request $request, RequestBroker $requestBroker, ParamErrorMessages $errorMessages)
@@ -78,7 +78,7 @@ class RequestBrokerFacade
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  ReflectionMethod[]
+     * @return  \stubbles\lang\reflect\ReflectionMethod[]
      */
     public function getMethods($object, $group = null)
     {
@@ -90,7 +90,7 @@ class RequestBrokerFacade
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
-     * @return  stubbles\lang\reflect\annotation\Annotation[]
+     * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
     public function getAnnotations($object, $group = null)
     {

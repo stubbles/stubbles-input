@@ -57,7 +57,7 @@ class StringLength extends AbstractRange
      * @param   int  $minLength
      * @param   int  $maxLength
      * @return  StringLength
-     * @throws  IllegalArgumentException
+     * @throws  \stubbles\lang\exception\IllegalArgumentException
      * @since   2.3.1
      */
     public static function truncate($minLength, $maxLength)
@@ -133,7 +133,7 @@ class StringLength extends AbstractRange
      *
      * @param   string  $value
      * @return  string|SecureString
-     * @throws  RuntimeException
+     * @throws  \stubbles\lang\exception\RuntimeException
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value)

@@ -22,8 +22,8 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * extracts parameter from request and handles it
      *
-     * @param   Request     $request     instance to handle value with
-     * @param   Annotation  $annotation  annotation which contains request param metadata
+     * @param   \stubbles\input\Request                       $request     instance to handle value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
      * @return  mixed
      */
     public function procure(Request $request, Annotation $annotation)
@@ -66,8 +66,8 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * handles a single param
      *
-     * @param   Param       $param
-     * @param   Annotation  $annotation
+     * @param   \stubbles\input\Param                         $param
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */
     public function procureParam(Param $param, Annotation $annotation)
@@ -78,10 +78,10 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * retrieves method to call on request instance
      *
-     * @param   Request     $request
-     * @param   Annotation  $annotation
+     * @param   \stubbles\input\Request                       $request
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  string
-     * @throws  RuntimeException
+     * @throws  \stubbles\lang\exception\RuntimeException
      */
     private function getMethod(Request $request, Annotation $annotation)
     {
@@ -96,7 +96,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * returns source from where to read value
      *
-     * @param   Annotation  $annotation
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  string
      */
     private function getSource(Annotation $annotation)
@@ -111,8 +111,8 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * filters single param
      *
-     * @param   CommonValueReader  $valueReader  instance to filter value with
-     * @param   Annotation         $annotation   annotation which contains filter metadata
+     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
      * @return  mixed
      */
     protected abstract function filter(CommonValueReader $valueReader, Annotation $annotation);
