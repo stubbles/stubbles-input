@@ -70,9 +70,9 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * handles single param
      *
-     * @param   \stubbles\input\Request    $request
-     * @param   string     $paramName
-     * @param   bool       $required
+     * @param   \stubbles\input\Request  $request
+     * @param   string                   $paramName
+     * @param   bool                     $required
      * @return  \stubbles\input\valuereader\CommonValueReader
      */
     private function readValue(Request $request, $paramName, $required, $default)
@@ -90,8 +90,8 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * reads default value from annotation
      *
-     * @param   \stubbles\lang\reflect\annotation\Annotation $annotation
-     * @param   string     $field
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   string                                        $field
      * @return  \stubbles\date\Date
      */
     private function parseDate(Annotation $annotation, $field)

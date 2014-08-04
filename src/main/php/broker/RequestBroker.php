@@ -19,21 +19,21 @@ class RequestBroker
     /**
      * the matcher to be used for methods and properties
      *
-     * @type  \stubbles\input\param\RequestBrokerMethods
+     * @type  \stubbles\input\broker\RequestBrokerMethods
      */
     private $brokerMethods;
     /**
      * factory to create filters with
      *
-     * @type  \stubbles\input\param\ParamBrokerMap
+     * @type  \stubbles\input\broker\ParamBrokerMap
      */
     private $paramBrokerMap;
 
     /**
      * constructor
      *
-     * @param  \stubbles\input\param\RequestBrokerMethods  $brokerMethods
-     * @param  \stubbles\input\param\ParamBrokerMap        $paramBrokerMap
+     * @param  \stubbles\input\broker\RequestBrokerMethods  $brokerMethods
+     * @param  \stubbles\input\broker\ParamBrokerMap        $paramBrokerMap
      * @Inject
      */
     public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokerMap $paramBrokerMap)

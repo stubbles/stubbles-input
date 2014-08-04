@@ -27,7 +27,7 @@ class RequestBrokerFacade
     /**
      * factory to create filters with
      *
-     * @type  \stubbles\input\param\RequestBroker
+     * @type  \stubbles\input\broker\RequestBroker
      */
     private $requestBroker;
     /**
@@ -41,7 +41,7 @@ class RequestBrokerFacade
      * constructor
      *
      * @param  \stubbles\input\Request                    $request
-     * @param  \stubbles\input\param\RequestBroker        $requestBroker
+     * @param  \stubbles\input\broker\RequestBroker       $requestBroker
      * @param  \stubbles\input\errors\ParamErrorMessages  $errorMessages
      * @Inject
      */
