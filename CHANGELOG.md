@@ -1,7 +1,13 @@
-3.0.1 (2014-08-10)
+3.0.2 (2014-08-10)
 ------------------
 
   * fixed bug that `requiresValue` of request broker annotations was not true after upgrade of stubbles/core to 4.1.x
+
+
+3.0.1 (2014-08-04)
+------------------
+
+  * fixed doc comments that yielded incorrect results for code completion hints
 
 
 3.0.0 (2014-07-31)
