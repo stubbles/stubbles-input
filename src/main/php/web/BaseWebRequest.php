@@ -294,6 +294,27 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
+     * checks whether a request value from redirect headers is valid or not
+     *
+     * A redirect header is one that starts with REDIRECT_ and has most likely
+     * a different value after a redirection happened than the original header.
+     * The method will try to use the header REDIRECT_$headerName first, but
+     * falls back to $headerName when REDIRECT_$headerName  is not present.
+     *
+     * @param   string  $headerName  name of header
+     * @return  \stubbles\input\ValueValidator
+     * @since   3.1.0
+     */
+    public function validateRedirectHeader($headerName)
+    {
+        if ($this->headers->contain('REDIRECT_' . $headerName)) {
+            return new ValueValidator($this->headers->get('REDIRECT_' . $headerName));
+        }
+
+        return new ValueValidator($this->headers->get($headerName));
+    }
+
+    /**
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
@@ -304,6 +325,33 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     {
         return new ValueReader($this->headers->errors(),
                                $this->headers->get($headerName)
+        );
+    }
+
+    /**
+     * returns request value from headers for filtering or validation
+     *
+     * A redirect header is one that starts with REDIRECT_ and has most likely
+     * a different value after a redirection happened than the original header.
+     * The method will try to use the header REDIRECT_$headerName first, but
+     * falls back to $headerName when REDIRECT_$headerName  is not present.
+     *
+     * @param   string  $headerName  name of header
+     * @return  \stubbles\input\ValueReader
+     * @since   3.1.0
+     */
+    public function readRedirectHeader($headerName)
+    {
+        if ($this->headers->contain('REDIRECT_' . $headerName)) {
+            return new ValueReader(
+                    $this->headers->errors(),
+                    $this->headers->get('REDIRECT_' . $headerName)
+            );
+        }
+
+        return new ValueReader(
+                $this->headers->errors(),
+                $this->headers->get($headerName)
         );
     }
 

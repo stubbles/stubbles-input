@@ -1,3 +1,11 @@
+3.1.0 (2014-08-10)
+------------------
+
+  * added shortcuts for accessing headers where a redirect version must be preferred over the changed version
+    *  added `stubbles\input\web\WebRequest::validateRedirectHeader()`
+    *  added `stubbles\input\web\WebRequest::readRedirectHeader()`
+
+
 3.0.2 (2014-08-10)
 ------------------
 

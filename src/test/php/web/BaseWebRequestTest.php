@@ -545,6 +545,50 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function validateRedirectHeaderReturnsValueValidatorForNonExistingHeader()
+    {
+        $webRequest = $this->createBaseWebRequest([], []);
+        $this->assertInstanceOf('stubbles\input\ValueValidator',
+                                $webRequest->validateRedirectHeader('HTTP_AUTHORIZATION')
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function validateRedirectHeaderReturnsValueValidatorWithOriginalHeaderIfRedirectHeaderNotPresent()
+    {
+        $webRequest = $this->createBaseWebRequest([], ['HTTP_AUTHORIZATION' => 'someCoolToken']);
+        $this->assertTrue(
+                $webRequest->validateRedirectHeader('HTTP_AUTHORIZATION')->isEqualTo('someCoolToken')
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function validateRedirectHeaderReturnsValueValidatorWithRedirectHeaderIfRedirectHeaderPresent()
+    {
+        $webRequest = $this->createBaseWebRequest(
+                [],
+                ['HTTP_AUTHORIZATION'          => 'someCoolToken',
+                 'REDIRECT_HTTP_AUTHORIZATION' => 'realToken'
+                ]
+        );
+        $this->assertTrue(
+                $webRequest->validateRedirectHeader('HTTP_AUTHORIZATION')->isEqualTo('realToken')
+        );
+    }
+
+    /**
+     * @test
      */
     public function readHeaderReturnsValueReader()
     {
@@ -560,6 +604,52 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('stubbles\input\ValueReader',
                                 $this->baseWebRequest->readHeader('baz')
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function readRedirectHeaderReturnsValueReaderForNonExistingHeader()
+    {
+        $webRequest = $this->createBaseWebRequest([], []);
+        $this->assertNull(
+                $webRequest->readRedirectHeader('HTTP_AUTHORIZATION')->unsecure()
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function readRedirectHeaderReturnsValueReaderWithOriginalHeaderIfRedirectHeaderNotPresent()
+    {
+        $webRequest = $this->createBaseWebRequest([], ['HTTP_AUTHORIZATION' => 'someCoolToken']);
+        $this->assertEquals(
+                'someCoolToken',
+                $webRequest->readRedirectHeader('HTTP_AUTHORIZATION')->unsecure()
+        );
+    }
+
+    /**
+     * @test
+     * @since  3.1.0
+     * @group  redirect_header
+     */
+    public function readRedirectHeaderReturnsValueReaderWithRedirectHeaderIfRedirectHeaderPresent()
+    {
+        $webRequest = $this->createBaseWebRequest(
+                [],
+                ['HTTP_AUTHORIZATION'          => 'someCoolToken',
+                 'REDIRECT_HTTP_AUTHORIZATION' => 'realToken'
+                ]
+        );
+        $this->assertEquals(
+                'realToken',
+                $webRequest->readRedirectHeader('HTTP_AUTHORIZATION')->unsecure()
         );
     }
 

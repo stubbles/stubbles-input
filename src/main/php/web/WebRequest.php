@@ -132,6 +132,20 @@ interface WebRequest extends Request
     public function validateHeader($headerName);
 
     /**
+     * checks whether a request value from redirect headers is valid or not
+     *
+     * A redirect header is one that starts with REDIRECT_ and has most likely
+     * a different value after a redirection happened than the original header.
+     * The method will try to use the header REDIRECT_$headerName first, but
+     * falls back to $headerName when REDIRECT_$headerName  is not present.
+     *
+     * @param   string  $headerName  name of header
+     * @return  \stubbles\input\ValueValidator
+     * @since   3.1.0
+     */
+    public function validateRedirectHeader($headerName);
+
+    /**
      * returns request value from headers for filtering or validation
      *
      * @param   string  $headerName  name of header
@@ -139,6 +153,20 @@ interface WebRequest extends Request
      * @since   1.3.0
      */
     public function readHeader($headerName);
+
+    /**
+     * returns request value from headers for filtering or validation
+     *
+     * A redirect header is one that starts with REDIRECT_ and has most likely
+     * a different value after a redirection happened than the original header.
+     * The method will try to use the header REDIRECT_$headerName first, but
+     * falls back to $headerName when REDIRECT_$headerName  is not present.
+     *
+     * @param   string  $headerName  name of header
+     * @return  \stubbles\input\ValueReader
+     * @since   3.1.0
+     */
+    public function readRedirectHeader($headerName);
 
     /**
      * return an array of all cookie names registered in this request
