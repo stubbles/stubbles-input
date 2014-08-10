@@ -1,3 +1,9 @@
+3.1.1 (2014-08-10)
+------------------
+
+  * added `stubbles\input\web\WebRequest::hasRedirectHeader()`
+
+
 3.1.0 (2014-08-10)
 ------------------
 

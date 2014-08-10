@@ -115,6 +115,20 @@ interface WebRequest extends Request
     public function hasHeader($headerName);
 
     /**
+     * checks whether a request header or it's redirect equivalent is set
+     *
+     * A redirect header is one that starts with REDIRECT_ and has most likely
+     * a different value after a redirection happened than the original header.
+     * The method will try to use the header REDIRECT_$headerName first, but
+     * falls back to $headerName when REDIRECT_$headerName  is not present.
+     *
+     * @param   string  $headerName
+     * @return  bool
+     * @since   3.1.1
+     */
+    public function hasRedirectHeader($headerName);
+
+    /**
      * returns error collection for request headers
      *
      * @return  \stubbles\input\errors\ParamErrors

@@ -525,6 +525,44 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  3.1.1
+     */
+    public function returnsFalseOnCheckForRedirectHeaderWhenBothRedirectAndCurrentDoNotExist()
+    {
+        $webRequest = $this->createBaseWebRequest([], []);
+        $this->assertFalse($webRequest->hasRedirectHeader('HTTP_AUTHORIZATION'));
+    }
+
+    /**
+     * @test
+     * @since  3.1.1
+     */
+    public function returnsTrueOnCheckForRedirectHeaderWhenRedirectDoesNotButCurrentDoesExist()
+    {
+        $webRequest = $this->createBaseWebRequest(
+                [],
+                ['HTTP_AUTHORIZATION'          => 'someCoolToken']
+        );
+        $this->assertTrue($webRequest->hasRedirectHeader('HTTP_AUTHORIZATION'));
+    }
+
+    /**
+     * @test
+     * @since  3.1.1
+     */
+    public function returnsTrueOnCheckForRedirectHeaderWhenBothRedirectAndCurrentExist()
+    {
+        $webRequest = $this->createBaseWebRequest(
+                [],
+                ['HTTP_AUTHORIZATION'          => 'someCoolToken',
+                 'REDIRECT_HTTP_AUTHORIZATION' => 'realToken'
+                ]
+        );
+        $this->assertTrue($webRequest->hasRedirectHeader('HTTP_AUTHORIZATION'));
+    }
+
+    /**
+     * @test
      */
     public function validateHeaderReturnsValueValidator()
     {
