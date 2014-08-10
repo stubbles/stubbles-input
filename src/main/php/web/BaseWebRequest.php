@@ -325,10 +325,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     public function validateRedirectHeader($headerName)
     {
         if ($this->headers->contain('REDIRECT_' . $headerName)) {
-            return new ValueValidator($this->headers->get('REDIRECT_' . $headerName));
+            return $this->validateHeader('REDIRECT_' . $headerName);
         }
 
-        return new ValueValidator($this->headers->get($headerName));
+        return $this->validateHeader($headerName);
     }
 
     /**
@@ -360,16 +360,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     public function readRedirectHeader($headerName)
     {
         if ($this->headers->contain('REDIRECT_' . $headerName)) {
-            return new ValueReader(
-                    $this->headers->errors(),
-                    $this->headers->get('REDIRECT_' . $headerName)
-            );
+            return $this->readHeader('REDIRECT_' . $headerName);
         }
 
-        return new ValueReader(
-                $this->headers->errors(),
-                $this->headers->get($headerName)
-        );
+        return $this->readHeader($headerName);
     }
 
     /**
