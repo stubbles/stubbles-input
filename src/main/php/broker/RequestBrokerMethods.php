@@ -59,7 +59,7 @@ class RequestBrokerMethods implements MethodMatcher
         foreach ($this->get($object, $group) as $method) {
             /* @var $method ReflectionMethod */
              $annotation = $method->getAnnotation('Request');
-             $annotation->requiresValue = ($method->getNumberOfParameters() > 0);
+             $annotation->requiresValue = ($method->getNumberOfParameters() > 0) ? 'true' : 'false';
              $annotations[] = $annotation;
         }
 

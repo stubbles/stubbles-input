@@ -6,7 +6,7 @@
     "description": "Stubbles Input enables to handle input data via validation and filtering.",
     "require": {
         "php": ">=5.4.0",
-        "stubbles/core": "~4.0"
+        "stubbles/core": "~4.1"
     },
     "require-dev": {
         "mikey179/vfsStream": "~1.3",
