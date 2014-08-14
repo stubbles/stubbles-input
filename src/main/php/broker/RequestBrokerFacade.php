@@ -57,9 +57,9 @@ class RequestBrokerFacade
      *
      * @param  object    $object
      * @param  string    $group
-     * @param  \Closure  $write   function to call when errors should be processed
+     * @param  callable  $write   function to call when errors should be processed
      */
-    public function procure($object, $group = null, \Closure $write = null)
+    public function procure($object, $group = null, callable $write = null)
     {
         $this->requestBroker->procure($this->request, $object, $group);
         if (null === $write || !$this->request->paramErrors()->exist()) {
@@ -74,26 +74,14 @@ class RequestBrokerFacade
     }
 
     /**
-     * returns all methods of given instance which are applicable for brokerage
-     *
-     * @param   object  $object
-     * @param   string  $group   restrict list to given group
-     * @return  \stubbles\lang\reflect\ReflectionMethod[]
-     */
-    public function getMethods($object, $group = null)
-    {
-        return $this->requestBroker->getMethods($object, $group);
-    }
-
-    /**
      * returns a list of all request annotations on given object
      *
      * @param   object  $object
      * @param   string  $group   restrict list to given group
      * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
-    public function getAnnotations($object, $group = null)
+    public function annotationsFor($object, $group = null)
     {
-        return $this->requestBroker->getAnnotations($object, $group);
+        return $this->requestBroker->annotationsFor($object, $group);
     }
 }

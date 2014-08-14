@@ -25,21 +25,21 @@ class RequestBroker
     /**
      * factory to create filters with
      *
-     * @type  \stubbles\input\broker\ParamBrokerMap
+     * @type  \stubbles\input\broker\ParamBrokers
      */
-    private $paramBrokerMap;
+    private $paramBrokers;
 
     /**
      * constructor
      *
      * @param  \stubbles\input\broker\RequestBrokerMethods  $brokerMethods
-     * @param  \stubbles\input\broker\ParamBrokerMap        $paramBrokerMap
+     * @param  \stubbles\input\broker\ParamBrokers          $paramBrokers
      * @Inject
      */
-    public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokerMap $paramBrokerMap)
+    public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokers $paramBrokers)
     {
-        $this->brokerMethods  = $brokerMethods;
-        $this->paramBrokerMap = $paramBrokerMap;
+        $this->brokerMethods = $brokerMethods;
+        $this->paramBrokers  = $paramBrokers;
     }
 
     /**
@@ -51,26 +51,12 @@ class RequestBroker
      */
     public function procure(Request $request, $object, $group = null)
     {
-        foreach ($this->brokerMethods->get($object, $group) as $refMethod) {
-            $requestAnnotation = $refMethod->getAnnotation('Request');
-            $value = $this->paramBrokerMap->getBroker($requestAnnotation->getAnnotationName())
-                                          ->procure($request, $requestAnnotation);
+        foreach ($this->brokerMethods->of($object, $group) as $refMethod) {
+            $value = $this->paramBrokers->procure($request, $refMethod->annotation('Request'));
             if (null !== $value) {
                 $refMethod->invoke($object, $value);
             }
         }
-    }
-
-    /**
-     * returns all methods of given instance which are applicable for brokerage
-     *
-     * @param   object  $object
-     * @param   string  $group   restrict list to given group
-     * @return  \stubbles\lang\reflect\ReflectionMethod[]
-     */
-    public function getMethods($object, $group = null)
-    {
-        return $this->brokerMethods->get($object, $group);
     }
 
     /**
@@ -80,8 +66,8 @@ class RequestBroker
      * @param   string  $group   restrict list to given group
      * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
-    public function getAnnotations($object, $group = null)
+    public function annotationsFor($object, $group = null)
     {
-        return $this->brokerMethods->getAnnotations($object, $group);
+        return $this->brokerMethods->annotationsFor($object, $group);
     }
 }

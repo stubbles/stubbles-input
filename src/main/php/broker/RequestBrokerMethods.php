@@ -8,12 +8,14 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
+use stubbles\lang;
 use stubbles\lang\reflect\ReflectionMethod;
 use stubbles\lang\reflect\matcher\MethodMatcher;
 /**
  * Provides access to methods applicable for brokerage.
  *
  * @Singleton
+ * @internal
  */
 class RequestBrokerMethods implements MethodMatcher
 {
@@ -21,17 +23,17 @@ class RequestBrokerMethods implements MethodMatcher
      * returns all methods of given instance which are applicable for brokerage
      *
      * @param   object|string  $object
-     * @param   string  $group   restrict list to given group
+     * @param   string         $group   restrict list to given group
      * @return  \stubbles\lang\reflect\ReflectionMethod[]
      * @throws  \InvalidArgumentException
      */
-    public function get($object, $group = null)
+    public function of($object, $group = null)
     {
         if (!is_object($object) && !is_string($object)) {
-            throw new \InvalidArgumentException('Parameter $object must be a concrete object instance or class name.');
+            throw new \InvalidArgumentException('Parameter $object must be an object instance or a class name');
         }
 
-        $refClass = \stubbles\lang\reflect($object);
+        $refClass = lang\reflect($object);
         $methods  = $refClass->getMethodsByMatcher($this);
         if (empty($group)) {
             return $methods;
@@ -40,7 +42,7 @@ class RequestBrokerMethods implements MethodMatcher
         return array_filter($methods,
                             function(ReflectionMethod $method) use ($group)
                             {
-                                return $method->getAnnotation('Request')->getGroup() === $group;
+                                return $method->annotation('Request')->group() === $group;
                             }
         );
     }
@@ -52,12 +54,12 @@ class RequestBrokerMethods implements MethodMatcher
      * @param   string  $group   restrict list to given group
      * @return  \stubbles\lang\reflect\annotation\Annotation[]
      */
-    public function getAnnotations($object, $group = null)
+    public function annotationsFor($object, $group = null)
     {
         $annotations = [];
-        foreach ($this->get($object, $group) as $method) {
+        foreach ($this->of($object, $group) as $method) {
             /* @var $method ReflectionMethod */
-             $annotations[] = $method->getAnnotation('Request');
+             $annotations[] = $method->annotation('Request');
         }
 
         return $annotations;
@@ -71,11 +73,11 @@ class RequestBrokerMethods implements MethodMatcher
      */
     public function matchesMethod(\ReflectionMethod $method)
     {
-        if ($method->isPublic() === false || $method->isStatic() === true) {
+        if (!$method->isPublic() || $method->isStatic()) {
             return false;
         }
 
-        if ($method->isConstructor() === true || $method->isDestructor() === true) {
+        if ($method->isConstructor() || $method->isDestructor()) {
             return false;
         }
 

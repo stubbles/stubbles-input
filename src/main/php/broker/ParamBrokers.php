@@ -8,12 +8,15 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
+use stubbles\input\Request;
+use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Map which contains all single parameter brokers.
  *
  * @Singleton
+ * @internal
  */
-class ParamBrokerMap
+class ParamBrokers
 {
     /**
      * list of build in param brokers
@@ -33,18 +36,18 @@ class ParamBrokerMap
      */
     public function __construct()
     {
-        $this->paramBroker = self::getBuildInParamBroker();
+        $this->paramBroker = self::buildIn();
     }
 
     /**
-     * sets map of param brokers
+     * adds map of param brokers
      *
      * @param   \stubbles\input\broker\param\ParamBroker[]  $paramBrokers
      * @return  \stubbles\input\broker\param\ParamBrokerMap
      * @Inject(optional=true)
      * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
-    public function setParamBrokers(array $paramBrokers)
+    public function addParamBrokers(array $paramBrokers)
     {
         foreach ($paramBrokers as $key => $paramBroker) {
             $this->paramBroker[strtolower($key)] = $paramBroker;
@@ -54,13 +57,26 @@ class ParamBrokerMap
     }
 
     /**
+     * retrieves value defined by annotation from request
+     *
+     * @param   \stubbles\input\Request                       $request     instance to handle value with
+     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
+     * @return  mixed
+     */
+    public function procure(Request $request, Annotation $annotation)
+    {
+        return $this->paramBroker($annotation->getAnnotationName())
+                    ->procure($request, $annotation);
+    }
+
+    /**
      * retrieves param broker for given key
      *
      * @param   string  $key
      * @return  \stubbles\input\broker\param\ParamBroker
      * @throws  \RuntimeException
      */
-    public function getBroker($key)
+    public function paramBroker($key)
     {
         if (isset($this->paramBroker[strtolower($key)])) {
             return $this->paramBroker[strtolower($key)];
@@ -74,7 +90,7 @@ class ParamBrokerMap
      *
      * @return  \stubbles\input\broker\param\ParamBroker[]
      */
-    public static function getBuildInParamBroker()
+    public static function buildIn()
     {
         if (null === self::$buildInParamBroker) {
             self::$buildInParamBroker = ['array'          => new param\ArrayParamBroker(),

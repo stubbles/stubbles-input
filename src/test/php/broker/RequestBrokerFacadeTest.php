@@ -170,36 +170,19 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getMethodsReturnsListOfAllMethodsWithRequestAnnotation()
-    {
-        $brokeredClass = new BrokerClass();
-        $expected      = [lang\reflect($brokeredClass, 'setBar')];
-        $this->mockRequestBroker->expects($this->once())
-                                ->method('getMethods')
-                                ->with($this->equalTo($brokeredClass),
-                                       $this->equalTo('main')
-                                  )
-                                ->will($this->returnValue($expected));
-        $this->assertEquals($expected,
-                            $this->requestBrokerFacade->getMethods($brokeredClass, 'main')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getAnnotationsReturnsListOfAllRequestAnnotation()
+    public function annotationsForReturnsListOfAllRequestAnnotation()
     {
         $brokeredClass = new BrokerClass();
         $expected      = [new Annotation('Test', 'foo')];
         $this->mockRequestBroker->expects($this->once())
-                                ->method('getAnnotations')
+                                ->method('annotationsFor')
                                 ->with($this->equalTo($brokeredClass),
                                        $this->equalTo('main')
                                   )
                                 ->will($this->returnValue($expected));
-        $this->assertEquals($expected,
-                            $this->requestBrokerFacade->getAnnotations($brokeredClass, 'main')
+        $this->assertEquals(
+                $expected,
+                $this->requestBrokerFacade->annotationsFor($brokeredClass, 'main')
         );
     }
 }
