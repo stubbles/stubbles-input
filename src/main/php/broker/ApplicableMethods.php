@@ -12,6 +12,8 @@ use stubbles\lang\reflect\ReflectionMethod;
 use stubbles\lang\reflect\matcher\MethodMatcher;
 /**
  * Provides access to methods applicable for brokerage.
+ *
+ * @internal
  */
 class ApplicableMethods implements MethodMatcher
 {
