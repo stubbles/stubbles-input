@@ -157,9 +157,9 @@ class PasswordFilterTest extends FilterTest
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  BadMethodCallException
      */
-    public function asPasswordWithDefaultValueThrowsMethodNotSupportedException()
+    public function asPasswordWithDefaultValueThrowsBadMethodCallException()
     {
         $this->createValueReader(null)->defaultingTo('secret')->asPassword($this->mockPasswordChecker);
     }

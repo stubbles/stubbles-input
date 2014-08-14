@@ -4,6 +4,7 @@
 ### BC breaks
 
   * removed all classes, methods and functions deprecated with 3.0.0
+  * changed all thrown stubbles/core exceptions to those recommended with stubbles/core 5.0.0
 
 
 ### Other changes

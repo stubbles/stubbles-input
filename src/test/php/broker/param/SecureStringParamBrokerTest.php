@@ -71,7 +71,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  RuntimeException
      */
     public function failsForUnknownSource()
     {

@@ -19,8 +19,6 @@ use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
 use stubbles\lang\SecureString;
-use stubbles\lang\exception\IllegalStateException;
-use stubbles\lang\exception\MethodNotSupportedException;
 use stubbles\peer\http\HttpUri;
 /**
  * Represents a default value if actual value is not present.
@@ -51,12 +49,12 @@ class DefaultValueReader implements CommonValueReader
      *
      * @param   \Closure  $isCorrectType         check to be executed when default value is not null
      * @param   string    $expectedType  expected type of default value
-     * @throws  \stubbles\lang\exception\IllegalStateException
+     * @throws  \LogicException
      */
     private function checkDefaultType(\Closure $isCorrectType, $expectedType)
     {
         if (!$isCorrectType()) {
-            throw new IllegalStateException('Default value is not of type ' . $expectedType . ' but of type ' . \stubbles\lang\getType($this->default));
+            throw new \LogicException('Default value is not of type ' . $expectedType . ' but of type ' . \stubbles\lang\getType($this->default));
         }
     }
 
@@ -171,11 +169,11 @@ class DefaultValueReader implements CommonValueReader
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\lang\SecureString
-     * @throws  MethodNotSupportedException
+     * @throws  \BadMethodCallException
      */
     public function asPassword(PasswordChecker $checker)
     {
-        throw new MethodNotSupportedException('Default passwords are not supported');
+        throw new \BadMethodCallException('Default passwords are not supported');
     }
 
     /**

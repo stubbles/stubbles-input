@@ -9,8 +9,6 @@
  */
 namespace stubbles\input\filter\range;
 use stubbles\lang\SecureString;
-use stubbles\lang\exception\IllegalArgumentException;
-use stubbles\lang\exception\RuntimeException;
 /**
  * String length limitation.
  *
@@ -57,13 +55,13 @@ class StringLength extends AbstractRange
      * @param   int  $minLength
      * @param   int  $maxLength
      * @return  StringLength
-     * @throws  \stubbles\lang\exception\IllegalArgumentException
+     * @throws  \InvalidArgumentException
      * @since   2.3.1
      */
     public static function truncate($minLength, $maxLength)
     {
         if (0 >= $maxLength) {
-            throw new IllegalArgumentException('Max length must be greater than 0, otherwise truncation doesn\'t make sense');
+            throw new \InvalidArgumentException('Max length must be greater than 0, otherwise truncation doesn\'t make sense');
         }
 
         $self = new self($minLength, $maxLength);
@@ -133,7 +131,7 @@ class StringLength extends AbstractRange
      *
      * @param   string  $value
      * @return  string|SecureString
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \LogicException
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value)
@@ -146,7 +144,7 @@ class StringLength extends AbstractRange
             return substr($value, 0, $this->maxLength);
         }
 
-        throw new RuntimeException('Truncate value to max length not allowed');
+        throw new \LogicException('Truncate value to max length not allowed');
     }
 
     /**

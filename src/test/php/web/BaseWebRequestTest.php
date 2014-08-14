@@ -330,7 +330,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  RuntimeException
      */
     public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
     {

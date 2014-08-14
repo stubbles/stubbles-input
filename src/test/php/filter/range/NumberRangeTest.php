@@ -162,7 +162,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  BadMethodCallException
      * @since  2.3.1
      * @group  issue41
      */

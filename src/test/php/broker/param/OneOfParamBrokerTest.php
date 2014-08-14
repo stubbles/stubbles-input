@@ -78,7 +78,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  RuntimeException
      */
     public function failsForUnknownSource()
     {
@@ -168,7 +168,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  RuntimeException
      * @expectedExceptionMessage  No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()
      * @since  3.0.0
      */

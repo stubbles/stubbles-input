@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\lang\reflect\ReflectionMethod;
 use stubbles\lang\reflect\matcher\MethodMatcher;
 /**
@@ -24,12 +23,12 @@ class RequestBrokerMethods implements MethodMatcher
      * @param   object|string  $object
      * @param   string  $group   restrict list to given group
      * @return  \stubbles\lang\reflect\ReflectionMethod[]
-     * @throws  \stubbles\lang\exception\IllegalArgumentException
+     * @throws  \InvalidArgumentException
      */
     public function get($object, $group = null)
     {
         if (!is_object($object) && !is_string($object)) {
-            throw new IllegalArgumentException('Parameter $object must be a concrete object instance or class name.');
+            throw new \InvalidArgumentException('Parameter $object must be a concrete object instance or class name.');
         }
 
         $refClass = \stubbles\lang\reflect($object);

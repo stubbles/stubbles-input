@@ -11,7 +11,6 @@ namespace stubbles\input\filter;
 use stubbles\date\span\Day;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for filtering dates.
  *
@@ -45,8 +44,6 @@ class DayFilter implements Filter
 
         try {
             return new Day($param->value());
-        } catch (IllegalArgumentException $iae) {
-            $param->addError('DATE_INVALID');
         } catch (\InvalidArgumentException $iae) {
             $param->addError('DATE_INVALID');
         }

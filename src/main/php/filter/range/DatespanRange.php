@@ -10,7 +10,6 @@
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
 use stubbles\date\span\Datespan;
-use stubbles\lang\exception\RuntimeException;
 /**
  * Description of a datespan range.
  *
@@ -50,7 +49,7 @@ class DatespanRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \LogicException
      */
     protected function belowMinBorder($value)
     {
@@ -59,7 +58,7 @@ class DatespanRange extends AbstractRange
         }
 
         if (!($value instanceof Datespan)) {
-            throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
+            throw new \LogicException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
         return $value->startsBefore($this->minDate->change()->timeTo('00:00:00'));
@@ -70,7 +69,7 @@ class DatespanRange extends AbstractRange
      *
      * @param   mixed  $value
      * @return  bool
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \LogicException
      */
     protected function aboveMaxBorder($value)
     {
@@ -79,7 +78,7 @@ class DatespanRange extends AbstractRange
         }
 
         if (!($value instanceof Datespan)) {
-            throw new RuntimeException('Given value must be of instance stubbles\date\span\Datespan');
+            throw new LogicException('Given value must be of instance stubbles\date\span\Datespan');
         }
 
         return $value->endsAfter($this->maxDate->change()->timeTo('23:59:59'));

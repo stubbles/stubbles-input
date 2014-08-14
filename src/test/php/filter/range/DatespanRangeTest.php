@@ -123,7 +123,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @text
      * @dataProvider  ranges
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  LogicException
      */
     public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range)
     {
@@ -175,7 +175,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  BadMethodCallException
      * @since  2.3.1
      * @group  issue41
      */

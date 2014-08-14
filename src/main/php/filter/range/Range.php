@@ -75,10 +75,10 @@ trait NonTruncatingRange
      *
      * @param   string  $value
      * @return  string
-     * @throws  \stubbles\lang\exception\MethodNotSupportedException
+     * @throws  \BadMethodCallException
      */
     public function truncateToMaxBorder($value)
     {
-        throw new MethodNotSupportedException('Truncating is not supported');
+        throw new \BadMethodCallException('Truncating is not supported');
     }
 }

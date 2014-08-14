@@ -9,7 +9,6 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\exception\RuntimeException;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Filter values based on a @Request[OneOf] annotation.
@@ -33,7 +32,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  string[]
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \RuntimeException
      */
     private function getAllowedValues(Annotation $annotation)
     {
@@ -41,6 +40,6 @@ class OneOfParamBroker extends MultipleSourceParamBroker
             return array_map('trim', explode('|', $annotation->getAllowed()));
         }
 
-        throw new RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->target());
+        throw new \RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->target());
     }
 }

@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\lang\exception\RuntimeException;
 /**
  * Map which contains all single parameter brokers.
  *
@@ -59,7 +58,7 @@ class ParamBrokerMap
      *
      * @param   string  $key
      * @return  \stubbles\input\broker\param\ParamBroker
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \RuntimeException
      */
     public function getBroker($key)
     {
@@ -67,7 +66,7 @@ class ParamBrokerMap
             return $this->paramBroker[strtolower($key)];
         }
 
-        throw new RuntimeException('No param broker found for ' . $key);
+        throw new \RuntimeException('No param broker found for ' . $key);
     }
 
     /**

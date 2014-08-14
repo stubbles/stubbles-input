@@ -127,9 +127,9 @@ class SecureStringFilterTest extends FilterTest
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\IllegalStateException
+     * @expectedException  LogicException
      */
-    public function asSecureStringThrowsIllegalStateExceptionWhenDefaultValueNoInstanceOfSecureString()
+    public function asSecureStringThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecureString()
     {
         $this->createValueReader(null)->defaultingTo('baz')->asSecureString()->unveil();
     }

@@ -14,8 +14,6 @@ use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
 use stubbles\input\errors\ParamErrors;
-use stubbles\lang\exception\IllegalArgumentException;
-use stubbles\lang\exception\RuntimeException;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\IpAddress;
 use stubbles\peer\http\Http;
@@ -130,7 +128,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
 
         try {
             return HttpVersion::fromString($this->headers->value('SERVER_PROTOCOL'));
-        } catch (IllegalArgumentException $ex) {
+        } catch (\InvalidArgumentException $ex) {
             return null;
         }
     }
@@ -166,7 +164,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
             if ($this->headers->contain('REMOTE_ADDR')) {
                 return new IpAddress($this->headers->value('REMOTE_ADDR'));
             }
-        } catch (IllegalArgumentException $iae) {
+        } catch (\InvalidArgumentException $iae) {
             // treat as if no ip address available
         }
 
@@ -181,7 +179,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * is for an invalid HTTP uri something is completely wrong.
      *
      * @return  \stubbles\peer\http\HttpUri
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \RuntimeException
      */
     public function uri()
     {
@@ -194,7 +192,7 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
                     $this->headers->value('REQUEST_URI') // already contains query string
             );
         } catch (MalformedUriException $murie) {
-            throw new RuntimeException('Invalid request uri', $murie);
+            throw new \RuntimeException('Invalid request uri', $murie->getCode(), $murie);
         }
     }
 

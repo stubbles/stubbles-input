@@ -162,11 +162,11 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\MethodNotSupportedException
+     * @expectedException  BadMethodCallException
      * @since  2.3.1
      * @group  issue41
      */
-    public function tryingToTruncateThrowsMethodNotSupportedException()
+    public function tryingToTruncateThrowsBadMethodCallException()
     {
         $this->dateRange->truncateToMaxBorder(new Date('2012-03-20'));
     }

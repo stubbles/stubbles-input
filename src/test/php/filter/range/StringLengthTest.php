@@ -196,12 +196,12 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\RuntimeException
+     * @expectedException  LogicException
      * @since  2.3.1
      * @group  issue41
      * @dataProvider  truncateValues
      */
-    public function truncateValueWhenNotAllowedThrowsRuntimeException($value)
+    public function truncateValueWhenNotAllowedThrowsLogicException($value)
     {
         $this->stringLength->truncateToMaxBorder($value);
     }
@@ -219,7 +219,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  InvalidArgumentException
      * @since  2.3.1
      * @group  issue41
      */

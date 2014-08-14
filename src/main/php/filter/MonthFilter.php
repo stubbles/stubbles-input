@@ -11,7 +11,6 @@ namespace stubbles\input\filter;
 use stubbles\date\span\Month;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\lang\exception\IllegalArgumentException;
 /**
  * Class for filtering months.
  *
@@ -45,8 +44,6 @@ class MonthFilter implements Filter
 
         try {
             return Month::fromString($param->value());
-        } catch (IllegalArgumentException $iae) {
-            $param->addError('MONTH_INVALID');
         } catch (\InvalidArgumentException $iae) {
             $param->addError('MONTH_INVALID');
         }

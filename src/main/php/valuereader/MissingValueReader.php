@@ -9,7 +9,6 @@
  */
 namespace stubbles\input\valuereader;
 use stubbles\input\Filter;
-use stubbles\input\Validator;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;

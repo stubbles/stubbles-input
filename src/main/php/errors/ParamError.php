@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\errors;
-use stubbles\lang\exception\IllegalArgumentException;
 use stubbles\input\errors\messages\LocalizedMessage;
 /**
  * Class representing parameter errors after filtering parameter values.
@@ -51,7 +50,7 @@ class ParamError
      * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
      * @param   array                                     $details  details of what caused the error
      * @return  \stubbles\input\errors\ParamError
-     * @throws  \stubbles\lang\exception\IllegalArgumentException
+     * @throws  \InvalidArgumentException
      */
     public static function fromData($error, array $details = [])
     {
@@ -60,7 +59,7 @@ class ParamError
         }
 
         if (!is_string($error)) {
-            throw new IllegalArgumentException('Given error must either be an error id or an instance of ' . __CLASS__);
+            throw new \InvalidArgumentException('Given error must either be an error id or an instance of ' . __CLASS__);
         }
 
         return new self($error, $details);

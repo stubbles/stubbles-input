@@ -81,13 +81,13 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      * @param   \stubbles\input\Request                       $request
      * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
      * @return  string
-     * @throws  \stubbles\lang\exception\RuntimeException
+     * @throws  \RuntimeException
      */
     private function getMethod(Request $request, Annotation $annotation)
     {
         $method = 'read' . $this->getSource($annotation);
         if (!method_exists($request, $method)) {
-            throw new RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . get_class($request));
+            throw new \RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . get_class($request));
         }
 
         return $method;

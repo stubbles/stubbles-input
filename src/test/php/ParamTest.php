@@ -133,12 +133,12 @@ class ParamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\lang\exception\IllegalArgumentException
+     * @expectedException  InvalidArgumentException
      * @expectedExceptionMessage  Given error must either be an error id or an instance of stubbles\input\errors\ParamError
      * @since  2.3.3
      * @group  issue_46
      */
-    public function addNonParamErrorAndNoErrorIdResultsInIllegalArgumentException()
+    public function addNonParamErrorAndNoErrorIdResultsInInvalidArgumentException()
     {
         $param = new Param('foo', 'bar');
         $param->addError(500);
