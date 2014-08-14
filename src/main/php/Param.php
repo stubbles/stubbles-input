@@ -59,17 +59,6 @@ class Param
     }
 
     /**
-     * returns name of param
-     *
-     * @return  string
-     * @deprecated since 3.0.0, use name() instead, will be removed with 4.0.0
-     */
-    public function getName()
-    {
-        return $this->name();
-    }
-
-    /**
      * returns value of param
      *
      * @return  string
@@ -78,17 +67,6 @@ class Param
     public function value()
     {
         return $this->value;
-    }
-
-    /**
-     * returns value of param
-     *
-     * @return  string
-     * @deprecated since 3.0.0, use value() instead, will be removed with 4.0.0
-     */
-    public function getValue()
-    {
-        return $this->value();
     }
 
     /**
@@ -167,16 +145,5 @@ class Param
     public function errors()
     {
         return $this->errors;
-    }
-
-    /**
-     * returns list of error ids
-     *
-     * @return  \stubbles\input\errors\ParamError[]
-     * @deprecated since 3.0.0, use errors() instead, will be removed with 4.0.0
-     */
-    public function getErrors()
-    {
-        return $this->errors();
     }
 }

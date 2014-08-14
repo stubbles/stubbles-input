@@ -102,17 +102,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
-     * returns the request method
-     *
-     * @return  string
-     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
-     */
-    public function getMethod()
-    {
-        return $this->method();
-    }
-
-    /**
      * checks whether request was made using ssl
      *
      * @return  bool
@@ -144,20 +133,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
         } catch (IllegalArgumentException $ex) {
             return null;
         }
-    }
-
-    /**
-     * returns HTTP protocol version of request
-     *
-     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
-     *
-     * @return  \stubbles\peer\http\HttpVersion
-     * @since   2.0.2
-     * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
-     */
-    public function getProtocolVersion()
-    {
-        return $this->protocolVersion();
     }
 
     /**
@@ -224,18 +199,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     }
 
     /**
-     * returns the uri of the request
-     *
-     * @return  \stubbles\peer\http\HttpUri
-     * @throws  \stubbles\lang\exception\RuntimeException
-     * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
-     */
-    public function getUri()
-    {
-        return $this->uri();
-    }
-
-    /**
      * return an array of all header names registered in this request
      *
      * @return  string[]
@@ -244,18 +207,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     public function headerNames()
     {
         return $this->headers->names();
-    }
-
-    /**
-     * return an array of all header names registered in this request
-     *
-     * @return  string[]
-     * @since   1.3.0
-     * @deprecated  since 3.0.0, use headerNames() instead, will be removed with 4.0.0
-     */
-    public function getHeaderNames()
-    {
-        return $this->headersNames();
     }
 
     /**
@@ -375,18 +326,6 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
     public function cookieNames()
     {
         return $this->cookies->names();
-    }
-
-    /**
-     * return an array of all cookie names registered in this request
-     *
-     * @return  string[]
-     * @since   1.3.0
-     * @deprecated  since 3.0.0, use cookieNames() instead, will be removed with 4.0.0
-     */
-    public function getCookieNames()
-    {
-        return $this->cookieNames();
     }
 
     /**

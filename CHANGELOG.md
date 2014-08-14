@@ -1,3 +1,17 @@
+4.0.0 (2014-08-??)
+------------------
+
+### BC breaks
+
+  * removed all classes, methods and functions deprecated with 3.0.0
+
+
+### Other changes
+
+  * upgraded stubbles/core to 5.0.0
+
+
+
 3.2.0 (2014-08-14)
 ------------------
 

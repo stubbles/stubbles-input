@@ -64,18 +64,6 @@ class UserAgent
     }
 
     /**
-     * returns name of user agent
-     *
-     * @api
-     * @return  string
-     * @deprecated  since 3.0.0, use name() instead, will be removed with 4.0.0
-     */
-    public function getName()
-    {
-        return $this->name();
-    }
-
-    /**
      * returns whether user agent is a bot or not
      *
      * @XmlAttribute(attributeName='isBot')

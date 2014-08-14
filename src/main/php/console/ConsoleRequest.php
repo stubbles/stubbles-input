@@ -25,13 +25,6 @@ interface ConsoleRequest extends Request
     public function envNames();
 
     /**
-     * return an array of all environment names registered in this request
-     *
-     * @return  string[]
-     * @deprecated  since 3.0.0, use envNames() instead, will be removed with 4.0.0
-     */
-    public function getEnvNames();
-    /**
      * returns list of errors for environment parameters
      *
      * @return  \stubbles\input\errors\ParamErrors

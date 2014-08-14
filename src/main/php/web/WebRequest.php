@@ -37,17 +37,6 @@ interface WebRequest extends Request
     public function protocolVersion();
 
     /**
-     * returns HTTP protocol version of request
-     *
-     * In case the version is not HTTP/1.0 or HTTP/1.1 return value is <null>.
-     *
-     * @return  \stubbles\peer\http\HttpVersion
-     * @since   2.0.2
-     * @deprecated  since 3.0.0, use protocolVersion() instead, will be removed with 4.0.0
-     */
-    public function getProtocolVersion();
-
-    /**
      * returns the ip which issued the request originally
      *
      * The originating IP address is the IP address of the client which issued
@@ -81,29 +70,12 @@ interface WebRequest extends Request
     public function uri();
 
     /**
-     * returns the uri of the request
-     *
-     * @return  \stubbles\peer\http\HttpUri
-     * @deprecated  since 3.0.0, use uri() instead, will be removed with 4.0.0
-     */
-    public function getUri();
-
-    /**
      * return a list of all header names registered in this request
      *
      * @return  string[]
      * @since   1.3.0
      */
     public function headerNames();
-
-    /**
-     * return an array of all header names registered in this request
-     *
-     * @return  string[]
-     * @since   1.3.0
-     * @deprecated  since 3.0.0, use headerNames() instead, will be removed with 4.0.0
-     */
-    public function getHeaderNames();
 
     /**
      * checks whether a request header is set
@@ -189,15 +161,6 @@ interface WebRequest extends Request
      * @since   1.3.0
      */
     public function cookieNames();
-
-    /**
-     * return an array of all cookie names registered in this request
-     *
-     * @return  string[]
-     * @since   1.3.0
-     * @deprecated  since 3.0.0, use cookieNames() instead, will be removed with 4.0.0
-     */
-    public function getCookieNames();
 
     /**
      * checks whether a request cookie is set

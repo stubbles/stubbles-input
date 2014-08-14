@@ -257,46 +257,11 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @deprecated  since 3.0.0, will be removed with 4.0.0
-     */
-    public function withValidatorReturnsValidatorResult()
-    {
-        $mockValidator = $this->getMock('stubbles\input\Validator');
-        $mockValidator->expects($this->once())
-                      ->method('validate')
-                      ->with($this->equalTo('foo'))
-                      ->will($this->returnValue(true));
-        $this->assertTrue($this->createValueValidator('foo')->withValidator($mockValidator));
-    }
-
-    /**
-     * @test
      */
     public function canBeCreatedAsMock()
     {
         $this->assertInstanceOf('stubbles\input\ValueValidator',
                                 ValueValidator::forValue('bar')
-        );
-    }
-
-    /**
-     * @since  2.2.0
-     * @group  issue_33
-     * @test
-     * @deprecated  since 3.0.0, will be removed with 4.0.0
-     */
-    public function withFunctionReturnsClosureResult()
-    {
-        $this->assertTrue($this->createValueValidator('303')
-                               ->withFunction(function($value)
-                                              {
-                                                  if (303 == $value) {
-                                                      return true;
-                                                  }
-
-                                                  return false;
-                                              }
-                                 )
         );
     }
 }

@@ -22,17 +22,6 @@ class TestAbstractRequest extends AbstractRequest
     {
         return 'test';
     }
-
-    /**
-     * returns the request method
-     *
-     * @return  string
-     * @deprecated  since 3.0.0, use method() instead, will be removed with 4.0.0
-     */
-    public function getMethod()
-    {
-        return 'test';
-    }
 }
 /**
  * Tests for stubbles\input\AbstractRequest.
@@ -54,24 +43,6 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->abstractRequest = new TestAbstractRequest(new Params(['foo' => 'bar', 'roland' => 'TB-303']));
-    }
-
-    /**
-     * @test
-     * @deprecated  since 3.0.0, will be removed with 4.0.0
-     */
-    public function isNotCancelledInitially()
-    {
-        $this->assertFalse($this->abstractRequest->isCancelled());
-    }
-
-    /**
-     * @test
-     * @deprecated  since 3.0.0, will be removed with 4.0.0
-     */
-    public function isCancelledAfterCancellation()
-    {
-        $this->assertTrue($this->abstractRequest->cancel()->isCancelled());
     }
 
     /**

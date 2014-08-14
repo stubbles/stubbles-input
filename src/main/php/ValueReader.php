@@ -432,27 +432,6 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
-     * checks value with given validator
-     *
-     * If value does not satisfy the validator return value will be null.
-     *
-     * @api
-     * @param   \stubbles\input\Validator  $validator  validator to use
-     * @param   string                     $errorId    error id to be used in case validation fails
-     * @param   array                      $details    optional  details for param error in case validation fails
-     * @return  string
-     * @deprecated  since 3.0.0, use with($predicate, $errorId) instead, will be removed with 4.0.0
-     */
-    public function withValidator(Validator $validator, $errorId, array $details = [])
-    {
-        return $this->handleFilter(function() use($validator, $errorId, $details)
-                                   {
-                                       return new filter\ValidatingFilter($validator, $errorId, $details);
-                                   }
-        );
-    }
-
-    /**
      * returns param value when given predicate evaluates to true
      *
      * If value does not satisfy the predicate return value will be null.
@@ -560,36 +539,6 @@ class ValueReader implements valuereader\CommonValueReader
         }
 
         return $this->applyFilter(new filter\WrapCallableFilter($filter));
-    }
-
-    /**
-     * checks value with given closure
-     *
-     * The closure must accept an instance of stubbles\input\Param and
-     * return the filtered value.
-     * <code>
-     * $result = $request->readParam('name')
-     *                   ->withFunction(function(Param $param)
-     *                                  {
-     *                                      if ($param->value() == 303) {
-     *                                          return 'Roland TB-303';
-     *                                      }
-     *
-     *                                      $param->addError('INVALID_303');
-     *                                      return null;
-     *                                  }
-     *                     );
-     * </code>
-     *
-     * @api
-     * @since   2.2.0
-     * @param   \Closure  $filter
-     * @return  mixed
-     * @deprecated  since 3.0.0, use withCallable() instead, will be removed with 4.0.0
-     */
-    public function withFunction(\Closure $filter)
-    {
-        return $this->withCallable($filter);
     }
 
     /**

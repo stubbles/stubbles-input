@@ -12,7 +12,6 @@ use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
 use stubbles\input\Filter;
-use stubbles\input\Validator;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
@@ -322,22 +321,6 @@ class DefaultValueReader implements CommonValueReader
      * @return  string
      */
     public function ifIsDirectory($basePath = null)
-    {
-        return $this->default;
-    }
-
-    /**
-     * checks value with given validator
-     *
-     * If value does not satisfy the validator return value will be null.
-     *
-     * @param   \stubbles\input\Validator  $validator  validator to use
-     * @param   string                     $errorId    error id to be used in case validation fails
-     * @param   array                      $details    optional  details for param error in case validation fails
-     * @return  string
-     * @deprecated  since 3.0.0, use with($predicate, $errorId) instead, will be removed with 4.0.0
-     */
-    public function withValidator(Validator $validator, $errorId, array $details = [])
     {
         return $this->default;
     }
