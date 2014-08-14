@@ -47,6 +47,8 @@ class MonthFilter implements Filter
             return Month::fromString($param->value());
         } catch (IllegalArgumentException $iae) {
             $param->addError('MONTH_INVALID');
+        } catch (\InvalidArgumentException $iae) {
+            $param->addError('MONTH_INVALID');
         }
 
         return null;

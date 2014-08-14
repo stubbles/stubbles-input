@@ -47,6 +47,8 @@ class DayFilter implements Filter
             return new Day($param->value());
         } catch (IllegalArgumentException $iae) {
             $param->addError('DATE_INVALID');
+        } catch (\InvalidArgumentException $iae) {
+            $param->addError('DATE_INVALID');
         }
 
         return null;
