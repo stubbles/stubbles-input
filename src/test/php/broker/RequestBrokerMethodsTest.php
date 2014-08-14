@@ -117,7 +117,6 @@ class RequestBrokerMethodsTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
-            $this->assertTrue($annotation->requiresValue());
         }
     }
 
@@ -134,21 +133,6 @@ class RequestBrokerMethodsTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('stubbles\lang\\reflect\annotation\Annotation',
                                     $annotation
             );
-            $this->assertTrue($annotation->requiresValue());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function getAnnotationsDoesNotSetRequiresValueForMethodsWithoutParameters()
-    {
-        $annotations = $this->requestBrokerMethods->getAnnotations('stubbles\input\broker\BrokerClass',
-                                                                   'noparam'
-        );
-        $this->assertCount(1, $annotations);
-        foreach ($annotations as $annotation) {
-            $this->assertFalse($annotation->requiresValue());
         }
     }
 }

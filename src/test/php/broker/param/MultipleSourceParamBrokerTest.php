@@ -38,13 +38,8 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequestAnnotation(array $values = [])
     {
-        $annotation = new Annotation($this->getRequestAnnotationName(), 'SomeClass::someMethod()');
-        $annotation->name = 'foo';
-        foreach ($values as $key => $value) {
-            $annotation->$key = $value;
-        }
-
-        return $annotation;
+        $values['name'] = 'foo';
+        return new Annotation($this->getRequestAnnotationName(), 'SomeClass::someMethod()', $values, 'Request');
     }
 
     /**

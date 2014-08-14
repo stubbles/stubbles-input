@@ -42,14 +42,9 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function createRequestAnnotation(array $values = [])
     {
-        $annotation = new Annotation('CustomDatespan', 'foo');
-        $annotation->startName = 'foo';
-        $annotation->endName   = 'bar';
-        foreach ($values as $key => $value) {
-            $annotation->$key = $value;
-        }
-
-        return $annotation;
+        $values['startName'] = 'foo';
+        $values['endName']   = 'bar';
+        return new Annotation('CustomDatespan', 'foo', $values, 'Request');
     }
 
     /**

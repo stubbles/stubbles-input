@@ -49,13 +49,8 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequestAnnotation(array $values = [])
     {
-        $annotation = new Annotation('SecureString', 'foo');
-        $annotation->name = 'foo';
-        foreach ($values as $key => $value) {
-            $annotation->$key = $value;
-        }
-
-        return $annotation;
+        $values['name'] = 'foo';
+        return new Annotation('SecureString', 'foo', $values, 'Request');
     }
 
     /**

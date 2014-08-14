@@ -41,6 +41,6 @@ class OneOfParamBroker extends MultipleSourceParamBroker
             return array_map('trim', explode('|', $annotation->getAllowed()));
         }
 
-        throw new RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->targetName());
+        throw new RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->target());
     }
 }
