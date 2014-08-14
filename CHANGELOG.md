@@ -5,6 +5,7 @@
 
   * removed all classes, methods and functions deprecated with 3.0.0
   * changed all thrown stubbles/core exceptions to those recommended with stubbles/core 5.0.0
+  * change of annotation value names in request broker: `name` must now be `paramName`, group must now be `paramGroup`
 
 
 ### Other changes
