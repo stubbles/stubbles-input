@@ -12,7 +12,6 @@ use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\exception\RuntimeException;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker to be used to retrieve parameters based on annotations.
