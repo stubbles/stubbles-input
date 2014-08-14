@@ -72,16 +72,4 @@ class RequestBrokerFacade
             }
         }
     }
-
-    /**
-     * returns a list of all request annotations on given object
-     *
-     * @param   object  $object
-     * @param   string  $group   restrict list to given group
-     * @return  \stubbles\lang\reflect\annotation\Annotation[]
-     */
-    public function annotationsFor($object, $group = null)
-    {
-        return $this->requestBroker->annotationsFor($object, $group);
-    }
 }

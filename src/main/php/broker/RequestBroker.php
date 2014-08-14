@@ -9,6 +9,8 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\Request;
+use stubbles\lang;
+use stubbles\lang\reflect\BaseReflectionClass;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
@@ -17,13 +19,45 @@ use stubbles\input\Request;
 class RequestBroker
 {
     /**
-     * the matcher to be used for methods and properties
+     * list of build in param brokers
      *
-     * @type  \stubbles\input\broker\RequestBrokerMethods
+     * @type  \stubbles\input\broker\param\ParamBroker[]
      */
-    private $brokerMethods;
+    private static $buildInParamBroker;
+
     /**
-     * factory to create filters with
+     * returns list of build in param brokers
+     *
+     * @return  \stubbles\input\broker\param\ParamBroker[]
+     */
+    public static function buildInTypes()
+    {
+        if (null === self::$buildInParamBroker) {
+            self::$buildInParamBroker = ['array'          => new param\ArrayParamBroker(),
+                                         'bool'           => new param\BoolParamBroker(),
+                                         'customdatespan' => new param\CustomDatespanParamBroker(),
+                                         'date'           => new param\DateParamBroker(),
+                                         'day'            => new param\DayParamBroker(),
+                                         'directory'      => new param\DirectoryParamBroker(),
+                                         'file'           => new param\FileParamBroker(),
+                                         'float'          => new param\FloatParamBroker(),
+                                         'httpuri'        => new param\HttpUriParamBroker(),
+                                         'integer'        => new param\IntegerParamBroker(),
+                                         'json'           => new param\JsonParamBroker(),
+                                         'mail'           => new param\MailParamBroker(),
+                                         'oneof'          => new param\OneOfParamBroker(),
+                                         'password'       => new param\PasswordParamBroker(),
+                                         'string'         => new param\StringParamBroker(),
+                                         'securestring'   => new param\SecureStringParamBroker(),
+                                         'text'           => new param\TextParamBroker(),
+                                        ];
+        }
+
+        return self::$buildInParamBroker;
+    }
+
+    /**
+     * map of param brokers
      *
      * @type  \stubbles\input\broker\ParamBrokers
      */
@@ -31,15 +65,27 @@ class RequestBroker
 
     /**
      * constructor
-     *
-     * @param  \stubbles\input\broker\RequestBrokerMethods  $brokerMethods
-     * @param  \stubbles\input\broker\ParamBrokers          $paramBrokers
-     * @Inject
      */
-    public function __construct(RequestBrokerMethods $brokerMethods, ParamBrokers $paramBrokers)
+    public function __construct()
     {
-        $this->brokerMethods = $brokerMethods;
-        $this->paramBrokers  = $paramBrokers;
+        $this->paramBrokers = self::buildInTypes();
+    }
+
+    /**
+     * adds map of param brokers
+     *
+     * @param   \stubbles\input\broker\param\ParamBroker[]  $paramBrokers
+     * @return  \stubbles\input\broker\RequestBroker
+     * @Inject(optional=true)
+     * @Map(stubbles\input\broker\param\ParamBroker.class)
+     */
+    public function addParamBrokers(array $paramBrokers)
+    {
+        foreach ($paramBrokers as $key => $paramBroker) {
+            $this->paramBrokers[strtolower($key)] = $paramBroker;
+        }
+
+        return $this;
     }
 
     /**
@@ -48,26 +94,61 @@ class RequestBroker
      * @param   \stubbles\input\Request  $request
      * @param   object                   $object   the object instance to fill with values
      * @param   string                   $group    restrict procurement to given group
+     * @throws  \InvalidArgumentException
      */
     public function procure(Request $request, $object, $group = null)
     {
-        foreach ($this->brokerMethods->of($object, $group) as $refMethod) {
-            $value = $this->paramBrokers->procure($request, $refMethod->annotation('Request'));
-            if (null !== $value) {
-                $refMethod->invoke($object, $value);
-            }
+        if (!is_object($object)) {
+            throw new \InvalidArgumentException('Parameter $object must be an object instance');
+        }
+
+        foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
+            $targetMethod->invoke(
+                    $this->paramBroker($targetMethod->expectedType())
+                         ->procure($request, $targetMethod->annotation())
+            );
         }
     }
 
     /**
-     * returns a list of all request annotations on given object
+     * returns param broker for requested type
      *
-     * @param   object  $object
-     * @param   string  $group   restrict list to given group
-     * @return  \stubbles\lang\reflect\annotation\Annotation[]
+     * @param   string  $type
+     * @return  \stubbles\input\broker\param\ParamBroker
+     * @throws  \RuntimeException
      */
-    public function annotationsFor($object, $group = null)
+    public function paramBroker($type)
     {
-        return $this->brokerMethods->annotationsFor($object, $group);
+        if (isset($this->paramBrokers[$type])) {
+            return $this->paramBrokers[$type];
+        }
+
+        throw new \RuntimeException('No param broker found for ' . $type);
+    }
+
+    /**
+     * returns all methods of given instance which are applicable for brokerage
+     *
+     * @param   object|string  $object
+     * @param   string         $group   restrict list to given group
+     * @return  \stubbles\input\broker\TargetMethod[]
+     * @throws  \InvalidArgumentException
+     */
+    public static function targetMethodsOf($object, $group = null)
+    {
+        if (!is_object($object) && !is_string($object) && !($object instanceof BaseReflectionClass)) {
+            throw new \InvalidArgumentException('Parameter $object must be an object instance, a class name or an instance of stubbles\lang\reflect\BaseReflectionClass');
+        }
+
+        $class = $object instanceof BaseReflectionClass ? $object : lang\reflect($object);
+        $brokeredParams = [];
+        foreach ($class->getMethodsByMatcher(new ApplicableMethods()) as $method) {
+            $annotation = $method->annotation('Request');
+            if (empty($group) || $annotation->paramGroup() === $group) {
+                $brokeredParams[] = new TargetMethod($object, $method, $annotation);
+            }
+        }
+
+        return $brokeredParams;
     }
 }

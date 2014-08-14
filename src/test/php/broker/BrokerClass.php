@@ -53,7 +53,7 @@ class BrokerClass
     /**
      * test method without parameter
      *
-     * @Request[Bool](name='verbose', group='noparam')
+     * @Request[Bool](paramName='verbose', paramGroup='noparam')
      */
     public function enableVerbose()
     {
@@ -73,7 +73,7 @@ class BrokerClass
     /**
      * test method
      *
-     * @Request[String](name='bar', group='main')
+     * @Request[String](paramName='bar', paramGroup='main')
      * @param  string  $bar
      */
     public function setBar($bar)
@@ -94,7 +94,7 @@ class BrokerClass
     /**
      * test method
      *
-     * @Request[Mock](name='baz', group='other')
+     * @Request[Mock](paramName='baz', paramGroup='other')
      * @param  string  $baz
      */
     public function setBaz($baz)

@@ -29,7 +29,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     public function procure(Request $request, Annotation $annotation)
     {
         $method      = $this->getMethod($request, $annotation);
-        $valueReader = $request->$method($annotation->getName());
+        $valueReader = $request->$method($annotation->getParamName());
         /* @var $valueReader \stubbles\input\ValueReader */
         if ($annotation->isRequired()) {
             return $this->filter($valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')), $annotation);

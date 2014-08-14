@@ -11,7 +11,7 @@ namespace stubbles\input\broker;
 use stubbles\lang;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
- * Tests for stubbles\input\broker\ParamBrokerMap.
+ * Tests for stubbles\input\broker\RequestBroker.
  *
  * @group  broker
  * @group  broker_core
@@ -21,26 +21,16 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     /**
      * instance to test
      *
-     * @type  ParamBrokerMap
+     * @type  \stubbles\input\broker\RequestBroker
      */
-    private $paramBrokerMap;
+    private $requestBroker;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->paramBrokerMap = new ParamBrokers();
-    }
-
-    /**
-     * @test
-     */
-    public function annotationsPresentOnClass()
-    {
-        $this->assertTrue(
-                lang\reflect($this->paramBrokerMap)->hasAnnotation('Singleton')
-        );
+        $this->requestBroker = new RequestBroker();
     }
 
     /**
@@ -48,10 +38,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnAddParamBrokersMethod()
     {
-        $setParamBrokers = lang\reflect($this->paramBrokerMap, 'addParamBrokers');
-        $this->assertTrue($setParamBrokers->hasAnnotation('Inject'));
-        $this->assertTrue($setParamBrokers->getAnnotation('Inject')->isOptional());
-        $this->assertTrue($setParamBrokers->hasAnnotation('Map'));
+        $addParamBrokersMethod = lang\reflect($this->requestBroker, 'addParamBrokers');
+        $this->assertTrue($addParamBrokersMethod->hasAnnotation('Inject'));
+        $this->assertTrue($addParamBrokersMethod->annotation('Inject')->isOptional());
+        $this->assertTrue($addParamBrokersMethod->hasAnnotation('Map'));
     }
 
     /**
@@ -59,65 +49,37 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      *
      * @return  array
      */
-    public function getDefaultBrokerList()
+    public function defaultBrokerList()
     {
         $defaultBroker = [];
-        foreach (ParamBrokers::buildIn() as $name => $paramBroker) {
+        foreach (RequestBroker::buildInTypes() as $name => $paramBroker) {
             $defaultBroker[] = [$name, get_class($paramBroker)];
         }
 
-        return array_merge($defaultBroker, $this->getBcDefaultBrokerList());
-    }
-
-    /**
-     * returns a list of default brokers for backward compatibility with old keys
-     *
-     * @return  array
-     * @since   2.3.3
-     */
-    private function getBcDefaultBrokerList()
-    {
-        return [['Array', 'stubbles\input\broker\param\ArrayParamBroker'],
-                ['Bool', 'stubbles\input\broker\param\BoolParamBroker'],
-                ['CustomDatespan', 'stubbles\input\broker\param\CustomDatespanParamBroker'],
-                ['Date', 'stubbles\input\broker\param\DateParamBroker'],
-                ['Day', 'stubbles\input\broker\param\DayParamBroker'],
-                ['Directory', 'stubbles\input\broker\param\DirectoryParamBroker'],
-                ['File', 'stubbles\input\broker\param\FileParamBroker'],
-                ['Float', 'stubbles\input\broker\param\FloatParamBroker'],
-                ['HttpUri', 'stubbles\input\broker\param\HttpUriParamBroker'],
-                ['Integer', 'stubbles\input\broker\param\IntegerParamBroker'],
-                ['Json', 'stubbles\input\broker\param\JsonParamBroker'],
-                ['Mail', 'stubbles\input\broker\param\MailParamBroker'],
-                ['OneOf', 'stubbles\input\broker\param\OneOfParamBroker'],
-                ['Password', 'stubbles\input\broker\param\PasswordParamBroker'],
-                ['String', 'stubbles\input\broker\param\StringParamBroker'],
-                ['SecureString', 'stubbles\input\broker\param\SecureStringParamBroker'],
-                ['Text', 'stubbles\input\broker\param\TextParamBroker'],
-         ];
+        return $defaultBroker;
     }
 
     /**
      * @test
-     * @dataProvider  getDefaultBrokerList
+     * @dataProvider  defaultBrokerList
      */
     public function returnsBroker($key, $brokerClass)
     {
         $this->assertInstanceOf($brokerClass,
-                                $this->paramBrokerMap->paramBroker($key)
+                                $this->requestBroker->paramBroker($key)
         );
     }
 
     /**
      * @test
-     * @dataProvider  getDefaultBrokerList
+     * @dataProvider  defaultBrokerList
      * @since  2.3.3
      * @group  issue_45
      */
     public function returnsBrokerWithLowerCaseKey($key, $brokerClass)
     {
         $this->assertInstanceOf($brokerClass,
-                                $this->paramBrokerMap->paramBroker(strtolower($key))
+                                $this->requestBroker->paramBroker(strtolower($key))
         );
     }
 
@@ -125,24 +87,22 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException  RuntimeException
      */
-    public function procureUnknownTypeThrowsRuntimeException()
+    public function requestUnknownParamBrokerTypeThrowsRuntimeException()
     {
-        $this->paramBrokerMap->procure(
-                $this->getMock('stubbles\input\Request'),
-                new Annotation('doesNotExist', 'foo')
-        );
+        $this->requestBroker->paramBroker('doesNotExist');
     }
 
     /**
      * @test
-     * @dataProvider  getDefaultBrokerList
+     * @dataProvider  defaultBrokerList
      */
     public function addingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
-        $this->assertInstanceOf($brokerClass,
-                                $this->paramBrokerMap->addParamBrokers(['Mock' => $mockParamBroker])
-                                                     ->paramBroker($key)
+        $this->assertInstanceOf(
+                $brokerClass,
+                $this->requestBroker->addParamBrokers(['mock' => $mockParamBroker])
+                ->paramBroker($key)
         );
     }
 
@@ -152,9 +112,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     public function returnsAddedBroker()
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
-        $this->assertSame($mockParamBroker,
-                          $this->paramBrokerMap->addParamBrokers(['Mock' => $mockParamBroker])
-                                               ->paramBroker('Mock')
+        $this->assertSame(
+                $mockParamBroker,
+                $this->requestBroker->addParamBrokers(['Mock' => $mockParamBroker])
+                                    ->paramBroker('mock')
         );
     }
 
@@ -164,9 +125,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     public function canOverwriteDefaultBroker()
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
-        $this->assertSame($mockParamBroker,
-                          $this->paramBrokerMap->addParamBrokers(['string' => $mockParamBroker])
-                                               ->paramBroker('string')
+        $this->assertSame(
+                $mockParamBroker,
+                $this->requestBroker->addParamBrokers(['string' => $mockParamBroker])
+                                    ->paramBroker('string')
         );
     }
 }

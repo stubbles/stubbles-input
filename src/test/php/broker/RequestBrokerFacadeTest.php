@@ -166,23 +166,4 @@ class RequestBrokerFacadeTest extends \PHPUnit_Framework_TestCase
                    $mockOutputStream->writeLine($paramName . ': ' . $message);
                };
     }
-
-    /**
-     * @test
-     */
-    public function annotationsForReturnsListOfAllRequestAnnotation()
-    {
-        $brokeredClass = new BrokerClass();
-        $expected      = [new Annotation('Test', 'foo')];
-        $this->mockRequestBroker->expects($this->once())
-                                ->method('annotationsFor')
-                                ->with($this->equalTo($brokeredClass),
-                                       $this->equalTo('main')
-                                  )
-                                ->will($this->returnValue($expected));
-        $this->assertEquals(
-                $expected,
-                $this->requestBrokerFacade->annotationsFor($brokeredClass, 'main')
-        );
-    }
 }
