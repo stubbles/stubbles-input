@@ -87,6 +87,40 @@ class TargetMethod
     }
 
     /**
+     * checks if there is an option valie
+     *
+     * @return  bool
+     */
+    public function hasOptionDescription()
+    {
+        return $this->annotation->hasValueByName('option');
+    }
+
+    /**
+     * checks if there is an option valie
+     *
+     * @return  string
+     */
+    public function optionDescription()
+    {
+        if ($this->annotation->hasValueByName('option')) {
+            return $this->annotation->getValueByName('option');
+        }
+
+        return null;
+    }
+
+    /**
+     * checks if param is required
+     *
+     * @return  bool
+     */
+    public function isRequired()
+    {
+        return $this->annotation->isRequired();
+    }
+
+    /**
      * whether target method requires a parameter when called
      *
      * In some cases a request annotation could be added to methods which don't
