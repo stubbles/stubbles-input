@@ -104,6 +104,7 @@ class RequestBroker
 
         foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
             $targetMethod->invoke(
+                    $object,
                     $this->paramBroker($targetMethod->expectedType())
                          ->procure($request, $targetMethod->annotation())
             );
@@ -145,7 +146,7 @@ class RequestBroker
         foreach ($class->getMethodsByMatcher(new ApplicableMethods()) as $method) {
             $annotation = $method->annotation('Request');
             if (empty($group) || $annotation->paramGroup() === $group) {
-                $brokeredParams[] = new TargetMethod($object, $method, $annotation);
+                $brokeredParams[] = new TargetMethod($method, $annotation);
             }
         }
 

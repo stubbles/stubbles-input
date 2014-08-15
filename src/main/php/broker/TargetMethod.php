@@ -18,12 +18,6 @@ use stubbles\lang\reflect\annotation\Annotation;
 class TargetMethod
 {
     /**
-     * instance to pass result to
-     *
-     * @type  object
-     */
-    private $instance;
-    /**
      * method which expects the parameter value
      *
      * @type  \stubbles\lang\reflect\ReflectionMethod
@@ -39,13 +33,11 @@ class TargetMethod
     /**
      * constructor
      *
-     * @param  object                                        $instance
      * @param  \stubbles\lang\reflect\ReflectionMethod       $method
      * @param  \stubbles\lang\reflect\annotation\Annotation  $annotation
      */
-    public function __construct($instance, ReflectionMethod $method, Annotation $annotation)
+    public function __construct(ReflectionMethod $method, Annotation $annotation)
     {
-        $this->instance   = $instance;
         $this->method     = $method;
         $this->annotation = $annotation;
     }
@@ -111,12 +103,13 @@ class TargetMethod
     /**
      * passes procured value to the instance
      *
-     * @param  mixed  $value
+     * @param  object  $object  instance to invoke the method on
+     * @param  mixed   $value   value to pass to the method
      */
-    public function invoke($value)
+    public function invoke($object, $value)
     {
         if (null !== $value) {
-            $this->method->invoke($this->instance, $value);
+            $this->method->invoke($object, $value);
         }
     }
 }
