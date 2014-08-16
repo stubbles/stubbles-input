@@ -19,12 +19,6 @@ abstract class AbstractRequest implements Request
      * @type  Params
      */
     private $params;
-    /**
-     * switch whether request has been cancelled or not
-     *
-     * @type  bool
-     */
-    private $isCancelled   = false;
 
     /**
      * constructor
