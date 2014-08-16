@@ -59,8 +59,22 @@ class TargetMethod
      */
     public function paramDescription()
     {
-        if ($this->annotation->hasDescription()) {
-            return $this->annotation->description();
+        if ($this->annotation->hasParamDescription()) {
+            return $this->annotation->paramDescription();
+        }
+
+        return null;
+    }
+
+    /**
+     * returns description for the value
+     *
+     * @return  string
+     */
+    public function valueDescription()
+    {
+        if ($this->annotation->hasValueByName('valueDescription')) {
+            return $this->annotation->getValueByName('valueDescription');
         }
 
         return null;
@@ -84,30 +98,6 @@ class TargetMethod
     public function annotation()
     {
         return $this->annotation;
-    }
-
-    /**
-     * checks if there is an option valie
-     *
-     * @return  bool
-     */
-    public function hasOptionDescription()
-    {
-        return $this->annotation->hasValueByName('option');
-    }
-
-    /**
-     * checks if there is an option valie
-     *
-     * @return  string
-     */
-    public function optionDescription()
-    {
-        if ($this->annotation->hasValueByName('option')) {
-            return $this->annotation->getValueByName('option');
-        }
-
-        return null;
     }
 
     /**
