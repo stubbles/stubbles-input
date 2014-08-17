@@ -14,6 +14,7 @@ use stubbles\lang\reflect\BaseReflectionClass;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
+ * @api
  * @Singleton
  */
 class RequestBroker

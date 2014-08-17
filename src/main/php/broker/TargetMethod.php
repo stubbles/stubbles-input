@@ -45,6 +45,7 @@ class TargetMethod
     /**
      * returns param name
      *
+     * @api
      * @return  string
      */
     public function paramName()
@@ -55,6 +56,7 @@ class TargetMethod
     /**
      * returns description of param
      *
+     * @api
      * @return  string
      */
     public function paramDescription()
@@ -69,6 +71,7 @@ class TargetMethod
     /**
      * returns description for the value
      *
+     * @api
      * @return  string
      */
     public function valueDescription()
@@ -93,6 +96,7 @@ class TargetMethod
     /**
      * returns the request annotation with which the method is annotated
      *
+     * @api
      * @return  \stubbles\lang\reflect\annotation\Annotation
      */
     public function annotation()
@@ -103,6 +107,7 @@ class TargetMethod
     /**
      * checks if param is required
      *
+     * @api
      * @return  bool
      */
     public function isRequired()
@@ -117,6 +122,7 @@ class TargetMethod
      * require a parameter because they just flip an boolean switch internally.
      * Then the simple presence of the parameter is sufficient.
      *
+     * @api
      * @return  bool
      */
     public function requiresParameter()
@@ -127,6 +133,7 @@ class TargetMethod
     /**
      * passes procured value to the instance
      *
+     * @api
      * @param  object  $object  instance to invoke the method on
      * @param  mixed   $value   value to pass to the method
      */

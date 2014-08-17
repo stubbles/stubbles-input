@@ -13,6 +13,8 @@ use stubbles\input\Request;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Broker to be used to filter parameters based on annotations.
+ *
+ * @api
  */
 interface ParamBroker
 {

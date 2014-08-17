@@ -1,4 +1,4 @@
-4.0.0 (2014-08-??)
+4.0.0 (2014-08-17)
 ------------------
 
 ### BC breaks
@@ -15,6 +15,7 @@
 ### Other changes
 
   * upgraded stubbles/core to 5.0.0
+  * `stubbles\input\broker\RequestBroker` is now officially part of the API
 
 
 
