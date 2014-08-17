@@ -16,6 +16,7 @@
 
   * upgraded stubbles/core to 5.0.0
   * `stubbles\input\broker\RequestBroker` is now officially part of the API
+  * casting `stubbles\input\web\useragent\UserAgent` to string now returns the actual user agent string
 
 
 

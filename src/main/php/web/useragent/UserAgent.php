@@ -96,6 +96,6 @@ class UserAgent
      */
     public function __toString()
     {
-        return lang\__toString($this);
+        return $this->name;
     }
 }

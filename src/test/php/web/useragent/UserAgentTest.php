@@ -89,6 +89,14 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function castToStringReturnsName()
+    {
+        $this->assertEquals('name', (string) $this->userAgent);
+    }
+
+    /**
+     * @test
+     */
     public function instanceReturnsGivenBotSetting()
     {
         $this->assertFalse($this->userAgent->isBot());
