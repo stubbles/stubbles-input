@@ -29,7 +29,17 @@ class UserAgent
      *
      * @type  bool
      */
-    private $isBot;
+    private $isBot = null;
+    /**
+     * list of known bot user agents
+     *
+     * @type  array
+     */
+    private $botUserAgents = ['google' => '~Googlebot~',
+                              'msnbot' => '~msnbot~',
+                              'slurp'  => '~Slurp~',
+                              'dotbot' => '~DotBot~'
+                             ];
     /**
      * whether user agent accepts cookies or not
      *
@@ -40,15 +50,15 @@ class UserAgent
     /**
      * constructor
      *
-     * @param  string  $name            name of user agent
-     * @param  bool    $isBot           whether user agent is a bot or not
-     * @param  bool    $acceptsCookies  whether user agent accepts cookies or not
+     * @param  string    $name            name of user agent
+     * @param  bool      $acceptsCookies  whether user agent accepts cookies or not
+     * @param  string[]  $botUserAgents   optional  additional map of bot user agent recognitions
      */
-    public function __construct($name, $isBot, $acceptsCookies)
+    public function __construct($name, $acceptsCookies, $botUserAgents = [])
     {
         $this->name           = $name;
-        $this->isBot          = $isBot;
         $this->acceptsCookies = $acceptsCookies;
+        $this->botUserAgents  = array_merge($this->botUserAgents, $botUserAgents);
     }
 
     /**
@@ -72,7 +82,18 @@ class UserAgent
      */
     public function isBot()
     {
+        if (null === $this->isBot) {
+            $this->isBot = false;
+            foreach ($this->botUserAgents as $botUserAgent) {
+                if (preg_match($botUserAgent, $this->name) === 1) {
+                    $this->isBot = true;
+                    break;
+                }
+            }
+        }
+
         return $this->isBot;
+
     }
 
     /**

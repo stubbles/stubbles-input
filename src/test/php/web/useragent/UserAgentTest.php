@@ -30,7 +30,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->userAgent = new UserAgent('name', false, true);
+        $this->userAgent = new UserAgent('name', true);
     }
 
     /**
@@ -95,11 +95,27 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
+     * @return  array
      */
-    public function instanceReturnsGivenBotSetting()
+    public function botsRecognizedByDefault()
     {
-        $this->assertFalse($this->userAgent->isBot());
+        return [
+            ['Googlebot /v1.1'],
+            ['Microsoft msnbot 3.2'],
+            ['Yahoo! Slurp'],
+            ['Some DotBot I do not remember']
+        ];
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @dataProvider  botsRecognizedByDefault
+     */
+    public function recognizesSomeBotsByDefault($userAgent)
+    {
+        $userAgent = new UserAgent($userAgent, true);
+        $this->assertTrue($userAgent->isBot());
     }
 
     /**

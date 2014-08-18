@@ -16,6 +16,7 @@ use stubbles\lang;
  * @since  1.2.0
  * @group  web
  * @group  web_useragent
+ * @deprecated  since 4.1.0, will be removed with 5.0.0
  */
 class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +64,7 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
         $this->mockWebRequest->expects($this->once())
                              ->method('cookieNames')
                              ->will($this->returnValue(['chocolateChip']));
-        $this->assertEquals(new UserAgent('foo', false, true), $this->userAgentProvider->get());
+        $this->assertEquals(new UserAgent('foo', true), $this->userAgentProvider->get());
     }
 
     /**
@@ -79,6 +80,6 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
         $this->mockWebRequest->expects($this->once())
                              ->method('cookieNames')
                              ->will($this->returnValue([]));
-        $this->assertEquals(new UserAgent('Googlebot /v1.1', true, false), $this->userAgentProvider->get());
+        $this->assertEquals(new UserAgent('Googlebot /v1.1', false), $this->userAgentProvider->get());
     }
 }

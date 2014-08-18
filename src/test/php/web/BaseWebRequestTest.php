@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web;
+use stubbles\input\web\useragent\UserAgent;
 use stubbles\peer\http\HttpVersion;
 /**
  * Tests for stubbles\input\web\BaseWebRequest.
@@ -804,6 +805,96 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('request body',
                             $this->baseWebRequest->readBody()->unsecure()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function returnsUserAgent()
+    {
+        $this->assertEquals(
+                new UserAgent('foo', true),
+                $this->createBaseWebRequest(
+                        [],
+                        ['HTTP_USER_AGENT' => 'foo'],
+                        ['chocolateChip' => 'someValue']
+                )->userAgent()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function returnsUserAgentWhenHeaderNotPresent()
+    {
+        $this->assertEquals(
+                new UserAgent(null, true),
+                $this->createBaseWebRequest(
+                        [],
+                        [],
+                        ['chocolateChip' => 'someValue']
+                )->userAgent()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function userAgentDoesNotAcceptCookiesWhenNoCookiesInRequest()
+    {
+        $this->assertFalse(
+                $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'foo'], [])
+                     ->userAgent()
+                     ->acceptsCookies()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function userAgentDoesNotRecognizeBotWithoutAdditionalRecognitions()
+    {
+        $this->assertFalse(
+                $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'foo'], [])
+                     ->userAgent()
+                     ->isBot()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function userAgentRecognizedAsBotWithDefaultRecognitions()
+    {
+        $this->assertTrue(
+                $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'Googlebot /v1.1'], [])
+                     ->userAgent()
+                     ->isBot()
+        );
+    }
+
+    /**
+     * @since  4.1.0
+     * @test
+     * @group  issue_65
+     */
+    public function userAgentRecognizedAsBotWithAdditionalRecognition()
+    {
+        $this->assertTrue(
+                $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'foo'], [])
+                     ->userAgent(['foo' => '~foo~'])
+                     ->isBot()
         );
     }
 }

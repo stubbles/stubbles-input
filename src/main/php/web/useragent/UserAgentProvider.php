@@ -22,6 +22,7 @@ use stubbles\ioc\InjectionProvider;
  * just be that the user agent didn't receive any cookie before.
  *
  * @since  1.2.0
+ * @deprecated  since 4.1.0, use $request->userAgent() instead, will be removed with 5.0.0
  */
 class UserAgentProvider implements InjectionProvider
 {
@@ -31,16 +32,6 @@ class UserAgentProvider implements InjectionProvider
      * @type  \stubbles\input\web\WebRequest
      */
     private $request;
-    /**
-     * list of known bot user agents
-     *
-     * @type  array
-     */
-    private $botUserAgents = ['google' => '~Googlebot~',
-                              'msnbot' => '~msnbot~',
-                              'slurp'  => '~Slurp~',
-                              'dotbot' => '~DotBot~'
-                             ];
 
     /**
      * constructor
@@ -61,9 +52,7 @@ class UserAgentProvider implements InjectionProvider
      */
     public function get($name = null)
     {
-        $userAgentString = $this->readUserAgentString();
-        return new UserAgent($userAgentString,
-                             $this->isBot($userAgentString),
+        return new UserAgent($this->readUserAgentString(),
                              $this->acceptsCookies()
         );
     }
@@ -76,23 +65,6 @@ class UserAgentProvider implements InjectionProvider
     private function readUserAgentString()
     {
         return $this->request->readHeader('HTTP_USER_AGENT')->asString();
-    }
-
-    /**
-     * helper method to detect whether a user agent is a bot or not
-     *
-     * @param   string  $userAgentString
-     * @return  bool
-     */
-    private function isBot($userAgentString)
-    {
-        foreach ($this->botUserAgents as $botUserAgent) {
-            if (preg_match($botUserAgent, $userAgentString) === 1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

@@ -59,6 +59,21 @@ interface WebRequest extends Request
     public function originatingIpAddress();
 
     /**
+     * returns the user agent which issued the request
+     *
+     * Please be aware that user agents can fake their appearance.
+     *
+     * The bot recognition will recognize Googlebot, msnbot and Yahoo! Slurp by
+     * default. Additional recognitions can be passed, they must contain a
+     * regular expression which matches the user agent of a bot.
+     *
+     * @param   string[]  $botUserAgents  optional  additional recognitions whether user agent is a bot
+     * @return  \stubbles\input\web\useragent\UserAgent
+     * @since   4.1.0
+     */
+    public function userAgent($botUserAgents = []);
+
+    /**
      * returns the uri of the request
      *
      * In case the composed uri for this request does not denote a valid HTTP

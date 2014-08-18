@@ -14,6 +14,7 @@ use stubbles\input\Params;
 use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
 use stubbles\input\errors\ParamErrors;
+use stubbles\input\web\useragent\UserAgent;
 use stubbles\peer\MalformedUriException;
 use stubbles\peer\IpAddress;
 use stubbles\peer\http\Http;
@@ -169,6 +170,27 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
         }
 
         return null;
+    }
+
+    /**
+     * returns the user agent which issued the request
+     *
+     * Please be aware that user agents can fake their appearance.
+     *
+     * The bot recognition will recognize Googlebot, msnbot and Yahoo! Slurp by
+     * default. Additional recognitions can be passed, they must contain a
+     * regular expression which matches the user agent of a bot.
+     *
+     * @param   string[]  $botUserAgents  optional  additional recognitions whether user agent is a bot
+     * @return  \stubbles\input\web\useragent\UserAgent
+     * @since   4.1.0
+     */
+    public function userAgent($botUserAgents = [])
+    {
+        return new UserAgent($this->headers->get('HTTP_USER_AGENT')->value(),
+                             $this->cookies->count() > 0,
+                             $botUserAgents
+        );
     }
 
     /**
