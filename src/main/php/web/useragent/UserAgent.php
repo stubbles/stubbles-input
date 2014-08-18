@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web\useragent;
-use stubbles\lang;
 /**
  * Value object for user agents.
  *
@@ -35,10 +34,13 @@ class UserAgent
      *
      * @type  array
      */
-    private $botUserAgents = ['google' => '~Googlebot~',
-                              'msnbot' => '~msnbot~',
-                              'slurp'  => '~Slurp~',
-                              'dotbot' => '~DotBot~'
+    private $botSignatures = ['google'       => '~Googlebot~',
+                              'msnbot'       => '~msnbot~',
+                              'bing'         => '~bingbot~',
+                              'bing preview' => '~BingPreview~',
+                              'slurp'        => '~Slurp~',
+                              'pingdom'      => '~pingdom~',
+                              'yandex'       => '~YandexBot~'
                              ];
     /**
      * whether user agent accepts cookies or not
@@ -52,13 +54,13 @@ class UserAgent
      *
      * @param  string    $name            name of user agent
      * @param  bool      $acceptsCookies  whether user agent accepts cookies or not
-     * @param  string[]  $botUserAgents   optional  additional map of bot user agent recognitions
+     * @param  string[]  $botSignatures   optional  additional list of bot user agent signatures
      */
-    public function __construct($name, $acceptsCookies, $botUserAgents = [])
+    public function __construct($name, $acceptsCookies, $botSignatures = [])
     {
         $this->name           = $name;
         $this->acceptsCookies = $acceptsCookies;
-        $this->botUserAgents  = array_merge($this->botUserAgents, $botUserAgents);
+        $this->botSignatures  = array_merge($this->botSignatures, $botSignatures);
     }
 
     /**
@@ -84,8 +86,8 @@ class UserAgent
     {
         if (null === $this->isBot) {
             $this->isBot = false;
-            foreach ($this->botUserAgents as $botUserAgent) {
-                if (preg_match($botUserAgent, $this->name) === 1) {
+            foreach ($this->botSignatures as $botSignature) {
+                if (preg_match($botSignature, $this->name) === 1) {
                     $this->isBot = true;
                     break;
                 }

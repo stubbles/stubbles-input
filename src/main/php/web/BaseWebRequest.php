@@ -177,19 +177,20 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      *
      * Please be aware that user agents can fake their appearance.
      *
-     * The bot recognition will recognize Googlebot, msnbot and Yahoo! Slurp by
-     * default. Additional recognitions can be passed, they must contain a
-     * regular expression which matches the user agent of a bot.
+     * The bot recognition will recognize Googlebot, Bing (including former
+     * msnbot, Yahoo! Slurp, Pingdom and Yandex by default. Additional
+     * signatures can be passed, they must contain a regular expression which
+     * matches the user agent of a bot.
      *
-     * @param   string[]  $botUserAgents  optional  additional recognitions whether user agent is a bot
+     * @param   string[]  $botSignatures  optional  additional list of bot user agent signatures
      * @return  \stubbles\input\web\useragent\UserAgent
      * @since   4.1.0
      */
-    public function userAgent($botUserAgents = [])
+    public function userAgent($botSignatures = [])
     {
         return new UserAgent($this->headers->get('HTTP_USER_AGENT')->value(),
                              $this->cookies->count() > 0,
-                             $botUserAgents
+                             $botSignatures
         );
     }
 

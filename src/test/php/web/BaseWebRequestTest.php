@@ -861,7 +861,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @test
      * @group  issue_65
      */
-    public function userAgentDoesNotRecognizeBotWithoutAdditionalRecognitions()
+    public function userAgentDoesNotRecognizeBotWithoutAdditionalSignature()
     {
         $this->assertFalse(
                 $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'foo'], [])
@@ -875,7 +875,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @test
      * @group  issue_65
      */
-    public function userAgentRecognizedAsBotWithDefaultRecognitions()
+    public function userAgentRecognizedAsBotWithDefaultSignatures()
     {
         $this->assertTrue(
                 $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'Googlebot /v1.1'], [])
@@ -889,7 +889,7 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
      * @test
      * @group  issue_65
      */
-    public function userAgentRecognizedAsBotWithAdditionalRecognition()
+    public function userAgentRecognizedAsBotWithAdditionalSignature()
     {
         $this->assertTrue(
                 $this->createBaseWebRequest([], ['HTTP_USER_AGENT' => 'foo'], [])

@@ -4,6 +4,11 @@
   * implemented issue #65
     * added `stubbles\input\web\WebRequest::userAgent()`
     * deprecated user agent injection using `stubbles\input\web\useragent\UserAgentProvider`, will be removed with 5.0.0
+  * updated bot signatures
+    * dropped DotBot
+    * added Bing
+    * added Pingdom
+    * added Yandex
 
 
 4.0.0 (2014-08-17)

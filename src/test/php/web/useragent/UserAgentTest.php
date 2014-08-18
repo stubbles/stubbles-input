@@ -100,10 +100,14 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     public function botsRecognizedByDefault()
     {
         return [
-            ['Googlebot /v1.1'],
+            ['Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'],
+            ['Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'],
             ['Microsoft msnbot 3.2'],
-            ['Yahoo! Slurp'],
-            ['Some DotBot I do not remember']
+            ['Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)'],
+            ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534+ (KHTML, like Gecko) BingPreview/1.0b'],
+            ['Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)'],
+            ['Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)'],
+            ['Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)']
         ];
     }
 
