@@ -122,7 +122,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function addsErrorToParamIfUriHasNoDnsRecoed()
     {
-        $param = $this->createParam('http://doesnotexist.foo/');
+        $param = $this->createParam('http://doesnotexist/');
         $this->existinghttpUriFilter->apply($param);
         $this->assertTrue($param->hasError('HTTP_URI_NOT_AVAILABLE'));
     }
