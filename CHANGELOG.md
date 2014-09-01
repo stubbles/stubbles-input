@@ -1,3 +1,9 @@
+4.1.1 (2014-09-01)
+------------------
+
+  * fixed issue #68: message of RuntimeException in WebRequest::uri() should contain exception message of catched exception
+
+
 4.1.0 (2014-08-18)
 ------------------
 

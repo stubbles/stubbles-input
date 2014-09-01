@@ -199,7 +199,10 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      *
      * In case the composed uri for this request does not denote a valid HTTP
      * uri a RuntimeException is thrown. If you came this far but the request
-     * is for an invalid HTTP uri something is completely wrong.
+     * is for an invalid HTTP uri something is completely wrong, most likely
+     * the request tries to find out if you have a security issue because the
+     * request uri data is not checked properly. It is advisable to respond
+     * with a 400 Bad Request in such cases.
      *
      * @return  \stubbles\peer\http\HttpUri
      * @throws  \RuntimeException
@@ -215,7 +218,11 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
                     $this->headers->value('REQUEST_URI') // already contains query string
             );
         } catch (MalformedUriException $murie) {
-            throw new \RuntimeException('Invalid request uri', $murie->getCode(), $murie);
+            throw new \RuntimeException(
+                    'Invalid request uri: ' . $murie->getMessage(),
+                    $murie->getCode(),
+                    $murie
+            );
         }
     }
 
