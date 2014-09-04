@@ -17,6 +17,20 @@ use stubbles\input\Request;
 interface WebRequest extends Request
 {
     /**
+     * returns id of the request
+     *
+     * The id of the request may come from an optional X-Request-ID header. The
+     * value must be between 20 and 200 characters, and consist of ASCII
+     * letters, digits, or the characters +, /, =, and -. Invalid or missing ids
+     * will be ignored and replaced with generated ones.
+     *
+     * @return  string
+     * @since   4.2.0
+     * @see     https://devcenter.heroku.com/articles/http-request-id
+     */
+    public function id();
+
+    /**
      * checks whether request was made using ssl
      *
      * @return  bool

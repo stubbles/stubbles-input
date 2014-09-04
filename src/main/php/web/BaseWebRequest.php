@@ -25,6 +25,12 @@ use stubbles\peer\http\HttpVersion;
 class BaseWebRequest extends AbstractRequest implements WebRequest
 {
     /**
+     * generated id for request if no or an invalid X-Request-ID header is present
+     *
+     * @type  string
+     */
+    private $id;
+    /**
      * list of params
      *
      * @type  \stubbles\input\Params
@@ -87,6 +93,35 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
                             return file_get_contents('php://input');
                         }
         );
+    }
+
+    /**
+     * returns id of the request
+     *
+     * The id of the request may come from an optional X-Request-ID header. The
+     * value must be between 20 and 200 characters, and consist of ASCII
+     * letters, digits, or the characters +, /, =, and -. Invalid or missing ids
+     * will be ignored and replaced with generated ones.
+     *
+     * @return  string
+     * @since   4.2.0
+     * @see     https://devcenter.heroku.com/articles/http-request-id
+     */
+    public function id()
+    {
+        if (null !== $this->id) {
+            return $this->id;
+        }
+
+        if ($this->headers->contain('HTTP_X_REQUEST_ID')) {
+            $this->id = $this->readHeader('HTTP_X_REQUEST_ID')->ifSatisfiesRegex('~^([a-zA-Z0-9+/=-]{20,200})$~');
+        }
+
+        if (null === $this->id) {
+            $this->id = substr(str_shuffle(md5(microtime())), 0, 25);
+        }
+
+        return $this->id;
     }
 
     /**

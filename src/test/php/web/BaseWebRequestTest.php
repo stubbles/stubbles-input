@@ -897,4 +897,85 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
                      ->isBot()
         );
     }
+
+    /**
+     * @test
+     * @group  request_id
+     * @since  4.2.0
+     */
+    public function generatesIdIfNoRequestIdHeaderPresent()
+    {
+        $this->assertEquals(
+                25,
+                strlen($this->createBaseWebRequest()->id()),
+                'Expected a generated id with 25 characters'
+        );
+    }
+
+    /**
+     * @test
+     * @group  request_id
+     * @since  4.2.0
+     */
+    public function generatedIdIsPersistentThroughoutRequest()
+    {
+        $request = $this->createBaseWebRequest();
+        $this->assertEquals(
+                $request->id(),
+                $request->id()
+        );
+    }
+
+    /**
+     * @return  array
+     */
+    public function invalidRequestIdValues()
+    {
+        return [
+            ['too-short'],
+            [str_pad('too-long', 201, '-')],
+            ['invalid character like space'],
+            ["valid-but-\n-linebreaks"]
+        ];
+    }
+
+    /**
+     * @test
+     * @group  request_id
+     * @dataProvider  invalidRequestIdValues
+     * @since  4.2.0
+     */
+    public function generatesIdIfRequestContainsInvalidValue($invalidValue)
+    {
+        $this->assertNotEquals(
+                $invalidValue,
+                $this->createBaseWebRequest([], ['HTTP_X_REQUEST_ID' => $invalidValue])->id()
+        );
+    }
+
+    /**
+     * @return  array
+     */
+    public function validRequestIdValues()
+    {
+        return [
+            [str_pad('minimum-size', 20, '-')],
+            [str_pad('max-size', 200, '-')],
+            ['valid-characters-like+and/numbers=21903']
+        ];
+    }
+
+    /**
+     * @test
+     * @group  request_id
+     * @dataProvider  validRequestIdValues
+     * @since  4.2.0
+     */
+    public function returnsValidValueFromHeader($validValue)
+    {
+        $this->assertEquals(
+                $validValue,
+                $this->createBaseWebRequest([], ['HTTP_X_REQUEST_ID' => $validValue])->id()
+        );
+    }
 }
