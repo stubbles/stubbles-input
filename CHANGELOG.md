@@ -1,3 +1,9 @@
+4.2.0 (2014-09-04)
+------------------
+
+  * `stubbles\input\web\WebRequest::uri()` now passes the `stubbles\peer\MalformedUriException` instead of turning it into a `\RuntimeException`
+
+
 4.1.1 (2014-09-01)
 ------------------
 

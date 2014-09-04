@@ -331,9 +331,9 @@ class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  RuntimeException
+     * @expectedException  stubbles\peer\MalformedUriException
      */
-    public function getUriThrowsRuntimeExceptionOnInvalidRequestUri()
+    public function getUriThrowsMalformedUriExceptionOnInvalidRequestUri()
     {
         $this->createBaseWebRequest([], [])->uri();
     }

@@ -15,7 +15,6 @@ use stubbles\input\ValueReader;
 use stubbles\input\ValueValidator;
 use stubbles\input\errors\ParamErrors;
 use stubbles\input\web\useragent\UserAgent;
-use stubbles\peer\MalformedUriException;
 use stubbles\peer\IpAddress;
 use stubbles\peer\http\Http;
 use stubbles\peer\http\HttpUri;
@@ -198,32 +197,23 @@ class BaseWebRequest extends AbstractRequest implements WebRequest
      * returns the uri of the request
      *
      * In case the composed uri for this request does not denote a valid HTTP
-     * uri a RuntimeException is thrown. If you came this far but the request
-     * is for an invalid HTTP uri something is completely wrong, most likely
-     * the request tries to find out if you have a security issue because the
-     * request uri data is not checked properly. It is advisable to respond
-     * with a 400 Bad Request in such cases.
+     * uri a stubbles\peer\MalformedUriException is thrown. If you came this far
+     * but the request is for an invalid HTTP uri something is completely wrong,
+     * most likely the request tries to find out if you have a security issue
+     * because the request uri data is not checked properly. It is advisable to
+     * respond with a 400 Bad Request in such cases.
      *
      * @return  \stubbles\peer\http\HttpUri
-     * @throws  \RuntimeException
      */
     public function uri()
     {
         $host = $this->headers->value('HTTP_HOST');
-        try {
-            return HttpUri::fromParts(
-                    (($this->headers->contain('HTTPS')) ? (Http::SCHEME_SSL) : (Http::SCHEME)),
-                    $host,
-                    (strstr($host, ':') === false ? $this->headers->value('SERVER_PORT') : null),
-                    $this->headers->value('REQUEST_URI') // already contains query string
-            );
-        } catch (MalformedUriException $murie) {
-            throw new \RuntimeException(
-                    'Invalid request uri: ' . $murie->getMessage(),
-                    $murie->getCode(),
-                    $murie
-            );
-        }
+        return HttpUri::fromParts(
+                (($this->headers->contain('HTTPS')) ? (Http::SCHEME_SSL) : (Http::SCHEME)),
+                $host,
+                (strstr($host, ':') === false ? $this->headers->value('SERVER_PORT') : null),
+                $this->headers->value('REQUEST_URI') // already contains query string
+        );
     }
 
     /**
