@@ -64,7 +64,7 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
         $this->mockWebRequest->expects($this->once())
                              ->method('cookieNames')
                              ->will($this->returnValue(['chocolateChip']));
-        $this->assertEquals(new UserAgent('foo', true), $this->userAgentProvider->get());
+        $this->assertEquals(new UserAgent('foo', true), @$this->userAgentProvider->get());
     }
 
     /**
@@ -80,6 +80,17 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
         $this->mockWebRequest->expects($this->once())
                              ->method('cookieNames')
                              ->will($this->returnValue([]));
-        $this->assertEquals(new UserAgent('Googlebot /v1.1', false), $this->userAgentProvider->get());
+        $this->assertEquals(new UserAgent('Googlebot /v1.1', false), @$this->userAgentProvider->get());
+    }
+
+    /**
+     * @since  4.2.0
+     * @test
+     * @expectedException  PHPUnit_Framework_Error_Deprecated
+     * @group  issue_66
+     */
+    public function providerTriggersDeprecatedWarning()
+    {
+        $this->userAgentProvider->get();
     }
 }

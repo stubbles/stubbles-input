@@ -52,6 +52,7 @@ class UserAgentProvider implements InjectionProvider
      */
     public function get($name = null)
     {
+        trigger_error('User agent injection is deprecated since 4.1.0, use $request->userAgent() instead, will be removed with 5.0.0', E_USER_DEPRECATED);
         return new UserAgent($this->readUserAgentString(),
                              $this->acceptsCookies()
         );
