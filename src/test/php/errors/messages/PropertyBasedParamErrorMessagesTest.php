@@ -32,6 +32,15 @@ class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader());
+    }
+
+    /**
+     *
+     * @return  \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function createMockResourceLoader()
+    {
         $root = vfsStream::setup();
         vfsStream::newDirectory('package1/input/error')->at($root);
         vfsStream::newDirectory('package2/input/error')->at($root);
@@ -52,12 +61,13 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
         $mockResourceLoader  = $this->getMock('stubbles\lang\ResourceLoader');
         $mockResourceLoader->expects($this->any())
                            ->method('availableResourceUris')
-                           ->will($this->returnValue([vfsStream::url('root/package1/input/error/message.ini'),
-                                                      vfsStream::url('root/package2/input/error/message.ini')
-                                                     ]
+                           ->will($this->returnValue(
+                                    [vfsStream::url('root/package1/input/error/message.ini'),
+                                     vfsStream::url('root/package2/input/error/message.ini')
+                                    ]
                                   )
                              );
-        $this->errorMessages = new PropertyBasedParamErrorMessages($mockResourceLoader);
+        return $mockResourceLoader;
     }
 
     /**
@@ -159,9 +169,10 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsMessageInDefaultLocale()
     {
-
-        $this->assertEquals(new LocalizedMessage('en_*', 'An error of type bar occurred.'),
-                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
+        $errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader(), 'en_*');
+        $this->assertEquals(
+                new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']), 'fr_FR')
         );
     }
 
@@ -170,9 +181,10 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
     {
-
-        $this->assertEquals(new LocalizedMessage('en_*', 'An error of type bar occurred.'),
-                            $this->errorMessages->setLocale('en_*')->messageFor(new ParamError('id', ['foo' => 'bar']))
+        $errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader(), 'en_*');
+        $this->assertEquals(
+                new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
 
@@ -203,20 +215,14 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue(lang\reflectConstructor($this->errorMessages)->hasAnnotation('Inject'));
-    }
+        $constructor = lang\reflectConstructor($this->errorMessages);
+        $this->assertTrue($constructor->hasAnnotation('Inject'));
 
-    /**
-     * @test
-     */
-    public function annotationsPresentOnSetLocaleMethod()
-    {
-        $setLocaleMethod = lang\reflect($this->errorMessages, 'setLocale');
-        $this->assertTrue($setLocaleMethod->hasAnnotation('Inject'));
-        $this->assertTrue($setLocaleMethod->getAnnotation('Inject')->isOptional());
-        $this->assertTrue($setLocaleMethod->hasAnnotation('Property'));
-        $this->assertEquals('stubbles.locale',
-                            $setLocaleMethod->getAnnotation('Property')->getValue()
+        $parameters = $constructor->getParameters();
+        $this->assertTrue($parameters[1]->hasAnnotation('Property'));
+        $this->assertEquals(
+                'stubbles.locale',
+                $parameters[1]->annotation('Property')->getValue()
         );
     }
 }

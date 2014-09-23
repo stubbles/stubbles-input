@@ -30,31 +30,19 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      *
      * @type  string
      */
-    private $defaultLocale  = 'default';
+    private $defaultLocale;
 
     /**
      * constructor
      *
      * @param  \stubbles\lang\ResourceLoader  $resourceLoader
      * @Inject
+     * @Property{defaultLocale}('stubbles.locale')
      */
-    public function __construct(ResourceLoader $resourceLoader)
+    public function __construct(ResourceLoader $resourceLoader, $defaultLocale = 'default')
     {
         $this->resourceLoader = $resourceLoader;
-    }
-
-    /**
-     * sets locale to be used as default locale
-     *
-     * @param   string  $locale
-     * @return  \stubbles\input\errors\messages\PropertyBasedParamErrorMessages
-     * @Inject(optional=true)
-     * @Property('stubbles.locale')
-     */
-    public function setLocale($locale)
-    {
-        $this->defaultLocale = $locale;
-        return $this;
+        $this->defaultLocale  = $defaultLocale;
     }
 
     /**

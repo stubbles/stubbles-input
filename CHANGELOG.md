@@ -1,4 +1,4 @@
-4.2.0 (2014-09-06)
+4.2.0 (2014-??-??)
 ------------------
 
   * Added `stubbles\input\web\WebRequest::id()` which reads the value of an X-Request-ID header or generates a random value in case the header is missing or invalid

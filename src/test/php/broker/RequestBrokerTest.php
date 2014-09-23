@@ -95,8 +95,8 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
                                  )
                             );
         $object = new BrokerClass();
-        $this->requestBroker->addParamBrokers(['Mock' => $mockParamBroker])
-                            ->procure($this->mockRequest, $object);
+        $requestBroker = new RequestBroker(['Mock' => $mockParamBroker]);
+        $requestBroker->procure($this->mockRequest, $object);
         $this->assertTrue($object->isVerbose());
         $this->assertEquals('just some string value', $object->getBar());
         $this->assertEquals('just another string value', $object->getBaz());

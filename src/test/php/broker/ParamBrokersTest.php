@@ -38,10 +38,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnAddParamBrokersMethod()
     {
-        $addParamBrokersMethod = lang\reflect($this->requestBroker, 'addParamBrokers');
-        $this->assertTrue($addParamBrokersMethod->hasAnnotation('Inject'));
-        $this->assertTrue($addParamBrokersMethod->annotation('Inject')->isOptional());
-        $this->assertTrue($addParamBrokersMethod->hasAnnotation('Map'));
+        $constructor = lang\reflectConstructor($this->requestBroker);
+        $this->assertTrue($constructor->hasAnnotation('Inject'));
+        $this->assertTrue($constructor->hasAnnotation('Map'));
     }
 
     /**
@@ -99,10 +98,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     public function addingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
+        $requestBroker = new RequestBroker(['mock' => $mockParamBroker]);
         $this->assertInstanceOf(
                 $brokerClass,
-                $this->requestBroker->addParamBrokers(['mock' => $mockParamBroker])
-                ->paramBroker($key)
+                $requestBroker->paramBroker($key)
         );
     }
 
@@ -112,10 +111,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     public function returnsAddedBroker()
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
+        $requestBroker = new RequestBroker(['Mock' => $mockParamBroker]);
         $this->assertSame(
                 $mockParamBroker,
-                $this->requestBroker->addParamBrokers(['Mock' => $mockParamBroker])
-                                    ->paramBroker('mock')
+                $requestBroker->paramBroker('mock')
         );
     }
 
@@ -125,10 +124,10 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     public function canOverwriteDefaultBroker()
     {
         $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
+        $requestBroker = new RequestBroker(['string' => $mockParamBroker]);
         $this->assertSame(
                 $mockParamBroker,
-                $this->requestBroker->addParamBrokers(['string' => $mockParamBroker])
-                                    ->paramBroker('string')
+                $requestBroker->paramBroker('string')
         );
     }
 }
