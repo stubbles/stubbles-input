@@ -1,3 +1,10 @@
+4.3.0 (2015-??-??)
+------------------
+
+  * Added `stubbles\input\ValueValidator::containsAnyOf()`
+  * upgraded stubbles/core to 5.3
+
+
 4.2.0 (2014-09-29)
 ------------------
 

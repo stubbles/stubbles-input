@@ -45,6 +45,30 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  4.3.0
+     */
+    public function containsAnyOfReturnsTrueIfValidatorSatisfied()
+    {
+        $this->assertTrue(
+                $this->createValueValidator('foo')
+                     ->containsAnyOf(['bar', 'o', 'baz'])
+        );
+    }
+
+    /**
+     * @test
+     * @since  4.3.0
+     */
+    public function containsAnyOfReturnsFalseIfValidatorNotSatisfied()
+    {
+        $this->assertFalse(
+                $this->createValueValidator('foo')
+                     ->containsAnyOf(['bar', 'baz'])
+        );
+    }
+
+    /**
+     * @test
      */
     public function isEqualToReturnsTrueIfValidatorSatisfied()
     {
@@ -64,7 +88,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isHttpUriReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('http://example.net/')->isHttpUri());
+        $this->assertTrue(
+                $this->createValueValidator('http://example.net/')->isHttpUri()
+        );
     }
 
     /**
@@ -80,7 +106,10 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('http://localhost/')->isExistingHttpUri());
+        $this->assertTrue(
+                $this->createValueValidator('http://localhost/')
+                     ->isExistingHttpUri()
+        );
     }
 
     /**
@@ -88,7 +117,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfied()
     {
-        $this->assertFalse($this->createValueValidator('foo')->isExistingHttpUri());
+        $this->assertFalse(
+                $this->createValueValidator('foo')->isExistingHttpUri()
+        );
     }
 
     /**
@@ -96,7 +127,10 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
-        $this->assertFalse($this->createValueValidator('http://foo.doesnotexist')->isExistingHttpUri());
+        $this->assertFalse(
+                $this->createValueValidator('http://foo.doesnotexist')
+                     ->isExistingHttpUri()
+        );
     }
 
     /**
@@ -106,7 +140,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV4Address()
     {
-        $this->assertTrue($this->createValueValidator('127.0.0.1')->isIpAddress());
+        $this->assertTrue(
+                $this->createValueValidator('127.0.0.1')->isIpAddress()
+        );
     }
 
     /**
@@ -116,8 +152,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV6Address()
     {
-        $this->assertTrue($this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
-                               ->isIpAddress()
+        $this->assertTrue(
+                $this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
+                     ->isIpAddress()
         );
     }
 
@@ -136,7 +173,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpV4AddressReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('127.0.0.1')->isIpV4Address());
+        $this->assertTrue(
+                $this->createValueValidator('127.0.0.1')->isIpV4Address()
+        );
     }
 
     /**
@@ -156,8 +195,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpV4AddressReturnsFalseForIpV6Addresses()
     {
-        $this->assertFalse($this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
-                                ->isIpV4Address()
+        $this->assertFalse(
+                $this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
+                     ->isIpV4Address()
         );
     }
 
@@ -168,8 +208,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpV6AddressReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
-                               ->isIpV6Address()
+        $this->assertTrue(
+                $this->createValueValidator('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
+                     ->isIpV6Address()
         );
     }
 
@@ -190,7 +231,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isIpV6AddressReturnsFalseForIpV4Addresses()
     {
-        $this->assertFalse($this->createValueValidator('127.0.0.1')->isIpV6Address());
+        $this->assertFalse(
+                $this->createValueValidator('127.0.0.1')->isIpV6Address()
+        );
     }
 
     /**
@@ -198,7 +241,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isMailAddressReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('mail@example.net')->isMailAddress());
+        $this->assertTrue(
+                $this->createValueValidator('mail@example.net')->isMailAddress()
+        );
     }
 
     /**
@@ -214,7 +259,10 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isOneOfReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('foo')->isOneOf(['foo', 'bar', 'baz']));
+        $this->assertTrue(
+                $this->createValueValidator('foo')
+                     ->isOneOf(['foo', 'bar', 'baz'])
+        );
     }
 
     /**
@@ -222,7 +270,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isOneOfReturnsFalseIfValidatorNotSatisfied()
     {
-        $this->assertFalse($this->createValueValidator('foo')->isOneOf(['bar', 'baz']));
+        $this->assertFalse(
+                $this->createValueValidator('foo')->isOneOf(['bar', 'baz'])
+        );
     }
 
     /**
@@ -230,7 +280,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function satisfiesRegexReturnsTrueIfValidatorSatisfied()
     {
-        $this->assertTrue($this->createValueValidator('foo')->satisfiesRegex('/foo/'));
+        $this->assertTrue(
+                $this->createValueValidator('foo')->satisfiesRegex('/foo/')
+        );
     }
 
     /**
@@ -238,7 +290,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function satisfiesRegexReturnsFalseIfValidatorNotSatisfied()
     {
-        $this->assertFalse($this->createValueValidator('foo')->satisfiesRegex('/bar/'));
+        $this->assertFalse(
+                $this->createValueValidator('foo')->satisfiesRegex('/bar/')
+        );
     }
 
     /**
@@ -252,7 +306,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
                       ->method('test')
                       ->with($this->equalTo('foo'))
                       ->will($this->returnValue(true));
-        $this->assertTrue($this->createValueValidator('foo')->with($mockPredicate));
+        $this->assertTrue(
+                $this->createValueValidator('foo')->with($mockPredicate)
+        );
     }
 
     /**
@@ -260,8 +316,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeCreatedAsMock()
     {
-        $this->assertInstanceOf('stubbles\input\ValueValidator',
-                                ValueValidator::forValue('bar')
+        $this->assertInstanceOf(
+                'stubbles\input\ValueValidator',
+                ValueValidator::forValue('bar')
         );
     }
 }

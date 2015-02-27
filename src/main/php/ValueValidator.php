@@ -10,6 +10,7 @@
 namespace stubbles\input;
 use stubbles\input\Param;
 use stubbles\predicate\Contains;
+use stubbles\predicate\ContainsAnyOf;
 use stubbles\predicate\Equals;
 use stubbles\predicate\IsExistingHttpUri;
 use stubbles\predicate\IsHttpUri;
@@ -65,6 +66,19 @@ class ValueValidator
     public function contains($contained)
     {
         return $this->with(new Contains($contained));
+    }
+
+    /**
+     * checks whether value contains any of the given strings
+     *
+     * @api
+     * @param   string[]  $contained
+     * @return  bool
+     * @since   4.3.0
+     */
+    public function containsAnyOf(array $contained)
+    {
+        return $this->with(new ContainsAnyOf($contained));
     }
 
 
