@@ -10,7 +10,7 @@
 namespace stubbles\input\broker;
 use stubbles\input\Request;
 use stubbles\lang;
-use stubbles\lang\reflect\BaseReflectionClass;
+use stubbles\lang\reflect;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
@@ -134,26 +134,36 @@ class RequestBroker
     /**
      * returns all methods of given instance which are applicable for brokerage
      *
-     * @param   object|string  $object
-     * @param   string         $group   restrict list to given group
+     * @param   object|string|\ReflectionClass  $object
+     * @param   string                          $group   optional  restrict list to given group
      * @return  \stubbles\input\broker\TargetMethod[]
-     * @throws  \InvalidArgumentException
      */
     public static function targetMethodsOf($object, $group = null)
     {
-        if (!is_object($object) && !is_string($object) && !($object instanceof BaseReflectionClass)) {
-            throw new \InvalidArgumentException('Parameter $object must be an object instance, a class name or an instance of stubbles\lang\reflect\BaseReflectionClass');
-        }
+        return reflect\methodsOf($object, \ReflectionMethod::IS_PUBLIC)
+                ->filter(
+                        function(\ReflectionMethod $method) use ($group)
+                        {
+                            if ($method->isStatic() || $method->isConstructor() || $method->isDestructor()) {
+                                return false;
+                            }
 
-        $class = $object instanceof BaseReflectionClass ? $object : lang\reflect($object);
-        $brokeredParams = [];
-        foreach ($class->getMethodsByMatcher(new ApplicableMethods()) as $method) {
-            $annotation = $method->annotation('Request');
-            if (empty($group) || $annotation->paramGroup() === $group) {
-                $brokeredParams[] = new TargetMethod($method, $annotation);
-            }
-        }
+                            if (!reflect\annotationsOf($method)->contain('Request')) {
+                                return false;
+                            }
 
-        return $brokeredParams;
+                            if (empty($group) || reflect\annotationsOf($method)->named('Request')[0]->paramGroup() === $group) {
+                                return true;
+                            }
+
+                            return false;
+                        }
+                )
+                ->map(
+                        function(\ReflectionMethod $method)
+                        {
+                            return new TargetMethod($method, reflect\annotationsOf($method)->named('Request')[0]);
+                        }
+        );
     }
 }

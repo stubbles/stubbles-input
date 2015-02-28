@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\lang\reflect\ReflectionMethod;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
  * Represents a target method for which a param value should be brokered.
@@ -33,10 +32,10 @@ class TargetMethod
     /**
      * constructor
      *
-     * @param  \stubbles\lang\reflect\ReflectionMethod       $method
+     * @param  \ReflectionMethod                             $method
      * @param  \stubbles\lang\reflect\annotation\Annotation  $annotation
      */
-    public function __construct(ReflectionMethod $method, Annotation $annotation)
+    public function __construct(\ReflectionMethod $method, Annotation $annotation)
     {
         $this->method     = $method;
         $this->annotation = $annotation;
