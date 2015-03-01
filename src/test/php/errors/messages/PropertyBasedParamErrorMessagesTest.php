@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\errors\messages;
 use stubbles\input\errors\ParamError;
-use stubbles\lang;
+use stubbles\lang\reflect;
 use org\bovigo\vfs\vfsStream;
 /**
  * Tests for stubbles\input\errors\messages\PropertyBasedParamErrorMessages.
@@ -215,14 +215,19 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnConstructor()
     {
-        $constructor = lang\reflectConstructor($this->errorMessages);
-        $this->assertTrue($constructor->hasAnnotation('Inject'));
+        $this->assertTrue(
+                reflect\constructorAnnotationsOf($this->errorMessages)
+                        ->contain('Inject')
+        );
 
-        $parameters = $constructor->getParameters();
-        $this->assertTrue($parameters[1]->hasAnnotation('Property'));
+        $annotations = reflect\annotationsOfConstructorParameter(
+                'defaultLocale',
+                $this->errorMessages
+        );
+        $this->assertTrue($annotations->contain('Property'));
         $this->assertEquals(
                 'stubbles.locale',
-                $parameters[1]->annotation('Property')->getValue()
+                $annotations->firstNamed('Property')->getValue()
         );
     }
 }

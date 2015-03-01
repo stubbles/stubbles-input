@@ -152,7 +152,7 @@ class RequestBroker
                                 return false;
                             }
 
-                            if (empty($group) || reflect\annotationsOf($method)->named('Request')[0]->paramGroup() === $group) {
+                            if (empty($group) || reflect\annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
                                 return true;
                             }
 
@@ -162,7 +162,11 @@ class RequestBroker
                 ->map(
                         function(\ReflectionMethod $method)
                         {
-                            return new TargetMethod($method, reflect\annotationsOf($method)->named('Request')[0]);
+                            return new TargetMethod(
+                                    $method,
+                                    reflect\annotationsOf($method)
+                                            ->firstNamed('Request')
+                            );
                         }
         );
     }

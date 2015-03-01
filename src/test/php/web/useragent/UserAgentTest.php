@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web\useragent;
-use stubbles\lang;
+use stubbles\lang\reflect;
 /**
  * Test for stubbles\input\web\useragent\UserAgent.
  *
@@ -39,7 +39,8 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     public function iocAnnotationPresentOnClass()
     {
         $this->assertTrue(
-                lang\reflect($this->userAgent)->hasAnnotation('ProvidedBy')
+                reflect\annotationsOf($this->userAgent)
+                        ->contain('ProvidedBy')
         );
     }
 
@@ -49,7 +50,8 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     public function xmlAnnotationPresentClass()
     {
         $this->assertTrue(
-                lang\reflect($this->userAgent)->hasAnnotation('XmlTag')
+                reflect\annotationsOf($this->userAgent)
+                        ->contain('XmlTag')
         );
     }
 
@@ -74,7 +76,8 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     public function xmlAnnotationsPresentOnMethods($method, $annotation)
     {
         $this->assertTrue(
-                lang\reflect($this->userAgent, $method)->hasAnnotation($annotation)
+                reflect\annotationsOf($this->userAgent, $method)
+                        ->contain($annotation)
         );
     }
 

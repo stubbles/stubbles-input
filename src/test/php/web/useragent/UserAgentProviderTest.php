@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\web\useragent;
 use stubbles\input\ValueReader;
-use stubbles\lang;
+use stubbles\lang\reflect;
 /**
  * Test for stubbles\input\web\useragent\UserAgentProvider.
  *
@@ -48,7 +48,8 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresent()
     {
         $this->assertTrue(
-                lang\reflectConstructor($this->userAgentProvider)->hasAnnotation('Inject')
+                reflect\constructorAnnotationsOf($this->userAgentProvider)
+                        ->contain('Inject')
         );
     }
 

@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\ValueReader;
-use stubbles\lang;
+use stubbles\lang\reflect;
 require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker.
@@ -47,7 +47,8 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresentOnClass()
     {
         $this->assertTrue(
-                lang\reflect($this->requestBroker)->hasAnnotation('Singleton')
+                reflect\annotationsOf($this->requestBroker)
+                        ->contain('Singleton')
         );
     }
 

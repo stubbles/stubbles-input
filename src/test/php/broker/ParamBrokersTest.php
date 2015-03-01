@@ -8,8 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\lang;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\lang\reflect;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
  *
@@ -38,9 +37,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnAddParamBrokersMethod()
     {
-        $constructor = lang\reflectConstructor($this->requestBroker);
-        $this->assertTrue($constructor->hasAnnotation('Inject'));
-        $this->assertTrue($constructor->hasAnnotation('Map'));
+        $annotations = reflect\constructorAnnotationsOf($this->requestBroker);
+        $this->assertTrue($annotations->contain('Inject'));
+        $this->assertTrue($annotations->contain('Map'));
     }
 
     /**
