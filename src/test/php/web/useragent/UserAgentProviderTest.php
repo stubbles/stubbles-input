@@ -48,7 +48,7 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresent()
     {
         $this->assertTrue(
-                reflect\constructorAnnotationsOf($this->userAgentProvider)
+                reflect\annotationsOfConstructor($this->userAgentProvider)
                         ->contain('Inject')
         );
     }

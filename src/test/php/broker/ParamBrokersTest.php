@@ -37,7 +37,7 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnAddParamBrokersMethod()
     {
-        $annotations = reflect\constructorAnnotationsOf($this->requestBroker);
+        $annotations = reflect\annotationsOfConstructor($this->requestBroker);
         $this->assertTrue($annotations->contain('Inject'));
         $this->assertTrue($annotations->contain('Map'));
     }
@@ -63,8 +63,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsBroker($key, $brokerClass)
     {
-        $this->assertInstanceOf($brokerClass,
-                                $this->requestBroker->paramBroker($key)
+        $this->assertInstanceOf(
+                $brokerClass,
+                $this->requestBroker->paramBroker($key)
         );
     }
 
@@ -76,8 +77,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsBrokerWithLowerCaseKey($key, $brokerClass)
     {
-        $this->assertInstanceOf($brokerClass,
-                                $this->requestBroker->paramBroker(strtolower($key))
+        $this->assertInstanceOf(
+                $brokerClass,
+                $this->requestBroker->paramBroker(strtolower($key))
         );
     }
 
