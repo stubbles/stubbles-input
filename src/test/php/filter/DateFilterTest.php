@@ -61,12 +61,12 @@ class DateFilterTest extends FilterTest
     {
         $date = $this->dateFilter->apply($this->createParam('2008-09-27'));
         $this->assertInstanceOf('stubbles\date\Date', $date);
-        $this->assertEquals(2008, $date->getYear());
-        $this->assertEquals(9, $date->getMonth());
-        $this->assertEquals(27, $date->getDay());
-        $this->assertEquals(0, $date->getHours());
-        $this->assertEquals(0, $date->getMinutes());
-        $this->assertEquals(0, $date->getSeconds());
+        $this->assertEquals(2008, $date->year());
+        $this->assertEquals(9, $date->month());
+        $this->assertEquals(27, $date->day());
+        $this->assertEquals(0, $date->hours());
+        $this->assertEquals(0, $date->minutes());
+        $this->assertEquals(0, $date->seconds());
     }
 
     /**
@@ -104,10 +104,11 @@ class DateFilterTest extends FilterTest
     public function asDateReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = Date::now();
-        $this->assertEquals($default,
-                            $this->createValueReader(null)
-                                 ->defaultingTo($default)
-                                 ->asDate()
+        $this->assertEquals(
+                $default,
+                $this->createValueReader(null)
+                        ->defaultingTo($default)
+                        ->asDate()
         );
     }
 
@@ -154,10 +155,11 @@ class DateFilterTest extends FilterTest
      */
     public function asDateReturnsValidValue()
     {
-        $this->assertEquals('2012-03-11',
-                            $this->createValueReader('2012-03-11')
-                                 ->asDate()
-                                 ->format('Y-m-d')
+        $this->assertEquals(
+                '2012-03-11',
+                $this->createValueReader('2012-03-11')
+                        ->asDate()
+                        ->format('Y-m-d')
         );
 
     }
@@ -168,8 +170,9 @@ class DateFilterTest extends FilterTest
      */
     public function asDateReturnsNullIfParamIsOutOfRange()
     {
-        $this->assertNull($this->createValueReader(new Date('yesterday'))
-                               ->asDate(new DateRange(Date::now(), null))
+        $this->assertNull(
+                $this->createValueReader(new Date('yesterday'))
+                        ->asDate(new DateRange(Date::now(), null))
         );
     }
 
