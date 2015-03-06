@@ -1,4 +1,4 @@
-4.3.0 (2015-??-??)
+4.3.0 (2015-03-05)
 ------------------
 
   * added `stubbles\input\ValueValidator::containsAnyOf()`
@@ -6,6 +6,7 @@
   * added `stubbles\input\broker\param\DatespanParamBroker`
   * added `stubbles\input\ValueReader::asDatespan()`
   * upgraded stubbles/core to 5.3
+  * upgraded stubbles/date to 5.2
 
 
 4.2.0 (2014-09-29)
