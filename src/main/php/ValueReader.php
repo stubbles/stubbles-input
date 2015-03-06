@@ -121,7 +121,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
-        return $this->handleFilter(function() use($separator) { return new ArrayFilter($separator); } );
+        return $this->handleFilter(
+                function() use($separator) { return new ArrayFilter($separator); }
+        );
     }
 
     /**
@@ -145,12 +147,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asInt(NumberRange $range = null)
     {
-        return $this->handleFilter(function() use($range)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\IntegerFilter::instance(),
-                                                                       $range
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\IntegerFilter::instance(),
+                            $range
+                    );
+                }
         );
     }
 
@@ -164,13 +168,15 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asFloat(NumberRange $range = null, $decimals = null)
     {
-        return $this->handleFilter(function() use($range, $decimals)
-                                   {
-                                       $floatFilter = new filter\FloatFilter();
-                                       return filter\RangeFilter::wrap($floatFilter->setDecimals($decimals),
-                                                                       $range
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($range, $decimals)
+                {
+                    $floatFilter = new filter\FloatFilter();
+                    return filter\RangeFilter::wrap(
+                            $floatFilter->setDecimals($decimals),
+                            $range
+                    );
+                }
         );
     }
 
@@ -183,12 +189,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asString(StringLength $length = null)
     {
-        return $this->handleFilter(function() use($length)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\StringFilter::instance(),
-                                                                       $length
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($length)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\StringFilter::instance(),
+                            $length
+                    );
+                }
         );
     }
 
@@ -202,12 +210,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asSecureString(StringLength $length = null)
     {
-        return $this->handleFilter(function() use($length)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\SecureStringFilter::instance(),
-                                                                       $length
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($length)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\SecureStringFilter::instance(),
+                            $length
+                    );
+                }
         );
     }
 
@@ -221,13 +231,15 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asText(StringLength $length = null, $allowedTags = [])
     {
-        return $this->handleFilter(function() use($length, $allowedTags)
-                                   {
-                                       $textFilter = new filter\TextFilter();
-                                       return filter\RangeFilter::wrap($textFilter->allowTags($allowedTags),
-                                                                       $length
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($length, $allowedTags)
+                {
+                    $textFilter = new filter\TextFilter();
+                    return filter\RangeFilter::wrap(
+                            $textFilter->allowTags($allowedTags),
+                            $length
+                    );
+                }
         );
     }
 
@@ -262,7 +274,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asHttpUri()
     {
-        return $this->handleFilter(function() { return filter\HttpUriFilter::instance(); });
+        return $this->handleFilter(
+                function() { return filter\HttpUriFilter::instance(); }
+        );
     }
 
     /**
@@ -273,7 +287,9 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asExistingHttpUri()
     {
-        return $this->handleFilter(function() { return filter\ExistingHttpUriFilter::instance(); });
+        return $this->handleFilter(
+                function() { return filter\ExistingHttpUriFilter::instance(); }
+        );
     }
 
     /**
@@ -296,12 +312,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asDate(DateRange $range = null)
     {
-        return $this->handleFilter(function() use($range)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\DateFilter::instance(),
-                                                                       $range
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\DateFilter::instance(),
+                            $range
+                    );
+                }
         );
     }
 
@@ -315,12 +333,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asDay(DatespanRange $range = null)
     {
-        return $this->handleFilter(function() use($range)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\DayFilter::instance(),
-                                                                       $range
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\DayFilter::instance(),
+                            $range
+                    );
+                }
         );
     }
 
@@ -334,12 +354,14 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asMonth(DatespanRange $range = null)
     {
-        return $this->handleFilter(function() use($range)
-                                   {
-                                       return filter\RangeFilter::wrap(filter\MonthFilter::instance(),
-                                                                       $range
-                                       );
-                                   }
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\MonthFilter::instance(),
+                            $range
+                    );
+                }
         );
     }
 
@@ -351,9 +373,10 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsIpAddress()
     {
-        return $this->when(\stubbles\predicate\IsIpAddress::instance(),
-                           'INVALID_IP_ADDRESS',
-                           []
+        return $this->when(
+                \stubbles\predicate\IsIpAddress::instance(),
+                'INVALID_IP_ADDRESS',
+                []
         );
     }
 
@@ -366,9 +389,10 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsOneOf(array $allowedValues)
     {
-        return $this->when(new \stubbles\predicate\IsOneOf($allowedValues),
-                           'FIELD_NO_SELECT',
-                           ['ALLOWED' => join('|', $allowedValues)]
+        return $this->when(
+                new \stubbles\predicate\IsOneOf($allowedValues),
+                'FIELD_NO_SELECT',
+                ['ALLOWED' => join('|', $allowedValues)]
         );
     }
 
@@ -381,9 +405,10 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifSatisfiesRegex($regex)
     {
-        return $this->when(new \stubbles\predicate\Regex($regex),
-                           'FIELD_WRONG_VALUE',
-                           []
+        return $this->when(
+                new \stubbles\predicate\Regex($regex),
+                'FIELD_WRONG_VALUE',
+                []
         );
     }
 
@@ -403,9 +428,10 @@ class ValueReader implements valuereader\CommonValueReader
     public function ifIsFile($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
-        return $this->when(new \stubbles\predicate\IsExistingFile($basePath),
-                           'FILE_INVALID',
-                           ['PATH' => $path . $this->param->value()]
+        return $this->when(
+                new \stubbles\predicate\IsExistingFile($basePath),
+                'FILE_INVALID',
+                ['PATH' => $path . $this->param->value()]
         );
     }
 
@@ -425,9 +451,10 @@ class ValueReader implements valuereader\CommonValueReader
     public function ifIsDirectory($basePath = null)
     {
         $path = ((null != $basePath) ? ($basePath . '/') : (''));
-        return $this->when(new \stubbles\predicate\IsExistingDirectory($basePath),
-                           'DIRECTORY_INVALID',
-                           ['PATH' => $path . $this->param->value()]
+        return $this->when(
+                new \stubbles\predicate\IsExistingDirectory($basePath),
+                'DIRECTORY_INVALID',
+                ['PATH' => $path . $this->param->value()]
         );
     }
 
@@ -445,10 +472,11 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function when($predicate, $errorId, array $details = [])
     {
-        return $this->handleFilter(function() use($predicate, $errorId, $details)
-                                   {
-                                       return new filter\PredicateFilter($predicate, $errorId, $details);
-                                   }
+        return $this->handleFilter(
+                function() use($predicate, $errorId, $details)
+                {
+                    return new filter\PredicateFilter($predicate, $errorId, $details);
+                }
         );
     }
 
