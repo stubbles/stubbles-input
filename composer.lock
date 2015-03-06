@@ -998,16 +998,16 @@
         },
         {
             "name": "stubbles/date",
-            "version": "dev-master",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-date.git",
-                "reference": "6646b3e754cea81e9c01c41d1f8a74486840cee2"
+                "reference": "791eda292077d9746a245dbc534da5315f43affa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/6646b3e754cea81e9c01c41d1f8a74486840cee2",
-                "reference": "6646b3e754cea81e9c01c41d1f8a74486840cee2",
+                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/791eda292077d9746a245dbc534da5315f43affa",
+                "reference": "791eda292077d9746a245dbc534da5315f43affa",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1037,7 @@
             ],
             "description": "Simplified handling of dates and datespans.",
             "homepage": "http://stubbles.net/",
-            "time": "2015-03-06 13:46:13"
+            "time": "2015-03-06 16:21:58"
         },
         {
             "name": "symfony/yaml",
