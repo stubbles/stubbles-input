@@ -9,27 +9,27 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\date\Date;
-use stubbles\date\span\Month;
+use stubbles\date\span;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 /**
- * Filter boolean values based on a @Request[Month] annotation.
+ * Filter boolean values based on a @Request[Datespan] annotation.
  *
  * @since  4.3.0
  */
-class MonthParamBroker extends MultipleSourceParamBroker
+class DatespanParamBroker extends MultipleSourceParamBroker
 {
     /**
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\span\Month
+     * @return  \stubbles\date\span\Datespan
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asMonth(
+        return $valueReader->asDatespan(
                 new DatespanRange(
                         $this->createDate($annotation->getMinStartDate()),
                         $this->createDate($annotation->getMaxEndDate())
@@ -41,11 +41,11 @@ class MonthParamBroker extends MultipleSourceParamBroker
      * parses default value from annotation
      *
      * @param   string  $value
-     * @return  \stubbles\date\span\Month
+     * @return  \stubbles\date\span\Datespan
      */
     protected function parseDefault($value)
     {
-        return Month::fromString($value);
+        return span\parse($value);
     }
 
     /**

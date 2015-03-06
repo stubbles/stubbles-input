@@ -37,6 +37,7 @@ class RequestBroker
                                          'bool'           => new param\BoolParamBroker(),
                                          'customdatespan' => new param\CustomDatespanParamBroker(),
                                          'date'           => new param\DateParamBroker(),
+                                         'datespan'       => new param\DatespanParamBroker(),
                                          'day'            => new param\DayParamBroker(),
                                          'directory'      => new param\DirectoryParamBroker(),
                                          'file'           => new param\FileParamBroker(),

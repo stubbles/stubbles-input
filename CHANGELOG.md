@@ -3,6 +3,7 @@
 
   * added `stubbles\input\ValueValidator::containsAnyOf()`
   * added `stubbles\input\broker\param\MonthParamBroker`
+  * added `stubbles\input\broker\param\DatespanParamBroker`
   * added `stubbles\input\ValueReader::asDatespan()`
   * upgraded stubbles/core to 5.3
 
