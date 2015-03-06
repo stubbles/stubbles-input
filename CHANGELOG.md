@@ -1,16 +1,17 @@
 4.3.0 (2015-??-??)
 ------------------
 
-  * Added `stubbles\input\ValueValidator::containsAnyOf()`
+  * added `stubbles\input\ValueValidator::containsAnyOf()`
+  * added `stubbles\input\broker\param\MonthParamBroker`
   * upgraded stubbles/core to 5.3
 
 
 4.2.0 (2014-09-29)
 ------------------
 
-  * Added `stubbles\input\web\WebRequest::id()` which reads the value of an X-Request-ID header or generates a random value in case the header is missing or invalid
+  * added `stubbles\input\web\WebRequest::id()` which reads the value of an X-Request-ID header or generates a random value in case the header is missing or invalid
   * `stubbles\input\web\WebRequest::uri()` now passes the `stubbles\peer\MalformedUriException` instead of turning it into a `\RuntimeException`
-  * Implemented #66: Add warning when user agent injection is used
+  * implemented #66: Add warning when user agent injection is used
   * upgraded stubbles/core to 5.1
 
 

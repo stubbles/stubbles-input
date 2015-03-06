@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "51aa44d7a4446c1765a8c078426314e8",
+    "hash": "1975672807d75e0aacd08224b7be6225",
     "packages": [
         {
             "name": "stubbles/core",
-            "version": "dev-master",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "2f1419754ba3b708e9c50e54d2444e3d58349a3b"
+                "reference": "5467e1bcfc61400eb73fc470e285930f6246b2bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/2f1419754ba3b708e9c50e54d2444e3d58349a3b",
-                "reference": "2f1419754ba3b708e9c50e54d2444e3d58349a3b",
+                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/5467e1bcfc61400eb73fc470e285930f6246b2bc",
+                "reference": "5467e1bcfc61400eb73fc470e285930f6246b2bc",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
             ],
             "description": "Provides base classes for Stubbles packages.",
             "homepage": "http://stubbles.net/",
-            "time": "2015-03-02 12:18:40"
+            "time": "2015-03-05 12:58:35"
         }
     ],
     "packages-dev": [
@@ -998,29 +998,29 @@
         },
         {
             "name": "stubbles/date",
-            "version": "v5.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-date.git",
-                "reference": "7b0615bd4d0294965f2b55d2a0932492f1f75a1d"
+                "reference": "656b0d18c99a093527e1d384ab8c6ab94c4c3508"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/7b0615bd4d0294965f2b55d2a0932492f1f75a1d",
-                "reference": "7b0615bd4d0294965f2b55d2a0932492f1f75a1d",
+                "url": "https://api.github.com/repos/stubbles/stubbles-date/zipball/656b0d18c99a093527e1d384ab8c6ab94c4c3508",
+                "reference": "656b0d18c99a093527e1d384ab8c6ab94c4c3508",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.3",
-                "stubbles/core": "~5.1"
+                "phpunit/phpunit": "~4.5",
+                "stubbles/core": "~5.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1.x-dev"
+                    "dev-master": "5.2.x-dev"
                 }
             },
             "autoload": {
@@ -1034,7 +1034,7 @@
             ],
             "description": "Simplified handling of dates and datespans.",
             "homepage": "http://stubbles.net/",
-            "time": "2014-11-13 14:18:22"
+            "time": "2015-03-05 16:27:40"
         },
         {
             "name": "symfony/yaml",

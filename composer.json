@@ -11,10 +11,10 @@
     "require-dev": {
         "mikey179/vfsStream": "~1.4",
         "phpunit/phpunit": "~4.5",
-        "stubbles/date": "~5.0"
+        "stubbles/date": "~5.2"
     },
     "suggest": {
-        "stubbles/date": "~5.0"
+        "stubbles/date": "~5.2"
     },
     "autoload": {
         "psr-4": {

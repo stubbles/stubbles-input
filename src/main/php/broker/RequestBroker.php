@@ -9,7 +9,6 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\Request;
-use stubbles\lang;
 use stubbles\lang\reflect;
 /**
  * Broker class to transfer values from the request into an object via annotations.
@@ -46,6 +45,7 @@ class RequestBroker
                                          'integer'        => new param\IntegerParamBroker(),
                                          'json'           => new param\JsonParamBroker(),
                                          'mail'           => new param\MailParamBroker(),
+                                         'month'          => new param\MonthParamBroker(),
                                          'oneof'          => new param\OneOfParamBroker(),
                                          'password'       => new param\PasswordParamBroker(),
                                          'string'         => new param\StringParamBroker(),
