@@ -9,6 +9,7 @@
  */
 namespace stubbles\input\valuereader;
 use stubbles\date\Date;
+use stubbles\date\span\Datespan;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
 use stubbles\input\Filter;
@@ -256,6 +257,22 @@ class DefaultValueReader implements CommonValueReader
     public function asMonth(DatespanRange $range = null)
     {
         $this->checkDefaultType(function() { return $this->default instanceof Month;}, 'stubbles\date\span\Month');
+        return $this->default;
+    }
+
+    /**
+     * read as datespan
+     *
+     * In case the default value is not of type stubbles\date\span\Datespan an
+     * IllegalStateException will be thrown.
+     *
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Datespan
+     * @since   4.3.0
+     */
+    public function asDatespan(DatespanRange $range = null)
+    {
+        $this->checkDefaultType(function() { return $this->default instanceof Datespan;}, 'stubbles\date\span\Datespan');
         return $this->default;
     }
 

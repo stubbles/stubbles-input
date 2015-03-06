@@ -155,6 +155,18 @@ interface CommonValueReader
     public function asMonth(DatespanRange $range = null);
 
     /**
+     * read as datespan
+     *
+     * In case the default value is not of type stubbles\date\span\Datespan an
+     * IllegalStateException will be thrown.
+     *
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Datespan
+     * @since   4.3.0
+     */
+    public function asDatespan(DatespanRange $range = null);
+
+    /**
      * returns value if it is an ip address, and null otherwise
      *
      * @return  string

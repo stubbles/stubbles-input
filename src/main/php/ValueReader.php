@@ -366,6 +366,26 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
+     * read as datespan
+     
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Datespan
+     * @since   4.3.0
+     */
+    public function asDatespan(DatespanRange $range = null)
+    {
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\DatespanFilter::instance(),
+                            $range
+                    );
+                }
+        );
+    }
+
+    /**
      * returns value if it is an ip address, and null otherwise
      *
      * @api
