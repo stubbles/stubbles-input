@@ -12,6 +12,7 @@ use stubbles\lang\reflect;
 /**
  * Test for stubbles\input\web\useragent\UserAgent.
  *
+ * @deprecated  since 4.4.0, will be removed with 5.0.0
  * @since  1.2.0
  * @group  web
  * @group  web_useragent

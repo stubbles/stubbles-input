@@ -21,6 +21,8 @@ use stubbles\peer\http\HttpUri;
 use stubbles\peer\http\HttpVersion;
 /**
  * Request implementation for web applications.
+ *
+ * @deprecated  since 4.4.0, use request implementation in stubbles/webapp-core instead, will be removed with 5.0.0
  */
 class BaseWebRequest extends AbstractRequest implements WebRequest
 {

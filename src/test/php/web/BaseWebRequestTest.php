@@ -14,6 +14,7 @@ use stubbles\peer\http\HttpVersion;
  * Tests for stubbles\input\web\BaseWebRequest.
  *
  * @group  web
+ * @deprecated  since 4.4.0, will be removed with 5.0.0
  */
 class BaseWebRequestTest extends \PHPUnit_Framework_TestCase
 {

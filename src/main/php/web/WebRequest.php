@@ -13,6 +13,7 @@ use stubbles\input\Request;
  * Interface for web applications requests.
  *
  * @api
+ * @deprecated  since 4.4.0, use request implementation in stubbles/webapp-core instead, will be removed with 5.0.0
  */
 interface WebRequest extends Request
 {

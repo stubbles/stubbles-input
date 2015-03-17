@@ -1,4 +1,12 @@
-4.3.0 (2015-??-??)
+4.4.0 (2015-??-??)
+------------------
+
+### BC breaks
+
+  * deprecated  `stubbles\input\web`, use request implementation in stubbles/webapp-core instead, will be removed with 5.0.0
+
+
+4.3.0 (2015-03-06)
 ------------------
 
   * added `stubbles\input\ValueValidator::containsAnyOf()`

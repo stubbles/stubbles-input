@@ -11,6 +11,7 @@ namespace stubbles\input\web\useragent;
 /**
  * Value object for user agents.
  *
+ * @deprecated  since 4.4.0, use request implementation in stubbles/webapp-core instead, will be removed with 5.0.0
  * @since  1.2.0
  * @XmlTag(tagName='userAgent')
  * @ProvidedBy(stubbles\input\web\useragent\UserAgentProvider.class)
