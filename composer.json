@@ -9,7 +9,7 @@
         "stubbles/core": "~5.4"
     },
     "require-dev": {
-        "mikey179/vfsStream": "~1.4",
+        "mikey179/vfsStream": "~1.5",
         "phpunit/phpunit": "~4.5",
         "stubbles/date": "~5.2"
     },
