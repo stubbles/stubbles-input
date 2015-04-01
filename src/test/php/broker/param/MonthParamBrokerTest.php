@@ -83,7 +83,7 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
         $this->assertNull(
                 $this->paramBroker->procure(
                         $this->mockRequest($currentMonth->asString()),
-                        $this->createRequestAnnotation(['minStartDate' => 'today'])
+                        $this->createRequestAnnotation(['minStartDate' => 'tomorrow'])
                 )
         );
     }
