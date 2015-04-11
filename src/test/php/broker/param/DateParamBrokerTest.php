@@ -41,7 +41,7 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  float
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return new Date('2012-04-21 00:00:00+02:00');
     }
@@ -51,10 +51,12 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals(new Date('2012-04-21'),
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['default' => '2012-04-21'])
-                          )
+        assertEquals(
+                new Date('2012-04-21'),
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['default' => '2012-04-21'])
+                )
         );
     }
 
@@ -63,9 +65,11 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => true])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => true])
+                )
         );
     }
 
@@ -74,9 +78,11 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfBeforeMinDate()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('yesterday'),
-                                                      $this->createRequestAnnotation(['minDate' => 'today'])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('yesterday'),
+                        $this->createRequestAnnotation(['minDate' => 'today'])
+                )
         );
     }
 
@@ -85,9 +91,11 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfAfterMaxDate()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('today'),
-                                                      $this->createRequestAnnotation(['maxDate' => 'yesterday'])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('today'),
+                        $this->createRequestAnnotation(['maxDate' => 'yesterday'])
+                )
         );
     }
 
@@ -96,13 +104,14 @@ class DateParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        $this->assertEquals(new Date('today'),
-                            $this->paramBroker->procure($this->mockRequest('today'),
-                                                        $this->createRequestAnnotation(['minDate' => 'yesterday',
-                                                                                        'maxDate'   => 'tomorrow'
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                new Date('today'),
+                $this->paramBroker->procure(
+                        $this->createRequest('today'),
+                        $this->createRequestAnnotation(
+                                ['minDate' => 'yesterday', 'maxDate'   => 'tomorrow']
+                        )
+                )
         );
     }
 }

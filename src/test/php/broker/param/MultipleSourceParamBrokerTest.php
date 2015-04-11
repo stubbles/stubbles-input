@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
@@ -39,7 +40,12 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
     protected function createRequestAnnotation(array $values = [])
     {
         $values['paramName'] = 'foo';
-        return new Annotation($this->getRequestAnnotationName(), 'SomeClass::someMethod()', $values, 'Request');
+        return new Annotation(
+                $this->getRequestAnnotationName(),
+                'SomeClass::someMethod()',
+                $values,
+                'Request'
+        );
     }
 
     /**
@@ -47,22 +53,18 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      *
      * @return  mixed
      */
-    protected abstract function getExpectedValue();
+    protected abstract function expectedValue();
 
     /**
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \PHPUnit_Framework_MockObject_MockObject
+     * @return  \bovigo\callmap\Proxy
      */
-    protected function mockRequest($value)
+    protected function createRequest($value)
     {
-        $mockRequest = $this->getMock('stubbles\input\Request');
-        $mockRequest->expects($this->once())
-                    ->method('readParam')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue($value)));
-        return $mockRequest;
+        return NewInstance::of('stubbles\input\Request')
+                ->mapCalls(['readParam' => ValueReader::forValue($value)]);
     }
 
     /**
@@ -71,8 +73,9 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(['source' => 'foo'])
+        $this->paramBroker->procure(
+                NewInstance::of('stubbles\input\Request'),
+                $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -81,10 +84,12 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canWorkWithParam()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procureParam(new Param('name', ((string) $this->getExpectedValue())),
-                                                             $this->createRequestAnnotation()
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procureParam(
+                        new Param('name', ((string) $this->expectedValue())),
+                        $this->createRequestAnnotation()
+                )
         );
     }
 
@@ -93,10 +98,12 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsDefaultSource()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation()
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation()
+                )
         );
     }
 
@@ -105,10 +112,12 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsSource()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(['source' => 'param'])
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(['source' => 'param'])
+                )
         );
     }
 
@@ -117,15 +126,14 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readHeader')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(['source' => 'header'])
-                            )
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'header'])
+                )
         );
     }
 
@@ -134,15 +142,14 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readCookie')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(['source' => 'cookie'])
-                            )
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'cookie'])
+                )
         );
     }
 }

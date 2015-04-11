@@ -23,14 +23,17 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      *
      * @type  LocalizedMessage
      */
-    protected $localizedMessage;
+    private $localizedMessage;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->localizedMessage = new LocalizedMessage('en_EN', 'This is a localized string.');
+        $this->localizedMessage = new LocalizedMessage(
+                'en_EN',
+                'This is a localized string.'
+        );
     }
 
     /**
@@ -38,7 +41,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationPresentOnClass()
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->localizedMessage)
                         ->contain('XmlTag')
         );
@@ -49,7 +52,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationPresentOnGetLocaleMethod()
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->localizedMessage, 'locale')
                         ->contain('XmlAttribute')
         );
@@ -60,7 +63,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationPresentOngetMessageMethod()
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->localizedMessage, 'message')
                         ->contain('XmlTag')
         );
@@ -71,7 +74,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function localeAttributeEqualsGivenLocale()
     {
-        $this->assertEquals('en_EN', $this->localizedMessage->locale());
+        assertEquals('en_EN', $this->localizedMessage->locale());
     }
 
     /**
@@ -79,8 +82,9 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function contentOfStringEqualsGivenString()
     {
-        $this->assertEquals('This is a localized string.',
-                            $this->localizedMessage->message()
+        assertEquals(
+                'This is a localized string.',
+                $this->localizedMessage->message()
         );
     }
 
@@ -90,8 +94,9 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function conversionToStringYieldsMessage()
     {
-        $this->assertEquals('This is a localized string.',
-                            (string) $this->localizedMessage
+        assertEquals(
+                'This is a localized string.',
+                (string) $this->localizedMessage
         );
     }
 }

@@ -50,9 +50,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function valueOutOfRangeIsNotContainedInRange($value)
     {
-        $this->assertFalse(
-                $this->dateRange->contains($value)
-        );
+        assertFalse($this->dateRange->contains($value));
     }
 
     /**
@@ -73,9 +71,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function valueWithinRangeIsContainedInRange($value)
     {
-        $this->assertTrue(
-                $this->dateRange->contains($value)
-        );
+        assertTrue($this->dateRange->contains($value));
     }
 
     /**
@@ -84,7 +80,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsLowValuesIfMinValueIsNull()
     {
         $numberRange = new DateRange(null, '2012-03-19');
-        $this->assertTrue($numberRange->contains(1));
+        assertTrue($numberRange->contains(1));
     }
 
     /**
@@ -93,7 +89,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsHighValuesIfMaxValueIsNull()
     {
         $numberRange = new DateRange('2012-03-17', null);
-        $this->assertTrue($numberRange->contains(PHP_INT_MAX));
+        assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
     /**
@@ -114,7 +110,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function rangeDoesNotContainNull(DateRange $range)
     {
-        $this->assertFalse($range->contains(null));
+        assertFalse($range->contains(null));
     }
 
     /**
@@ -122,7 +118,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->dateRange->errorsOf('2012-03-17')
         );
@@ -133,7 +129,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]],
                 $this->dateRange->errorsOf('2012-03-16')
         );
@@ -144,7 +140,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]],
                 $this->dateRange->errorsOf('2012-03-20')
         );
@@ -157,7 +153,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAllowToTruncate()
     {
-        $this->assertFalse($this->dateRange->allowsTruncate('2012-03-20'));
+        assertFalse($this->dateRange->allowsTruncate('2012-03-20'));
     }
 
     /**

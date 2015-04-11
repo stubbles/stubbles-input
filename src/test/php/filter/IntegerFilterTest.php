@@ -41,8 +41,9 @@ class IntegerFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $integerFilter = IntegerFilter::instance();
-        $this->assertEquals($expected,
-                            $integerFilter->apply($this->createParam($value)));
+        assertEquals(
+                $expected,
+                $integerFilter->apply($this->createParam($value)));
     }
 
     /**
@@ -51,7 +52,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueReader(null)->asInt());
+        assertNull($this->readParam(null)->asInt());
     }
 
     /**
@@ -60,7 +61,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(303, $this->createValueReader(null)->defaultingTo(303)->asInt());
+        assertEquals(303, $this->readParam(null)->defaultingTo(303)->asInt());
     }
 
     /**
@@ -69,7 +70,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asInt());
+        assertNull($this->readParam(null)->required()->asInt());
     }
 
     /**
@@ -78,8 +79,8 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asInt();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asInt();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -88,7 +89,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader(4)->asInt(new NumberRange(5, null)));
+        assertNull($this->readParam(4)->asInt(new NumberRange(5, null)));
     }
 
     /**
@@ -97,9 +98,9 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader(4)->asInt(new NumberRange(5, null)
+        $this->readParam(4)->asInt(new NumberRange(5, null)
         );
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -107,7 +108,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsValidValue()
     {
-        $this->assertEquals(313, $this->createValueReader('313')->asInt());
+        assertEquals(313, $this->readParam('313')->asInt());
 
     }
 }

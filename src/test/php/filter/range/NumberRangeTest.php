@@ -49,9 +49,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function valueOutOfRangeIsNotContainedInRange($value)
     {
-        $this->assertFalse(
-                $this->numberRange->contains($value)
-        );
+        assertFalse($this->numberRange->contains($value));
     }
 
     /**
@@ -73,9 +71,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function valueWithinRangeIsContainedInRange($value)
     {
-        $this->assertTrue(
-                $this->numberRange->contains($value)
-        );
+        assertTrue($this->numberRange->contains($value));
     }
 
     /**
@@ -84,7 +80,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsLowValuesIfMinValueIsNull()
     {
         $numberRange = new NumberRange(null, 10);
-        $this->assertTrue($numberRange->contains(PHP_INT_MAX * -1));
+        assertTrue($numberRange->contains(PHP_INT_MAX * -1));
     }
 
     /**
@@ -93,7 +89,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsHighValuesIfMaxValueIsNull()
     {
         $numberRange = new NumberRange(1, null);
-        $this->assertTrue($numberRange->contains(PHP_INT_MAX));
+        assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
     /**
@@ -114,7 +110,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function rangeDoesNotContainNull(NumberRange $range)
     {
-        $this->assertFalse($range->contains(null));
+        assertFalse($range->contains(null));
     }
 
     /**
@@ -122,7 +118,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->numberRange->errorsOf(3)
         );
@@ -133,7 +129,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['VALUE_TOO_SMALL' => ['minNumber' => 1]],
                 $this->numberRange->errorsOf(0)
         );
@@ -144,7 +140,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['VALUE_TOO_GREAT' => ['maxNumber' => 10]],
                 $this->numberRange->errorsOf(11)
         );
@@ -157,7 +153,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAllowToTruncate()
     {
-        $this->assertFalse($this->numberRange->allowsTruncate(11));
+        assertFalse($this->numberRange->allowsTruncate(11));
     }
 
     /**

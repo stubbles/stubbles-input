@@ -38,7 +38,7 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        $this->assertEquals('', $this->textFilter->apply($this->createParam(null)));
+        assertEquals('', $this->textFilter->apply($this->createParam(null)));
     }
 
     /**
@@ -46,7 +46,7 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        $this->assertEquals('', $this->textFilter->apply($this->createParam('')));
+        assertEquals('', $this->textFilter->apply($this->createParam('')));
     }
 
     /**
@@ -71,9 +71,12 @@ class TextFilterTest extends FilterTest
      */
     public function removesTags(array $allowedTags, $expected)
     {
-        $this->assertEquals($expected,
-                            $this->textFilter->allowTags($allowedTags)
-                                             ->apply($this->createParam('this is <b>bold</b> and <i>cursive</i> and <u>underlined</u> with a <a href="http://example.org/">link</a>'))
+        assertEquals(
+                $expected,
+                $this->textFilter->allowTags($allowedTags)
+                        ->apply($this->createParam(
+                                'this is <b>bold</b> and <i>cursive</i> and <u>underlined</u> with a <a href="http://example.org/">link</a>'
+                        ))
         );
     }
 
@@ -82,8 +85,9 @@ class TextFilterTest extends FilterTest
      */
     public function removesSlashes()
     {
-        $this->assertEquals("'kkk",
-                            $this->textFilter->apply($this->createParam("\'kkk"))
+        assertEquals(
+                "'kkk",
+                $this->textFilter->apply($this->createParam("\'kkk"))
         );
     }
 
@@ -92,8 +96,9 @@ class TextFilterTest extends FilterTest
      */
     public function removesCarriageReturn()
     {
-        $this->assertEquals("cdekkk",
-                            $this->textFilter->apply($this->createParam("cde\rkkk"))
+        assertEquals(
+                "cdekkk",
+                $this->textFilter->apply($this->createParam("cde\rkkk"))
         );
     }
 
@@ -102,8 +107,9 @@ class TextFilterTest extends FilterTest
      */
     public function doesNotRemoveLineBreaks()
     {
-        $this->assertEquals("ab\ncde\nkkk",
-                            $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))
+        assertEquals(
+                "ab\ncde\nkkk",
+                $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))
         );
     }
 
@@ -113,7 +119,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('', $this->createValueReader(null)->asText());
+        assertEquals('', $this->readParam(null)->asText());
     }
 
     /**
@@ -122,9 +128,11 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('baz', $this->createValueReader(null)
-                                        ->defaultingTo('baz')
-                                        ->asText()
+        assertEquals(
+                'baz',
+                $this->readParam(null)
+                        ->defaultingTo('baz')
+                        ->asText()
         );
     }
 
@@ -134,7 +142,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asText());
+        assertNull($this->readParam(null)->required()->asText());
     }
 
     /**
@@ -143,8 +151,8 @@ class TextFilterTest extends FilterTest
      */
     public function asTextAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asText();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asText();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -153,8 +161,9 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader('foo')
-                               ->asText(new StringLength(5, null))
+        assertNull(
+                $this->readParam('foo')
+                        ->asText(new StringLength(5, null))
         );
     }
 
@@ -164,8 +173,8 @@ class TextFilterTest extends FilterTest
      */
     public function asTextAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asText(new StringLength(5, null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam('foo')->asText(new StringLength(5, null));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -173,7 +182,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsValidValue()
     {
-        $this->assertEquals('foo', $this->createValueReader('foo<b>')->asText());
+        assertEquals('foo', $this->readParam('foo<b>')->asText());
 
     }
 
@@ -182,7 +191,6 @@ class TextFilterTest extends FilterTest
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        $this->assertEquals('foo<b>', $this->createValueReader('foo<b>')->asText(null, ['b']));
-
+        assertEquals('foo<b>', $this->readParam('foo<b>')->asText(null, ['b']));
     }
 }

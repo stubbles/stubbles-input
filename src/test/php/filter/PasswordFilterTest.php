@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use bovigo\callmap\NewInstance;
 use stubbles\lang\SecureString;
 require_once __DIR__ . '/FilterTest.php';
 /**
@@ -26,18 +27,17 @@ class PasswordFilterTest extends FilterTest
     /**
      * mocked password checker
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockPasswordChecker;
+    private $passwordChecker;
 
     /**
-     * create test environment
-     *
+     * set up test environment
      */
     public function setUp()
     {
-        $this->mockPasswordChecker = $this->getMock('stubbles\input\filter\PasswordChecker');
-        $this->passwordFilter = new PasswordFilter($this->mockPasswordChecker);
+        $this->passwordChecker = NewInstance::of('stubbles\input\filter\PasswordChecker');
+        $this->passwordFilter  = new PasswordFilter($this->passwordChecker);
         parent::setUp();
     }
 
@@ -47,10 +47,7 @@ class PasswordFilterTest extends FilterTest
      */
     private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
     {
-        $this->assertEquals(
-                $expectedPassword,
-                $actualPassword->unveil()
-        );
+        assertEquals($expectedPassword, $actualPassword->unveil());
     }
 
     /**
@@ -58,11 +55,15 @@ class PasswordFilterTest extends FilterTest
      */
     public function value()
     {
-        $this->mockPasswordChecker->expects($this->any())
-                                  ->method('check')
-                                  ->will($this->returnValue([]));
-        $this->assertPasswordEquals('foo', $this->passwordFilter->apply($this->createParam('foo')));
-        $this->assertPasswordEquals('425%$%"�$%t 32', $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32')));
+        $this->passwordChecker->mapCalls(['check' => []]);
+        $this->assertPasswordEquals(
+                'foo',
+                $this->passwordFilter->apply($this->createParam('foo'))
+        );
+        $this->assertPasswordEquals(
+                '425%$%"�$%t 32',
+                $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32'))
+        );
     }
 
     /**
@@ -70,9 +71,8 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullForNull()
     {
-        $this->mockPasswordChecker->expects($this->never())
-                                  ->method('check');
-        $this->assertNull($this->passwordFilter->apply($this->createParam(null)));
+        assertNull($this->passwordFilter->apply($this->createParam(null)));
+        assertEquals(0, $this->passwordChecker->callsReceivedFor('check'));
 
     }
 
@@ -81,9 +81,8 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullForEmptyString()
     {
-        $this->mockPasswordChecker->expects($this->never())
-                                  ->method('check');
-        $this->assertNull($this->passwordFilter->apply($this->createParam('')));
+        assertNull($this->passwordFilter->apply($this->createParam('')));
+        assertEquals(0, $this->passwordChecker->callsReceivedFor('check'));
     }
 
     /**
@@ -91,9 +90,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsPasswordIfBothArrayValuesAreEqual()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue([]));
+        $this->passwordChecker->mapCalls(['check' => []]);
         $this->assertPasswordEquals(
                 'foo',
                 $this->passwordFilter->apply($this->createParam(['foo', 'foo']))
@@ -105,9 +102,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullIfBothArrayValuesAreDifferent()
     {
-        $this->mockPasswordChecker->expects($this->never())
-                                  ->method('check');
-        $this->assertNull($this->passwordFilter->apply($this->createParam(['foo', 'bar'])));
+        assertNull(
+                $this->passwordFilter->apply($this->createParam(['foo', 'bar']))
+        );
+        assertEquals(0, $this->passwordChecker->callsReceivedFor('check'));
     }
 
     /**
@@ -115,11 +113,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function addsErrorToParamWhenBothArrayValuesAreDifferent()
     {
-        $this->mockPasswordChecker->expects($this->never())
-                                  ->method('check');
         $param = $this->createParam(['foo', 'bar']);
         $this->passwordFilter->apply($param);
-        $this->assertTrue($param->hasError('PASSWORDS_NOT_EQUAL'));
+        assertTrue($param->hasError('PASSWORDS_NOT_EQUAL'));
+        assertEquals(0, $this->passwordChecker->callsReceivedFor('check'));
     }
 
     /**
@@ -127,10 +124,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullIfCheckerReportsErrors()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue(['PASSWORD_TOO_SHORT' => ['minLength' => 8]]));
-        $this->assertNull($this->passwordFilter->apply($this->createParam('bar')));
+        $this->passwordChecker->mapCalls(
+                ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
+        );
+        assertNull($this->passwordFilter->apply($this->createParam('bar')));
     }
 
     /**
@@ -138,12 +135,12 @@ class PasswordFilterTest extends FilterTest
      */
     public function addsErrorToParamWhenValueIsNotAllowed()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue(['PASSWORD_TOO_SHORT' => ['minLength' => 8]]));
+        $this->passwordChecker->mapCalls(
+                ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
+        );
         $param = $this->createParam('bar');
         $this->passwordFilter->apply($param);
-        $this->assertTrue($param->hasError('PASSWORD_TOO_SHORT'));
+        assertTrue($param->hasError('PASSWORD_TOO_SHORT'));
     }
 
     /**
@@ -152,7 +149,11 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asPassword($this->mockPasswordChecker));
+        assertNull(
+                $this->readParam(null)
+                        ->required()
+                        ->asPassword($this->passwordChecker)
+        );
     }
 
     /**
@@ -161,7 +162,9 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordWithDefaultValueThrowsBadMethodCallException()
     {
-        $this->createValueReader(null)->defaultingTo('secret')->asPassword($this->mockPasswordChecker);
+        $this->readParam(null)
+                ->defaultingTo('secret')
+                ->asPassword($this->passwordChecker);
     }
 
     /**
@@ -170,8 +173,8 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asPassword($this->mockPasswordChecker);
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asPassword($this->passwordChecker);
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -180,10 +183,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsNullIfParamIsInvalid()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue(['PASSWORD_TOO_SHORT' => ['minLength' => 8]]));
-        $this->assertNull($this->createValueReader('foo')->asPassword($this->mockPasswordChecker));
+        $this->passwordChecker->mapCalls(
+                ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
+        );
+        assertNull($this->readParam('foo')->asPassword($this->passwordChecker));
     }
 
     /**
@@ -192,11 +195,11 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordAddsParamErrorIfParamIsInvalid()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue(['PASSWORD_TOO_SHORT' => ['minLength' => 8]]));
-        $this->createValueReader('foo')->asPassword($this->mockPasswordChecker);
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->passwordChecker->mapCalls(
+                ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
+        );
+        $this->readParam('foo')->asPassword($this->passwordChecker);
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -204,12 +207,10 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsValidValue()
     {
-        $this->mockPasswordChecker->expects($this->once())
-                                  ->method('check')
-                                  ->will($this->returnValue([]));
+        $this->passwordChecker->mapCalls(['check' => []]);
         $this->assertPasswordEquals(
                 'abcde',
-                $this->createValueReader('abcde')->asPassword($this->mockPasswordChecker)
+                $this->readParam('abcde')->asPassword($this->passwordChecker)
         );
     }
 }

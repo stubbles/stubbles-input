@@ -45,9 +45,10 @@ class FloatFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $floatFilter = new FloatFilter();
-        $this->assertEquals($expected,
-                            $floatFilter->setDecimals(3)
-                                        ->apply($this->createParam($value))
+        assertEquals(
+                $expected,
+                $floatFilter->setDecimals(3)
+                        ->apply($this->createParam($value))
         );
     }
 
@@ -57,9 +58,10 @@ class FloatFilterTest extends FilterTest
     public function float()
     {
         $floatFilter = new FloatFilter();
-        $this->assertEquals(156,
-                            $floatFilter->setDecimals(2)
-                                        ->apply($this->createParam('1.564'))
+        assertEquals(
+                156,
+                $floatFilter->setDecimals(2)
+                        ->apply($this->createParam('1.564'))
         );
     }
 
@@ -69,7 +71,7 @@ class FloatFilterTest extends FilterTest
     public function decimalsNotSet()
     {
         $floatFilter = new FloatFilter();
-        $this->assertEquals(1.564, $floatFilter->apply($this->createParam('1.564')));
+        assertEquals(1.564, $floatFilter->apply($this->createParam('1.564')));
     }
 
     /**
@@ -78,7 +80,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueReader(null)->asFloat());
+        assertNull($this->readParam(null)->asFloat());
     }
 
     /**
@@ -87,7 +89,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals(3.03, $this->createValueReader(null)->defaultingTo(3.03)->asFloat());
+        assertEquals(3.03, $this->readParam(null)->defaultingTo(3.03)->asFloat());
     }
 
     /**
@@ -96,7 +98,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asFloat());
+        assertNull($this->readParam(null)->required()->asFloat());
     }
 
     /**
@@ -105,8 +107,8 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asFloat();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asFloat();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -115,7 +117,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader(2.5)->asFloat(new NumberRange(5, null)));
+        assertNull($this->readParam(2.5)->asFloat(new NumberRange(5, null)));
     }
 
     /**
@@ -124,8 +126,8 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader(2.5)->asFloat(new NumberRange(5, null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam(2.5)->asFloat(new NumberRange(5, null));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -133,8 +135,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsValidValue()
     {
-        $this->assertEquals(3.13, $this->createValueReader('3.13')->asFloat());
-
+        assertEquals(3.13, $this->readParam('3.13')->asFloat());
     }
 
     /**
@@ -142,7 +143,6 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsValidValueUsingDecimals()
     {
-        $this->assertEquals(313, $this->createValueReader('3.13')->asFloat(null, 2));
-
+        assertEquals(313, $this->readParam('3.13')->asFloat(null, 2));
     }
 }

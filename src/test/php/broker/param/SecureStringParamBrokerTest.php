@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\lang\SecureString;
@@ -35,10 +36,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertSecureStringEquals($expected, SecureString $actual)
     {
-        $this->assertEquals(
-                $expected,
-                $actual->unveil()
-        );
+        assertEquals($expected, $actual->unveil());
     }
 
     /**
@@ -57,16 +55,12 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \PHPUnit_Framework_MockObject_MockObject
+     * @return  \bovigo\callmap\Proxy
      */
-    protected function mockRequest($value)
+    protected function createRequest($value)
     {
-        $mockRequest = $this->getMock('stubbles\input\Request');
-        $mockRequest->expects($this->once())
-                    ->method('readParam')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue($value)));
-        return $mockRequest;
+        return NewInstance::of('stubbles\input\Request')
+                ->mapCalls(['readParam' => ValueReader::forValue($value)]);
     }
 
     /**
@@ -75,8 +69,9 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(['source' => 'foo'])
+        $this->paramBroker->procure(
+                NewInstance::of('stubbles\input\Request'),
+                $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -87,8 +82,9 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSecureStringEquals(
                 'topsecret',
-                $this->paramBroker->procureParam(new Param('name', 'topsecret'),
-                                                 $this->createRequestAnnotation()
+                $this->paramBroker->procureParam(
+                        new Param('name', 'topsecret'),
+                        $this->createRequestAnnotation()
                 )
         );
     }
@@ -100,8 +96,9 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSecureStringEquals(
                 'topsecret',
-                $this->paramBroker->procure($this->mockRequest('topsecret'),
-                                            $this->createRequestAnnotation()
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation()
                 )
         );
     }
@@ -113,8 +110,9 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSecureStringEquals(
                 'topsecret',
-                $this->paramBroker->procure($this->mockRequest('topsecret'),
-                                            $this->createRequestAnnotation(['source' => 'param'])
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation(['source' => 'param'])
                 )
         );
     }
@@ -124,15 +122,13 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readHeader')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue('topsecret')));
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',
-                $this->paramBroker->procure($mockRequest,
-                                            $this->createRequestAnnotation(['source' => 'header'])
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'header'])
                 )
         );
     }
@@ -142,15 +138,13 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readCookie')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue('topsecret')));
+        $request =  NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',
-                $this->paramBroker->procure($mockRequest,
-                                            $this->createRequestAnnotation(['source' => 'cookie'])
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'cookie'])
                 )
         );
     }
@@ -160,9 +154,11 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => true])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => true])
+                )
         );
     }
 
@@ -171,9 +167,11 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfShorterThanMinLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(['minLength' => 30])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(['minLength' => 30])
+                )
         );
     }
 
@@ -182,9 +180,11 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfLongerThanMaxLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(['maxLength' => 10])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(['maxLength' => 10])
+                )
         );
     }
 
@@ -195,11 +195,11 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSecureStringEquals(
                 'Do you expect me to talk?',
-                $this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                            $this->createRequestAnnotation(['minLength' => 10,
-                                                                            'maxLength' => 30
-                                                                           ]
-                                            )
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(
+                                ['minLength' => 10, 'maxLength' => 30]
+                        )
                 )
         );
     }

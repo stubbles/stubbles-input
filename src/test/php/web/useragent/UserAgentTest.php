@@ -39,7 +39,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function iocAnnotationPresentOnClass()
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->userAgent)
                         ->contain('ProvidedBy')
         );
@@ -50,10 +50,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function xmlAnnotationPresentClass()
     {
-        $this->assertTrue(
-                reflect\annotationsOf($this->userAgent)
-                        ->contain('XmlTag')
-        );
+        assertTrue(reflect\annotationsOf($this->userAgent)->contain('XmlTag'));
     }
 
     /**
@@ -76,7 +73,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function xmlAnnotationsPresentOnMethods($method, $annotation)
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->userAgent, $method)
                         ->contain($annotation)
         );
@@ -87,7 +84,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function instanceReturnsGivenName()
     {
-        $this->assertEquals('name', $this->userAgent->name());
+        assertEquals('name', $this->userAgent->name());
     }
 
     /**
@@ -95,7 +92,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function castToStringReturnsName()
     {
-        $this->assertEquals('name', (string) $this->userAgent);
+        assertEquals('name', (string) $this->userAgent);
     }
 
     /**
@@ -123,7 +120,7 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
     public function recognizesSomeBotsByDefault($userAgent)
     {
         $userAgent = new UserAgent($userAgent, true);
-        $this->assertTrue($userAgent->isBot());
+        assertTrue($userAgent->isBot());
     }
 
     /**
@@ -132,6 +129,6 @@ class UserAgentTest extends \PHPUnit_Framework_TestCase
      */
     public function instanceReturnsGivenCookieAcceptanceSetting()
     {
-        $this->assertTrue($this->userAgent->acceptsCookies());
+        assertTrue($this->userAgent->acceptsCookies());
     }
 }

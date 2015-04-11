@@ -40,7 +40,7 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  bool
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return __DIR__;
     }
@@ -50,10 +50,12 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals('/home/user',
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['default' => '/home/user'])
-                            )
+        assertEquals(
+                '/home/user',
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['default' => '/home/user'])
+                )
         );
     }
 
@@ -62,13 +64,16 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function considersRelativeWhenBasePathGiven()
     {
-        $this->assertEquals('../',
-                            $this->paramBroker->procure($this->mockRequest('../'),
-                                                        $this->createRequestAnnotation(['basePath'      => __DIR__,
-                                                                                        'allowRelative' => true
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                '../',
+                $this->paramBroker->procure(
+                        $this->createRequest('../'),
+                        $this->createRequestAnnotation(
+                                ['basePath'      => __DIR__,
+                                 'allowRelative' => true
+                                ]
+                        )
+                )
         );
     }
 }

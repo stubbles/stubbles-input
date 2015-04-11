@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 /**
  * Tests for stubbles\input\filter\PredicateFilter.
@@ -26,17 +27,21 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked predicate
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockPredicate;
+    private $predicate;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockPredicate   = $this->getMock('stubbles\predicate\Predicate');
-        $this->predicateFilter = new PredicateFilter($this->mockPredicate, 'ERROR', ['foo' => 'bar']);
+        $this->predicate       = NewInstance::of('stubbles\predicate\Predicate');
+        $this->predicateFilter = new PredicateFilter(
+                $this->predicate,
+                'ERROR',
+                ['foo' => 'bar']
+        );
     }
 
     /**
@@ -44,12 +49,10 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueWhenPredicateEvaluatesToTrue()
     {
-        $this->mockPredicate->expects($this->once())
-                            ->method('test')
-                            ->with($this->equalTo('Acperience'))
-                            ->will($this->returnValue(true));
-        $this->assertEquals('Acperience',
-                            $this->predicateFilter->apply(new Param('example', 'Acperience'))
+        $this->predicate->mapCalls(['test' => true]);
+        assertEquals(
+                'Acperience',
+                $this->predicateFilter->apply(new Param('example', 'Acperience'))
         );
     }
 
@@ -58,13 +61,10 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAddErrorWhenPredicateEvaluatesToTrue()
     {
-        $this->mockPredicate->expects($this->once())
-                            ->method('test')
-                            ->with($this->equalTo('Acperience'))
-                            ->will($this->returnValue(true));
+        $this->predicate->mapCalls(['test' => true]);
         $param = new Param('example', 'Acperience');
         $this->predicateFilter->apply($param);
-        $this->assertFalse($param->hasErrors());
+        assertFalse($param->hasErrors());
     }
 
     /**
@@ -72,11 +72,10 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullWhenPredicateEvaluatesToFalse()
     {
-        $this->mockPredicate->expects($this->once())
-                            ->method('test')
-                            ->with($this->equalTo('Trancescript'))
-                            ->will($this->returnValue(false));
-        $this->assertNull($this->predicateFilter->apply(new Param('example', 'Trancescript')));
+        $this->predicate->mapCalls(['test' => false]);
+        assertNull(
+                $this->predicateFilter->apply(new Param('example', 'Trancescript'))
+        );
     }
 
     /**
@@ -84,12 +83,9 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function addsErrorWhenPredicateEvaluatesToFalse()
     {
-        $this->mockPredicate->expects($this->once())
-                            ->method('test')
-                            ->with($this->equalTo('Trancescript'))
-                            ->will($this->returnValue(false));
+        $this->predicate->mapCalls(['test' => false]);
         $param = new Param('example', 'Trancescript');
         $this->predicateFilter->apply($param);
-        $this->assertTrue($param->hasError('ERROR'));
+        assertTrue($param->hasError('ERROR'));
     }
 }

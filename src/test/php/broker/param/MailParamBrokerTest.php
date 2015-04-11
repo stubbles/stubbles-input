@@ -40,7 +40,7 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return 'me@example.com';
     }
@@ -50,9 +50,11 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => true])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => true])
+                )
         );
     }
 }

@@ -42,7 +42,7 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  float
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return new Month(2012, 04);
     }
@@ -52,10 +52,10 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals(
+        assertEquals(
                 new Month(2012, 04),
                 $this->paramBroker->procure(
-                        $this->mockRequest(null),
+                        $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => '2012-04'])
                 )
         );
@@ -66,9 +66,9 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull(
+        assertNull(
                 $this->paramBroker->procure(
-                        $this->mockRequest(null),
+                        $this->createRequest(null),
                         $this->createRequestAnnotation(['required' => true])
                 )
         );
@@ -80,9 +80,9 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
     public function returnsNullIfBeforeMinStartDate()
     {
         $currentMonth = new Month();
-        $this->assertNull(
+        assertNull(
                 $this->paramBroker->procure(
-                        $this->mockRequest($currentMonth->asString()),
+                        $this->createRequest($currentMonth->asString()),
                         $this->createRequestAnnotation(['minStartDate' => 'tomorrow'])
                 )
         );
@@ -94,9 +94,9 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
     public function returnsNullIfAfterMaxStartDate()
     {
         $currentMonth = new Month();
-        $this->assertNull(
+        assertNull(
                 $this->paramBroker->procure(
-                        $this->mockRequest($currentMonth->next()->asString()),
+                        $this->createRequest($currentMonth->next()->asString()),
                         $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
                 )
         );
@@ -107,10 +107,10 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 Month::fromString('2015-02'),
                 $this->paramBroker->procure(
-                        $this->mockRequest('2015-02'),
+                        $this->createRequest('2015-02'),
                         $this->createRequestAnnotation(
                                 ['minStartDate' => '2015-01-01',
                                  'maxEndDate'   => '2015-03-31'

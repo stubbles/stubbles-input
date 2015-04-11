@@ -39,8 +39,9 @@ class ArrayFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $arrayFilter = new ArrayFilter();
-        $this->assertEquals($expected,
-                            $arrayFilter->apply($this->createParam($value)));
+        assertEquals(
+                $expected,
+                $arrayFilter->apply($this->createParam($value)));
     }
 
     /**
@@ -49,8 +50,9 @@ class ArrayFilterTest extends FilterTest
     public function usingDifferentSeparator()
     {
         $arrayFilter = new ArrayFilter('|');
-        $this->assertEquals(['foo', 'bar'],
-                            $arrayFilter->apply($this->createParam('foo|bar')));
+        assertEquals(
+                ['foo', 'bar'],
+                $arrayFilter->apply($this->createParam('foo|bar')));
     }
 
     /**
@@ -59,10 +61,11 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = ['foo' => 'bar'];
-        $this->assertEquals($default,
-                            $this->createValueReader(null)
-                                 ->defaultingTo($default)
-                                 ->asArray()
+        assertEquals(
+                $default,
+                $this->readParam(null)
+                        ->defaultingTo($default)
+                        ->asArray()
         );
     }
 
@@ -71,7 +74,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asArray());
+        assertNull($this->readParam(null)->required()->asArray());
     }
 
     /**
@@ -79,8 +82,8 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asArray();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asArray();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -88,7 +91,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsEmptyArrayIfParamIsEmpty()
     {
-        $this->assertEquals([], $this->createValueReader('')->asArray());
+        assertEquals([], $this->readParam('')->asArray());
     }
 
     /**
@@ -97,7 +100,7 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsValidValue()
     {
         $value = ['foo', 'bar'];
-        $this->assertEquals($value, $this->createValueReader('foo, bar')->asArray());
+        assertEquals($value, $this->readParam('foo, bar')->asArray());
 
     }
 
@@ -107,7 +110,7 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsValidValueWithDifferentSeparator()
     {
         $value = ['foo', 'bar'];
-        $this->assertEquals($value, $this->createValueReader('foo|bar')->asArray('|'));
+        assertEquals($value, $this->readParam('foo|bar')->asArray('|'));
 
     }
 }

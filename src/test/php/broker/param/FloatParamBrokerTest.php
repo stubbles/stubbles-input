@@ -40,7 +40,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  float
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return 3.03;
     }
@@ -50,10 +50,12 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals(3.03,
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['default' => 3.03])
-                          )
+        assertEquals(
+                3.03,
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['default' => 3.03])
+                )
         );
     }
 
@@ -62,9 +64,11 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => true])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => true])
+                )
         );
     }
 
@@ -73,9 +77,11 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfLowerThanMinValue()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
-                                                      $this->createRequestAnnotation(['minValue' => 4])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('3.03'),
+                        $this->createRequestAnnotation(['minValue' => 4])
+                )
         );
     }
 
@@ -84,9 +90,11 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfGreaterThanMaxValue()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('3.03'),
-                                                      $this->createRequestAnnotation(['maxValue' => 3])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('3.03'),
+                        $this->createRequestAnnotation(['maxValue' => 3])
+                )
         );
     }
 
@@ -95,13 +103,14 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        $this->assertEquals(3.03,
-                            $this->paramBroker->procure($this->mockRequest('3.03'),
-                                                        $this->createRequestAnnotation(['minValue' => 3,
-                                                                                        'maxValue' => 4
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                3.03,
+                $this->paramBroker->procure(
+                        $this->createRequest('3.03'),
+                        $this->createRequestAnnotation(
+                                ['minValue' => 3, 'maxValue' => 4]
+                        )
+                )
         );
     }
 }

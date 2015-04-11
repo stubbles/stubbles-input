@@ -53,7 +53,7 @@ class MonthFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        $this->assertNull($this->monthFilter->apply($this->createParam($value)));
+        assertNull($this->monthFilter->apply($this->createParam($value)));
     }
 
     /**
@@ -62,8 +62,8 @@ class MonthFilterTest extends FilterTest
     public function validParamsAreReturnedAsDateInstance()
     {
         $month = $this->monthFilter->apply($this->createParam('2008-09-27'));
-        $this->assertInstanceOf('stubbles\date\span\Month', $month);
-        $this->assertEquals('2008-09', $month->asString());
+        assertInstanceOf('stubbles\date\span\Month', $month);
+        assertEquals('2008-09', $month->asString());
     }
 
     /**
@@ -71,7 +71,7 @@ class MonthFilterTest extends FilterTest
      */
     public function applyReturnsNullForInvalidMonth()
     {
-        $this->assertNull($this->monthFilter->apply($this->createParam('invalid day')));
+        assertNull($this->monthFilter->apply($this->createParam('invalid day')));
     }
 
     /**
@@ -81,7 +81,7 @@ class MonthFilterTest extends FilterTest
     {
         $param = $this->createParam('invalid day');
         $this->monthFilter->apply($param);
-        $this->assertTrue($param->hasError('MONTH_INVALID'));
+        assertTrue($param->hasError('MONTH_INVALID'));
     }
 
     /**
@@ -89,7 +89,7 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueReader(null)->asMonth());
+        assertNull($this->readParam(null)->asMonth());
     }
 
     /**
@@ -98,10 +98,11 @@ class MonthFilterTest extends FilterTest
     public function asMonthReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = new Month();
-        $this->assertEquals($default,
-                            $this->createValueReader(null)
-                                 ->defaultingTo($default)
-                                 ->asMonth()
+        assertEquals(
+                $default,
+                $this->readParam(null)
+                        ->defaultingTo($default)
+                        ->asMonth()
         );
     }
 
@@ -110,7 +111,7 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asMonth());
+        assertNull($this->readParam(null)->required()->asMonth());
     }
 
     /**
@@ -118,8 +119,8 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asMonth();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asMonth();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -127,7 +128,7 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader('foo')->asMonth());
+        assertNull($this->readParam('foo')->asMonth());
     }
 
     /**
@@ -135,8 +136,8 @@ class MonthFilterTest extends FilterTest
      */
     public function asDayAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asMonth();
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam('foo')->asMonth();
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -144,10 +145,11 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsValidValue()
     {
-        $this->assertEquals('2012-03',
-                            $this->createValueReader('2012-03-11')
-                                 ->asMonth()
-                                 ->asString()
+        assertEquals(
+                '2012-03',
+                $this->readParam('2012-03-11')
+                        ->asMonth()
+                        ->asString()
         );
 
     }
@@ -157,8 +159,9 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsNullIfParamIsOutOfRange()
     {
-        $this->assertNull($this->createValueReader(new Month())
-                               ->asMonth(new DatespanRange(new Date('tomorrow'), null))
+        assertNull(
+                $this->readParam(new Month())
+                        ->asMonth(new DatespanRange(new Date('tomorrow'), null))
         );
     }
 
@@ -167,8 +170,8 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->createValueReader(new Month())
-             ->asMonth(new DatespanRange(new Date('tomorrow'), null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam(new Month())
+                ->asMonth(new DatespanRange(new Date('tomorrow'), null));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 }

@@ -8,6 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
+use bovigo\callmap;
+use bovigo\callmap\NewInstance;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect;
 require_once __DIR__ . '/BrokerClass.php';
@@ -22,15 +24,15 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     /**
      * instance to test
      *
-     * @type  RequestBroker
+     * @type  \stubbles\input\broker\RequestBroker
      */
     private $requestBroker;
     /**
      * mocked request instance
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockRequest;
+    private $request;
 
     /**
      * set up test environment
@@ -38,7 +40,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->requestBroker = new RequestBroker();
-        $this->mockRequest   = $this->getMock('stubbles\input\Request');
+        $this->request       = NewInstance::of('stubbles\input\Request');
     }
 
     /**
@@ -46,7 +48,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        $this->assertTrue(
+        assertTrue(
                 reflect\annotationsOf($this->requestBroker)
                         ->contain('Singleton')
         );
@@ -58,7 +60,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function procureNonObjectThrowsInvalidArgumentException()
     {
-        $this->requestBroker->procure($this->mockRequest, 313);
+        $this->requestBroker->procure($this->request, 313);
     }
 
     /**
@@ -67,14 +69,13 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function procuresOnlyThoseInGivenGroup()
     {
         $object = new BrokerClass();
-        $this->mockRequest->expects($this->once())
-                          ->method('readParam')
-                          ->with($this->equalTo('bar'))
-                          ->will($this->returnValue(ValueReader::forValue('just some string value')));
-        $this->requestBroker->procure($this->mockRequest, $object, 'main');
-        $this->assertFalse($object->isVerbose());
-        $this->assertEquals('just some string value', $object->getBar());
-        $this->assertNull($object->getBaz());
+        $this->request->mapCalls(
+                ['readParam' => ValueReader::forValue('just some string value')]
+        );
+        $this->requestBroker->procure($this->request, $object, 'main');
+        assertFalse($object->isVerbose());
+        assertEquals('just some string value', $object->getBar());
+        assertNull($object->getBaz());
     }
 
     /**
@@ -83,23 +84,21 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function procuresAllIfNoGroupGiven()
     {
 
-        $mockParamBroker = $this->getMock('stubbles\input\broker\param\ParamBroker');
-        $mockParamBroker->expects($this->once())
-                        ->method('procure')
-                        ->will($this->returnValue('just another string value'));
-        $this->mockRequest->expects($this->any())
-                          ->method('readParam')
-                          ->will($this->onConsecutiveCalls(
-                                  ValueReader::forValue('on'),
-                                  ValueReader::forValue('just some string value'),
-                                  ValueReader::forValue('just another string value')
-                                 )
-                            );
+        $paramBroker = NewInstance::of('stubbles\input\broker\param\ParamBroker')
+                ->mapCalls(['procure' => 'just another string value']);
+        $this->request->mapCalls(
+                ['readParam' => callmap\onConsecutiveCalls(
+                        ValueReader::forValue('on'),
+                        ValueReader::forValue('just some string value'),
+                        ValueReader::forValue('just another string value')
+                    )
+                ]
+        );
         $object = new BrokerClass();
-        $requestBroker = new RequestBroker(['Mock' => $mockParamBroker]);
-        $requestBroker->procure($this->mockRequest, $object);
-        $this->assertTrue($object->isVerbose());
-        $this->assertEquals('just some string value', $object->getBar());
-        $this->assertEquals('just another string value', $object->getBaz());
+        $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
+        $requestBroker->procure($this->request, $object);
+        assertTrue($object->isVerbose());
+        assertEquals('just some string value', $object->getBar());
+        assertEquals('just another string value', $object->getBaz());
     }
 }

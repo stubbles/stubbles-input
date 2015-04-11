@@ -41,7 +41,7 @@ class SecureStringFilterTest extends FilterTest
      */
     private function assertSecureStringEquals($expected, SecureString $actual)
     {
-        $this->assertEquals($expected, $actual->unveil());
+        assertEquals($expected, $actual->unveil());
     }
 
     /**
@@ -49,7 +49,10 @@ class SecureStringFilterTest extends FilterTest
      */
     public function returnsNullSecureStringWhenParamIsNull()
     {
-        $this->assertSecureStringEquals(null, $this->secureStringFilter->apply($this->createParam(null)));
+        $this->assertSecureStringEquals(
+                null,
+                $this->secureStringFilter->apply($this->createParam(null))
+        );
     }
 
     /**
@@ -57,7 +60,10 @@ class SecureStringFilterTest extends FilterTest
      */
     public function returnsNullSecureStringWhenParamIsEmptyString()
     {
-        $this->assertSecureStringEquals(null, $this->secureStringFilter->apply($this->createParam('')));
+        $this->assertSecureStringEquals(
+                null,
+                $this->secureStringFilter->apply($this->createParam(''))
+        );
     }
 
     /**
@@ -109,7 +115,7 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringReturnsNullSecureStringIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueReader(null)->asSecureString());
+        assertNull($this->readParam(null)->asSecureString());
     }
 
     /**
@@ -119,7 +125,7 @@ class SecureStringFilterTest extends FilterTest
     {
         $this->assertSecureStringEquals(
                 'baz',
-                $this->createValueReader(null)
+                $this->readParam(null)
                      ->defaultingTo(SecureString::create('baz'))
                      ->asSecureString()
         );
@@ -131,7 +137,7 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecureString()
     {
-        $this->createValueReader(null)->defaultingTo('baz')->asSecureString()->unveil();
+        $this->readParam(null)->defaultingTo('baz')->asSecureString()->unveil();
     }
 
     /**
@@ -139,7 +145,7 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asSecureString());
+        assertNull($this->readParam(null)->required()->asSecureString());
     }
 
     /**
@@ -147,8 +153,8 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asSecureString();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asSecureString();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -156,8 +162,8 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull(
-                $this->createValueReader('foo')->asSecureString(new StringLength(5, null))
+        assertNull(
+                $this->readParam('foo')->asSecureString(new StringLength(5, null))
         );
     }
 
@@ -166,8 +172,8 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asSecureString(new StringLength(5, null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam('foo')->asSecureString(new StringLength(5, null));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -175,9 +181,9 @@ class SecureStringFilterTest extends FilterTest
      */
     public function asSecureStringReturnsValidValue()
     {
-        $this->assertEquals(
+        assertEquals(
                 'foo',
-                $this->createValueReader('foo')->asSecureString()->unveil()
+                $this->readParam('foo')->asSecureString()->unveil()
         );
     }
 

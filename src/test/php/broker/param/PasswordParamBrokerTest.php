@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\lang\SecureString;
@@ -34,10 +35,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
     {
-        $this->assertEquals(
-                $expectedPassword,
-                $actualPassword->unveil()
-        );
+        assertEquals($expectedPassword, $actualPassword->unveil());
     }
 
     /**
@@ -56,16 +54,12 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \PHPUnit_Framework_MockObject_MockObject
+     * @return  \bovigo\callmap\Proxy
      */
-    protected function mockRequest($value)
+    protected function createRequest($value)
     {
-        $mockRequest = $this->getMock('stubbles\input\Request');
-        $mockRequest->expects($this->once())
-                    ->method('readParam')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue($value)));
-        return $mockRequest;
+        return NewInstance::of('stubbles\input\Request')
+                ->mapCalls(['readParam' => ValueReader::forValue($value)]);
     }
 
     /**
@@ -74,8 +68,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(['source' => 'foo'])
+        $this->paramBroker->procure(
+                NewInstance::of('stubbles\input\Request'),
+                $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -86,8 +81,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertPasswordEquals(
                 'topsecret',
-                $this->paramBroker->procureParam(new Param('name', 'topsecret'),
-                                                 $this->createRequestAnnotation()
+                $this->paramBroker->procureParam(
+                        new Param('name', 'topsecret'),
+                        $this->createRequestAnnotation()
                 )
         );
     }
@@ -99,8 +95,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertPasswordEquals(
                 'topsecret',
-                $this->paramBroker->procure($this->mockRequest('topsecret'),
-                                            $this->createRequestAnnotation()
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation()
                 )
         );
     }
@@ -112,8 +109,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertPasswordEquals(
                 'topsecret',
-                $this->paramBroker->procure($this->mockRequest('topsecret'),
-                                            $this->createRequestAnnotation(['source' => 'param'])
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation(['source' => 'param'])
                 )
         );
     }
@@ -123,15 +121,13 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readHeader')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue('topsecret')));
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
         $this->assertPasswordEquals(
                 'topsecret',
-                $this->paramBroker->procure($mockRequest,
-                                            $this->createRequestAnnotation(['source' => 'header'])
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'header'])
                 )
         );
     }
@@ -141,15 +137,13 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readCookie')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue('topsecret')));
+        $request =  NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
         $this->assertPasswordEquals(
                 'topsecret',
-                $this->paramBroker->procure($mockRequest,
-                                            $this->createRequestAnnotation(['source' => 'cookie'])
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(['source' => 'cookie'])
                 )
         );
     }
@@ -159,9 +153,11 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation()
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation()
+                )
         );
     }
 
@@ -170,9 +166,11 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfParamNotSetAndNotRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => false])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => false])
+                )
         );
     }
 
@@ -181,9 +179,11 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfTooLessMinDiffChars()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
-                                                      $this->createRequestAnnotation(['minDiffChars' => 20])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation(['minDiffChars' => 20])
+                )
         );
     }
 
@@ -193,9 +193,11 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullIfTooShort()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('topsecret'),
-                                                      $this->createRequestAnnotation(['minLength' => 20])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('topsecret'),
+                        $this->createRequestAnnotation(['minLength' => 20])
+                )
         );
     }
 }

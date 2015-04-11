@@ -27,19 +27,20 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      *
      * @type array
      */
-    private $_serverBackup;
+    private $serverBackup;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->_serverBackup      = $_SERVER;
-        $this->baseConsoleRequest = new BaseConsoleRequest(['foo' => 'bar', 'roland' => 'TB-303'],
-                                                           ['SCRIPT_NAME' => 'example.php',
-                                                            'PHP_SELF'    => 'example.php'
-                                                           ]
-                                    );
+        $this->serverBackup       = $_SERVER;
+        $this->baseConsoleRequest = new BaseConsoleRequest(
+                ['foo' => 'bar', 'roland' => 'TB-303'],
+                ['SCRIPT_NAME' => 'example.php',
+                 'PHP_SELF'    => 'example.php'
+                ]
+        );
     }
 
     /**
@@ -47,7 +48,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $_SERVER = $this->_serverBackup;
+        $_SERVER = $this->serverBackup;
     }
 
     /**
@@ -55,7 +56,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function requestMethodIsAlwaysCli()
     {
-        $this->assertEquals('cli', $this->baseConsoleRequest->method());
+        assertEquals('cli', $this->baseConsoleRequest->method());
     }
 
     /**
@@ -63,7 +64,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        $this->assertEquals(['foo', 'roland'],
+        assertEquals(['foo', 'roland'],
                             $this->baseConsoleRequest->paramNames()
         );
     }
@@ -74,9 +75,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function createFromRawSourceUsesServerArgsForParams()
     {
         $_SERVER['argv'] = ['foo' => 'bar', 'roland' => 'TB-303'];
-        $this->assertEquals(['foo', 'roland'],
-                            BaseConsoleRequest::fromRawSource()
-                                              ->paramNames()
+        assertEquals(
+                ['foo', 'roland'],
+                BaseConsoleRequest::fromRawSource()->paramNames()
         );
     }
 
@@ -85,8 +86,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfEnvNames()
     {
-        $this->assertEquals(['SCRIPT_NAME', 'PHP_SELF'],
-                            $this->baseConsoleRequest->envNames()
+        assertEquals(
+                ['SCRIPT_NAME', 'PHP_SELF'],
+                $this->baseConsoleRequest->envNames()
         );
     }
 
@@ -95,8 +97,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEnvErrors()
     {
-        $this->assertInstanceOf('stubbles\input\errors\ParamErrors',
-                                $this->baseConsoleRequest->envErrors()
+        assertInstanceOf(
+                'stubbles\input\errors\ParamErrors',
+                $this->baseConsoleRequest->envErrors()
         );
     }
 
@@ -105,7 +108,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFalseOnCheckForNonExistingEnv()
     {
-        $this->assertFalse($this->baseConsoleRequest->hasEnv('baz'));
+        assertFalse($this->baseConsoleRequest->hasEnv('baz'));
     }
 
     /**
@@ -113,7 +116,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsTrueOnCheckForExistingEnv()
     {
-        $this->assertTrue($this->baseConsoleRequest->hasEnv('SCRIPT_NAME'));
+        assertTrue($this->baseConsoleRequest->hasEnv('SCRIPT_NAME'));
     }
 
     /**
@@ -121,8 +124,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateEnvReturnsValueValidator()
     {
-        $this->assertInstanceOf('stubbles\input\ValueValidator',
-                                $this->baseConsoleRequest->validateEnv('SCRIPT_NAME')
+        assertInstanceOf(
+                'stubbles\input\ValueValidator',
+                $this->baseConsoleRequest->validateEnv('SCRIPT_NAME')
         );
     }
 
@@ -131,8 +135,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateEnvReturnsValueValidatorForNonExistingParam()
     {
-        $this->assertInstanceOf('stubbles\input\ValueValidator',
-                                $this->baseConsoleRequest->validateEnv('baz')
+        assertInstanceOf(
+                'stubbles\input\ValueValidator',
+                $this->baseConsoleRequest->validateEnv('baz')
         );
     }
 
@@ -141,8 +146,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readEnvReturnsValueReader()
     {
-        $this->assertInstanceOf('stubbles\input\ValueReader',
-                                $this->baseConsoleRequest->readEnv('SCRIPT_NAME')
+        assertInstanceOf(
+                'stubbles\input\ValueReader',
+                $this->baseConsoleRequest->readEnv('SCRIPT_NAME')
         );
     }
 
@@ -151,8 +157,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readEnvReturnsValueReaderForNonExistingParam()
     {
-        $this->assertInstanceOf('stubbles\input\ValueReader',
-                                $this->baseConsoleRequest->readEnv('baz')
+        assertInstanceOf(
+                'stubbles\input\ValueReader',
+                $this->baseConsoleRequest->readEnv('baz')
         );
     }
 
@@ -164,9 +171,9 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER = ['argv'        => ['foo' => 'bar', 'roland' => 'TB-303'],
                     'SCRIPT_NAME' => 'example.php'
                    ];
-        $this->assertEquals(['argv', 'SCRIPT_NAME'],
-                            BaseConsoleRequest::fromRawSource()
-                                              ->envNames()
+        assertEquals(
+                ['argv', 'SCRIPT_NAME'],
+                BaseConsoleRequest::fromRawSource()->envNames()
         );
     }
 }

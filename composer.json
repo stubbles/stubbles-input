@@ -10,7 +10,8 @@
     },
     "require-dev": {
         "mikey179/vfsStream": "~1.5",
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "~4.6",
+        "bovigo/callmap": "~0.3",
         "stubbles/date": "~5.2"
     },
     "suggest": {
@@ -20,6 +21,11 @@
         "psr-4": {
             "stubbles\\input\\": "src/main/php"
         }
+    },
+    "autoload-dev": {
+        "files": [
+            "vendor/phpunit/phpunit/src/Framework/Assert/Functions.php"
+        ]
     },
     "extra": {
         "branch-alias": {

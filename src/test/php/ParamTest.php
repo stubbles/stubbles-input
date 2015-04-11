@@ -21,7 +21,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenName()
     {
         $param = new Param('foo', 'bar');
-        $this->assertEquals('foo', $param->name());
+        assertEquals('foo', $param->name());
     }
 
     /**
@@ -30,7 +30,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenValue()
     {
         $param = new Param('foo', 'bar');
-        $this->assertEquals('bar', $param->value());
+        assertEquals('bar', $param->value());
     }
 
     /**
@@ -39,7 +39,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function isNullIfValueIsNull()
     {
         $param = new Param('foo', null);
-        $this->assertTrue($param->isNull());
+        assertTrue($param->isNull());
     }
 
     /**
@@ -48,7 +48,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function isEmptyIfValueIsNull()
     {
         $param = new Param('foo', null);
-        $this->assertTrue($param->isEmpty());
+        assertTrue($param->isEmpty());
     }
 
     /**
@@ -57,7 +57,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function isEmptyIfValueIsEmptyString()
     {
         $param = new Param('foo', '');
-        $this->assertTrue($param->isEmpty());
+        assertTrue($param->isEmpty());
     }
 
     /**
@@ -66,7 +66,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsValueLength()
     {
         $param = new Param('foo', 'bar');
-        $this->assertEquals(3, $param->length());
+        assertEquals(3, $param->length());
     }
 
     /**
@@ -75,7 +75,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasNoErrorByDefault()
     {
         $param = new Param('foo', 'bar');
-        $this->assertFalse($param->hasErrors());
+        assertFalse($param->hasErrors());
     }
 
     /**
@@ -84,7 +84,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasEmptyErrorListByDefault()
     {
         $param = new Param('foo', 'bar');
-        $this->assertEquals([], $param->errors());
+        assertEquals([], $param->errors());
     }
 
     /**
@@ -94,7 +94,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $param->addError('SOME_ERROR');
-        $this->assertTrue($param->hasErrors());
+        assertTrue($param->hasErrors());
     }
 
     /**
@@ -104,7 +104,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        $this->assertEquals(['SOME_ERROR' => $error], $param->errors());
+        assertEquals(['SOME_ERROR' => $error], $param->errors());
     }
 
     /**
@@ -116,7 +116,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $param->addError('SOME_ERROR');
-        $this->assertTrue($param->hasErrors());
+        assertTrue($param->hasErrors());
     }
 
     /**
@@ -128,7 +128,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        $this->assertEquals(['SOME_ERROR' => $error], $param->errors());
+        assertEquals(['SOME_ERROR' => $error], $param->errors());
     }
 
     /**

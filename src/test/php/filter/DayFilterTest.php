@@ -40,9 +40,7 @@ class DayFilterTest extends FilterTest
      */
     public function getEmptyValues()
     {
-        return [[''],
-                [null]
-        ];
+        return [[''], [null]];
     }
 
     /**
@@ -52,7 +50,7 @@ class DayFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        $this->assertNull($this->dayFilter->apply($this->createParam($value)));
+        assertNull($this->dayFilter->apply($this->createParam($value)));
     }
 
     /**
@@ -61,14 +59,14 @@ class DayFilterTest extends FilterTest
     public function validParamsAreReturnedAsDateInstance()
     {
         $day = $this->dayFilter->apply($this->createParam('2008-09-27'));
-        $this->assertInstanceOf('stubbles\date\span\Day', $day);
+        assertInstanceOf('stubbles\date\span\Day', $day);
         $date = $day->start();
-        $this->assertEquals(2008, $date->year());
-        $this->assertEquals(9, $date->month());
-        $this->assertEquals(27, $date->day());
-        $this->assertEquals(0, $date->hours());
-        $this->assertEquals(0, $date->minutes());
-        $this->assertEquals(0, $date->seconds());
+        assertEquals(2008, $date->year());
+        assertEquals(9, $date->month());
+        assertEquals(27, $date->day());
+        assertEquals(0, $date->hours());
+        assertEquals(0, $date->minutes());
+        assertEquals(0, $date->seconds());
     }
 
     /**
@@ -77,7 +75,7 @@ class DayFilterTest extends FilterTest
     public function applyReturnsNullForInvalidDay()
     {
 
-        $this->assertNull($this->dayFilter->apply($this->createParam('invalid day')));
+        assertNull($this->dayFilter->apply($this->createParam('invalid day')));
     }
 
     /**
@@ -87,7 +85,7 @@ class DayFilterTest extends FilterTest
     {
         $param = $this->createParam('invalid day');
         $this->dayFilter->apply($param);
-        $this->assertTrue($param->hasError('DATE_INVALID'));
+        assertTrue($param->hasError('DATE_INVALID'));
     }
 
     /**
@@ -96,7 +94,7 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsNullIfParamIsNullAndNotRequired()
     {
-        $this->assertNull($this->createValueReader(null)->asDay());
+        assertNull($this->readParam(null)->asDay());
     }
 
     /**
@@ -106,9 +104,9 @@ class DayFilterTest extends FilterTest
     public function asDayReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = new Day();
-        $this->assertEquals(
+        assertEquals(
                 $default,
-                $this->createValueReader(null)
+                $this->readParam(null)
                         ->defaultingTo($default)
                         ->asDay()
         );
@@ -120,7 +118,7 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asDay());
+        assertNull($this->readParam(null)->required()->asDay());
     }
 
     /**
@@ -129,8 +127,8 @@ class DayFilterTest extends FilterTest
      */
     public function asDayAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asDay();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asDay();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -139,7 +137,7 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader('foo')->asDay());
+        assertNull($this->readParam('foo')->asDay());
     }
 
     /**
@@ -148,8 +146,8 @@ class DayFilterTest extends FilterTest
      */
     public function asDayAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asDay();
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam('foo')->asDay();
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -157,9 +155,9 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsValidValue()
     {
-        $this->assertEquals(
+        assertEquals(
                 '2012-03-11',
-                $this->createValueReader('2012-03-11')
+                $this->readParam('2012-03-11')
                         ->asDay()
                         ->format('Y-m-d')
         );
@@ -172,8 +170,8 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsNullIfParamIsOutOfRange()
     {
-        $this->assertNull(
-                $this->createValueReader(new Day('yesterday'))
+        assertNull(
+                $this->readParam(new Day('yesterday'))
                         ->asDay(new DatespanRange(Date::now(), null))
         );
     }
@@ -184,8 +182,8 @@ class DayFilterTest extends FilterTest
      */
     public function asDayAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->createValueReader(new Day('yesterday'))
+        $this->readParam(new Day('yesterday'))
              ->asDay(new DatespanRange(Date::now(), null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 }

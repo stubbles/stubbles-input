@@ -41,7 +41,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        $this->assertEquals(
+        assertEquals(
                 ['verbose', 'bar', 'baz'],
                 $paramNames
         );
@@ -58,7 +58,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        $this->assertEquals(
+        assertEquals(
                 ['bar'],
                 $paramNames
         );

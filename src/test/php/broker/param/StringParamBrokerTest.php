@@ -40,7 +40,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return 'Do you expect me to talk?';
     }
@@ -50,10 +50,14 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals('No Mr Bond, I expect you to die!',
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['default' => 'No Mr Bond, I expect you to die!'])
-                          )
+        assertEquals(
+                'No Mr Bond, I expect you to die!',
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['default' => 'No Mr Bond, I expect you to die!']
+                        )
+                )
         );
     }
 
@@ -62,9 +66,11 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['required' => true])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['required' => true])
+                )
         );
     }
 
@@ -73,9 +79,11 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfShorterThanMinLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(['minLength' => 30])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(['minLength' => 30])
+                )
         );
     }
 
@@ -84,9 +92,11 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfLongerThanMaxLength()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                      $this->createRequestAnnotation(['maxLength' => 10])
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(['maxLength' => 10])
+                )
         );
     }
 
@@ -95,13 +105,14 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        $this->assertEquals('Do you expect me to talk?',
-                            $this->paramBroker->procure($this->mockRequest('Do you expect me to talk?'),
-                                                        $this->createRequestAnnotation(['minLength' => 10,
-                                                                                        'maxLength' => 30
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                'Do you expect me to talk?',
+                $this->paramBroker->procure(
+                        $this->createRequest('Do you expect me to talk?'),
+                        $this->createRequestAnnotation(
+                                ['minLength' => 10, 'maxLength' => 30]
+                        )
+                )
         );
     }
 }

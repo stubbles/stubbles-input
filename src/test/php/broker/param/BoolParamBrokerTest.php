@@ -40,7 +40,7 @@ class BoolParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  bool
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return true;
     }
@@ -50,9 +50,11 @@ class BoolParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertTrue($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['default' => true])
-                          )
+        assertTrue(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(['default' => true])
+                )
         );
     }
 }

@@ -40,7 +40,7 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  bool
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return __FILE__;
     }
@@ -50,10 +50,14 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals('/home/user/foo.txt',
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['default' => '/home/user/foo.txt'])
-                            )
+        assertEquals(
+                '/home/user/foo.txt',
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['default' => '/home/user/foo.txt']
+                        )
+                )
         );
     }
 
@@ -62,13 +66,16 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function considersRelativeWhenBasePathGiven()
     {
-        $this->assertEquals('../RequestBrokerTest.php',
-                            $this->paramBroker->procure($this->mockRequest('../RequestBrokerTest.php'),
-                                                        $this->createRequestAnnotation(['basePath'      => __DIR__,
-                                                                                        'allowRelative' => true
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                '../RequestBrokerTest.php',
+                $this->paramBroker->procure(
+                        $this->createRequest('../RequestBrokerTest.php'),
+                        $this->createRequestAnnotation(
+                                ['basePath'      => __DIR__,
+                                 'allowRelative' => true
+                                ]
+                        )
+                )
         );
     }
 }

@@ -34,7 +34,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsNull()
     {
-        $this->assertEquals(0, $this->apply(null)->count());
+        assertEquals(0, $this->apply(null)->count());
     }
 
     /**
@@ -42,7 +42,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsEmpty()
     {
-        $this->assertEquals(0, $this->apply('')->count());
+        assertEquals(0, $this->apply('')->count());
     }
 
     /**
@@ -50,7 +50,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsInvalid()
     {
-        $this->assertEquals(0, $this->apply('text/plain;q=5')->count());
+        assertEquals(0, $this->apply('text/plain;q=5')->count());
     }
 
     /**
@@ -58,6 +58,6 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFilledAcceptHeaderWhenParamValueIsValid()
     {
-        $this->assertEquals(1, $this->apply('text/plain;q=0.5')->count());
+        assertEquals(1, $this->apply('text/plain;q=0.5')->count());
     }
 }

@@ -38,7 +38,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering1AsIntReturnsTrue()
     {
-        $this->assertTrue($this->boolFilter->apply($this->createParam(1)));
+        assertTrue($this->boolFilter->apply($this->createParam(1)));
     }
 
     /**
@@ -46,7 +46,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering1AsStringReturnsTrue()
     {
-        $this->assertTrue($this->boolFilter->apply($this->createParam('1')));
+        assertTrue($this->boolFilter->apply($this->createParam('1')));
     }
 
     /**
@@ -54,7 +54,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringTrueAsStringReturnsTrue()
     {
-        $this->assertTrue($this->boolFilter->apply($this->createParam('true')));
+        assertTrue($this->boolFilter->apply($this->createParam('true')));
     }
 
     /**
@@ -62,7 +62,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringTrueAsBoolReturnsTrue()
     {
-        $this->assertTrue($this->boolFilter->apply($this->createParam(true)));
+        assertTrue($this->boolFilter->apply($this->createParam(true)));
     }
 
     /**
@@ -72,7 +72,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringYesAsStringReturnsTrue()
     {
-        $this->assertTrue($this->boolFilter->apply($this->createParam('yes')));
+        assertTrue($this->boolFilter->apply($this->createParam('yes')));
     }
 
     /**
@@ -80,7 +80,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering0AsIntReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam(0)));
+        assertFalse($this->boolFilter->apply($this->createParam(0)));
     }
 
     /**
@@ -88,7 +88,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering0AsStringReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam('0')));
+        assertFalse($this->boolFilter->apply($this->createParam('0')));
     }
 
     /**
@@ -96,7 +96,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringFalseAsStringReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam('false')));
+        assertFalse($this->boolFilter->apply($this->createParam('false')));
     }
 
     /**
@@ -104,7 +104,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringFalseAsBoolReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam(false)));
+        assertFalse($this->boolFilter->apply($this->createParam(false)));
     }
 
     /**
@@ -114,7 +114,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringNoAsStringReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam('no')));
+        assertFalse($this->boolFilter->apply($this->createParam('no')));
     }
 
     /**
@@ -122,7 +122,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringAnyStringReturnsFalse()
     {
-        $this->assertFalse($this->boolFilter->apply($this->createParam('a string')));
+        assertFalse($this->boolFilter->apply($this->createParam('a string')));
     }
 
     /**
@@ -132,7 +132,7 @@ class BoolFilterTest extends FilterTest
      */
     public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull()
     {
-        $this->assertTrue($this->createValueReader(null)->defaultingTo(true)->asBool());
+        assertTrue($this->readParam(null)->defaultingTo(true)->asBool());
     }
 
     /**
@@ -141,7 +141,7 @@ class BoolFilterTest extends FilterTest
      */
     public function asBoolReturnsNullIfParamIsNull()
     {
-        $this->assertNull($this->createValueReader(null)->asBool());
+        assertNull($this->readParam(null)->asBool());
     }
 
     /**
@@ -151,7 +151,7 @@ class BoolFilterTest extends FilterTest
      */
     public function asBoolWithFalseValueReturnsFalse()
     {
-        $this->assertFalse($this->createValueReader(0)->asBool());
+        assertFalse($this->readParam(0)->asBool());
     }
 
     /**
@@ -161,6 +161,6 @@ class BoolFilterTest extends FilterTest
      */
     public function asBoolWithTrueValueReturnsTrue()
     {
-        $this->assertTrue($this->createValueReader(1)->asBool());
+        assertTrue($this->readParam(1)->asBool());
     }
 }

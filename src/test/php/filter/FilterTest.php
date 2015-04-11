@@ -50,9 +50,9 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   string  $value
      * @return  ValueReader
      */
-    protected function createValueReader($value)
+    protected function readParam($value)
     {
-        return $this->createValueReaderWithParam(new Param('bar', $value));
+        return $this->read(new Param('bar', $value));
     }
 
     /**
@@ -61,10 +61,8 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   Param  $param
      * @return  ValueReader
      */
-    protected function createValueReaderWithParam(Param $param)
+    protected function read(Param $param)
     {
-        return new ValueReader($this->paramErrors,
-                               $param
-               );
+        return new ValueReader($this->paramErrors, $param);
     }
 }

@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
+use bovigo\callmap\NewInstance;
 use stubbles\input\errors\ParamError;
 use stubbles\lang\reflect;
 use org\bovigo\vfs\vfsStream;
@@ -32,14 +33,16 @@ class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader());
+        $this->errorMessages = new PropertyBasedParamErrorMessages(
+                $this->createResourceLoader()
+        );
     }
 
     /**
      *
-     * @return  \PHPUnit_Framework_MockObject_MockObject
+     * @return  \bovigo\callmap\Proxy
      */
-    private function createMockResourceLoader()
+    private function createResourceLoader()
     {
         $root = vfsStream::setup();
         vfsStream::newDirectory('package1/input/error')->at($root);
@@ -58,16 +61,13 @@ en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
                  ->at($root->getChild('package2/input/error'));
-        $mockResourceLoader  = $this->getMock('stubbles\lang\ResourceLoader');
-        $mockResourceLoader->expects($this->any())
-                           ->method('availableResourceUris')
-                           ->will($this->returnValue(
-                                    [vfsStream::url('root/package1/input/error/message.ini'),
-                                     vfsStream::url('root/package2/input/error/message.ini')
-                                    ]
-                                  )
-                             );
-        return $mockResourceLoader;
+        return NewInstance::of('stubbles\lang\ResourceLoader')
+                ->mapCalls(['availableResourceUris' =>
+                                [vfsStream::url('root/package1/input/error/message.ini'),
+                                 vfsStream::url('root/package2/input/error/message.ini')
+                                ]
+                           ]
+        );
     }
 
     /**
@@ -75,10 +75,10 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function hasMessagesForErrorsFromBothSources()
     {
-        $this->assertTrue(
+        assertTrue(
                 $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
         );
-        $this->assertTrue(
+        assertTrue(
                 $this->errorMessages->existFor(new ParamError('id2', ['foo' => 'bar']))
         );
     }
@@ -88,7 +88,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsTrueOnCheckForExistingError()
     {
-        $this->assertTrue(
+        assertTrue(
                 $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
@@ -98,7 +98,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsFalseOnCheckForNonExistingError()
     {
-        $this->assertFalse(
+        assertFalse(
                 $this->errorMessages->existFor(new ParamError('doesNotExist'))
         );
     }
@@ -109,7 +109,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalesForExistingError()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 ['default', 'en_*', 'de_DE'],
                 $this->errorMessages->localesFor(new ParamError('id', ['foo' => 'bar']))
         );
@@ -121,7 +121,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyListOfLocalesForNonExistingError()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->errorMessages->localesFor(new ParamError('doesNotExist'))
         );
@@ -133,7 +133,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalizedMessagesForExistingError()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 [new LocalizedMessage('default', 'An error of type bar occurred.'),
                  new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                  new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
@@ -148,7 +148,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageListForNonExistingError()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->errorMessages->messagesFor(new ParamError('doesNotExist'))
         );
@@ -160,7 +160,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingLocale()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'),
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
@@ -175,7 +175,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingBaseLocale()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
@@ -189,8 +189,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsMessageInDefaultLocale()
     {
-        $errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader(), 'en_*');
-        $this->assertEquals(
+        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
+        assertEquals(
                 new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                 $errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
@@ -204,8 +204,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
     {
-        $errorMessages = new PropertyBasedParamErrorMessages($this->createMockResourceLoader(), 'en_*');
-        $this->assertEquals(
+        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
+        assertEquals(
                 new LocalizedMessage('en_*', 'An error of type bar occurred.'),
                 $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar']))
         );
@@ -217,7 +217,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInFallbackLocale()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 new LocalizedMessage('default', 'An error of type bar occurred.'),
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
@@ -232,7 +232,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageForNonExistingError()
     {
 
-        $this->assertEquals(
+        assertEquals(
                 new LocalizedMessage('default', ''),
                 $this->errorMessages->messageFor(
                         new ParamError('doesNotExist'),
@@ -246,17 +246,12 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue(
-                reflect\annotationsOfConstructor($this->errorMessages)
-                        ->contain('Inject')
-        );
-
         $annotations = reflect\annotationsOfConstructorParameter(
                 'defaultLocale',
                 $this->errorMessages
         );
-        $this->assertTrue($annotations->contain('Property'));
-        $this->assertEquals(
+        assertTrue($annotations->contain('Property'));
+        assertEquals(
                 'stubbles.locale',
                 $annotations->firstNamed('Property')->getValue()
         );

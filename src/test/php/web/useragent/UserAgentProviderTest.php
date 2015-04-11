@@ -8,8 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\web\useragent;
+use bovigo\callmap\NewInstance;
 use stubbles\input\ValueReader;
-use stubbles\lang\reflect;
 /**
  * Test for stubbles\input\web\useragent\UserAgentProvider.
  *
@@ -29,28 +29,17 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked request instance
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockWebRequest;
+    private $webRequest;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockWebRequest    = $this->getMock('stubbles\input\web\WebRequest');
-        $this->userAgentProvider = new UserAgentProvider($this->mockWebRequest);
-    }
-
-    /**
-     * @test
-     */
-    public function annotationsPresent()
-    {
-        $this->assertTrue(
-                reflect\annotationsOfConstructor($this->userAgentProvider)
-                        ->contain('Inject')
-        );
+        $this->webRequest        = NewInstance::of('stubbles\input\web\WebRequest');
+        $this->userAgentProvider = new UserAgentProvider($this->webRequest);
     }
 
     /**
@@ -58,14 +47,15 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function providerReturnsUserAgent()
     {
-        $this->mockWebRequest->expects($this->once())
-                             ->method('readHeader')
-                             ->with($this->equalTo('HTTP_USER_AGENT'))
-                             ->will($this->returnValue(ValueReader::forValue('foo')));
-        $this->mockWebRequest->expects($this->once())
-                             ->method('cookieNames')
-                             ->will($this->returnValue(['chocolateChip']));
-        $this->assertEquals(new UserAgent('foo', true), @$this->userAgentProvider->get());
+        $this->webRequest->mapCalls(
+                ['readHeader'  => ValueReader::forValue('foo'),
+                 'cookieNames' => ['chocolateChip']
+                ]
+        );
+        assertEquals(
+                new UserAgent('foo', true),
+                @$this->userAgentProvider->get()
+        );
     }
 
     /**
@@ -74,14 +64,15 @@ class UserAgentProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function providerReturnsBotUserAgent()
     {
-        $this->mockWebRequest->expects($this->once())
-                             ->method('readHeader')
-                             ->with($this->equalTo('HTTP_USER_AGENT'))
-                             ->will($this->returnValue(ValueReader::forValue('Googlebot /v1.1')));
-        $this->mockWebRequest->expects($this->once())
-                             ->method('cookieNames')
-                             ->will($this->returnValue([]));
-        $this->assertEquals(new UserAgent('Googlebot /v1.1', false), @$this->userAgentProvider->get());
+        $this->webRequest->mapCalls(
+                ['readHeader'  => ValueReader::forValue('Googlebot /v1.1'),
+                 'cookieNames' => []
+                ]
+        );
+        assertEquals(
+                new UserAgent('Googlebot /v1.1', false),
+                @$this->userAgentProvider->get()
+        );
     }
 
     /**

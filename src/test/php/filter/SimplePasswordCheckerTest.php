@@ -37,7 +37,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotReportErrorsWithDefaultValuesAndSatisfyingPassword()
     {
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->simplePasswordChecker->check(SecureString::create('topsecret'))
         );
@@ -48,7 +48,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithDefaultValuesAndNonSatisfyingPassword()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['PASSWORD_TOO_SHORT'           => ['minLength' => SimplePasswordChecker::DEFAULT_MINLENGTH],
                  'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS]
                 ],
@@ -61,7 +61,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithChangedValuesAndNonSatisfyingPassword()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['PASSWORD_TOO_SHORT'           => ['minLength' => 10],
                  'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => 8]
                 ],
@@ -76,7 +76,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithDisallowedValues()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['PASSWORD_DISALLOWED' => []],
                 $this->simplePasswordChecker->disallowValues(['topsecret'])
                                             ->check(SecureString::create('topsecret'))

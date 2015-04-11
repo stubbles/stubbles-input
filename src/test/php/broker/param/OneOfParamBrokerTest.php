@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
@@ -42,7 +43,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  array
      */
-    protected function getExpectedValue()
+    protected function expectedValue()
     {
         return 'foo';
     }
@@ -52,13 +53,14 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        $this->assertEquals('baz',
-                            $this->paramBroker->procure($this->mockRequest(null),
-                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
-                                                                                        'default' => 'baz'
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                'baz',
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['allowed' => 'foo|bar', 'default' => 'baz']
+                        )
+                )
         );
     }
 
@@ -67,12 +69,13 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfParamNotSetAndRequired()
     {
-        $this->assertNull($this->paramBroker->procure($this->mockRequest(null),
-                                                      $this->createRequestAnnotation(['allowed' => 'foo|bar',
-                                                                                      'required' => true
-                                                                                     ]
-                                                      )
-                          )
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['allowed' => 'foo|bar', 'required' => true]
+                        )
+                )
         );
     }
 
@@ -82,8 +85,9 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure($this->getMock('stubbles\input\Request'),
-                                    $this->createRequestAnnotation(['source' => 'foo'])
+        $this->paramBroker->procure(
+                NewInstance::of('stubbles\input\Request'),
+                $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
 
@@ -92,10 +96,12 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canWorkWithParam()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procureParam(new Param('name', ((string) $this->getExpectedValue())),
-                                                             $this->createRequestAnnotation(['allowed' => 'foo|bar'])
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procureParam(
+                        new Param('name', ((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
+                )
         );
     }
 
@@ -104,10 +110,12 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsDefaultSource()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
+                )
         );
     }
 
@@ -116,13 +124,14 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsSource()
     {
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
-                                                                                        'source'  => 'param'
-                                                                                       ]
-                                                        )
-                            )
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(
+                                ['allowed' => 'foo|bar', 'source'  => 'param']
+                        )
+                )
         );
     }
 
@@ -131,18 +140,16 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readHeader')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
-                                                                                        'source'  => 'header'
-                                                                                       ]
-                                                        )
-                            )
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(
+                                ['allowed' => 'foo|bar', 'source'  => 'header']
+                        )
+                )
         );
     }
 
@@ -151,18 +158,16 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $mockRequest = $this->getMock('stubbles\input\web\WebRequest');
-        $mockRequest->expects($this->once())
-                    ->method('readCookie')
-                    ->with($this->equalTo('foo'))
-                    ->will($this->returnValue(ValueReader::forValue(((string) $this->getExpectedValue()))));
-        $this->assertEquals($this->getExpectedValue(),
-                            $this->paramBroker->procure($mockRequest,
-                                                        $this->createRequestAnnotation(['allowed' => 'foo|bar',
-                                                                                        'source'  => 'cookie'
-                                                                                       ]
-                                                        )
-                            )
+        $request = NewInstance::of('stubbles\input\web\WebRequest')
+                ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(
+                                ['allowed' => 'foo|bar', 'source'  => 'cookie']
+                        )
+                )
         );
     }
 
@@ -174,8 +179,9 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing()
     {
-        $this->paramBroker->procure($this->mockRequest(((string) $this->getExpectedValue())),
-                                    $this->createRequestAnnotation()
+        $this->paramBroker->procure(
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation()
         );
     }
 }

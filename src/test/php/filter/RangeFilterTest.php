@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use bovigo\callmap\NewInstance;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\RangeFilter.
@@ -25,24 +26,24 @@ class RangeFilterTest extends FilterTest
     /**
      * mocked decorated filter
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockFilter;
+    private $filter;
     /**
      * mocked range definition
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockRange;
+    private $range;
 
     /**
      * create test environment
      */
     public function setUp()
     {
-        $this->mockFilter  = $this->getMock('stubbles\input\Filter');
-        $this->mockRange   = $this->getMock('stubbles\input\filter\range\Range');
-        $this->rangeFilter = new RangeFilter($this->mockFilter, $this->mockRange);
+        $this->filter      = NewInstance::of('stubbles\input\Filter');
+        $this->range       = NewInstance::of('stubbles\input\filter\range\Range');
+        $this->rangeFilter = new RangeFilter($this->filter, $this->range);
     }
 
     /**
@@ -54,9 +55,7 @@ class RangeFilterTest extends FilterTest
     protected function createParam($value)
     {
         $param = parent::createParam($value);
-        $this->mockFilter->expects($this->once())
-                               ->method('apply')
-                               ->will($this->returnValue($value));
+        $this->filter->mapCalls(['apply' => $value]);
         return $param;
     }
 
@@ -65,11 +64,9 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsNullIfDecoratedFilterReturnsNull()
     {
-        $this->mockRange->expects($this->never())
-                        ->method('contains');
-        $this->mockRange->expects($this->never())
-                        ->method('errorsOf');
-        $this->assertNull($this->rangeFilter->apply($this->createParam(null)));
+        assertNull($this->rangeFilter->apply($this->createParam(null)));
+        assertEquals(0, $this->range->callsReceivedFor('contains'));
+        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
     }
 
     /**
@@ -77,15 +74,12 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsValueIfInRange()
     {
-        $this->mockRange->expects($this->once())
-                        ->method('contains')
-                        ->with($this->equalTo(303))
-                        ->will($this->returnValue(true));
-        $this->mockRange->expects($this->never())
-                        ->method('errorsOf');
-        $this->assertEquals(303,
-                            $this->rangeFilter->apply($this->createParam(303))
+        $this->range->mapCalls(['contains' => true]);
+        assertEquals(
+                303,
+                $this->rangeFilter->apply($this->createParam(303))
         );
+        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
     }
 
     /**
@@ -94,19 +88,14 @@ class RangeFilterTest extends FilterTest
     public function returnsNullIfValueNotInRange()
     {
         $param = $this->createParam(303);
-        $this->mockRange->expects($this->once())
-                        ->method('contains')
-                        ->with($this->equalTo(303))
-                        ->will($this->returnValue(false));
-        $this->mockRange->expects($this->once())
-                        ->method('allowsTruncate')
-                        ->with($this->equalTo(303))
-                        ->will($this->returnValue(false));
-        $this->mockRange->expects($this->once())
-                        ->method('errorsOf')
-                        ->will($this->returnValue(['LOWER_BORDER_VIOLATION' => []]));
-        $this->assertNull($this->rangeFilter->apply($param));
-        $this->assertTrue($param->hasError('LOWER_BORDER_VIOLATION'));
+        $this->range->mapCalls(
+                ['contains'       => false,
+                 'allowsTruncate' => false,
+                 'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
+                ]
+        );
+        assertNull($this->rangeFilter->apply($param));
+        assertTrue($param->hasError('LOWER_BORDER_VIOLATION'));
     }
 
     /**
@@ -116,22 +105,16 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed()
     {
-        $this->mockRange->expects($this->once())
-                        ->method('contains')
-                        ->with($this->equalTo('foobar'))
-                        ->will($this->returnValue(false));
-        $this->mockRange->expects($this->once())
-                        ->method('allowsTruncate')
-                        ->with($this->equalTo('foobar'))
-                        ->will($this->returnValue(true));
-        $this->mockRange->expects($this->once())
-                        ->method('truncateToMaxBorder')
-                        ->with($this->equalTo('foobar'))
-                        ->will($this->returnValue('foo'));
-        $this->mockRange->expects($this->never())
-                        ->method('errorsOf');
-        $this->assertEquals('foo',
-                            $this->rangeFilter->apply($this->createParam('foobar'))
+        $this->range->mapCalls(
+                ['contains'            => false,
+                 'allowsTruncate'      => true,
+                 'truncateToMaxBorder' => 'foo'
+                ]
         );
+        assertEquals(
+                'foo',
+                $this->rangeFilter->apply($this->createParam('foobar'))
+        );
+        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
     }
 }

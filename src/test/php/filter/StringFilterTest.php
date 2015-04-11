@@ -38,7 +38,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        $this->assertEquals('', $this->stringFilter->apply($this->createParam(null)));
+        assertEquals('', $this->stringFilter->apply($this->createParam(null)));
     }
 
     /**
@@ -46,7 +46,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        $this->assertEquals('', $this->stringFilter->apply($this->createParam('')));
+        assertEquals('', $this->stringFilter->apply($this->createParam('')));
     }
 
     /**
@@ -54,8 +54,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesTags()
     {
-        $this->assertEquals("kkk",
-                            $this->stringFilter->apply($this->createParam("kkk<b>"))
+        assertEquals(
+                "kkk",
+                $this->stringFilter->apply($this->createParam("kkk<b>"))
         );
     }
 
@@ -64,8 +65,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesSlashes()
     {
-        $this->assertEquals("'kkk",
-                            $this->stringFilter->apply($this->createParam("\'kkk"))
+        assertEquals(
+                "'kkk",
+                $this->stringFilter->apply($this->createParam("\'kkk"))
         );
     }
 
@@ -74,8 +76,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesCarriageReturn()
     {
-        $this->assertEquals("cdekkk",
-                            $this->stringFilter->apply($this->createParam("cde\rkkk"))
+        assertEquals(
+                "cdekkk",
+                $this->stringFilter->apply($this->createParam("cde\rkkk"))
         );
     }
 
@@ -84,8 +87,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesLineBreaks()
     {
-        $this->assertEquals("abcdekkk",
-                            $this->stringFilter->apply($this->createParam("ab\ncde\nkkk"))
+        assertEquals(
+                "abcdekkk",
+                $this->stringFilter->apply($this->createParam("ab\ncde\nkkk"))
         );
     }
 
@@ -95,7 +99,7 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('', $this->createValueReader(null)->asString());
+        assertEquals('', $this->readParam(null)->asString());
     }
 
     /**
@@ -104,8 +108,9 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        $this->assertEquals('baz',
-                            $this->createValueReader(null)->defaultingTo('baz')->asString()
+        assertEquals(
+                'baz',
+                $this->readParam(null)->defaultingTo('baz')->asString()
         );
     }
 
@@ -115,7 +120,7 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsNullIfParamIsNullAndRequired()
     {
-        $this->assertNull($this->createValueReader(null)->required()->asString());
+        assertNull($this->readParam(null)->required()->asString());
     }
 
     /**
@@ -124,8 +129,8 @@ class StringFilterTest extends FilterTest
      */
     public function asStringAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->createValueReader(null)->required()->asString();
-        $this->assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
+        $this->readParam(null)->required()->asString();
+        assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
@@ -134,8 +139,9 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsNullIfParamIsInvalid()
     {
-        $this->assertNull($this->createValueReader('foo')
-                               ->asString(new StringLength(5, null))
+        assertNull(
+                $this->readParam('foo')
+                        ->asString(new StringLength(5, null))
         );
     }
 
@@ -145,8 +151,8 @@ class StringFilterTest extends FilterTest
      */
     public function asStringAddsParamErrorIfParamIsInvalid()
     {
-        $this->createValueReader('foo')->asString(new StringLength(5, null));
-        $this->assertTrue($this->paramErrors->existFor('bar'));
+        $this->readParam('foo')->asString(new StringLength(5, null));
+        assertTrue($this->paramErrors->existFor('bar'));
     }
 
     /**
@@ -154,7 +160,6 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsValidValue()
     {
-        $this->assertEquals('foo', $this->createValueReader('foo')->asString());
-
+        assertEquals('foo', $this->readParam('foo')->asString());
     }
 }

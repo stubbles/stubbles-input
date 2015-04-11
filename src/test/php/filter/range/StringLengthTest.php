@@ -52,9 +52,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function valueOutOfRangeIsNotContainedInRange($value)
     {
-        $this->assertFalse(
-                $this->stringLength->contains($value)
-        );
+        assertFalse($this->stringLength->contains($value));
     }
 
     /**
@@ -80,9 +78,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function valueWithinRangeIsContainedInRange($value)
     {
-        $this->assertTrue(
-                $this->stringLength->contains($value)
-        );
+        assertTrue($this->stringLength->contains($value));
     }
 
     /**
@@ -100,7 +96,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsLowValuesIfMinValueIsNull($value)
     {
         $numberRange = new StringLength(null, 10);
-        $this->assertTrue($numberRange->contains($value));
+        assertTrue($numberRange->contains($value));
     }
 
     /**
@@ -118,7 +114,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
     public function rangeContainsHighValuesIfMaxValueIsNull($value)
     {
         $numberRange = new StringLength(1, null);
-        $this->assertTrue($numberRange->contains($value));
+        assertTrue($numberRange->contains($value));
     }
 
     /**
@@ -139,7 +135,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function rangeDoesNotContainNull(StringLength $range)
     {
-        $this->assertFalse($range->contains(null));
+        assertFalse($range->contains(null));
     }
 
     /**
@@ -147,7 +143,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 [],
                 $this->stringLength->errorsOf('foo')
         );
@@ -158,7 +154,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['STRING_TOO_SHORT' => ['minLength' => 1]],
                 $this->stringLength->errorsOf('')
         );
@@ -169,7 +165,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        $this->assertEquals(
+        assertEquals(
                 ['STRING_TOO_LONG' => ['maxLength' => 10]],
                 $this->stringLength->errorsOf('abcdefghijk')
         );
@@ -191,7 +187,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAllowTruncateByDefault($value)
     {
-        $this->assertFalse($this->stringLength->allowsTruncate($value));
+        assertFalse($this->stringLength->allowsTruncate($value));
     }
 
     /**
@@ -214,7 +210,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function allowsTruncateWhenCreatedThisWay($value)
     {
-        $this->assertTrue(StringLength::truncate(null, 3)->allowsTruncate($value));
+        assertTrue(StringLength::truncate(null, 3)->allowsTruncate($value));
     }
 
     /**
@@ -235,7 +231,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSubstringWithMaxLength()
     {
-        $this->assertEquals(
+        assertEquals(
                 'foo',
                 StringLength::truncate(null, 3)->truncateToMaxBorder('foobar')
         );
@@ -247,7 +243,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSecureSubstringWithMaxLength()
     {
-        $this->assertEquals(
+        assertEquals(
                 'foo',
                 StringLength::truncate(null, 3)
                             ->truncateToMaxBorder(SecureString::create('foobar'))
