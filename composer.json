@@ -11,7 +11,7 @@
     "require-dev": {
         "mikey179/vfsStream": "~1.5",
         "phpunit/phpunit": "~4.6",
-        "bovigo/callmap": "~0.3",
+        "bovigo/callmap": "~0.5",
         "stubbles/date": "~5.2"
     },
     "suggest": {

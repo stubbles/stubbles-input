@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 require_once __DIR__ . '/filter/FilterTest.php';
 /**
@@ -294,7 +295,7 @@ class ValueReaderTest extends filter\FilterTest
         $param  = new Param('bar', null);
         $filter = NewInstance::of('stubbles\input\Filter');
         assertNull($this->read($param)->withFilter($filter));
-        assertEquals(0, $filter->callsReceivedFor('apply'));
+        callmap\verify($filter, 'apply')->wasNeverCalled();
     }
 
     /**
@@ -309,7 +310,7 @@ class ValueReaderTest extends filter\FilterTest
                 'foo',
                 $this->read($param)->defaultingTo('foo')->withFilter($filter)
         );
-        assertEquals(0, $filter->callsReceivedFor('apply'));
+        callmap\verify($filter, 'apply')->wasNeverCalled();
     }
 
     /**
@@ -345,7 +346,7 @@ class ValueReaderTest extends filter\FilterTest
         $param  = new Param('bar', null);
         $filter = NewInstance::of('stubbles\input\Filter');
         assertNull($this->read($param)->required()->withFilter($filter));
-        assertEquals(0, $filter->callsReceivedFor('apply'));
+        callmap\verify($filter, 'apply')->wasNeverCalled();
     }
 
     /**
@@ -357,7 +358,7 @@ class ValueReaderTest extends filter\FilterTest
         $filter = NewInstance::of('stubbles\input\Filter');
         $this->read($param)->required()->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
-        assertEquals(0, $filter->callsReceivedFor('apply'));
+        callmap\verify($filter, 'apply')->wasNeverCalled();
     }
 
     /**

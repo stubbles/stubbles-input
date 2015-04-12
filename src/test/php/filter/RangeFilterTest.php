@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 require_once __DIR__ . '/FilterTest.php';
 /**
@@ -65,8 +66,8 @@ class RangeFilterTest extends FilterTest
     public function returnsNullIfDecoratedFilterReturnsNull()
     {
         assertNull($this->rangeFilter->apply($this->createParam(null)));
-        assertEquals(0, $this->range->callsReceivedFor('contains'));
-        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
+        callmap\verify($this->range, 'contains')->wasNeverCalled();
+        callmap\verify($this->range, 'errorsOf')->wasNeverCalled();
     }
 
     /**
@@ -79,7 +80,7 @@ class RangeFilterTest extends FilterTest
                 303,
                 $this->rangeFilter->apply($this->createParam(303))
         );
-        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
+        callmap\verify($this->range, 'errorsOf')->wasNeverCalled();
     }
 
     /**
@@ -115,6 +116,6 @@ class RangeFilterTest extends FilterTest
                 'foo',
                 $this->rangeFilter->apply($this->createParam('foobar'))
         );
-        assertEquals(0, $this->range->callsReceivedFor('errorsOf'));
+        callmap\verify($this->range, 'errorsOf')->wasNeverCalled();
     }
 }
