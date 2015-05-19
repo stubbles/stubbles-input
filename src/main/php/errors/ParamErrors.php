@@ -141,7 +141,15 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->errors;
+        $result = [];
+        foreach ($this->errors as $paramName => $errors) {
+            $result[$paramName] = [
+                    'field'  => $paramName,
+                    'errors' => array_values($errors)
+            ];
+        }
+
+        return ['errors' => $result];
     }
 
 }
