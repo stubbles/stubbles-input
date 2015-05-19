@@ -14,7 +14,7 @@ use stubbles\input\errors\messages\LocalizedMessage;
  *
  * @XmlTag(tagName='error')
  */
-class ParamError
+class ParamError implements \JsonSerializable
 {
     /**
      * id of the current param error
@@ -123,5 +123,17 @@ class ParamError
         }
 
         return (string) $detail;
+    }
+
+    /**
+     * returns something that is suitable for json_encode()
+     *
+     * @return  array
+     * @since   4.5.0
+     * @XmlIgnore
+     */
+    public function jsonSerialize()
+    {
+        return ['id' => $this->id, 'details' => $this->details];
     }
 }

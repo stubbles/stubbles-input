@@ -13,7 +13,7 @@ namespace stubbles\input\errors;
  *
  * @since  1.3.0
  */
-class ParamErrors implements \IteratorAggregate, \Countable
+class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * list of errors that occurred while applying a filter on a param
@@ -131,4 +131,17 @@ class ParamErrors implements \IteratorAggregate, \Countable
     {
         return new \ArrayIterator($this->errors);
     }
+
+    /**
+     * returns something that is suitable for json_encode()
+     *
+     * @return  array
+     * @since   4.5.0
+     * @XmlIgnore
+     */
+    public function jsonSerialize()
+    {
+        return $this->errors;
+    }
+
 }
