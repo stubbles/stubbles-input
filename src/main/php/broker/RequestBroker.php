@@ -52,6 +52,7 @@ class RequestBroker
                                          'string'         => new param\StringParamBroker(),
                                          'securestring'   => new param\SecureStringParamBroker(),
                                          'text'           => new param\TextParamBroker(),
+                                         'week'           => new param\WeekParamBroker(),
                                         ];
         }
 

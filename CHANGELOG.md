@@ -4,6 +4,7 @@
   * allowed serialization of param errors to JSON
   * added `stubbles\input\filter\WeekFilter`
   * added `stubbles\input\ValueReader::asWeek()`
+  * added `stubbles\input\broker\param\WeekParamBroker`
 
 
 4.4.0 (2015-04-01)
