@@ -1,4 +1,4 @@
-4.5.0 (2015-05-??)
+4.5.0 (2015-05-27)
 ------------------
 
   * allowed serialization of param errors to JSON
