@@ -1,7 +1,9 @@
-4.5.0 (2015-05-19)
+4.5.0 (2015-05-??)
 ------------------
 
   * allowed serialization of param errors to JSON
+  * added `stubbles\input\filter\WeekFilter`
+  * added `stubbles\input\ValueReader::asWeek()`
 
 
 4.4.0 (2015-04-01)

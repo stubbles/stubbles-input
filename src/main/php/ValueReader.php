@@ -345,6 +345,27 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
+     * read as week
+     *
+     * @api
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Week
+     * @since   4.5.0
+     */
+    public function asWeek(DatespanRange $range = null)
+    {
+        return $this->handleFilter(
+                function() use($range)
+                {
+                    return filter\RangeFilter::wrap(
+                            filter\WeekFilter::instance(),
+                            $range
+                    );
+                }
+        );
+    }
+
+    /**
      * read as month
      *
      * @api

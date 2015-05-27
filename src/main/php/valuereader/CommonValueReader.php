@@ -144,6 +144,18 @@ interface CommonValueReader
     public function asDay(DatespanRange $range = null);
 
     /**
+     * read as week
+     *
+     * In case the default value is not of type stubbles\date\span\Week an
+     * IllegalStateException will be thrown.
+     *
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Week
+     * @since   4.5.0
+     */
+    public function asWeek(DatespanRange $range = null);
+
+    /**
      * read as month
      *
      * In case the default value is not of type stubbles\date\span\Month an

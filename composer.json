@@ -6,16 +6,16 @@
     "description": "Stubbles Input enables to handle input data via validation and filtering.",
     "require": {
         "php": ">=5.4.0",
-        "stubbles/core": "~5.5"
+        "stubbles/core": "^5.5"
     },
     "require-dev": {
-        "mikey179/vfsStream": "~1.5",
-        "phpunit/phpunit": "~4.6",
-        "bovigo/callmap": "~0.6",
-        "stubbles/date": "~5.2"
+        "mikey179/vfsStream": "^1.5",
+        "phpunit/phpunit": "^4.6",
+        "bovigo/callmap": "^1.0",
+        "stubbles/date": "^5.3"
     },
     "suggest": {
-        "stubbles/date": "~5.2"
+        "stubbles/date": "^5.3"
     },
     "autoload": {
         "psr-4": {

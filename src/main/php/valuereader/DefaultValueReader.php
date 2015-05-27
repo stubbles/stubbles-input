@@ -12,6 +12,7 @@ use stubbles\date\Date;
 use stubbles\date\span\Datespan;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
+use stubbles\date\span\Week;
 use stubbles\input\Filter;
 use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\PasswordChecker;
@@ -242,6 +243,22 @@ class DefaultValueReader implements CommonValueReader
     public function asDay(DatespanRange $range = null)
     {
         $this->checkDefaultType(function() { return $this->default instanceof Day;}, 'stubbles\date\span\Day');
+        return $this->default;
+    }
+
+    /**
+     * read as week
+     *
+     * In case the default value is not of type stubbles\date\span\Week an
+     * IllegalStateException will be thrown.
+     *
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Week
+     * @since   4.5.0
+     */
+    public function asWeek(DatespanRange $range = null)
+    {
+        $this->checkDefaultType(function() { return $this->default instanceof Week;}, 'stubbles\date\span\Week');
         return $this->default;
     }
 

@@ -224,6 +224,19 @@ class MissingValueReader implements CommonValueReader
     }
 
     /**
+     * read as week
+     *
+     * @param   \stubbles\input\filter\range\DatespanRange  $range
+     * @return  \stubbles\date\span\Week
+     * @since   4.5.0
+     */
+    public function asWeek(DatespanRange $range = null)
+    {
+        $this->reportError();
+        return null;
+    }
+
+    /**
      * read as month
      *
      * @param   \stubbles\input\filter\range\DatespanRange  $range
