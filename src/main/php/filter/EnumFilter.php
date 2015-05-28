@@ -60,7 +60,9 @@ class EnumFilter implements Filter
 
         $enum = $this->enumClass;
         try {
-            return $enum::forName(strtoupper($param->value()));
+            return $enum::forName(
+                    str_replace('-', '_', strtoupper($param->value()))
+            );
         } catch (\InvalidArgumentException $iae) {
             $param->addError(
                     'FIELD_NO_SELECT',

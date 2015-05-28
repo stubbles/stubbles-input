@@ -16,10 +16,13 @@ class ExampleEnum extends Enum
 
     public static $BAR;
 
+    public static $DUM_MY;
+
     public static function __static()
     {
-        self::$FOO = new self('foo', 303);
-        self::$BAR = new self('bar', 909);
+        self::$FOO    = new self('foo', 303);
+        self::$BAR    = new self('bar', 909);
+        self::$DUM_MY = new self('dum-my', 808);
     }
 }
 ExampleEnum::__static();
@@ -88,17 +91,24 @@ class EnumFilterTest extends FilterTest
      */
     public function validValues()
     {
-        return [['foo'], ['FOO']];
+        return [
+                ['foo', ExampleEnum::$FOO],
+                ['FOO', ExampleEnum::$FOO],
+                ['dum-my', ExampleEnum::$DUM_MY],
+                ['DUM-MY', ExampleEnum::$DUM_MY],
+                ['dum_my', ExampleEnum::$DUM_MY],
+                ['DUM_MY', ExampleEnum::$DUM_MY]
+        ];
     }
 
     /**
      * @test
      * @dataProvider  validValues
      */
-    public function validParamsAreReturnedAsEnumInstance($value)
+    public function validParamsAreReturnedAsEnumInstance($value, $expected)
     {
         assertSame(
-                ExampleEnum::$FOO,
+                $expected,
                 $this->enumFilter->apply($this->createParam($value))
         );
     }
