@@ -407,6 +407,18 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
+     * read value as instance of given enum
+     *
+     * @param   string  $enumClass  name of enum class to derive value from
+     * @return  \stubbles\lang\Enum
+     * @since   5.0.0
+     */
+    public function asEnum($enumClass)
+    {
+        return $this->withFilter(new filter\EnumFilter($enumClass));
+    }
+
+    /**
      * returns value if it is an ip address, and null otherwise
      *
      * @api

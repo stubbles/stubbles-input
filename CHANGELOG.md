@@ -3,6 +3,9 @@
 
   * removed `stubbles\input\web`, deprecated since 4.4.0
   * upgrade stubbles/core to 6.0
+  * added `stubbles\input\filter\EnumFilter`
+  * added `stubbles\input\ValueReader::asEnum()`
+  * added `stubbles\input\broker\param\EnumParamBroker`
 
 
 4.5.0 (2015-05-27)

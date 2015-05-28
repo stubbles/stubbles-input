@@ -33,27 +33,29 @@ class RequestBroker
     public static function buildInTypes()
     {
         if (null === self::$buildInParamBroker) {
-            self::$buildInParamBroker = ['array'          => new param\ArrayParamBroker(),
-                                         'bool'           => new param\BoolParamBroker(),
-                                         'customdatespan' => new param\CustomDatespanParamBroker(),
-                                         'date'           => new param\DateParamBroker(),
-                                         'datespan'       => new param\DatespanParamBroker(),
-                                         'day'            => new param\DayParamBroker(),
-                                         'directory'      => new param\DirectoryParamBroker(),
-                                         'file'           => new param\FileParamBroker(),
-                                         'float'          => new param\FloatParamBroker(),
-                                         'httpuri'        => new param\HttpUriParamBroker(),
-                                         'integer'        => new param\IntegerParamBroker(),
-                                         'json'           => new param\JsonParamBroker(),
-                                         'mail'           => new param\MailParamBroker(),
-                                         'month'          => new param\MonthParamBroker(),
-                                         'oneof'          => new param\OneOfParamBroker(),
-                                         'password'       => new param\PasswordParamBroker(),
-                                         'string'         => new param\StringParamBroker(),
-                                         'securestring'   => new param\SecureStringParamBroker(),
-                                         'text'           => new param\TextParamBroker(),
-                                         'week'           => new param\WeekParamBroker(),
-                                        ];
+            self::$buildInParamBroker = [
+                    'array'          => new param\ArrayParamBroker(),
+                    'bool'           => new param\BoolParamBroker(),
+                    'customdatespan' => new param\CustomDatespanParamBroker(),
+                    'date'           => new param\DateParamBroker(),
+                    'datespan'       => new param\DatespanParamBroker(),
+                    'day'            => new param\DayParamBroker(),
+                    'directory'      => new param\DirectoryParamBroker(),
+                    'enum'           => new param\EnumParamBroker(),
+                    'file'           => new param\FileParamBroker(),
+                    'float'          => new param\FloatParamBroker(),
+                    'httpuri'        => new param\HttpUriParamBroker(),
+                    'integer'        => new param\IntegerParamBroker(),
+                    'json'           => new param\JsonParamBroker(),
+                    'mail'           => new param\MailParamBroker(),
+                    'month'          => new param\MonthParamBroker(),
+                    'oneof'          => new param\OneOfParamBroker(),
+                    'password'       => new param\PasswordParamBroker(),
+                    'string'         => new param\StringParamBroker(),
+                    'securestring'   => new param\SecureStringParamBroker(),
+                    'text'           => new param\TextParamBroker(),
+                    'week'           => new param\WeekParamBroker(),
+                ];
         }
 
         return self::$buildInParamBroker;
