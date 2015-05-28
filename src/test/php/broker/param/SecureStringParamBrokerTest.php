@@ -13,6 +13,7 @@ use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\lang\SecureString;
 use stubbles\lang\reflect\annotation\Annotation;
+require_once __DIR__ . '/WebRequest.php';
 /**
  * Tests for stubbles\input\broker\param\SecureStringParamBroker.
  *
@@ -122,7 +123,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\web\WebRequest')
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',
@@ -138,7 +139,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request =  NewInstance::of('stubbles\input\web\WebRequest')
+        $request =  NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',

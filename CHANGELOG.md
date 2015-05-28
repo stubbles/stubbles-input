@@ -1,3 +1,10 @@
+5.0.0 (2015-??-??)
+------------------
+
+  * removed `stubbles\input\web`, deprecated since 4.4.0
+  * upgrade stubbles/core to 6.0
+
+
 4.5.0 (2015-05-27)
 ------------------
 

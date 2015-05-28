@@ -12,6 +12,7 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
+require_once __DIR__ . '/WebRequest.php';
 /**
  * Base tests for stubbles\input\broker\param\MultipleSourceParamBroker.
  */
@@ -126,7 +127,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\web\WebRequest')
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),
@@ -142,7 +143,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\web\WebRequest')
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),

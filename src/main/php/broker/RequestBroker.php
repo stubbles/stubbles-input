@@ -70,7 +70,6 @@ class RequestBroker
      * constructor
      *
      * @param   \stubbles\input\broker\param\ParamBroker[]  $paramBrokers  optional
-     * @Inject
      * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
     public function __construct(array $paramBrokers = [])
@@ -79,19 +78,6 @@ class RequestBroker
         foreach ($paramBrokers as $key => $paramBroker) {
             $this->paramBrokers[strtolower($key)] = $paramBroker;
         }
-    }
-
-    /**
-     * adds map of param brokers
-     *
-     * @param   \stubbles\input\broker\param\ParamBroker[]  $paramBrokers
-     * @return  \stubbles\input\broker\RequestBroker
-     * @Inject(optional=true)
-     *
-     */
-    public function addParamBrokers(array $paramBrokers)
-    {
-        return $this;
     }
 
     /**

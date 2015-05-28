@@ -34,7 +34,7 @@ class AcceptFilter implements Filter
 
         try {
             return AcceptHeader::parse($param->value());
-        } catch (\stubbles\lang\exception\IllegalArgumentException $iae) {
+        } catch (\InvalidArgumentException $iae) {
             return new AcceptHeader();
         }
     }

@@ -36,7 +36,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      * constructor
      *
      * @param  \stubbles\lang\ResourceLoader  $resourceLoader
-     * @Inject
      * @Property{defaultLocale}('stubbles.locale')
      */
     public function __construct(ResourceLoader $resourceLoader, $defaultLocale = 'default')

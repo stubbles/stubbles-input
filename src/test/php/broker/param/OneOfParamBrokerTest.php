@@ -12,6 +12,7 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
+require_once __DIR__ . '/WebRequest.php';
 /**
  * Tests for stubbles\input\broker\param\OneOfParamBroker.
  *
@@ -140,7 +141,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\web\WebRequest')
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),
@@ -158,7 +159,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\web\WebRequest')
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
                 ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),
