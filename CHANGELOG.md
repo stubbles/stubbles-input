@@ -1,4 +1,4 @@
-5.0.0 (2015-??-??)
+5.0.0 (2015-05-28)
 ------------------
 
   * removed `stubbles\input\web`, deprecated since 4.4.0
