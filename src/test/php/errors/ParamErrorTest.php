@@ -42,6 +42,15 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  5.1.0
+     */
+    public function returnsGivenDetails()
+    {
+        assertEquals(['foo' => 'bar'], $this->paramError->details());
+    }
+
+    /**
+     * @test
      */
     public function replacesPlaceHolderInMessagesWithDetails()
     {

@@ -77,6 +77,18 @@ class ParamError implements \JsonSerializable
     }
 
     /**
+     * returns details of what caused the error
+     *
+     * @return  array
+     * @since   5.1.0
+     * @XmlIgnore
+     */
+    public function details()
+    {
+        return $this->details;
+    }
+
+    /**
      * fills given list of messages with details
      *
      * @param   array  $templates  map of locales and message templates
