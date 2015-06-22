@@ -38,6 +38,8 @@ class OneOfParamBroker extends MultipleSourceParamBroker
     {
         if ($annotation->hasValueByName('allowed')) {
             return array_map('trim', explode('|', $annotation->getAllowed()));
+        } elseif ($annotation->hasValueByName('allowedSource')) {
+            return call_user_func(array_map('trim', explode('::', str_replace('()', '', $annotation->getAllowedSource()))));
         }
 
         throw new \RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->target());

@@ -22,6 +22,14 @@ require_once __DIR__ . '/WebRequest.php';
 class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 {
     /**
+     * @return  string[]
+     */
+    public static function allowedSource()
+    {
+        return ['foo', 'bar'];
+    }
+
+    /**
      * set up test environment
      */
     public function setUp()
@@ -68,6 +76,22 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
+    public function usesDefaultFromAnnotationIfParamNotSetWithAllowedSource()
+    {
+        assertEquals(
+                'baz',
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()', 'default' => 'baz']
+                        )
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
     public function returnsNullIfParamNotSetAndRequired()
     {
         assertNull(
@@ -75,6 +99,21 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
                         $this->createRequest(null),
                         $this->createRequestAnnotation(
                                 ['allowed' => 'foo|bar', 'required' => true]
+                        )
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function returnsNullIfParamNotSetAndRequiredWithAllowedSource()
+    {
+        assertNull(
+                $this->paramBroker->procure(
+                        $this->createRequest(null),
+                        $this->createRequestAnnotation(
+                                ['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()', 'required' => true]
                         )
                 )
         );
@@ -109,6 +148,20 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
+    public function canWorkWithParamWithAllowedSource()
+    {
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procureParam(
+                        new Param('name', ((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()'])
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
     public function usesParamAsDefaultSource()
     {
         assertEquals(
@@ -116,6 +169,20 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation(['allowed' => 'foo|bar'])
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function usesParamAsDefaultSourceWithAllowedSource()
+    {
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()'])
                 )
         );
     }
@@ -131,6 +198,22 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation(
                                 ['allowed' => 'foo|bar', 'source'  => 'param']
+                        )
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function usesParamAsSourceWithAllowedSource()
+    {
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $this->createRequest(((string) $this->expectedValue())),
+                        $this->createRequestAnnotation(
+                                ['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()', 'source'  => 'param']
                         )
                 )
         );
@@ -157,6 +240,24 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
+    public function canUseHeaderAsSourceForWebRequestWithAllowedSource()
+    {
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+                ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(
+                                ['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()', 'source'  => 'header']
+                        )
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
     public function canUseCookieAsSourceForWebRequest()
     {
         $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
@@ -167,6 +268,24 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
                         $request,
                         $this->createRequestAnnotation(
                                 ['allowed' => 'foo|bar', 'source'  => 'cookie']
+                        )
+                )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function canUseCookieAsSourceForWebRequestWithAllowedSource()
+    {
+        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+                ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
+        assertEquals(
+                $this->expectedValue(),
+                $this->paramBroker->procure(
+                        $request,
+                        $this->createRequestAnnotation(
+                                ['allowedSource' => 'stubbles\input\broker\param\OneOfParamBrokerTest::allowedSource()', 'source'  => 'cookie']
                         )
                 )
         );

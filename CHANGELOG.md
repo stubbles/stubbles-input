@@ -1,3 +1,9 @@
+5.2.0 (2015-06-22)
+------------------
+
+  * allow retrieval from code source for @Request[OneOf] with new attribute `allowedSource`
+
+
 5.1.0 (2015-06-17)
 ------------------
 
