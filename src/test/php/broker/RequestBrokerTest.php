@@ -68,11 +68,10 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function procuresOnlyThoseInGivenGroup()
     {
-        $object = new BrokerClass();
         $this->request->mapCalls(
                 ['readParam' => ValueReader::forValue('just some string value')]
         );
-        $this->requestBroker->procure($this->request, $object, 'main');
+        $object = $this->requestBroker->procure($this->request, new BrokerClass(), 'main');
         assertFalse($object->isVerbose());
         assertEquals('just some string value', $object->getBar());
         assertNull($object->getBaz());
@@ -94,9 +93,8 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
                     )
                 ]
         );
-        $object = new BrokerClass();
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
-        $requestBroker->procure($this->request, $object);
+        $object = $requestBroker->procure($this->request, new BrokerClass());
         assertTrue($object->isVerbose());
         assertEquals('just some string value', $object->getBar());
         assertEquals('just another string value', $object->getBaz());

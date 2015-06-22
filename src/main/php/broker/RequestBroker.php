@@ -88,6 +88,7 @@ class RequestBroker
      * @param   \stubbles\input\Request  $request
      * @param   object                   $object   the object instance to fill with values
      * @param   string                   $group    restrict procurement to given group
+     * @return  object
      * @throws  \InvalidArgumentException
      */
     public function procure(Request $request, $object, $group = null)
@@ -103,6 +104,8 @@ class RequestBroker
                          ->procure($request, $targetMethod->annotation())
             );
         }
+
+        return $object;
     }
 
     /**

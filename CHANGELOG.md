@@ -1,3 +1,9 @@
+5.2.1 (2015-06-22)
+------------------
+
+  * `stubbles\input\broker\RequestBroker::procure()` now returns the procured object
+
+
 5.2.0 (2015-06-22)
 ------------------
 
