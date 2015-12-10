@@ -11,6 +11,7 @@ namespace stubbles\input\errors\messages;
 use bovigo\callmap\NewInstance;
 use stubbles\input\errors\ParamError;
 use stubbles\lang\reflect;
+use stubbles\lang\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
 /**
  * Tests for stubbles\input\errors\messages\PropertyBasedParamErrorMessages.
@@ -61,7 +62,7 @@ en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
                  ->at($root->getChild('package2/input/error'));
-        return NewInstance::of('stubbles\lang\ResourceLoader')
+        return NewInstance::of(ResourceLoader::class)
                 ->mapCalls(['availableResourceUris' =>
                                 [vfsStream::url('root/package1/input/error/message.ini'),
                                  vfsStream::url('root/package2/input/error/message.ini')

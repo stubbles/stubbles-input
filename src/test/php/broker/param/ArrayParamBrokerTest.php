@@ -151,7 +151,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue('foo, bar')]);
         assertEquals(
                 $this->expectedValue(),
@@ -167,7 +167,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue('foo, bar')]);
         assertEquals(
                 $this->expectedValue(),

@@ -10,6 +10,7 @@
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
+use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\SecureString;
 use stubbles\lang\reflect\annotation\Annotation;
@@ -60,7 +61,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequest($value)
     {
-        return NewInstance::of('stubbles\input\Request')
+        return NewInstance::of(Request::class)
                 ->mapCalls(['readParam' => ValueReader::forValue($value)]);
     }
 
@@ -71,7 +72,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     public function failsForUnknownSource()
     {
         $this->paramBroker->procure(
-                NewInstance::of('stubbles\input\Request'),
+                NewInstance::of(Request::class),
                 $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
@@ -123,7 +124,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',
@@ -139,7 +140,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request =  NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request =  NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
         $this->assertSecureStringEquals(
                 'topsecret',

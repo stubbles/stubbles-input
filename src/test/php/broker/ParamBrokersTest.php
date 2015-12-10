@@ -9,6 +9,7 @@
  */
 namespace stubbles\input\broker;
 use bovigo\callmap\NewInstance;
+use stubbles\input\broker\param\ParamBroker;
 use stubbles\lang\reflect;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
@@ -98,7 +99,7 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function addingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
-        $oaramBroker   = NewInstance::of('stubbles\input\broker\param\ParamBroker');
+        $oaramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['mock' => $oaramBroker]);
         assertInstanceOf(
                 $brokerClass,
@@ -111,7 +112,7 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsAddedBroker()
     {
-        $paramBroker   = NewInstance::of('stubbles\input\broker\param\ParamBroker');
+        $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
         assertSame(
                 $paramBroker,
@@ -124,7 +125,7 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function canOverwriteDefaultBroker()
     {
-        $paramBroker   = NewInstance::of('stubbles\input\broker\param\ParamBroker');
+        $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['string' => $paramBroker]);
         assertSame(
                 $paramBroker,

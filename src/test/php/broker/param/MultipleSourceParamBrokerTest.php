@@ -10,6 +10,7 @@
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
+use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 require_once __DIR__ . '/WebRequest.php';
@@ -64,7 +65,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequest($value)
     {
-        return NewInstance::of('stubbles\input\Request')
+        return NewInstance::of(Request::class)
                 ->mapCalls(['readParam' => ValueReader::forValue($value)]);
     }
 
@@ -75,7 +76,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
     public function failsForUnknownSource()
     {
         $this->paramBroker->procure(
-                NewInstance::of('stubbles\input\Request'),
+                NewInstance::of(Request::class),
                 $this->createRequestAnnotation(['source' => 'foo'])
         );
     }
@@ -127,7 +128,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),
@@ -143,7 +144,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue(((string) $this->expectedValue()))]);
         assertEquals(
                 $this->expectedValue(),

@@ -53,7 +53,7 @@ class EnumParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     protected function createRequestAnnotation(array $values = [])
     {
-        $values['enumClass'] = 'stubbles\input\broker\param\ExampleEnum';
+        $values['enumClass'] = ExampleEnum::class;
         return parent::createRequestAnnotation($values);
     }
 
@@ -86,7 +86,7 @@ class EnumParamBrokerTest extends MultipleSourceParamBrokerTest
                 ExampleEnum::$BAR,
                 $this->paramBroker->procure(
                         $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => 'stubbles\input\broker\param\ExampleEnum::$BAR'])
+                        $this->createRequestAnnotation(['default' => ExampleEnum::class . '::$BAR'])
                 )
         );
     }

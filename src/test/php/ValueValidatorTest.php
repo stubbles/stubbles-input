@@ -9,6 +9,7 @@
  */
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
+use stubbles\predicate\Predicate;
 /**
  * Tests for stubbles\input\ValueValidator.
  *
@@ -116,7 +117,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
         assertFalse(
-                $this->validate('http://foo.doesnotexist')
+                $this->validate('http://doesnotexist')
                      ->isExistingHttpUri()
         );
     }
@@ -272,8 +273,8 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function withPredicateReturnsPredicateResult()
     {
-        $predicate = NewInstance::of('stubbles\predicate\Predicate')
-                                        ->mapCalls(['test' => true]);
+        $predicate = NewInstance::of(Predicate::class)
+                ->mapCalls(['test' => true]);
         assertTrue($this->validate('foo')->with($predicate));
     }
 
@@ -283,7 +284,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
     public function canBeCreatedAsMock()
     {
         assertInstanceOf(
-                'stubbles\input\ValueValidator',
+                ValueValidator::class,
                 ValueValidator::forValue('bar')
         );
     }

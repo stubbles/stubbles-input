@@ -8,6 +8,9 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\console;
+use stubbles\input\ValueReader;
+use stubbles\input\ValueValidator;
+use stubbles\input\errors\ParamErrors;
 /**
  * Tests for stubbles\input\console\BaseConsoleRequest.
  *
@@ -98,7 +101,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsEnvErrors()
     {
         assertInstanceOf(
-                'stubbles\input\errors\ParamErrors',
+                ParamErrors::class,
                 $this->baseConsoleRequest->envErrors()
         );
     }
@@ -125,7 +128,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function validateEnvReturnsValueValidator()
     {
         assertInstanceOf(
-                'stubbles\input\ValueValidator',
+                ValueValidator::class,
                 $this->baseConsoleRequest->validateEnv('SCRIPT_NAME')
         );
     }
@@ -136,7 +139,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function validateEnvReturnsValueValidatorForNonExistingParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueValidator',
+                ValueValidator::class,
                 $this->baseConsoleRequest->validateEnv('baz')
         );
     }
@@ -147,7 +150,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function readEnvReturnsValueReader()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 $this->baseConsoleRequest->readEnv('SCRIPT_NAME')
         );
     }
@@ -158,7 +161,7 @@ class BaseConsoleRequestTest extends \PHPUnit_Framework_TestCase
     public function readEnvReturnsValueReaderForNonExistingParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 $this->baseConsoleRequest->readEnv('baz')
         );
     }

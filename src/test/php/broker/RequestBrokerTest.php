@@ -10,7 +10,9 @@
 namespace stubbles\input\broker;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
+use stubbles\input\Request;
 use stubbles\input\ValueReader;
+use stubbles\input\broker\param\ParamBroker;
 use stubbles\lang\reflect;
 require_once __DIR__ . '/BrokerClass.php';
 /**
@@ -40,7 +42,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->requestBroker = new RequestBroker();
-        $this->request       = NewInstance::of('stubbles\input\Request');
+        $this->request       = NewInstance::of(Request::class);
     }
 
     /**
@@ -83,7 +85,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function procuresAllIfNoGroupGiven()
     {
 
-        $paramBroker = NewInstance::of('stubbles\input\broker\param\ParamBroker')
+        $paramBroker = NewInstance::of(ParamBroker::class)
                 ->mapCalls(['procure' => 'just another string value']);
         $this->request->mapCalls(
                 ['readParam' => callmap\onConsecutiveCalls(

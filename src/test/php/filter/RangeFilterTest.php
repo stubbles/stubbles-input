@@ -10,6 +10,8 @@
 namespace stubbles\input\filter;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
+use stubbles\input\Filter;
+use stubbles\input\filter\range\Range;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\RangeFilter.
@@ -42,8 +44,8 @@ class RangeFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->filter      = NewInstance::of('stubbles\input\Filter');
-        $this->range       = NewInstance::of('stubbles\input\filter\range\Range');
+        $this->filter      = NewInstance::of(Filter::class);
+        $this->range       = NewInstance::of(Range::class);
         $this->rangeFilter = new RangeFilter($this->filter, $this->range);
     }
 

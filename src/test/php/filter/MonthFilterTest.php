@@ -59,10 +59,10 @@ class MonthFilterTest extends FilterTest
     /**
      * @test
      */
-    public function validParamsAreReturnedAsDateInstance()
+    public function validParamsAreReturnedAsMonthInstance()
     {
         $month = $this->monthFilter->apply($this->createParam('2008-09-27'));
-        assertInstanceOf('stubbles\date\span\Month', $month);
+        assertInstanceOf(Month::class, $month);
         assertEquals('2008-09', $month->asString());
     }
 

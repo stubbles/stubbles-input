@@ -8,6 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Helper class for the test.
  */
@@ -62,7 +63,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function returnsParamErrors()
     {
         assertInstanceOf(
-                'stubbles\input\errors\ParamErrors',
+                ParamErrors::class,
                 $this->abstractRequest->paramErrors()
         );
     }
@@ -89,7 +90,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function validateParamReturnsValueValidator()
     {
         assertInstanceOf(
-                'stubbles\input\ValueValidator',
+                ValueValidator::class,
                 $this->abstractRequest->validateParam('foo')
         );
     }
@@ -100,7 +101,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueValidator',
+                ValueValidator::class,
                 $this->abstractRequest->validateParam('baz')
         );
     }
@@ -111,7 +112,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function readParamReturnsValueReader()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 $this->abstractRequest->readParam('foo')
         );
     }
@@ -122,7 +123,7 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
     public function readParamReturnsValueReaderForNonExistingParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 $this->abstractRequest->readParam('baz')
         );
     }

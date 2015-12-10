@@ -137,7 +137,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asSecureString(StringLength $length = null)
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof SecureString); }, 'stubbles\lang\SecureString');
+        $this->checkDefaultType(function() { return ($this->default instanceof SecureString); }, SecureString::class);
         return $this->default;
     }
 
@@ -188,7 +188,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asHttpUri()
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof HttpUri); }, 'stubbles\peer\http\HttpUri');
+        $this->checkDefaultType(function() { return ($this->default instanceof HttpUri); }, HttpUri::class);
         return $this->default;
     }
 
@@ -202,7 +202,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asExistingHttpUri()
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof HttpUri); }, 'stubbles\peer\http\HttpUri');
+        $this->checkDefaultType(function() { return ($this->default instanceof HttpUri); }, HttpUri::class);
         return $this->default;
     }
 
@@ -242,7 +242,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asDay(DatespanRange $range = null)
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Day;}, 'stubbles\date\span\Day');
+        $this->checkDefaultType(function() { return $this->default instanceof Day;}, Day::class);
         return $this->default;
     }
 
@@ -258,7 +258,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asWeek(DatespanRange $range = null)
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Week;}, 'stubbles\date\span\Week');
+        $this->checkDefaultType(function() { return $this->default instanceof Week;}, Week::class);
         return $this->default;
     }
 
@@ -273,7 +273,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asMonth(DatespanRange $range = null)
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Month;}, 'stubbles\date\span\Month');
+        $this->checkDefaultType(function() { return $this->default instanceof Month;}, Month::class);
         return $this->default;
     }
 
@@ -289,7 +289,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asDatespan(DatespanRange $range = null)
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Datespan;}, 'stubbles\date\span\Datespan');
+        $this->checkDefaultType(function() { return $this->default instanceof Datespan;}, Datespan::class);
         return $this->default;
     }
 

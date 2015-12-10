@@ -37,7 +37,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->passwordChecker = NewInstance::of('stubbles\input\filter\PasswordChecker');
+        $this->passwordChecker = NewInstance::of(PasswordChecker::class);
         $this->passwordFilter  = new PasswordFilter($this->passwordChecker);
         parent::setUp();
     }

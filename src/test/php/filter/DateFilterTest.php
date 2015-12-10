@@ -58,7 +58,7 @@ class DateFilterTest extends FilterTest
     public function validParamsAreReturnedAsDateInstance()
     {
         $date = $this->dateFilter->apply($this->createParam('2008-09-27'));
-        assertInstanceOf('stubbles\date\Date', $date);
+        assertInstanceOf(Date::class, $date);
         assertEquals(2008, $date->year());
         assertEquals(9, $date->month());
         assertEquals(27, $date->day());

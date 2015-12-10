@@ -62,7 +62,7 @@ class WeekFilterTest extends FilterTest
     public function validParamsAreReturnedAsWeekInstance()
     {
         $week = $this->weekFilter->apply($this->createParam('2008-W09'));
-        assertInstanceOf('stubbles\date\span\Week', $week);
+        assertInstanceOf(Week::class, $week);
         assertEquals('2008-W09', $week->asString());
     }
 

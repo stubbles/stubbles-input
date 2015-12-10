@@ -59,7 +59,7 @@ class DayFilterTest extends FilterTest
     public function validParamsAreReturnedAsDateInstance()
     {
         $day = $this->dayFilter->apply($this->createParam('2008-09-27'));
-        assertInstanceOf('stubbles\date\span\Day', $day);
+        assertInstanceOf(Day::class, $day);
         $date = $day->start();
         assertEquals(2008, $date->year());
         assertEquals(9, $date->month());

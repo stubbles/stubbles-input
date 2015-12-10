@@ -25,8 +25,8 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [new BrokerClass()],
-            ['stubbles\input\broker\BrokerClass'],
-            [lang\reflect('stubbles\input\broker\BrokerClass')]
+            [BrokerClass::class],
+            [lang\reflect(BrokerClass::class)]
         ];
     }
 

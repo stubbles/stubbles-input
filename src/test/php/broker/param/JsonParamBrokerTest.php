@@ -142,7 +142,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')]);
         assertEquals(
                 $this->expectedValue(),
@@ -158,7 +158,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of('stubbles\input\broker\param\WebRequest')
+        $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')]);
         assertEquals(
                 $this->expectedValue(),

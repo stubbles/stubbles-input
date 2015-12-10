@@ -46,7 +46,7 @@ class EnumFilterTest extends FilterTest
      */
     public function setUp()
     {
-        $this->enumFilter = new EnumFilter('stubbles\input\filter\ExampleEnum');
+        $this->enumFilter = new EnumFilter(ExampleEnum::class);
         parent::setUp();
     }
 
@@ -137,7 +137,7 @@ class EnumFilterTest extends FilterTest
      */
     public function asEnumReturnsNullIfParamIsNullAndNotRequired()
     {
-        assertNull($this->readParam(null)->asEnum('stubbles\input\filter\ExampleEnum'));
+        assertNull($this->readParam(null)->asEnum(ExampleEnum::class));
     }
 
     /**
@@ -149,7 +149,7 @@ class EnumFilterTest extends FilterTest
                 ExampleEnum::$BAR,
                 $this->readParam(null)
                         ->defaultingTo(ExampleEnum::$BAR)
-                        ->asEnum('stubbles\input\filter\ExampleEnum')
+                        ->asEnum(ExampleEnum::class)
         );
     }
 
@@ -161,7 +161,7 @@ class EnumFilterTest extends FilterTest
         assertNull(
                 $this->readParam(null)
                         ->required()
-                        ->asEnum('stubbles\input\filter\ExampleEnum')
+                        ->asEnum(ExampleEnum::class)
         );
     }
 
@@ -170,7 +170,7 @@ class EnumFilterTest extends FilterTest
      */
     public function asEnumAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->readParam(null)->required()->asEnum('stubbles\input\filter\ExampleEnum');
+        $this->readParam(null)->required()->asEnum(ExampleEnum::class);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_NO_SELECT'));
     }
 
@@ -181,7 +181,7 @@ class EnumFilterTest extends FilterTest
     {
         assertNull(
                 $this->readParam('baz')
-                        ->asEnum('stubbles\input\filter\ExampleEnum')
+                        ->asEnum(ExampleEnum::class)
         );
     }
 
@@ -190,7 +190,7 @@ class EnumFilterTest extends FilterTest
      */
     public function asEnumAddsParamErrorIfParamIsInvalid()
     {
-        $this->readParam('baz')->asEnum('stubbles\input\filter\ExampleEnum');
+        $this->readParam('baz')->asEnum(ExampleEnum::class);
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
@@ -202,7 +202,7 @@ class EnumFilterTest extends FilterTest
         assertSame(
                 ExampleEnum::$FOO,
                 $this->readParam('foo')
-                        ->asEnum('stubbles\input\filter\ExampleEnum')
+                        ->asEnum(ExampleEnum::class)
         );
 
     }

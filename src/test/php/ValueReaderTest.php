@@ -293,7 +293,7 @@ class ValueReaderTest extends filter\FilterTest
     public function withFilterReturnsNullIfParameterNotSet()
     {
         $param  = new Param('bar', null);
-        $filter = NewInstance::of('stubbles\input\Filter');
+        $filter = NewInstance::of(Filter::class);
         assertNull($this->read($param)->withFilter($filter));
         callmap\verify($filter, 'apply')->wasNeverCalled();
     }
@@ -305,7 +305,7 @@ class ValueReaderTest extends filter\FilterTest
     public function withFilterReturnsDefaultValueIfParameterNotSet()
     {
         $param  = new Param('bar', null);
-        $filter = NewInstance::of('stubbles\input\Filter');
+        $filter = NewInstance::of(Filter::class);
         assertEquals(
                 'foo',
                 $this->read($param)->defaultingTo('foo')->withFilter($filter)
@@ -320,7 +320,7 @@ class ValueReaderTest extends filter\FilterTest
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
-        $filter = NewInstance::of('stubbles\input\Filter')
+        $filter = NewInstance::of(Filter::class)
                 ->mapCalls(['apply' => 'baz']);
         assertNull($this->read($param)->withFilter($filter));
     }
@@ -332,7 +332,7 @@ class ValueReaderTest extends filter\FilterTest
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
-        $filter = NewInstance::of('stubbles\input\Filter')
+        $filter = NewInstance::of(Filter::class)
                 ->mapCalls(['apply' => 'baz']);
         $this->read($param)->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'SOME_ERROR'));
@@ -344,7 +344,7 @@ class ValueReaderTest extends filter\FilterTest
     public function withFilterReturnsNullIfParamRequiredButNotSet()
     {
         $param  = new Param('bar', null);
-        $filter = NewInstance::of('stubbles\input\Filter');
+        $filter = NewInstance::of(Filter::class);
         assertNull($this->read($param)->required()->withFilter($filter));
         callmap\verify($filter, 'apply')->wasNeverCalled();
     }
@@ -355,7 +355,7 @@ class ValueReaderTest extends filter\FilterTest
     public function withFilterAddsRequiredErrorWhenRequiredAndParamNotSet()
     {
         $param = new Param('bar', null);
-        $filter = NewInstance::of('stubbles\input\Filter');
+        $filter = NewInstance::of(Filter::class);
         $this->read($param)->required()->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
         callmap\verify($filter, 'apply')->wasNeverCalled();
@@ -366,7 +366,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsValueFromFilter()
     {
-        $filter = NewInstance::of('stubbles\input\Filter')
+        $filter = NewInstance::of(Filter::class)
                 ->mapCalls(['apply' => 'foo']);
         assertEquals('foo', $this->readParam('foo')->withFilter($filter));
     }
@@ -379,7 +379,7 @@ class ValueReaderTest extends filter\FilterTest
     {
         $this->readParam(null)
                 ->required('OTHER')
-                ->withFilter(NewInstance::of('stubbles\input\Filter'));
+                ->withFilter(NewInstance::of(Filter::class));
         assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
     }
 
@@ -397,7 +397,7 @@ class ValueReaderTest extends filter\FilterTest
     public function canBeCreatedWithoutParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 ValueReader::forValue('bar')
         );
     }
@@ -408,7 +408,7 @@ class ValueReaderTest extends filter\FilterTest
     public function canBeCreatedforParam()
     {
         assertInstanceOf(
-                'stubbles\input\ValueReader',
+                ValueReader::class,
                 ValueReader::forParam(new Param('foo', 'bar'))
         );
     }

@@ -10,6 +10,7 @@
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
+use stubbles\predicate\Predicate;
 /**
  * Tests for stubbles\input\filter\PredicateFilter.
  *
@@ -36,7 +37,7 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->predicate       = NewInstance::of('stubbles\predicate\Predicate');
+        $this->predicate       = NewInstance::of(Predicate::class);
         $this->predicateFilter = new PredicateFilter(
                 $this->predicate,
                 'ERROR',

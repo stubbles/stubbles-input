@@ -10,6 +10,7 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
+use stubbles\lang\Enum;
 /**
  * Tries to deduct an enum instance from a given param value.
  *
@@ -36,7 +37,7 @@ class EnumFilter implements Filter
             );
         }
 
-        if (!is_subclass_of($enumClass, 'stubbles\lang\Enum')) {
+        if (!is_subclass_of($enumClass, Enum::class)) {
             throw new \InvalidArgumentException(
                     'Given class ' . $enumClass
                     . ' doesn\'t seem to be an instance of stubbles\lang\Enum'
