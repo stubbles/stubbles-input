@@ -6,6 +6,11 @@
   * Raised minimum required PHP version to 5.5
 
 
+### Other changes
+
+  * added proper error message texts for JSON filter errors `JSON_INPUT_TOO_BIG`, `JSON_INVALID` and `JSON_SYNTAX_ERROR`
+
+
 5.2.1 (2015-06-22)
 ------------------
 

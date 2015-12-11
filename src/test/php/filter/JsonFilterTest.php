@@ -158,6 +158,34 @@ class JsonFilterTest extends FilterTest
 
     /**
      * @test
+     * @since  6.0.0
+     */
+    public function errorContainsErrorCode()
+    {
+        $param = $this->createParam('{"foo":"bar","foo","bar"}');
+        $this->jsonFilter->apply($param);
+        assertArrayHasKey(
+                'errorCode',
+                $param->errors()['JSON_SYNTAX_ERROR']->details()
+        );
+    }
+
+    /**
+     * @test
+     * @since  6.0.0
+     */
+    public function errorContainsErrorMessage()
+    {
+        $param = $this->createParam('{"foo":"bar","foo","bar"}');
+        $this->jsonFilter->apply($param);
+        assertArrayHasKey(
+                'errorMsg',
+                $param->errors()['JSON_SYNTAX_ERROR']->details()
+        );
+    }
+
+    /**
+     * @test
      */
     public function returnsNullForInvalidJsonAlthoughPhpWouldDecodeItProperly()
     {

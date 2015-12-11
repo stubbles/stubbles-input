@@ -33,7 +33,7 @@ class JsonFilter implements Filter
         }
 
         if ($param->length() > 20000) {
-            $param->addError('JSON_INPUT_TOO_BIG');
+            $param->addError('JSON_INPUT_TOO_BIG', ['maxLength' => 20000]);
             return null;
         }
 
@@ -46,7 +46,12 @@ class JsonFilter implements Filter
         $decodedJson = json_decode($value);
         $errorCode   = json_last_error();
         if (JSON_ERROR_NONE !== $errorCode) {
-            $param->addError('JSON_SYNTAX_ERROR', ['errorCode' => $errorCode]);
+            $param->addError(
+                    'JSON_SYNTAX_ERROR',
+                    ['errorCode' => $errorCode,
+                     'errorMsg'  => json_last_error_msg()
+                    ]
+            );
             return null;
         }
 
