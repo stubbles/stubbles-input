@@ -12,7 +12,7 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 use stubbles\lang\reflect\annotation\Annotation;
 require_once __DIR__ . '/WebRequest.php';
 /**
@@ -32,10 +32,10 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param  string        $expectedPassword
-     * @param  SecureString  $actualPassword
+     * @param  string  $expectedPassword
+     * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
+    private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
     {
         assertEquals($expectedPassword, $actualPassword->unveil());
     }

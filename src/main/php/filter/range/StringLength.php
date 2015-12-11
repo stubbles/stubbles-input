@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
  * String length limitation.
  *
@@ -102,12 +102,12 @@ class StringLength extends AbstractRange
     /**
      * returns length of given value
      *
-     * @param   string|SecureString $value
+     * @param   string|Secret $value
      * @return  int
      */
     private function length($value)
     {
-        if ($value instanceof SecureString) {
+        if ($value instanceof Secret) {
             return $value->length();
         }
 
@@ -130,14 +130,14 @@ class StringLength extends AbstractRange
      * truncates given value to max length
      *
      * @param   string  $value
-     * @return  string|SecureString
+     * @return  string|Secret
      * @throws  \LogicException
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value)
     {
         if ($this->allowsTruncate($value)) {
-            if ($value instanceof SecureString) {
+            if ($value instanceof Secret) {
                 return $value->substring(0, $this->maxLength);
             }
 

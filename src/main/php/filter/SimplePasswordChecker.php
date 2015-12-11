@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
  * Interface for password checking algorithms.
  *
@@ -102,10 +102,10 @@ class SimplePasswordChecker implements PasswordChecker
      * In case the password does not satisfy the return value is a list of
      * error ids.
      *
-     * @param   \stubbles\lang\SecureString  $proposedPassword
+     * @param   \stubbles\lang\Secret  $proposedPassword
      * @return  array
      */
-    public function check(SecureString $proposedPassword)
+    public function check(Secret $proposedPassword)
     {
         $errors = [];
         if ($proposedPassword->length() < $this->minLength) {

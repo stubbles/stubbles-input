@@ -10,7 +10,7 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
  * Class for filtering passwords.
  *
@@ -42,8 +42,8 @@ class PasswordFilter implements Filter
     /**
      * apply filter on given param
      *
-     * @param   \stubbles\input\Param         $param
-     * @return  \stubbles\lang\SecureString  secured password
+     * @param   \stubbles\input\Param  $param
+     * @return  \stubbles\lang\Secret  secured password
      */
     public function apply(Param $param)
     {
@@ -68,7 +68,7 @@ class PasswordFilter implements Filter
      * parses password from given param value
      *
      * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      */
     private function parse(Param $param)
     {
@@ -86,6 +86,6 @@ class PasswordFilter implements Filter
             return null;
         }
 
-        return SecureString::create($value);
+        return Secret::create($value);
     }
 }

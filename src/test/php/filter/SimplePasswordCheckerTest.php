@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
  * Tests for stubbles\input\filter\SimplePasswordChecker.
  *
@@ -39,7 +39,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
     {
         assertEquals(
                 [],
-                $this->simplePasswordChecker->check(SecureString::create('topsecret'))
+                $this->simplePasswordChecker->check(Secret::create('topsecret'))
         );
     }
 
@@ -52,7 +52,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
                 ['PASSWORD_TOO_SHORT'           => ['minLength' => SimplePasswordChecker::DEFAULT_MINLENGTH],
                  'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS]
                 ],
-                $this->simplePasswordChecker->check(SecureString::create('ooo'))
+                $this->simplePasswordChecker->check(Secret::create('ooo'))
         );
     }
 
@@ -67,7 +67,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
                 ],
                 $this->simplePasswordChecker->minLength(10)
                                             ->minDiffChars(8)
-                                            ->check(SecureString::create('topsecret'))
+                                            ->check(Secret::create('topsecret'))
         );
     }
 
@@ -79,7 +79,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
         assertEquals(
                 ['PASSWORD_DISALLOWED' => []],
                 $this->simplePasswordChecker->disallowValues(['topsecret'])
-                                            ->check(SecureString::create('topsecret'))
+                                            ->check(Secret::create('topsecret'))
         );
     }
 }

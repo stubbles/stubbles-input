@@ -21,7 +21,7 @@ class PasswordParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {

@@ -12,31 +12,31 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 use stubbles\lang\reflect\annotation\Annotation;
 require_once __DIR__ . '/WebRequest.php';
 /**
- * Tests for stubbles\input\broker\param\SecureStringParamBroker.
+ * Tests for stubbles\input\broker\param\SecretParamBroker.
  *
  * @group  broker
  * @group  broker_param
  * @since  3.0.0
  */
-class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
+class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->paramBroker = new SecureStringParamBroker();
+        $this->paramBroker = new SecretParamBroker();
     }
 
     /**
-     * @param  string        $expected
-     * @param  SecureString  $actual
+     * @param  string  $expected
+     * @param  Secret  $actual
      */
-    private function assertSecureStringEquals($expected, SecureString $actual)
+    private function assertSecretEquals($expected, Secret $actual)
     {
         assertEquals($expected, $actual->unveil());
     }
@@ -50,7 +50,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     protected function createRequestAnnotation(array $values = [])
     {
         $values['paramName'] = 'foo';
-        return new Annotation('SecureString', 'foo', $values, 'Request');
+        return new Annotation('Secret', 'foo', $values, 'Request');
     }
 
     /**
@@ -82,7 +82,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canWorkWithParam()
     {
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procureParam(
                         new Param('name', 'topsecret'),
@@ -96,7 +96,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsDefaultSource()
     {
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(
                         $this->createRequest('topsecret'),
@@ -110,7 +110,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsSource()
     {
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(
                         $this->createRequest('topsecret'),
@@ -126,7 +126,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(
                         $request,
@@ -142,7 +142,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
     {
         $request =  NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(
                         $request,
@@ -195,7 +195,7 @@ class SecureStringParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfInRange()
     {
-        $this->assertSecureStringEquals(
+        $this->assertSecretEquals(
                 'Do you expect me to talk?',
                 $this->paramBroker->procure(
                         $this->createRequest('Do you expect me to talk?'),

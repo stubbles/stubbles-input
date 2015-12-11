@@ -10,7 +10,7 @@
 namespace stubbles\input\filter;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\PasswordFilter.
@@ -43,10 +43,10 @@ class PasswordFilterTest extends FilterTest
     }
 
     /**
-     * @param  string        $expectedPassword
-     * @param  SecureString  $actualPassword
+     * @param  string  $expectedPassword
+     * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals($expectedPassword, SecureString $actualPassword)
+    private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
     {
         assertEquals($expectedPassword, $actualPassword->unveil());
     }

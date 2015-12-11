@@ -20,7 +20,7 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 use stubbles\peer\http\HttpUri;
 /**
  * Represents a default value if actual value is not present.
@@ -133,11 +133,23 @@ class DefaultValueReader implements CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
+     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null)
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof SecureString); }, SecureString::class);
+        return $this->asSecret($length);
+    }
+
+    /**
+     * read as string value
+     *
+     * @param   \stubbles\input\filter\range\StringLength  $length
+     * @return  \stubbles\lang\Secret
+     */
+    public function asSecret(StringLength $length = null)
+    {
+        $this->checkDefaultType(function() { return ($this->default instanceof Secret); }, Secret::class);
         return $this->default;
     }
 
@@ -170,7 +182,7 @@ class DefaultValueReader implements CommonValueReader
      * method trigger a MethodNotSupportedException.
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      * @throws  \BadMethodCallException
      */
     public function asPassword(PasswordChecker $checker)

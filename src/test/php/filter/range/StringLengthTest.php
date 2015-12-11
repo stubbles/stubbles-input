@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
  * Tests for stubbles\input\filter\range\StringLength.
  *
@@ -41,8 +41,8 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         return [
             [''],
             ['abcdefghijk'],
-            [SecureString::forNull()],
-            [SecureString::create('abcdefghijk')]
+            [Secret::forNull()],
+            [Secret::create('abcdefghijk')]
         ];
     }
 
@@ -65,10 +65,10 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
             ['ab'],
             ['abcdefghi'],
             ['abcdefghij'],
-            [SecureString::create('a')],
-            [SecureString::create('ab')],
-            [SecureString::create('abcdefghi')],
-            [SecureString::create('abcdefghij')]
+            [Secret::create('a')],
+            [Secret::create('ab')],
+            [Secret::create('abcdefghi')],
+            [Secret::create('abcdefghij')]
         ];
     }
 
@@ -86,7 +86,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function lowValues()
     {
-        return [[''], [SecureString::forNull()]];
+        return [[''], [Secret::forNull()]];
     }
 
     /**
@@ -104,7 +104,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function highValues()
     {
-        return [[str_pad('a', 100)], [SecureString::create(str_pad('a', 100))]];
+        return [[str_pad('a', 100)], [Secret::create(str_pad('a', 100))]];
     }
 
     /**
@@ -176,7 +176,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateValues()
     {
-        return [['foobar'], [SecureString::create('foobar')]];
+        return [['foobar'], [Secret::create('foobar')]];
     }
 
     /**
@@ -246,7 +246,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         assertEquals(
                 'foo',
                 StringLength::truncate(null, 3)
-                            ->truncateToMaxBorder(SecureString::create('foobar'))
+                            ->truncateToMaxBorder(Secret::create('foobar'))
                             ->unveil()
         );
     }

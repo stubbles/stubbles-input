@@ -9,17 +9,13 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\Param;
-use stubbles\lang\SecureString;
+use stubbles\lang\Secret;
 /**
- * Class for filtering strings (singe line).
- *
- * This filter removes all line breaks, slashes and any HTML tags. In case the
- * given param value is null or empty it returns the explicit null version of
- * the SecureString.
+ * Class for filtering secrets.
  *
  * @since  3.0.0
  */
-class SecureStringFilter extends StringFilter
+class SecretFilter extends StringFilter
 {
     use ReusableFilter;
 
@@ -27,15 +23,15 @@ class SecureStringFilter extends StringFilter
      * apply filter on given param
      *
      * @param   \stubbles\input\Param         $param
-     * @return  \stubbles\lang\SecureString  filtered string
+     * @return  \stubbles\lang\Secret  filtered string
      */
     public function apply(Param $param)
     {
         $value = parent::apply($param);
         if (!empty($value)) {
-            return SecureString::create($value);
+            return Secret::create($value);
         }
 
-        return SecureString::forNull();
+        return Secret::forNull();
     }
 }

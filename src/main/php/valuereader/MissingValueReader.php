@@ -122,9 +122,21 @@ class MissingValueReader implements CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
+     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null)
+    {
+        return $this->asSecret($length);
+    }
+
+    /**
+     * read as secret
+     *
+     * @param   \stubbles\input\filter\range\StringLength  $length
+     * @return  \stubbles\lang\Secret
+     */
+    public function asSecret(StringLength $length = null)
     {
         $this->reportError();
         return null;
@@ -158,7 +170,7 @@ class MissingValueReader implements CommonValueReader
      * read as password value
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      */
     public function asPassword(PasswordChecker $checker)
     {

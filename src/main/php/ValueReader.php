@@ -205,16 +205,30 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      * @since   3.0.0
+     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null)
+    {
+        return $this->asSecret($length);
+    }
+
+    /**
+     * read as secret
+     *
+     * @api
+     * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
+     * @return  \stubbles\lang\Secret
+     * @since   6.0.0
+     */
+    public function asSecret(StringLength $length = null)
     {
         return $this->handleFilter(
                 function() use($length)
                 {
                     return filter\RangeFilter::wrap(
-                            filter\SecureStringFilter::instance(),
+                            filter\SecretFilter::instance(),
                             $length
                     );
                 }
@@ -259,7 +273,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\SecureString
+     * @return  \stubbles\lang\Secret
      */
     public function asPassword(PasswordChecker $checker)
     {
