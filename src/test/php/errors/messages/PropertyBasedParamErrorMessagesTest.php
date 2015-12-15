@@ -10,9 +10,10 @@
 namespace stubbles\input\errors\messages;
 use bovigo\callmap\NewInstance;
 use stubbles\input\errors\ParamError;
-use stubbles\lang\reflect;
 use stubbles\lang\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
+
+use function stubbles\lang\reflect\annotationsOfConstructorParameter;
 /**
  * Tests for stubbles\input\errors\messages\PropertyBasedParamErrorMessages.
  *
@@ -247,7 +248,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      */
     public function annotationsPresentOnConstructor()
     {
-        $annotations = reflect\annotationsOfConstructorParameter(
+        $annotations = annotationsOfConstructorParameter(
                 'defaultLocale',
                 $this->errorMessages
         );

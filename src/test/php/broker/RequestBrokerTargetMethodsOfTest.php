@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use stubbles\lang;
+use function stubbles\lang\reflect;
 require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker::targetMethodsOf().
@@ -26,7 +26,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
         return [
             [new BrokerClass()],
             [BrokerClass::class],
-            [lang\reflect(BrokerClass::class)]
+            [reflect(BrokerClass::class)]
         ];
     }
 

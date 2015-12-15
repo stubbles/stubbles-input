@@ -8,12 +8,14 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\input\broker\param\ParamBroker;
-use stubbles\lang\reflect;
+
+use function bovigo\callmap\onConsecutiveCalls;
+use function stubbles\lang\reflect\annotationsOf;
+
 require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker.
@@ -51,8 +53,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresentOnClass()
     {
         assertTrue(
-                reflect\annotationsOf($this->requestBroker)
-                        ->contain('Singleton')
+                annotationsOf($this->requestBroker)->contain('Singleton')
         );
     }
 
@@ -88,7 +89,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
         $paramBroker = NewInstance::of(ParamBroker::class)
                 ->mapCalls(['procure' => 'just another string value']);
         $this->request->mapCalls(
-                ['readParam' => callmap\onConsecutiveCalls(
+                ['readParam' => onConsecutiveCalls(
                         ValueReader::forValue('on'),
                         ValueReader::forValue('just some string value'),
                         ValueReader::forValue('just another string value')

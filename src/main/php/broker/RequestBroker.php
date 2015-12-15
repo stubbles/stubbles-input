@@ -9,7 +9,9 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\Request;
-use stubbles\lang\reflect;
+
+use function stubbles\lang\reflect\annotationsOf;
+use function stubbles\lang\reflect\methodsOf;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
@@ -134,7 +136,7 @@ class RequestBroker
      */
     public static function targetMethodsOf($object, $group = null)
     {
-        return reflect\methodsOf($object, \ReflectionMethod::IS_PUBLIC)
+        return methodsOf($object, \ReflectionMethod::IS_PUBLIC)
                 ->filter(
                         function(\ReflectionMethod $method) use ($group)
                         {
@@ -142,11 +144,11 @@ class RequestBroker
                                 return false;
                             }
 
-                            if (!reflect\annotationsOf($method)->contain('Request')) {
+                            if (!annotationsOf($method)->contain('Request')) {
                                 return false;
                             }
 
-                            if (empty($group) || reflect\annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
+                            if (empty($group) || annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
                                 return true;
                             }
 
@@ -158,8 +160,7 @@ class RequestBroker
                         {
                             return new TargetMethod(
                                     $method,
-                                    reflect\annotationsOf($method)
-                                            ->firstNamed('Request')
+                                    annotationsOf($method)->firstNamed('Request')
                             );
                         }
         );

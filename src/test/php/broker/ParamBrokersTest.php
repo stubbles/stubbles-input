@@ -10,7 +10,8 @@
 namespace stubbles\input\broker;
 use bovigo\callmap\NewInstance;
 use stubbles\input\broker\param\ParamBroker;
-use stubbles\lang\reflect;
+
+use function stubbles\lang\reflect\annotationsOfConstructor;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
  *
@@ -39,8 +40,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnAddParamBrokersMethod()
     {
-        $annotations = reflect\annotationsOfConstructor($this->requestBroker);
-        assertTrue($annotations->contain('Map'));
+        assertTrue(
+                annotationsOfConstructor($this->requestBroker)->contain('Map')
+        );
     }
 
     /**

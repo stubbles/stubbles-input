@@ -8,7 +8,7 @@
  * @package  @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
-use stubbles\lang\reflect;
+use function stubbles\lang\reflect\annotationsOf;
 /**
  * Tests for stubbles\input\errors\messages\LocalizedMessage.
  *
@@ -41,10 +41,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationPresentOnClass()
     {
-        assertTrue(
-                reflect\annotationsOf($this->localizedMessage)
-                        ->contain('XmlTag')
-        );
+        assertTrue(annotationsOf($this->localizedMessage)->contain('XmlTag'));
     }
 
     /**
@@ -53,7 +50,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
     public function annotationPresentOnGetLocaleMethod()
     {
         assertTrue(
-                reflect\annotationsOf($this->localizedMessage, 'locale')
+                annotationsOf($this->localizedMessage, 'locale')
                         ->contain('XmlAttribute')
         );
     }
@@ -64,7 +61,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
     public function annotationPresentOngetMessageMethod()
     {
         assertTrue(
-                reflect\annotationsOf($this->localizedMessage, 'message')
+                annotationsOf($this->localizedMessage, 'message')
                         ->contain('XmlTag')
         );
     }

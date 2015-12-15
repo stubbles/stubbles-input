@@ -8,12 +8,13 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\date\span\CustomDatespan;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
+
+use function bovigo\callmap\onConsecutiveCalls;
 /**
  * Tests for stubbles\input\broker\param\CustomDatespanParamBroker.
  *
@@ -59,7 +60,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
     private function createRequest($startValue, $endValue)
     {
         return NewInstance::of(Request::class)
-                ->mapCalls(['readParam' => callmap\onConsecutiveCalls(
+                ->mapCalls(['readParam' => onConsecutiveCalls(
                         ValueReader::forValue($startValue),
                         ValueReader::forValue($endValue)
                 )]

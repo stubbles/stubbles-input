@@ -8,8 +8,9 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\errors;
-use stubbles\lang\reflect;
 use stubbles\input\errors\messages\LocalizedMessage;
+
+use function stubbles\lang\reflect\annotationsOf;
 /**
  * Tests for stubbles\input\errors\ParamError.
  *
@@ -126,9 +127,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnClass()
     {
-        assertTrue(
-                reflect\annotationsOf($this->paramError)->contain('XmlTag')
-        );
+        assertTrue(annotationsOf($this->paramError)->contain('XmlTag'));
     }
 
     /**
@@ -137,8 +136,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresentOnIdMethod()
     {
         assertTrue(
-                reflect\annotationsOf($this->paramError, 'id')
-                        ->contain('XmlAttribute')
+                annotationsOf($this->paramError, 'id')->contain('XmlAttribute')
         );
     }
 }

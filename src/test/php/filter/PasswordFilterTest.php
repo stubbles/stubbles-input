@@ -8,9 +8,11 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\lang\Secret;
+
+use function bovigo\callmap\verify;
+
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\PasswordFilter.
@@ -73,7 +75,7 @@ class PasswordFilterTest extends FilterTest
     public function returnsNullForNull()
     {
         assertNull($this->passwordFilter->apply($this->createParam(null)));
-        callmap\verify($this->passwordChecker, 'check')->wasNeverCalled();
+        verify($this->passwordChecker, 'check')->wasNeverCalled();
 
     }
 
@@ -83,7 +85,7 @@ class PasswordFilterTest extends FilterTest
     public function returnsNullForEmptyString()
     {
         assertNull($this->passwordFilter->apply($this->createParam('')));
-        callmap\verify($this->passwordChecker, 'check')->wasNeverCalled();
+        verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
 
     /**
@@ -106,7 +108,7 @@ class PasswordFilterTest extends FilterTest
         assertNull(
                 $this->passwordFilter->apply($this->createParam(['foo', 'bar']))
         );
-        callmap\verify($this->passwordChecker, 'check')->wasNeverCalled();
+        verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
 
     /**
@@ -117,7 +119,7 @@ class PasswordFilterTest extends FilterTest
         $param = $this->createParam(['foo', 'bar']);
         $this->passwordFilter->apply($param);
         assertTrue($param->hasError('PASSWORDS_NOT_EQUAL'));
-        callmap\verify($this->passwordChecker, 'check')->wasNeverCalled();
+        verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
 
     /**
