@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter\range;
 use stubbles\lang\Secret;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\StringLength.
  *
@@ -143,10 +148,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assertEquals(
-                [],
-                $this->stringLength->errorsOf('foo')
-        );
+        assert($this->stringLength->errorsOf('foo'), equals([]));
     }
 
     /**
@@ -154,9 +156,9 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assertEquals(
-                ['STRING_TOO_SHORT' => ['minLength' => 1]],
-                $this->stringLength->errorsOf('')
+        assert(
+                $this->stringLength->errorsOf(''),
+                equals(['STRING_TOO_SHORT' => ['minLength' => 1]])
         );
     }
 
@@ -165,9 +167,9 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assertEquals(
-                ['STRING_TOO_LONG' => ['maxLength' => 10]],
-                $this->stringLength->errorsOf('abcdefghijk')
+        assert(
+                $this->stringLength->errorsOf('abcdefghijk'),
+                equals(['STRING_TOO_LONG' => ['maxLength' => 10]])
         );
     }
 
@@ -231,9 +233,9 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSubstringWithMaxLength()
     {
-        assertEquals(
-                'foo',
-                StringLength::truncate(null, 3)->truncateToMaxBorder('foobar')
+        assert(
+                StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),
+                equals('foo')
         );
     }
 
@@ -243,11 +245,11 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSecureSubstringWithMaxLength()
     {
-        assertEquals(
-                'foo',
+        assert(
                 StringLength::truncate(null, 3)
                             ->truncateToMaxBorder(Secret::create('foobar'))
-                            ->unveil()
+                            ->unveil(),
+                equals('foo')
         );
     }
 }

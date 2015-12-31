@@ -10,6 +10,10 @@
 namespace stubbles\input\broker\param;
 use stubbles\date\Date;
 use stubbles\date\span\Week;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\WeekParamBroker.
@@ -53,12 +57,12 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                Week::fromString('2015-W22'),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => '2015-W22'])
-                )
+                ),
+                equals(Week::fromString('2015-W22'))
         );
     }
 
@@ -108,8 +112,7 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        assertEquals(
-                Week::fromString('2015-W22'),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('2015-W22'),
                         $this->createRequestAnnotation(
@@ -117,7 +120,8 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'maxEndDate'   => '2015-05-31'
                                 ]
                         )
-                )
+                ),
+                equals(Week::fromString('2015-W22'))
         );
     }
 }

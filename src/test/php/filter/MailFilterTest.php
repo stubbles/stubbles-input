@@ -8,6 +8,11 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\MailFilter.
@@ -54,9 +59,9 @@ class MailFilterTest extends FilterTest
      */
     public function returnsFilteredValue()
     {
-        assertEquals(
-                'example@example.org',
-                $this->mailFilter->apply($this->createParam('example@example.org'))
+        assert(
+                $this->mailFilter->apply($this->createParam('example@example.org')),
+                equals('example@example.org')
         );
     }
 
@@ -185,7 +190,7 @@ class MailFilterTest extends FilterTest
      */
     public function asMailAddressReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        assertEquals('', $this->readParam(null)->asMailAddress());
+        assert($this->readParam(null)->asMailAddress(), equals(''));
     }
 
     /**
@@ -194,11 +199,11 @@ class MailFilterTest extends FilterTest
      */
     public function asMailAddressReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(
-                'baz@example.org',
+        assert(
                 $this->readParam(null)
                         ->defaultingTo('baz@example.org')
-                        ->asMailAddress()
+                        ->asMailAddress(),
+                equals('baz@example.org')
         );
     }
 
@@ -248,9 +253,9 @@ class MailFilterTest extends FilterTest
      */
     public function asMailAddressReturnsValidValue()
     {
-        assertEquals(
-                'foo@example.org',
-                $this->readParam('foo@example.org')->asMailAddress()
+        assert(
+                $this->readParam('foo@example.org')->asMailAddress(),
+                equals('foo@example.org')
         );
     }
 }

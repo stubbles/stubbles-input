@@ -10,6 +10,9 @@
 namespace stubbles\input\errors;
 use stubbles\input\errors\messages\LocalizedMessage;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function stubbles\lang\reflect\annotationsOf;
 /**
  * Tests for stubbles\input\errors\ParamError.
@@ -38,7 +41,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenId()
     {
-        assertEquals('id', $this->paramError->id());
+        assert($this->paramError->id(), equals('id'));
     }
 
     /**
@@ -47,7 +50,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenDetails()
     {
-        assertEquals(['foo' => 'bar'], $this->paramError->details());
+        assert($this->paramError->details(), equals(['foo' => 'bar']));
     }
 
     /**
@@ -56,15 +59,16 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithDetails()
     {
 
-        assertEquals(
-                [new LocalizedMessage('en_*', 'An error of type bar occurred.'),
-                 new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
-                ],
+        assert(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
                         ]
-                )
+                ),
+                equals([
+                        new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                        new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
+                ])
         );
     }
 
@@ -74,15 +78,16 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => ['bar', 'baz']]);
-        assertEquals(
-                [new LocalizedMessage('en_*', 'An error of type bar, baz occurred.'),
-                 new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
-                ],
+        assert(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
                         ]
-                )
+                ),
+                equals([
+                        new LocalizedMessage('en_*', 'An error of type bar, baz occurred.'),
+                        new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar, baz aufgetreten.')
+                ])
         );
     }
 
@@ -92,15 +97,16 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithObjectDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => new \stdClass()]);
-        assertEquals(
-                [new LocalizedMessage('en_*', 'An error of type stdClass occurred.'),
-                 new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
-                ],
+        assert(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
                         ]
-                )
+                ),
+                equals([
+                        new LocalizedMessage('en_*', 'An error of type stdClass occurred.'),
+                        new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ stdClass aufgetreten.')
+                ])
         );
     }
 
@@ -110,15 +116,16 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet()
     {
         $this->paramError = new ParamError('id');
-        assertEquals(
-                [new LocalizedMessage('en_*', 'An error of type {foo} occurred.'),
-                 new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
-                ],
+        assert(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
                         ]
-                )
+                ),
+                equals([
+                        new LocalizedMessage('en_*', 'An error of type {foo} occurred.'),
+                        new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ {foo} aufgetreten.')
+                ])
         );
     }
 

@@ -8,6 +8,13 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\errors;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isOfSize;
+use function bovigo\assert\predicate\isSameAs;
 /**
  * Tests for stubbles\input\errors\ParamErrors.
  *
@@ -43,7 +50,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      */
     public function initialErrorCountIsZero()
     {
-        assertEquals(0, $this->paramErrors->count());
+        assert($this->paramErrors, isOfSize(0));
     }
 
     /**
@@ -79,7 +86,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendingAnErrorIncreasesErrorCount()
     {
         $this->paramErrors->append('foo', 'errorid');
-        assertEquals(1, $this->paramErrors->count());
+        assert($this->paramErrors, isOfSize(1));
     }
 
     /**
@@ -88,9 +95,9 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsContainedInListForParam()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        assertEquals(
-                ['errorid' => $paramError],
-                $this->paramErrors->getFor('foo')
+        assert(
+                $this->paramErrors->getFor('foo'),
+                equals(['errorid' => $paramError])
         );
     }
 
@@ -100,9 +107,9 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsReturnedWhenRequested()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        assertSame(
-                $paramError,
-                $this->paramErrors->getForWithId('foo', 'errorid')
+        assert(
+                $this->paramErrors->getForWithId('foo', 'errorid'),
+                isSameAs($paramError)
         );
     }
 
@@ -119,7 +126,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      */
     public function getForReturnsEmptyArrayIfNoErrorAddedBefore()
     {
-        assertEquals([], $this->paramErrors->getFor('foo'));
+        assert($this->paramErrors->getFor('foo'), equals([]));
     }
 
     /**
@@ -167,16 +174,14 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
         $i = 0;
         foreach ($this->paramErrors as $paramName => $paramErrors) {
             if (0 === $i) {
-                assertEquals('foo', $paramName);
-                assertEquals(
-                        ['id1' => $paramError1,
-                         'id2' => $paramError2
-                        ],
-                        $paramErrors
+                assert($paramName, equals('foo'));
+                assert(
+                        $paramErrors,
+                        equals(['id1' => $paramError1, 'id2' => $paramError2])
                 );
             } else {
-                assertEquals('bar', $paramName);
-                assertEquals(['id1' => $paramError3], $paramErrors);
+                assert($paramName, equals('bar'));
+                assert($paramErrors, equals(['id1' => $paramError3]));
             }
 
             $i++;

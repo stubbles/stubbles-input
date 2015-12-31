@@ -14,6 +14,9 @@ use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\reflect\annotation\Annotation;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
 /**
  * Tests for stubbles\input\broker\param\CustomDatespanParamBroker.
@@ -72,12 +75,12 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDatespan()
     {
-        assertEquals(
-                new CustomDatespan('2012-02-05', '2012-04-21'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('2012-02-05', '2012-04-21'),
                         $this->createRequestAnnotation([])
-                )
+                ),
+                equals(new CustomDatespan('2012-02-05', '2012-04-21'))
         );
     }
 
@@ -151,12 +154,12 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultStartDateIfStartDateIsMissingAndDefaultGiven()
     {
-        assertEquals(
-                new CustomDatespan('today', '2012-04-21'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest(null, '2012-04-21'),
                         $this->createRequestAnnotation(['defaultStart' => 'today'])
-                )
+                ),
+                equals(new CustomDatespan('today', '2012-04-21'))
         );
     }
 
@@ -165,12 +168,12 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultEndDateIfEndDateIsMissingAndDefaultGiven()
     {
-        assertEquals(
-                new CustomDatespan('2012-02-05', 'today'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('2012-02-05', null),
                         $this->createRequestAnnotation(['defaultEnd' => 'today'])
-                )
+                ),
+                equals(new CustomDatespan('2012-02-05', 'today'))
         );
     }
 
@@ -179,8 +182,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultIfBothDatesAreMissingAndDefaultGiven()
     {
-        assertEquals(
-                new CustomDatespan('yesterday', 'tomorrow'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest(null, null),
                         $this->createRequestAnnotation(
@@ -188,7 +190,8 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
                                  'defaultEnd'   => 'tomorrow'
                                 ]
                         )
-                )
+                ),
+                equals(new CustomDatespan('yesterday', 'tomorrow'))
         );
     }
 
@@ -223,8 +226,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfStartInRange()
     {
-        assertEquals(
-                new CustomDatespan('today', 'tomorrow'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('today', 'tomorrow'),
                         $this->createRequestAnnotation(
@@ -232,7 +234,8 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
                                  'maxStartDate' => 'tomorrow'
                                 ]
                         )
-                )
+                ),
+                equals(new CustomDatespan('today', 'tomorrow'))
         );
     }
 
@@ -267,8 +270,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfEndInRange()
     {
-        assertEquals(
-                new CustomDatespan('yesterday', 'today'),
+        assert(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('yesterday', 'today'),
                         $this->createRequestAnnotation(
@@ -276,7 +278,8 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
                                  'maxEndDate' => 'tomorrow'
                                 ]
                         )
-                )
+                ),
+                equals(new CustomDatespan('yesterday', 'today'))
         );
     }
 }

@@ -8,6 +8,12 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isOfSize;
 /**
  * Tests for stubbles\input\Params.
  *
@@ -59,7 +65,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamWithValueIfParamExists()
     {
-        assertEquals('bar', $this->params->get('foo')->value());
+        assert($this->params->get('foo')->value(), equals('bar'));
     }
 
     /**
@@ -75,7 +81,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfParamExists()
     {
-        assertEquals('bar', $this->params->value('foo'));
+        assert($this->params->value('foo'), equals('bar'));
     }
 
     /**
@@ -83,7 +89,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        assertEquals(['foo', 'baz'], $this->params->names());
+        assert($this->params->names(), equals(['foo', 'baz']));
     }
 
     /**
@@ -99,7 +105,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function paramsCanBeCounted()
     {
-        assertEquals(2, count($this->params));
+        assert($this->params, isOfSize(2));
     }
 
     /**
@@ -110,11 +116,11 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $i = 0;
         foreach ($this->params as $paramName => $paramValue) {
             if (0 === $i) {
-                assertEquals('foo', $paramName);
-                assertEquals('bar', $paramValue);
+                assert($paramName, equals('foo'));
+                assert($paramValue, equals('bar'));
             } else {
-                assertEquals('baz', $paramName);
-                assertEquals('value', $paramValue);
+                assert($paramName, equals('baz'));
+                assert($paramValue, equals('value'));
             }
 
             $i++;

@@ -8,6 +8,10 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\Param.
  *
@@ -21,7 +25,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenName()
     {
         $param = new Param('foo', 'bar');
-        assertEquals('foo', $param->name());
+        assert($param->name(), equals('foo'));
     }
 
     /**
@@ -30,7 +34,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenValue()
     {
         $param = new Param('foo', 'bar');
-        assertEquals('bar', $param->value());
+        assert($param->value(), equals('bar'));
     }
 
     /**
@@ -66,7 +70,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsValueLength()
     {
         $param = new Param('foo', 'bar');
-        assertEquals(3, $param->length());
+        assert($param->length(), equals(3));
     }
 
     /**
@@ -84,7 +88,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasEmptyErrorListByDefault()
     {
         $param = new Param('foo', 'bar');
-        assertEquals([], $param->errors());
+        assert($param->errors(), equals([]));
     }
 
     /**
@@ -104,7 +108,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        assertEquals(['SOME_ERROR' => $error], $param->errors());
+        assert($param->errors(), equals(['SOME_ERROR' => $error]));
     }
 
     /**
@@ -128,7 +132,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        assertEquals(['SOME_ERROR' => $error], $param->errors());
+        assert($param->errors(), equals(['SOME_ERROR' => $error]));
     }
 
     /**

@@ -8,6 +8,9 @@
  * @package  @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function stubbles\lang\reflect\annotationsOf;
 /**
  * Tests for stubbles\input\errors\messages\LocalizedMessage.
@@ -71,7 +74,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function localeAttributeEqualsGivenLocale()
     {
-        assertEquals('en_EN', $this->localizedMessage->locale());
+        assert($this->localizedMessage->locale(), equals('en_EN'));
     }
 
     /**
@@ -79,9 +82,9 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function contentOfStringEqualsGivenString()
     {
-        assertEquals(
-                'This is a localized string.',
-                $this->localizedMessage->message()
+        assert(
+                $this->localizedMessage->message(),
+                equals('This is a localized string.')
         );
     }
 
@@ -91,9 +94,9 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function conversionToStringYieldsMessage()
     {
-        assertEquals(
-                'This is a localized string.',
-                (string) $this->localizedMessage
+        assert(
+                (string) $this->localizedMessage,
+                equals('This is a localized string.')
         );
     }
 }

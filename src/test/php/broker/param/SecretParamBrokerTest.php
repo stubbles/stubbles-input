@@ -14,6 +14,10 @@ use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\Secret;
 use stubbles\lang\reflect\annotation\Annotation;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/WebRequest.php';
 /**
  * Tests for stubbles\input\broker\param\SecretParamBroker.
@@ -38,7 +42,7 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertSecretEquals($expected, Secret $actual)
     {
-        assertEquals($expected, $actual->unveil());
+        assert($actual->unveil(), equals($expected));
     }
 
     /**
@@ -61,8 +65,9 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequest($value)
     {
-        return NewInstance::of(Request::class)
-                ->mapCalls(['readParam' => ValueReader::forValue($value)]);
+        return NewInstance::of(Request::class)->mapCalls([
+                'readParam' => ValueReader::forValue($value)
+        ]);
     }
 
     /**
@@ -124,8 +129,9 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)
-                ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
+        $request = NewInstance::of(WebRequest::class)->mapCalls([
+                'readHeader' => ValueReader::forValue('topsecret')
+        ]);
         $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(
@@ -140,8 +146,9 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request =  NewInstance::of(WebRequest::class)
-                ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
+        $request =  NewInstance::of(WebRequest::class)->mapCalls([
+            'readCookie' => ValueReader::forValue('topsecret')
+        ]);
         $this->assertSecretEquals(
                 'topsecret',
                 $this->paramBroker->procure(

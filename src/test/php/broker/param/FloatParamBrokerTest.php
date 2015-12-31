@@ -8,6 +8,9 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\FloatParamBroker.
@@ -50,12 +53,12 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                3.03,
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => 3.03])
-                )
+                ),
+                equals(3.03)
         );
     }
 
@@ -103,14 +106,14 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        assertEquals(
-                3.03,
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('3.03'),
                         $this->createRequestAnnotation(
                                 ['minValue' => 3, 'maxValue' => 4]
                         )
-                )
+                ),
+                equals(3.03)
         );
     }
 }

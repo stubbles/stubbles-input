@@ -14,6 +14,10 @@ use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\lang\Secret;
 use stubbles\lang\reflect\annotation\Annotation;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/WebRequest.php';
 /**
  * Tests for stubbles\input\broker\param\PasswordParamBroker.
@@ -37,7 +41,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
     {
-        assertEquals($expectedPassword, $actualPassword->unveil());
+        assert($actualPassword->unveil(), equals($expectedPassword));
     }
 
     /**
@@ -123,8 +127,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)
-                ->mapCalls(['readHeader' => ValueReader::forValue('topsecret')]);
+        $request = NewInstance::of(WebRequest::class)->mapCalls([
+                'readHeader' => ValueReader::forValue('topsecret')
+        ]);
         $this->assertPasswordEquals(
                 'topsecret',
                 $this->paramBroker->procure(
@@ -139,8 +144,9 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request =  NewInstance::of(WebRequest::class)
-                ->mapCalls(['readCookie' => ValueReader::forValue('topsecret')]);
+        $request =  NewInstance::of(WebRequest::class)->mapCalls([
+                'readCookie' => ValueReader::forValue('topsecret')
+        ]);
         $this->assertPasswordEquals(
                 'topsecret',
                 $this->paramBroker->procure(

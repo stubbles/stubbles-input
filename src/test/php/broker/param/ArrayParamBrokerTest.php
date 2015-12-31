@@ -11,6 +11,10 @@ namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 require_once __DIR__ . '/WebRequest.php';
 /**
@@ -54,12 +58,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => 'foo|bar'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -68,12 +72,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueWithDifferentSeparator()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('foo|bar'),
                         $this->createRequestAnnotation(['separator' => '|'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -95,12 +99,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsEmptyArrayForEmptyValue()
     {
-        assertEquals(
-                [],
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(''),
                         $this->createRequestAnnotation([])
-                )
+                ),
+                equals([])
         );
     }
 
@@ -109,12 +113,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canWorkWithParam()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procureParam(
                         new Param('name', 'foo, bar'),
                         $this->createRequestAnnotation([])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -123,12 +127,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsDefaultSource()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('foo, bar'),
                         $this->createRequestAnnotation([])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -137,12 +141,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsSource()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('foo, bar'),
                         $this->createRequestAnnotation(['source' => 'param'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -153,12 +157,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     {
         $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readHeader' => ValueReader::forValue('foo, bar')]);
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'header'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -169,12 +173,12 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     {
         $request = NewInstance::of(WebRequest::class)
                 ->mapCalls(['readCookie' => ValueReader::forValue('foo, bar')]);
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'cookie'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 }

@@ -8,6 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\FileParamBroker.
@@ -50,14 +52,14 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                '/home/user/foo.txt',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(
                                 ['default' => '/home/user/foo.txt']
                         )
-                )
+                ),
+                equals('/home/user/foo.txt')
         );
     }
 
@@ -66,8 +68,7 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function considersRelativeWhenBasePathGiven()
     {
-        assertEquals(
-                '../RequestBrokerTest.php',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('../RequestBrokerTest.php'),
                         $this->createRequestAnnotation(
@@ -75,7 +76,8 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'allowRelative' => true
                                 ]
                         )
-                )
+                ),
+                equals('../RequestBrokerTest.php')
         );
     }
 }

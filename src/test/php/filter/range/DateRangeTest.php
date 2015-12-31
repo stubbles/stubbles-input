@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter\range;
 use stubbles\date\Date;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\DateRange.
  *
@@ -118,10 +123,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assertEquals(
-                [],
-                $this->dateRange->errorsOf('2012-03-17')
-        );
+        assert($this->dateRange->errorsOf('2012-03-17'), equals([]));
     }
 
     /**
@@ -129,9 +131,9 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assertEquals(
-                ['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]],
-                $this->dateRange->errorsOf('2012-03-16')
+        assert(
+                $this->dateRange->errorsOf('2012-03-16'),
+                equals(['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]])
         );
     }
 
@@ -140,9 +142,9 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assertEquals(
-                ['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]],
-                $this->dateRange->errorsOf('2012-03-20')
+        assert(
+                $this->dateRange->errorsOf('2012-03-20'),
+                equals(['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]])
         );
     }
 

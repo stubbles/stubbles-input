@@ -11,6 +11,10 @@ namespace stubbles\input\broker;
 use bovigo\callmap\NewInstance;
 use stubbles\input\broker\param\ParamBroker;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\isInstanceOf;
+use function bovigo\assert\predicate\isSameAs;
 use function stubbles\lang\reflect\annotationsOfConstructor;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
@@ -66,9 +70,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsBroker($key, $brokerClass)
     {
-        assertInstanceOf(
-                $brokerClass,
-                $this->requestBroker->paramBroker($key)
+        assert(
+                $this->requestBroker->paramBroker($key),
+                isInstanceOf($brokerClass)
         );
     }
 
@@ -80,9 +84,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsBrokerWithLowerCaseKey($key, $brokerClass)
     {
-        assertInstanceOf(
-                $brokerClass,
-                $this->requestBroker->paramBroker(strtolower($key))
+        assert(
+                $this->requestBroker->paramBroker(strtolower($key)),
+                isInstanceOf($brokerClass)
         );
     }
 
@@ -103,9 +107,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     {
         $oaramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['mock' => $oaramBroker]);
-        assertInstanceOf(
-                $brokerClass,
-                $requestBroker->paramBroker($key)
+        assert(
+                $requestBroker->paramBroker($key),
+                isInstanceOf($brokerClass)
         );
     }
 
@@ -116,9 +120,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
-        assertSame(
-                $paramBroker,
-                $requestBroker->paramBroker('mock')
+        assert(
+                $requestBroker->paramBroker('mock'),
+                isSameAs($paramBroker)
         );
     }
 
@@ -129,9 +133,9 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['string' => $paramBroker]);
-        assertSame(
-                $paramBroker,
-                $requestBroker->paramBroker('string')
+        assert(
+                $requestBroker->paramBroker('string'),
+                isSameAs($paramBroker)
         );
     }
 }

@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\NumberRange;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\IntegerFilter.
@@ -41,9 +46,10 @@ class IntegerFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $integerFilter = IntegerFilter::instance();
-        assertEquals(
-                $expected,
-                $integerFilter->apply($this->createParam($value)));
+        assert(
+                $integerFilter->apply($this->createParam($value)),
+                equals($expected)
+        );
     }
 
     /**
@@ -61,7 +67,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(303, $this->readParam(null)->defaultingTo(303)->asInt());
+        assert($this->readParam(null)->defaultingTo(303)->asInt(), equals(303));
     }
 
     /**
@@ -108,7 +114,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsValidValue()
     {
-        assertEquals(313, $this->readParam('313')->asInt());
+        assert($this->readParam('313')->asInt(), equals(313));
 
     }
 }

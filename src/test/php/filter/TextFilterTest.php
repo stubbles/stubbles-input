@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\TextFilter.
@@ -38,7 +43,7 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        assertEquals('', $this->textFilter->apply($this->createParam(null)));
+        assert($this->textFilter->apply($this->createParam(null)), equals(''));
     }
 
     /**
@@ -46,7 +51,7 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        assertEquals('', $this->textFilter->apply($this->createParam('')));
+        assert($this->textFilter->apply($this->createParam('')), equals(''));
     }
 
     /**
@@ -71,12 +76,12 @@ class TextFilterTest extends FilterTest
      */
     public function removesTags(array $allowedTags, $expected)
     {
-        assertEquals(
-                $expected,
+        assert(
                 $this->textFilter->allowTags($allowedTags)
                         ->apply($this->createParam(
                                 'this is <b>bold</b> and <i>cursive</i> and <u>underlined</u> with a <a href="http://example.org/">link</a>'
-                        ))
+                        )),
+                equals($expected)
         );
     }
 
@@ -85,9 +90,9 @@ class TextFilterTest extends FilterTest
      */
     public function removesSlashes()
     {
-        assertEquals(
-                "'kkk",
-                $this->textFilter->apply($this->createParam("\'kkk"))
+        assert(
+                $this->textFilter->apply($this->createParam("\'kkk")),
+                equals("'kkk")
         );
     }
 
@@ -96,9 +101,9 @@ class TextFilterTest extends FilterTest
      */
     public function removesCarriageReturn()
     {
-        assertEquals(
-                "cdekkk",
-                $this->textFilter->apply($this->createParam("cde\rkkk"))
+        assert(
+                $this->textFilter->apply($this->createParam("cde\rkkk")),
+                equals("cdekkk")
         );
     }
 
@@ -107,9 +112,9 @@ class TextFilterTest extends FilterTest
      */
     public function doesNotRemoveLineBreaks()
     {
-        assertEquals(
-                "ab\ncde\nkkk",
-                $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))
+        assert(
+                $this->textFilter->apply($this->createParam("ab\ncde\nkkk")),
+                equals("ab\ncde\nkkk")
         );
     }
 
@@ -119,7 +124,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        assertEquals('', $this->readParam(null)->asText());
+        assert($this->readParam(null)->asText(), equals(''));
     }
 
     /**
@@ -128,11 +133,9 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(
-                'baz',
-                $this->readParam(null)
-                        ->defaultingTo('baz')
-                        ->asText()
+        assert(
+                $this->readParam(null)->defaultingTo('baz')->asText(),
+                equals('baz')
         );
     }
 
@@ -162,8 +165,7 @@ class TextFilterTest extends FilterTest
     public function asTextReturnsNullIfParamIsInvalid()
     {
         assertNull(
-                $this->readParam('foo')
-                        ->asText(new StringLength(5, null))
+                $this->readParam('foo')->asText(new StringLength(5, null))
         );
     }
 
@@ -182,7 +184,7 @@ class TextFilterTest extends FilterTest
      */
     public function asTextReturnsValidValue()
     {
-        assertEquals('foo', $this->readParam('foo<b>')->asText());
+        assert($this->readParam('foo<b>')->asText(), equals('foo'));
 
     }
 
@@ -191,6 +193,6 @@ class TextFilterTest extends FilterTest
      */
     public function asTextWithAllowedTagsReturnsValidValue()
     {
-        assertEquals('foo<b>', $this->readParam('foo<b>')->asText(null, ['b']));
+        assert($this->readParam('foo<b>')->asText(null, ['b']), equals('foo<b>'));
     }
 }

@@ -11,6 +11,10 @@ namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\lang\Secret;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 
 require_once __DIR__ . '/FilterTest.php';
@@ -50,19 +54,15 @@ class PasswordFilterTest extends FilterTest
      */
     private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
     {
-        assertEquals($expectedPassword, $actualPassword->unveil());
+        assert($actualPassword->unveil(), equals($expectedPassword));
     }
 
     /**
      * @test
      */
-    public function value()
+    public function returnsValueWhenCheckerDoesNotObject()
     {
         $this->passwordChecker->mapCalls(['check' => []]);
-        $this->assertPasswordEquals(
-                'foo',
-                $this->passwordFilter->apply($this->createParam('foo'))
-        );
         $this->assertPasswordEquals(
                 '425%$%"�$%t 32',
                 $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32'))

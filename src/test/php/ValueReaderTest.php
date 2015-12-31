@@ -10,6 +10,11 @@
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\callmap\verify;
 
 require_once __DIR__ . '/filter/FilterTest.php';
@@ -26,9 +31,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressReturnsValidatedValue()
     {
-        assertEquals(
-                '127.0.0.1',
-                $this->readParam('127.0.0.1')->ifIsIpAddress()
+        assert(
+                $this->readParam('127.0.0.1')->ifIsIpAddress(),
+                equals('127.0.0.1')
         );
     }
 
@@ -37,9 +42,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressReturnsDefaultValueIfParamIsNull()
     {
-        assertEquals(
-                '127.0.0.1',
-                $this->readParam(null)->defaultingTo('127.0.0.1')->ifIsIpAddress()
+        assert(
+                $this->readParam(null)->defaultingTo('127.0.0.1')->ifIsIpAddress(),
+                equals('127.0.0.1')
         );
     }
 
@@ -68,9 +73,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressReturnsNullIfValidationFailsAndDefaultValueGiven()
     {
-        assertNull(
-                $this->readParam('invalid')->required()->ifIsIpAddress()
-        );
+        assertNull($this->readParam('invalid')->required()->ifIsIpAddress());
     }
 
     /**
@@ -78,7 +81,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsIpAddressAddsParamErrorIfValidationFails()
     {
-        assertNull($this->readParam('invalid')->ifIsIpAddress());
+        $this->readParam('invalid')->ifIsIpAddress();
         assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_IP_ADDRESS'));
     }
 
@@ -104,9 +107,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsOneOfReturnsValidatedValue()
     {
-        assertEquals(
-                'Hardfloor',
-                $this->readParam('Hardfloor')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+        assert(
+                $this->readParam('Hardfloor')->ifIsOneOf(['Hardfloor', 'Dr DNA']),
+                equals('Hardfloor')
         );
     }
 
@@ -115,11 +118,11 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsOneOfReturnsDefaultValueIfParamIsNull()
     {
-        assertEquals(
-                'Moby',
+        assert(
                 $this->readParam(null)
                         ->defaultingTo('Moby')
-                        ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+                        ->ifIsOneOf(['Hardfloor', 'Dr DNA']),
+                equals('Moby')
         );
     }
 
@@ -162,9 +165,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifIsOneOfAddsParamErrorIfValidationFails()
     {
-        assertNull(
-                $this->readParam('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
-        );
+        $this->readParam('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA']);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_NO_SELECT'));
     }
 
@@ -196,9 +197,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifSatisfiesRegexReturnsValidatedValue()
     {
-        assertEquals(
-                'Hardfloor',
-                $this->readParam('Hardfloor')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+        assert(
+                $this->readParam('Hardfloor')->ifSatisfiesRegex('/[a-zA-Z]{9}/'),
+                equals('Hardfloor')
         );
     }
 
@@ -207,11 +208,11 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
     {
-        assertEquals(
-                'Moby',
+        assert(
                 $this->readParam(null)
                         ->defaultingTo('Moby')
-                        ->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+                        ->ifSatisfiesRegex('/[a-zA-Z]{9}/'),
+                equals('Moby')
         );
     }
 
@@ -254,9 +255,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function ifSatisfiesRegexAddsParamErrorIfValidationFails()
     {
-        assertNull(
-                $this->readParam('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
-        );
+        $this->readParam('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_WRONG_VALUE'));
     }
 
@@ -308,9 +307,9 @@ class ValueReaderTest extends filter\FilterTest
     {
         $param  = new Param('bar', null);
         $filter = NewInstance::of(Filter::class);
-        assertEquals(
-                'foo',
-                $this->read($param)->defaultingTo('foo')->withFilter($filter)
+        assert(
+                $this->read($param)->defaultingTo('foo')->withFilter($filter),
+                equals('foo')
         );
         verify($filter, 'apply')->wasNeverCalled();
     }
@@ -322,8 +321,7 @@ class ValueReaderTest extends filter\FilterTest
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
-        $filter = NewInstance::of(Filter::class)
-                ->mapCalls(['apply' => 'baz']);
+        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'baz']);
         assertNull($this->read($param)->withFilter($filter));
     }
 
@@ -334,8 +332,7 @@ class ValueReaderTest extends filter\FilterTest
     {
         $param = new Param('bar', 'foo');
         $param->addError('SOME_ERROR');
-        $filter = NewInstance::of(Filter::class)
-                ->mapCalls(['apply' => 'baz']);
+        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'baz']);
         $this->read($param)->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'SOME_ERROR'));
     }
@@ -368,9 +365,8 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsValueFromFilter()
     {
-        $filter = NewInstance::of(Filter::class)
-                ->mapCalls(['apply' => 'foo']);
-        assertEquals('foo', $this->readParam('foo')->withFilter($filter));
+        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'foo']);
+        assert($this->readParam('foo')->withFilter($filter), equals('foo'));
     }
 
     /**
@@ -390,7 +386,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function unsecureReturnsRawValue()
     {
-        assertEquals('a value', $this->readParam('a value')->unsecure());
+        assert($this->readParam('a value')->unsecure(), equals('a value'));
     }
 
     /**
@@ -398,10 +394,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function canBeCreatedWithoutParam()
     {
-        assertInstanceOf(
-                ValueReader::class,
-                ValueReader::forValue('bar')
-        );
+        assert(ValueReader::forValue('bar'), isInstanceOf(ValueReader::class));
     }
 
     /**
@@ -409,9 +402,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function canBeCreatedforParam()
     {
-        assertInstanceOf(
-                ValueReader::class,
-                ValueReader::forParam(new Param('foo', 'bar'))
+        assert(
+                ValueReader::forParam(new Param('foo', 'bar')),
+                isInstanceOf(ValueReader::class)
         );
     }
 
@@ -440,9 +433,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withCallableReturnsFilteredValue()
     {
-        assertEquals(
-                'Roland TB-303',
-                $this->readParam('303')->withCallable($this->createCallable())
+        assert(
+                $this->readParam('303')->withCallable($this->createCallable()),
+                equals('Roland TB-303')
         );
     }
 
@@ -484,11 +477,11 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withCallableReturnsDefaultValueWhenParamNotSet()
     {
-        assertEquals(
-                'Roland TB-303 w/ Hardfloor Mod',
+        assert(
                 $this->readParam(null)
                         ->defaultingTo('Roland TB-303 w/ Hardfloor Mod')
-                        ->withCallable($this->createCallable())
+                        ->withCallable($this->createCallable()),
+                equals('Roland TB-303 w/ Hardfloor Mod')
         );
     }
 

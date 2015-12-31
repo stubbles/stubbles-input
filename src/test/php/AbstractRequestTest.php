@@ -9,6 +9,12 @@
  */
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isInstanceOf;
 /**
  * Helper class for the test.
  */
@@ -51,9 +57,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        assertEquals(
-                ['foo', 'roland'],
-                $this->abstractRequest->paramNames()
+        assert(
+                $this->abstractRequest->paramNames(),
+                equals(['foo', 'roland'])
         );
     }
 
@@ -62,9 +68,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        assertInstanceOf(
-                ParamErrors::class,
-                $this->abstractRequest->paramErrors()
+        assert(
+                $this->abstractRequest->paramErrors(),
+                isInstanceOf(ParamErrors::class)
         );
     }
 
@@ -89,9 +95,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        assertInstanceOf(
-                ValueValidator::class,
-                $this->abstractRequest->validateParam('foo')
+        assert(
+                $this->abstractRequest->validateParam('foo'),
+                isInstanceOf(ValueValidator::class)
         );
     }
 
@@ -100,9 +106,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        assertInstanceOf(
-                ValueValidator::class,
-                $this->abstractRequest->validateParam('baz')
+        assert(
+                $this->abstractRequest->validateParam('baz'),
+                isInstanceOf(ValueValidator::class)
         );
     }
 
@@ -111,9 +117,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReader()
     {
-        assertInstanceOf(
-                ValueReader::class,
-                $this->abstractRequest->readParam('foo')
+        assert(
+                $this->abstractRequest->readParam('foo'),
+                isInstanceOf(ValueReader::class)
         );
     }
 
@@ -122,9 +128,9 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReaderForNonExistingParam()
     {
-        assertInstanceOf(
-                ValueReader::class,
-                $this->abstractRequest->readParam('baz')
+        assert(
+                $this->abstractRequest->readParam('baz'),
+                isInstanceOf(ValueReader::class)
         );
     }
 }

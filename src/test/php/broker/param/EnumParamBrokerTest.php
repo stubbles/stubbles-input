@@ -9,6 +9,9 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\lang\Enum;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\isSameAs;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 class ExampleEnum extends Enum
 {
@@ -82,12 +85,12 @@ class EnumParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertSame(
-                ExampleEnum::$BAR,
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => ExampleEnum::class . '::$BAR'])
-                )
+                ),
+                isSameAs(ExampleEnum::$BAR)
         );
     }
 }

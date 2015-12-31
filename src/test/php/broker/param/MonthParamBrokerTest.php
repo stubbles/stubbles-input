@@ -9,6 +9,10 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\date\span\Month;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\MonthParamBroker.
@@ -52,12 +56,12 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                new Month(2012, 04),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => '2012-04'])
-                )
+                ),
+                equals(new Month(2012, 04))
         );
     }
 
@@ -107,8 +111,7 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        assertEquals(
-                Month::fromString('2015-02'),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('2015-02'),
                         $this->createRequestAnnotation(
@@ -116,7 +119,8 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'maxEndDate'   => '2015-03-31'
                                 ]
                         )
-                )
+                ),
+                equals(Month::fromString('2015-02'))
         );
     }
 }

@@ -10,6 +10,11 @@
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
 use stubbles\lang\Secret;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\SecretFilter.
@@ -41,7 +46,7 @@ class SecretFilterTest extends FilterTest
      */
     private function assertSecretEquals($expected, Secret $actual)
     {
-        assertEquals($expected, $actual->unveil());
+        assert($actual->unveil(), equals($expected));
     }
 
     /**
@@ -181,10 +186,7 @@ class SecretFilterTest extends FilterTest
      */
     public function asSecretReturnsValidValue()
     {
-        assertEquals(
-                'foo',
-                $this->readParam('foo')->asSecret()->unveil()
-        );
+        assert($this->readParam('foo')->asSecret()->unveil(), equals('foo'));
     }
 
 }

@@ -8,6 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
 use function stubbles\lang\reflect;
 require_once __DIR__ . '/BrokerClass.php';
 /**
@@ -41,10 +43,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        assertEquals(
-                ['verbose', 'bar', 'baz'],
-                $paramNames
-        );
+        assert($paramNames, equals(['verbose', 'bar', 'baz']));
     }
 
     /**
@@ -58,10 +57,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        assertEquals(
-                ['bar'],
-                $paramNames
-        );
+        assert($paramNames, equals(['bar']));
     }
 
     /**

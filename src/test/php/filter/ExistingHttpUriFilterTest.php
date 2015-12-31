@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\peer\http\HttpUri;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\ExistingHttpUriFilter.
@@ -40,10 +45,10 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithoutPortIfItIsDefaultPort()
     {
-        assertEquals(
-                'http://example.org/',
+        assert(
                 $this->existinghttpUriFilter->apply($this->createParam('http://example.org'))
-                        ->asString()
+                        ->asString(),
+                equals('http://example.org/')
         );
     }
 
@@ -54,10 +59,10 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithPortIfItIsNonDefaultPort()
     {
-        assertEquals(
-                'http://example.org:45/',
+        assert(
                 $this->existinghttpUriFilter->apply($this->createParam('http://example.org:45'))
-                        ->asString()
+                        ->asString(),
+                equals('http://example.org:45/')
         );
     }
 
@@ -104,10 +109,10 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsHttpUriIfUriHasDnsRecoed()
     {
-        assertEquals(
-                'http://stubbles.net/',
+        assert(
                 $this->existinghttpUriFilter->apply($this->createParam('http://stubbles.net/'))
-                        ->asString()
+                        ->asString(),
+                equals('http://stubbles.net/')
         );
     }
 
@@ -139,12 +144,12 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(
-                'http://example.com/',
+        assert(
                 $this->readParam(null)
                      ->defaultingTo(HttpUri::fromString('http://example.com/'))
                      ->asExistingHttpUri()
-                     ->asString()
+                     ->asString(),
+                equals('http://example.com/')
         );
     }
 
@@ -192,11 +197,11 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function asExistingHttpUriReturnsValidValue()
     {
-        assertEquals(
-                'http://localhost/',
+        assert(
                 $this->readParam('http://localhost/')
                      ->asExistingHttpUri()
-                     ->asString()
+                     ->asString(),
+                equals('http://localhost/')
         );
     }
 }

@@ -9,6 +9,10 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\peer\http\HttpUri;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\HttpUriParamBroker.
@@ -51,12 +55,12 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => 'http://localhost/'])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 
@@ -65,12 +69,12 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfDnsCheckEnabledAndSuccessful()
     {
-        assertEquals(
-                $this->expectedValue(),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('http://localhost/'),
                         $this->createRequestAnnotation(['dnsCheck' => true])
-                )
+                ),
+                equals($this->expectedValue())
         );
     }
 

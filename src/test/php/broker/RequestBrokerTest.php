@@ -13,6 +13,11 @@ use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\input\broker\param\ParamBroker;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
 use function stubbles\lang\reflect\annotationsOf;
 
@@ -76,7 +81,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
         );
         $object = $this->requestBroker->procure($this->request, new BrokerClass(), 'main');
         assertFalse($object->isVerbose());
-        assertEquals('just some string value', $object->getBar());
+        assert($object->getBar(), equals('just some string value'));
         assertNull($object->getBaz());
     }
 
@@ -99,7 +104,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
         $object = $requestBroker->procure($this->request, new BrokerClass());
         assertTrue($object->isVerbose());
-        assertEquals('just some string value', $object->getBar());
-        assertEquals('just another string value', $object->getBaz());
+        assert($object->getBar(), equals('just some string value'));
+        assert($object->getBaz(), equals('just another string value'));
     }
 }

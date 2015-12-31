@@ -8,6 +8,10 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\NumberRange.
  *
@@ -118,10 +122,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assertEquals(
-                [],
-                $this->numberRange->errorsOf(3)
-        );
+        assert($this->numberRange->errorsOf(3), equals([]));
     }
 
     /**
@@ -129,9 +130,9 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assertEquals(
-                ['VALUE_TOO_SMALL' => ['minNumber' => 1]],
-                $this->numberRange->errorsOf(0)
+        assert(
+                $this->numberRange->errorsOf(0),
+                equals(['VALUE_TOO_SMALL' => ['minNumber' => 1]])
         );
     }
 
@@ -140,9 +141,9 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assertEquals(
-                ['VALUE_TOO_GREAT' => ['maxNumber' => 10]],
-                $this->numberRange->errorsOf(11)
+        assert(
+                $this->numberRange->errorsOf(11),
+                equals(['VALUE_TOO_GREAT' => ['maxNumber' => 10]])
         );
     }
 

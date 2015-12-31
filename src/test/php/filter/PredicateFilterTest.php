@@ -11,6 +11,12 @@ namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\predicate\Predicate;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\PredicateFilter.
  *
@@ -51,9 +57,9 @@ class PredicateFilterTest extends \PHPUnit_Framework_TestCase
     public function returnsValueWhenPredicateEvaluatesToTrue()
     {
         $this->predicate->mapCalls(['test' => true]);
-        assertEquals(
-                'Acperience',
-                $this->predicateFilter->apply(new Param('example', 'Acperience'))
+        assert(
+                $this->predicateFilter->apply(new Param('example', 'Acperience')),
+                equals('Acperience')
         );
     }
 

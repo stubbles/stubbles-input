@@ -10,6 +10,11 @@
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
 use stubbles\predicate\Predicate;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\isInstanceOf;
 /**
  * Tests for stubbles\input\ValueValidator.
  *
@@ -283,9 +288,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeCreatedAsMock()
     {
-        assertInstanceOf(
-                ValueValidator::class,
-                ValueValidator::forValue('bar')
+        assert(
+                ValueValidator::forValue('bar'),
+                isInstanceOf(ValueValidator::class)
         );
     }
 }

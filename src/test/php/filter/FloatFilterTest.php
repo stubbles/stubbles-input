@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\NumberRange;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\FloatFilter.
@@ -45,10 +50,9 @@ class FloatFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $floatFilter = new FloatFilter();
-        assertEquals(
-                $expected,
-                $floatFilter->setDecimals(3)
-                        ->apply($this->createParam($value))
+        assert(
+                $floatFilter->setDecimals(3)->apply($this->createParam($value)),
+                equals($expected)
         );
     }
 
@@ -58,10 +62,9 @@ class FloatFilterTest extends FilterTest
     public function float()
     {
         $floatFilter = new FloatFilter();
-        assertEquals(
-                156,
-                $floatFilter->setDecimals(2)
-                        ->apply($this->createParam('1.564'))
+        assert(
+                $floatFilter->setDecimals(2)->apply($this->createParam('1.564')),
+                equals(156)
         );
     }
 
@@ -71,7 +74,7 @@ class FloatFilterTest extends FilterTest
     public function decimalsNotSet()
     {
         $floatFilter = new FloatFilter();
-        assertEquals(1.564, $floatFilter->apply($this->createParam('1.564')));
+        assert($floatFilter->apply($this->createParam('1.564')), equals(1.564));
     }
 
     /**
@@ -89,7 +92,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(3.03, $this->readParam(null)->defaultingTo(3.03)->asFloat());
+        assert($this->readParam(null)->defaultingTo(3.03)->asFloat(), equals(3.03));
     }
 
     /**
@@ -135,7 +138,7 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsValidValue()
     {
-        assertEquals(3.13, $this->readParam('3.13')->asFloat());
+        assert($this->readParam('3.13')->asFloat(), equals(3.13));
     }
 
     /**
@@ -143,6 +146,6 @@ class FloatFilterTest extends FilterTest
      */
     public function asFloatReturnsValidValueUsingDecimals()
     {
-        assertEquals(313, $this->readParam('3.13')->asFloat(null, 2));
+        assert($this->readParam('3.13')->asFloat(null, 2), equals(313));
     }
 }

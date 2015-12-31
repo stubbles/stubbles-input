@@ -8,6 +8,11 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\ArrayFilter.
@@ -39,9 +44,10 @@ class ArrayFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $arrayFilter = new ArrayFilter();
-        assertEquals(
-                $expected,
-                $arrayFilter->apply($this->createParam($value)));
+        assert(
+                $arrayFilter->apply($this->createParam($value)),
+                equals($expected)
+        );
     }
 
     /**
@@ -50,9 +56,10 @@ class ArrayFilterTest extends FilterTest
     public function usingDifferentSeparator()
     {
         $arrayFilter = new ArrayFilter('|');
-        assertEquals(
-                ['foo', 'bar'],
-                $arrayFilter->apply($this->createParam('foo|bar')));
+        assert(
+                $arrayFilter->apply($this->createParam('foo|bar')),
+                equals(['foo', 'bar'])
+        );
     }
 
     /**
@@ -61,11 +68,11 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = ['foo' => 'bar'];
-        assertEquals(
-                $default,
+        assert(
                 $this->readParam(null)
                         ->defaultingTo($default)
-                        ->asArray()
+                        ->asArray(),
+                equals($default)
         );
     }
 
@@ -91,7 +98,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsEmptyArrayIfParamIsEmpty()
     {
-        assertEquals([], $this->readParam('')->asArray());
+        assert($this->readParam('')->asArray(), equals([]));
     }
 
     /**
@@ -99,8 +106,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsValidValue()
     {
-        $value = ['foo', 'bar'];
-        assertEquals($value, $this->readParam('foo, bar')->asArray());
+        assert($this->readParam('foo, bar')->asArray(), equals(['foo', 'bar']));
 
     }
 
@@ -109,8 +115,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsValidValueWithDifferentSeparator()
     {
-        $value = ['foo', 'bar'];
-        assertEquals($value, $this->readParam('foo|bar')->asArray('|'));
+        assert($this->readParam('foo|bar')->asArray('|'), equals(['foo', 'bar']));
 
     }
 }

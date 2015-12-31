@@ -9,6 +9,10 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\Param;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertEmpty;
+use function bovigo\assert\predicate\isOfSize;
 /**
  * Tests for stubbles\input\filter\AcceptFilter.
  *
@@ -34,7 +38,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsNull()
     {
-        assertEquals(0, $this->apply(null)->count());
+        assertEmpty($this->apply(null));
     }
 
     /**
@@ -42,7 +46,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsEmpty()
     {
-        assertEquals(0, $this->apply('')->count());
+        assertEmpty($this->apply(''));
     }
 
     /**
@@ -50,7 +54,7 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsEmptyAcceptHeaderWhenParamValueIsInvalid()
     {
-        assertEquals(0, $this->apply('text/plain;q=5')->count());
+        assertEmpty($this->apply('text/plain;q=5'));
     }
 
     /**
@@ -58,6 +62,6 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFilledAcceptHeaderWhenParamValueIsValid()
     {
-        assertEquals(1, $this->apply('text/plain;q=0.5')->count());
+        assert($this->apply('text/plain;q=0.5'), isOfSize(1));
     }
 }

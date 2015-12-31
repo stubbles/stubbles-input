@@ -8,6 +8,10 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\TextParamBroker.
@@ -50,14 +54,14 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                'No Mr Bond, I expect you to die!',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(
                                 ['default' => 'No Mr Bond, I expect you to die!']
                         )
-                )
+                ),
+                equals('No Mr Bond, I expect you to die!')
         );
     }
 
@@ -105,14 +109,14 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        assertEquals(
-                'Do you expect me to talk?',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                         $this->createRequestAnnotation(
                                 ['minLength' => 10, 'maxLength' => 40]
                         )
-                )
+                ),
+                equals('Do you expect me to talk?')
         );
     }
 
@@ -121,8 +125,7 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueWithTagsIfAllowed()
     {
-        assertEquals(
-                'Do <u>you</u> expect me to <b>talk</b>?',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
                         $this->createRequestAnnotation(
@@ -131,7 +134,8 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'allowedTags' => 'b, u'
                                 ]
                         )
-                )
+                ),
+                equals('Do <u>you</u> expect me to <b>talk</b>?')
         );
     }
 }

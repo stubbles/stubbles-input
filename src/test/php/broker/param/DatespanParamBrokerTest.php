@@ -9,6 +9,10 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\date\span\Day;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\DatespanParamBroker.
@@ -52,12 +56,12 @@ class DatespanParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                new Day('2012-04-21'),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => '2012-04-21'])
-                )
+                ),
+                equals(new Day('2012-04-21'))
         );
     }
 
@@ -105,8 +109,7 @@ class DatespanParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsValueIfInRange()
     {
-        assertEquals(
-                new Day('today'),
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('today'),
                         $this->createRequestAnnotation(
@@ -114,7 +117,8 @@ class DatespanParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'maxEndDate'   => 'tomorrow'
                                 ]
                         )
-                )
+                ),
+                equals(new Day('today'))
         );
     }
 }

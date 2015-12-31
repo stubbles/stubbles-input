@@ -12,6 +12,10 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Filter;
 use stubbles\input\filter\range\Range;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 
 require_once __DIR__ . '/FilterTest.php';
@@ -80,9 +84,9 @@ class RangeFilterTest extends FilterTest
     public function returnsValueIfInRange()
     {
         $this->range->mapCalls(['contains' => true]);
-        assertEquals(
-                303,
-                $this->rangeFilter->apply($this->createParam(303))
+        assert(
+                $this->rangeFilter->apply($this->createParam(303)),
+                equals(303)
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }
@@ -93,12 +97,11 @@ class RangeFilterTest extends FilterTest
     public function returnsNullIfValueNotInRange()
     {
         $param = $this->createParam(303);
-        $this->range->mapCalls(
-                ['contains'       => false,
-                 'allowsTruncate' => false,
-                 'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
-                ]
-        );
+        $this->range->mapCalls([
+                'contains'       => false,
+                'allowsTruncate' => false,
+                'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
+        ]);
         assertNull($this->rangeFilter->apply($param));
         assertTrue($param->hasError('LOWER_BORDER_VIOLATION'));
     }
@@ -110,15 +113,14 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed()
     {
-        $this->range->mapCalls(
-                ['contains'            => false,
-                 'allowsTruncate'      => true,
-                 'truncateToMaxBorder' => 'foo'
-                ]
-        );
-        assertEquals(
-                'foo',
-                $this->rangeFilter->apply($this->createParam('foobar'))
+        $this->range->mapCalls([
+                'contains'            => false,
+                'allowsTruncate'      => true,
+                'truncateToMaxBorder' => 'foo'
+        ]);
+        assert(
+                $this->rangeFilter->apply($this->createParam('foobar')),
+                equals('foo')
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }

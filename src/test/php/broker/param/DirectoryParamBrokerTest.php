@@ -8,6 +8,8 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\DirectoryParamBroker.
@@ -50,12 +52,12 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assertEquals(
-                '/home/user',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(['default' => '/home/user'])
-                )
+                ),
+                equals('/home/user')
         );
     }
 
@@ -64,8 +66,7 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function considersRelativeWhenBasePathGiven()
     {
-        assertEquals(
-                '../',
+        assert(
                 $this->paramBroker->procure(
                         $this->createRequest('../'),
                         $this->createRequestAnnotation(
@@ -73,7 +74,8 @@ class DirectoryParamBrokerTest extends MultipleSourceParamBrokerTest
                                  'allowRelative' => true
                                 ]
                         )
-                )
+                ),
+                equals('../')
         );
     }
 }

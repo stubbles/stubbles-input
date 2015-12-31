@@ -11,6 +11,11 @@ namespace stubbles\input\filter;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\input\filter\range\DatespanRange;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\DatespanFilter.
@@ -59,15 +64,10 @@ class DatespanFilterTest extends FilterTest
      */
     public function validParamsAreReturnedAsDayInstance()
     {
-        $day = $this->datespanFilter->apply($this->createParam('2008-09-27'));
-        assertInstanceOf(Day::class, $day);
-        $date = $day->getStart();
-        assertEquals(2008, $date->year());
-        assertEquals(9, $date->month());
-        assertEquals(27, $date->day());
-        assertEquals(0, $date->hours());
-        assertEquals(0, $date->minutes());
-        assertEquals(0, $date->seconds());
+        assert(
+                $this->datespanFilter->apply($this->createParam('2008-09-27')),
+                equals(new Day('2008-09-27'))
+        );
     }
 
     /**
@@ -103,11 +103,11 @@ class DatespanFilterTest extends FilterTest
     public function asDatespanReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = new Day();
-        assertEquals(
-                $default,
+        assert(
                 $this->readParam(null)
                         ->defaultingTo($default)
-                        ->asDatespan()
+                        ->asDatespan(),
+                equals($default)
         );
     }
 
@@ -150,11 +150,11 @@ class DatespanFilterTest extends FilterTest
      */
     public function asDatespanReturnsValidValue()
     {
-        assertEquals(
-                '2012-03-11',
+        assert(
                 $this->readParam('2012-03-11')
                         ->asDatespan()
-                        ->format('Y-m-d')
+                        ->format('Y-m-d'),
+                equals('2012-03-11')
         );
 
     }

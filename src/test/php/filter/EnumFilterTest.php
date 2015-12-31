@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\lang\Enum;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\isSameAs;
 require_once __DIR__ . '/FilterTest.php';
 class ExampleEnum extends Enum
 {
@@ -107,9 +112,9 @@ class EnumFilterTest extends FilterTest
      */
     public function validParamsAreReturnedAsEnumInstance($value, $expected)
     {
-        assertSame(
-                $expected,
-                $this->enumFilter->apply($this->createParam($value))
+        assert(
+                $this->enumFilter->apply($this->createParam($value)),
+                isSameAs($expected)
         );
     }
 
@@ -145,11 +150,11 @@ class EnumFilterTest extends FilterTest
      */
     public function asEnumReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertSame(
-                ExampleEnum::$BAR,
+        assert(
                 $this->readParam(null)
                         ->defaultingTo(ExampleEnum::$BAR)
-                        ->asEnum(ExampleEnum::class)
+                        ->asEnum(ExampleEnum::class),
+                isSameAs(ExampleEnum::$BAR)
         );
     }
 
@@ -199,10 +204,10 @@ class EnumFilterTest extends FilterTest
      */
     public function asEnumReturnsValidValue()
     {
-        assertSame(
-                ExampleEnum::$FOO,
+        assert(
                 $this->readParam('foo')
-                        ->asEnum(ExampleEnum::class)
+                        ->asEnum(ExampleEnum::class),
+                isSameAs(ExampleEnum::$FOO)
         );
 
     }

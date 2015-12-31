@@ -9,6 +9,11 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\StringFilter.
@@ -38,7 +43,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        assertEquals('', $this->stringFilter->apply($this->createParam(null)));
+        assert($this->stringFilter->apply($this->createParam(null)), equals(''));
     }
 
     /**
@@ -46,7 +51,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        assertEquals('', $this->stringFilter->apply($this->createParam('')));
+        assert($this->stringFilter->apply($this->createParam('')), equals(''));
     }
 
     /**
@@ -54,9 +59,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesTags()
     {
-        assertEquals(
-                "kkk",
-                $this->stringFilter->apply($this->createParam("kkk<b>"))
+        assert(
+                $this->stringFilter->apply($this->createParam("kkk<b>")),
+                equals("kkk")
         );
     }
 
@@ -65,9 +70,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesSlashes()
     {
-        assertEquals(
-                "'kkk",
-                $this->stringFilter->apply($this->createParam("\'kkk"))
+        assert(
+                $this->stringFilter->apply($this->createParam("\'kkk")),
+                equals("'kkk")
         );
     }
 
@@ -76,9 +81,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesCarriageReturn()
     {
-        assertEquals(
-                "cdekkk",
-                $this->stringFilter->apply($this->createParam("cde\rkkk"))
+        assert(
+                $this->stringFilter->apply($this->createParam("cde\rkkk")),
+                equals("cdekkk")
         );
     }
 
@@ -87,9 +92,9 @@ class StringFilterTest extends FilterTest
      */
     public function removesLineBreaks()
     {
-        assertEquals(
-                "abcdekkk",
-                $this->stringFilter->apply($this->createParam("ab\ncde\nkkk"))
+        assert(
+                $this->stringFilter->apply($this->createParam("ab\ncde\nkkk")),
+                equals("abcdekkk")
         );
     }
 
@@ -99,7 +104,7 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        assertEquals('', $this->readParam(null)->asString());
+        assert($this->readParam(null)->asString(), equals(''));
     }
 
     /**
@@ -108,9 +113,9 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assertEquals(
-                'baz',
-                $this->readParam(null)->defaultingTo('baz')->asString()
+        assert(
+                $this->readParam(null)->defaultingTo('baz')->asString(),
+                equals('baz')
         );
     }
 
@@ -140,8 +145,7 @@ class StringFilterTest extends FilterTest
     public function asStringReturnsNullIfParamIsInvalid()
     {
         assertNull(
-                $this->readParam('foo')
-                        ->asString(new StringLength(5, null))
+                $this->readParam('foo')->asString(new StringLength(5, null))
         );
     }
 
@@ -160,6 +164,6 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsValidValue()
     {
-        assertEquals('foo', $this->readParam('foo')->asString());
+        assert($this->readParam('foo')->asString(), equals('foo'));
     }
 }

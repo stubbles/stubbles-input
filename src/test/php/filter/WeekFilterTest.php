@@ -11,6 +11,11 @@ namespace stubbles\input\filter;
 use stubbles\date\Date;
 use stubbles\date\span\Week;
 use stubbles\input\filter\range\DatespanRange;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\WeekFilter.
@@ -61,9 +66,10 @@ class WeekFilterTest extends FilterTest
      */
     public function validParamsAreReturnedAsWeekInstance()
     {
-        $week = $this->weekFilter->apply($this->createParam('2008-W09'));
-        assertInstanceOf(Week::class, $week);
-        assertEquals('2008-W09', $week->asString());
+        assert(
+                $this->weekFilter->apply($this->createParam('2008-W09')),
+                equals(Week::fromString('2008-W09'))
+        );
     }
 
     /**
@@ -98,11 +104,9 @@ class WeekFilterTest extends FilterTest
     public function asWeekReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = Week::fromString('2015-W22');
-        assertEquals(
-                $default,
-                $this->readParam(null)
-                        ->defaultingTo($default)
-                        ->asWeek()
+        assert(
+                $this->readParam(null)->defaultingTo($default)->asWeek(),
+                equals($default)
         );
     }
 
@@ -145,11 +149,9 @@ class WeekFilterTest extends FilterTest
      */
     public function asWeekReturnsValidValue()
     {
-        assertEquals(
-                '2012-W03',
-                $this->readParam('2012-W03')
-                        ->asWeek()
-                        ->asString()
+        assert(
+                $this->readParam('2012-W03')->asWeek()->asString(),
+                equals('2012-W03')
         );
 
     }

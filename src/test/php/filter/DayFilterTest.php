@@ -11,6 +11,11 @@ namespace stubbles\input\filter;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\input\filter\range\DatespanRange;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertNull;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\DayFilter.
@@ -58,15 +63,10 @@ class DayFilterTest extends FilterTest
      */
     public function validParamsAreReturnedAsDateInstance()
     {
-        $day = $this->dayFilter->apply($this->createParam('2008-09-27'));
-        assertInstanceOf(Day::class, $day);
-        $date = $day->start();
-        assertEquals(2008, $date->year());
-        assertEquals(9, $date->month());
-        assertEquals(27, $date->day());
-        assertEquals(0, $date->hours());
-        assertEquals(0, $date->minutes());
-        assertEquals(0, $date->seconds());
+        assert(
+                $this->dayFilter->apply($this->createParam('2008-09-27')),
+                equals(new Day('2008-09-27'))
+        );
     }
 
     /**
@@ -104,11 +104,11 @@ class DayFilterTest extends FilterTest
     public function asDayReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = new Day();
-        assertEquals(
-                $default,
+        assert(
                 $this->readParam(null)
                         ->defaultingTo($default)
-                        ->asDay()
+                        ->asDay(),
+                equals($default)
         );
     }
 
@@ -155,11 +155,11 @@ class DayFilterTest extends FilterTest
      */
     public function asDayReturnsValidValue()
     {
-        assertEquals(
-                '2012-03-11',
+        assert(
                 $this->readParam('2012-03-11')
                         ->asDay()
-                        ->format('Y-m-d')
+                        ->format('Y-m-d'),
+                equals('2012-03-11')
         );
 
     }
