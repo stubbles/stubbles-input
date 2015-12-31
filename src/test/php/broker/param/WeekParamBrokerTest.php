@@ -80,11 +80,11 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsNullIfBeforeMinStartDate()
     {
-        $currentMonth = new Week(new Date('tomorrow'));
+        $currentWeek = new Week(new Date('previous monday'));
         assertNull(
                 $this->paramBroker->procure(
-                        $this->createRequest($currentMonth->asString()),
-                        $this->createRequestAnnotation(['minStartDate' => 'tomorrow'])
+                        $this->createRequest($currentWeek->asString()),
+                        $this->createRequestAnnotation(['minStartDate' => 'next monday'])
                 )
         );
     }

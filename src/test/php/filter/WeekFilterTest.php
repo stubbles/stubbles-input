@@ -156,12 +156,13 @@ class WeekFilterTest extends FilterTest
 
     /**
      * @test
+     * @group  foo
      */
     public function asWeekReturnsNullIfParamIsOutOfRange()
     {
         assertNull(
-                $this->readParam(new Week(new Date('tomorrow')))
-                        ->asWeek(new DatespanRange(new Date('tomorrow'), null))
+                $this->readParam(new Week(new Date('this monday')))
+                        ->asWeek(new DatespanRange(Date::now()->change()->byDays(8), null))
         );
     }
 
