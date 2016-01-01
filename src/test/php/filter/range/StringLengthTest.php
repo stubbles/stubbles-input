@@ -11,6 +11,7 @@ namespace stubbles\input\filter\range;
 use stubbles\lang\Secret;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -148,7 +149,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assert($this->stringLength->errorsOf('foo'), equals([]));
+        assertEmptyArray($this->stringLength->errorsOf('foo'));
     }
 
     /**

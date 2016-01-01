@@ -11,6 +11,7 @@ namespace stubbles\input\filter\range;
 use stubbles\date\Date;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -123,7 +124,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assert($this->dateRange->errorsOf('2012-03-17'), equals([]));
+        assertEmptyArray($this->dateRange->errorsOf('2012-03-17'));
     }
 
     /**

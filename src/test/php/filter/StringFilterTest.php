@@ -11,6 +11,7 @@ namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -43,7 +44,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        assert($this->stringFilter->apply($this->createParam(null)), equals(''));
+        assertEmptyString($this->stringFilter->apply($this->createParam(null)));
     }
 
     /**
@@ -51,7 +52,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        assert($this->stringFilter->apply($this->createParam('')), equals(''));
+        assertEmptyString($this->stringFilter->apply($this->createParam('')));
     }
 
     /**
@@ -104,7 +105,7 @@ class StringFilterTest extends FilterTest
      */
     public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
     {
-        assert($this->readParam(null)->asString(), equals(''));
+        assertEmptyString($this->readParam(null)->asString());
     }
 
     /**

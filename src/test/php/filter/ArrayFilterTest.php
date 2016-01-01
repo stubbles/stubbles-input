@@ -10,6 +10,7 @@
 namespace stubbles\input\filter;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -98,7 +99,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function asArrayReturnsEmptyArrayIfParamIsEmpty()
     {
-        assert($this->readParam('')->asArray(), equals([]));
+        assertEmptyArray($this->readParam('')->asArray());
     }
 
     /**

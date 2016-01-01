@@ -14,6 +14,7 @@ use stubbles\date\span\Month;
 use stubbles\date\span\Year;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -136,10 +137,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListIsEmptyIfValueContainedInRange()
     {
-        assert(
-                $this->datespanRange->errorsOf(new Day('2012-03-17')),
-                equals([])
-        );
+        assertEmptyArray($this->datespanRange->errorsOf(new Day('2012-03-17')));
     }
 
     /**

@@ -9,6 +9,7 @@
  */
 namespace stubbles\input;
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -88,7 +89,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function hasEmptyErrorListByDefault()
     {
         $param = new Param('foo', 'bar');
-        assert($param->errors(), equals([]));
+        assertEmptyArray($param->errors());
     }
 
     /**

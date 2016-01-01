@@ -9,6 +9,7 @@
  */
 namespace stubbles\input\errors;
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
@@ -126,7 +127,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      */
     public function getForReturnsEmptyArrayIfNoErrorAddedBefore()
     {
-        assert($this->paramErrors->getFor('foo'), equals([]));
+        assertEmptyArray($this->paramErrors->getFor('foo'));
     }
 
     /**

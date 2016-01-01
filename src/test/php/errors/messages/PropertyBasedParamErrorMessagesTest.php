@@ -14,6 +14,7 @@ use stubbles\lang\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -128,9 +129,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyListOfLocalesForNonExistingError()
     {
 
-        assert(
-                $this->errorMessages->localesFor(new ParamError('doesNotExist')),
-                equals([])
+        assertEmptyArray(
+                $this->errorMessages->localesFor(new ParamError('doesNotExist'))
         );
     }
 
@@ -156,9 +156,8 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageListForNonExistingError()
     {
 
-        assert(
-                $this->errorMessages->messagesFor(new ParamError('doesNotExist')),
-                equals([])
+        assertEmptyArray(
+                $this->errorMessages->messagesFor(new ParamError('doesNotExist'))
         );
     }
 

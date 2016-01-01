@@ -11,8 +11,7 @@ namespace stubbles\input\filter;
 use stubbles\lang\Secret;
 
 use function bovigo\assert\assert;
-use function bovigo\assert\assertNull;
-use function bovigo\assert\assertTrue;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\SimplePasswordChecker.
@@ -42,9 +41,8 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotReportErrorsWithDefaultValuesAndSatisfyingPassword()
     {
-        assert(
-                $this->simplePasswordChecker->check(Secret::create('topsecret')),
-                equals([])
+        assertEmptyArray(
+                $this->simplePasswordChecker->check(Secret::create('topsecret'))
         );
     }
 

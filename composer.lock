@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e302a4a70cc30d713798d8a318ea6d08",
-    "content-hash": "0edca726646474bbe8630f5a87deef03",
+    "hash": "ec1ff12aeb97edc059595b816b81dd32",
+    "content-hash": "90bbbce5b6a3a5b59f60e589c3c75367",
     "packages": [
         {
             "name": "stubbles/core",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "e7c9f48c400a344a64a5e51d5b7edaf0c0f0bc78"
+                "reference": "d1787484dbb8a2d383331b55fa527037bab26160"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/e7c9f48c400a344a64a5e51d5b7edaf0c0f0bc78",
-                "reference": "e7c9f48c400a344a64a5e51d5b7edaf0c0f0bc78",
+                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/d1787484dbb8a2d383331b55fa527037bab26160",
+                "reference": "d1787484dbb8a2d383331b55fa527037bab26160",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "bovigo/assert": "^1.3",
+                "bovigo/assert": "^1.5",
                 "bovigo/callmap": "^2.0",
                 "mikey179/vfsstream": "^1.6",
                 "phpunit/phpunit": "^5.1"
@@ -54,7 +54,7 @@
             ],
             "description": "Provides base classes for Stubbles packages.",
             "homepage": "http://stubbles.net/",
-            "time": "2015-12-31 10:54:18"
+            "time": "2016-01-01 08:45:41"
         }
     ],
     "packages-dev": [
@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/bovigo-assert.git",
-                "reference": "e6d2b38cac8794d396eebf19c076cb735e64b01e"
+                "reference": "374b41780916284cc42dbb5da7a339ebc24ac738"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/e6d2b38cac8794d396eebf19c076cb735e64b01e",
-                "reference": "e6d2b38cac8794d396eebf19c076cb735e64b01e",
+                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/374b41780916284cc42dbb5da7a339ebc24ac738",
+                "reference": "374b41780916284cc42dbb5da7a339ebc24ac738",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -101,7 +101,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2015-12-31 10:44:21"
+            "time": "2016-01-01 08:35:50"
         },
         {
             "name": "bovigo/callmap",

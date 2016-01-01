@@ -12,7 +12,7 @@
         "mikey179/vfsStream": "^1.6",
         "phpunit/phpunit": "^5.1",
         "bovigo/callmap": "^1.1",
-        "bovigo/assert": "^1.4",
+        "bovigo/assert": "^1.5",
         "stubbles/date": "^5.5"
     },
     "suggest": {

@@ -13,6 +13,7 @@ use stubbles\input\Param;
 use stubbles\input\ValueReader;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
@@ -99,12 +100,11 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function returnsEmptyArrayForEmptyValue()
     {
-        assert(
+        assertEmptyArray(
                 $this->paramBroker->procure(
                         $this->createRequest(''),
                         $this->createRequestAnnotation([])
-                ),
-                equals([])
+                )
         );
     }
 
