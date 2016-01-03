@@ -66,7 +66,7 @@ interface CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null);
@@ -75,7 +75,7 @@ interface CommonValueReader
      * read as secret
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      */
     public function asSecret(StringLength $length = null);
 
@@ -99,7 +99,7 @@ interface CommonValueReader
      * read as password value
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      */
     public function asPassword(PasswordChecker $checker);
 
@@ -186,15 +186,6 @@ interface CommonValueReader
      * @since   4.3.0
      */
     public function asDatespan(DatespanRange $range = null);
-
-    /**
-     * read value as instance of given enum
-     *
-     * @param   string  $enumClass  name of enum class to derive value from
-     * @return  \stubbles\lang\Enum
-     * @since   5.0.0
-     */
-    public function asEnum($enumClass);
 
     /**
      * returns value if it is an ip address, and null otherwise

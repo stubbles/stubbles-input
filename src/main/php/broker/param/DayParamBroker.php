@@ -12,7 +12,7 @@ use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Day] annotation.
  */
@@ -22,7 +22,7 @@ class DayParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\date\span\Day
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)

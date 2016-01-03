@@ -205,7 +205,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      * @since   3.0.0
      * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
@@ -219,7 +219,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      * @since   6.0.0
      */
     public function asSecret(StringLength $length = null)
@@ -273,7 +273,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\values\Secret
      */
     public function asPassword(PasswordChecker $checker)
     {
@@ -402,7 +402,7 @@ class ValueReader implements valuereader\CommonValueReader
 
     /**
      * read as datespan
-     
+
      * @param   \stubbles\input\filter\range\DatespanRange  $range
      * @return  \stubbles\date\span\Datespan
      * @since   4.3.0
@@ -418,18 +418,6 @@ class ValueReader implements valuereader\CommonValueReader
                     );
                 }
         );
-    }
-
-    /**
-     * read value as instance of given enum
-     *
-     * @param   string  $enumClass  name of enum class to derive value from
-     * @return  \stubbles\lang\Enum
-     * @since   5.0.0
-     */
-    public function asEnum($enumClass)
-    {
-        return $this->withFilter(new filter\EnumFilter($enumClass));
     }
 
     /**

@@ -10,7 +10,7 @@
 namespace stubbles\input\broker\param;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\input\filter\ArrayFilter;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter arrays based on a @Request[Array] annotation.
  */
@@ -20,7 +20,7 @@ class ArrayParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  array
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)

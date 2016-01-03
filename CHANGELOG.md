@@ -6,6 +6,7 @@
   * Raised minimum required PHP version to 5.6
   * deprecated `stubbles\input\ValueReader::asSecureString()`, use `stubbles\input\ValueReader::asSecret()` instead, will be removed with 7.0.0
   * deprecated `@Request[SecureString]`, use `@Request[Secret]` instead, will be removed with 7.0.0
+  * removed `stubbles\input\ValueReader::asEnum()`
 
 
 ### Other changes

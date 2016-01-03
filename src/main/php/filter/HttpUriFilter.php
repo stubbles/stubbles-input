@@ -10,7 +10,7 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\peer\MalformedUriException;
+use stubbles\peer\MalformedUri;
 use stubbles\peer\http\HttpUri;
 /**
  * Class for filtering strings for valid HTTP URIs.
@@ -34,7 +34,7 @@ class HttpUriFilter implements Filter
     {
         try {
             $httpUri = HttpUri::fromString($param->value());
-        } catch (MalformedUriException $murle) {
+        } catch (MalformedUri $murle) {
             $param->addError('HTTP_URI_INCORRECT');
             return null;
         }

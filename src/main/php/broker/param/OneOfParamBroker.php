@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter values based on a @Request[OneOf] annotation.
  */
@@ -19,7 +19,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  string
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
@@ -30,7 +30,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
     /**
      * reads default value
      *
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string[]
      * @throws  \RuntimeException
      */

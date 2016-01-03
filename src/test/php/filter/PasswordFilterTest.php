@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
-use stubbles\lang\Secret;
+use stubbles\values\Secret;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;

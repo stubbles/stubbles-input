@@ -12,7 +12,7 @@ use bovigo\callmap\NewInstance;
 use stubbles\date\span\CustomDatespan;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;

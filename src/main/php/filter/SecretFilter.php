@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\Param;
-use stubbles\lang\Secret;
+use stubbles\values\Secret;
 /**
  * Class for filtering secrets.
  *
@@ -23,7 +23,7 @@ class SecretFilter extends StringFilter
      * apply filter on given param
      *
      * @param   \stubbles\input\Param         $param
-     * @return  \stubbles\lang\Secret  filtered string
+     * @return  \stubbles\values\Secret  filtered string
      */
     public function apply(Param $param)
     {

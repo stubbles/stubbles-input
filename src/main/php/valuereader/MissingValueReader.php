@@ -122,7 +122,7 @@ class MissingValueReader implements CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null)
@@ -134,7 +134,7 @@ class MissingValueReader implements CommonValueReader
      * read as secret
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      */
     public function asSecret(StringLength $length = null)
     {
@@ -170,7 +170,7 @@ class MissingValueReader implements CommonValueReader
      * read as password value
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      */
     public function asPassword(PasswordChecker $checker)
     {
@@ -273,21 +273,6 @@ class MissingValueReader implements CommonValueReader
     public function asDatespan(DatespanRange $range = null)
     {
         $this->reportError();
-        return null;
-    }
-
-    /**
-     * read value as instance of given enum
-     *
-     * @param   string  $enumClass  name of enum class to derive value from
-     * @return  \stubbles\lang\Enum
-     * @since   5.0.0
-     */
-    public function asEnum($enumClass)
-    {
-        $this->reportError(
-                'FIELD_EMPTY' === $this->defaultErrorId ? 'FIELD_NO_SELECT' : $this->defaultErrorId
-        );
         return null;
     }
 

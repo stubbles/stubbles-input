@@ -10,7 +10,7 @@
 namespace stubbles\input\broker;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
-use function stubbles\lang\reflect;
+use function stubbles\reflect\reflect;
 require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker::targetMethodsOf().

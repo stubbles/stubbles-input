@@ -13,7 +13,7 @@ use stubbles\date\span\CustomDatespan;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\filter\range\DateRange;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter parameters based on a @Request[CustomDatespan] annotation.
  */
@@ -22,8 +22,8 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * handles single param
      *
-     * @param   \stubbles\input\Request                       $request     instance to handle value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
+     * @param   \stubbles\input\Request                  $request     instance to handle value with
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
      * @return  \stubbles\date\span\CustomDatespan
      */
     public function procure(Request $request, Annotation $annotation)
@@ -41,19 +41,19 @@ class CustomDatespanParamBroker implements ParamBroker
      * handles a single param
      *
      * @param   \stubbles\input\Param                         $param
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */
     public function procureParam(Param $param, Annotation $annotation)
     {
-        throw new \stubbles\lang\exception\MethodNotSupportedException('Can not procure a single param');
+        throw new \stubbles\exception\MethodNotSupportedException('Can not procure a single param');
     }
 
     /**
      * retrieves start date
      *
      * @param   \stubbles\input\Request                       $request
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @param   string      $type
      * @return  \stubbles\date\Date
      */
@@ -90,7 +90,7 @@ class CustomDatespanParamBroker implements ParamBroker
     /**
      * reads default value from annotation
      *
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @param   string                                        $field
      * @return  \stubbles\date\Date
      */

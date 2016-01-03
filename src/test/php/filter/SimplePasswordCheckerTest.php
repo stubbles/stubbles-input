@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\lang\Secret;
+use stubbles\values\Secret;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyArray;

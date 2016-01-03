@@ -24,6 +24,7 @@ class FileParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function setUp()
     {
+        $this->markTestIncomplete();
         $this->paramBroker = new FileParamBroker();
     }
 

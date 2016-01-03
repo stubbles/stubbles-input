@@ -20,8 +20,10 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
-use stubbles\lang\Secret;
 use stubbles\peer\http\HttpUri;
+use stubbles\values\Secret;
+
+use function stubbles\values\typeOf;
 /**
  * Represents a default value if actual value is not present.
  *
@@ -56,7 +58,7 @@ class DefaultValueReader implements CommonValueReader
     private function checkDefaultType(\Closure $isCorrectType, $expectedType)
     {
         if (!$isCorrectType()) {
-            throw new \LogicException('Default value is not of type ' . $expectedType . ' but of type ' . \stubbles\lang\getType($this->default));
+            throw new \LogicException('Default value is not of type ' . $expectedType . ' but of type ' . typeOf($this->default));
         }
     }
 
@@ -133,7 +135,7 @@ class DefaultValueReader implements CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
      */
     public function asSecureString(StringLength $length = null)
@@ -145,7 +147,7 @@ class DefaultValueReader implements CommonValueReader
      * read as string value
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      */
     public function asSecret(StringLength $length = null)
     {
@@ -182,7 +184,7 @@ class DefaultValueReader implements CommonValueReader
      * method trigger a MethodNotSupportedException.
      *
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\lang\Secret
+     * @return  \stubbles\Secret
      * @throws  \BadMethodCallException
      */
     public function asPassword(PasswordChecker $checker)
@@ -302,19 +304,6 @@ class DefaultValueReader implements CommonValueReader
     public function asDatespan(DatespanRange $range = null)
     {
         $this->checkDefaultType(function() { return $this->default instanceof Datespan;}, Datespan::class);
-        return $this->default;
-    }
-
-    /**
-     * read value as instance of given enum
-     *
-     * @param   string  $enumClass  name of enum class to derive value from
-     * @return  \stubbles\lang\Enum
-     * @since   5.0.0
-     */
-    public function asEnum($enumClass)
-    {
-        $this->checkDefaultType(function() use ($enumClass) { return $this->default instanceof $enumClass;}, $enumClass);
         return $this->default;
     }
 

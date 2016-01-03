@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
-use stubbles\lang\Secret;
+use stubbles\values\Secret;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;

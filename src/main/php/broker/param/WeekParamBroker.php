@@ -12,7 +12,7 @@ use stubbles\date\Date;
 use stubbles\date\span\Week;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Week] annotation.
  *
@@ -24,17 +24,15 @@ class WeekParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\date\span\Week
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asWeek(
-                new DatespanRange(
-                        $this->createDate($annotation->getMinStartDate()),
-                        $this->createDate($annotation->getMaxEndDate())
-                )
-        );
+        return $valueReader->asWeek(new DatespanRange(
+                $this->createDate($annotation->getMinStartDate()),
+                $this->createDate($annotation->getMaxEndDate())
+        ));
     }
 
     /**

@@ -10,8 +10,8 @@
 namespace stubbles\input\broker;
 use stubbles\input\Request;
 
-use function stubbles\lang\reflect\annotationsOf;
-use function stubbles\lang\reflect\methodsOf;
+use function stubbles\reflect\annotationsOf;
+use function stubbles\reflect\methodsOf;
 /**
  * Broker class to transfer values from the request into an object via annotations.
  *
@@ -43,7 +43,6 @@ class RequestBroker
                     'datespan'       => new param\DatespanParamBroker(),
                     'day'            => new param\DayParamBroker(),
                     'directory'      => new param\DirectoryParamBroker(),
-                    'enum'           => new param\EnumParamBroker(),
                     'file'           => new param\FileParamBroker(),
                     'float'          => new param\FloatParamBroker(),
                     'httpuri'        => new param\HttpUriParamBroker(),

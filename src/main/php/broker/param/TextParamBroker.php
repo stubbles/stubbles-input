@@ -10,7 +10,7 @@
 namespace stubbles\input\broker\param;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Text] annotation.
  */
@@ -20,22 +20,24 @@ class TextParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  string
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asText(new StringLength($annotation->getMinLength(),
-                                                     $annotation->getMaxLength()
-                                    ),
-                                    $this->getAllowedTags($annotation)
+        return $valueReader->asText(
+                new StringLength(
+                        $annotation->getMinLength(),
+                        $annotation->getMaxLength()
+                ),
+                $this->getAllowedTags($annotation)
         );
     }
 
     /**
      * returns list of allowed tags
      *
-     * @param   \stubbles\lang\reflect\annotation\Annotation  $annotation
+     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string[]
      */
     private function getAllowedTags(Annotation $annotation)

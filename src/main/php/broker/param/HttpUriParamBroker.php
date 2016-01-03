@@ -9,7 +9,7 @@
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 use stubbles\peer\http\HttpUri;
 /**
  * Filter http uris based on a @Request[HttpUri] annotation.
@@ -20,7 +20,7 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
+     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\peer\http\HttpUri
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)

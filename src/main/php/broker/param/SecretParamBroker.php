@@ -10,7 +10,7 @@
 namespace stubbles\input\broker\param;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
 /**
  * Filter boolean values based on a @Request[Secret] annotation.
  *
@@ -22,16 +22,15 @@ class SecretParamBroker extends MultipleSourceParamBroker
      * handles single param
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\lang\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
-     * @return  \stubbles\lang\Secret
+     * @param   \stubbles\reflect\annotation\Annotation       $annotation   annotation which contains filter metadata
+     * @return  \stubbles\values\Secret
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asSecret(
-                new StringLength($annotation->getMinLength(),
-                                 $annotation->getMaxLength()
-                )
-        );
+        return $valueReader->asSecret(new StringLength(
+                $annotation->getMinLength(),
+                $annotation->getMaxLength()
+        ));
     }
 
     /**

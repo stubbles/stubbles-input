@@ -13,7 +13,7 @@ use stubbles\input\errors\messages\LocalizedMessage;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
-use function stubbles\lang\reflect\annotationsOf;
+use function stubbles\reflect\annotationsOf;
 /**
  * Tests for stubbles\input\errors\ParamError.
  *

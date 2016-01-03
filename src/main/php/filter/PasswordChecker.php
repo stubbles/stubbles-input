@@ -8,7 +8,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\lang\Secret;
+use stubbles\values\Secret;
 /**
  * Interface for password checking algorithms.
  *
@@ -23,7 +23,7 @@ interface PasswordChecker
      * In case the password does not satisfy the return value is a map of
      * error ids with error details.
      *
-     * @param   \stubbles\lang\Secret  $proposedPassword
+     * @param   \stubbles\values\Secret  $proposedPassword
      * @return  array
      */
     public function check(Secret $proposedPassword);

@@ -12,8 +12,9 @@ use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
-use stubbles\lang\Secret;
-use stubbles\lang\reflect\annotation\Annotation;
+use stubbles\reflect\annotation\Annotation;
+use stubbles\values\Secret;
+
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;

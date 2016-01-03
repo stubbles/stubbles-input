@@ -35,6 +35,7 @@ class MailFilterTest extends FilterTest
      */
     public function setUp()
     {
+        $this->markTestIncomplete();
         $this->mailFilter = MailFilter::instance();
         parent::setUp();
     }

@@ -15,7 +15,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
-use function stubbles\lang\reflect\annotationsOfConstructor;
+use function stubbles\reflect\annotationsOfConstructor;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
  *

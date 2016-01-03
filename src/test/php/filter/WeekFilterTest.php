@@ -171,10 +171,10 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asMonthAddsParamErrorIfParamIsOutOfRange()
+    public function asWeekAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->readParam(new Week(new Date('yesterday')))
-                ->asWeek(new DatespanRange(new Date('tomorrow'), null));
+        $this->readParam(new Week(new Date('this monday')))
+                ->asWeek(new DatespanRange(Date::now()->change()->byDays(8), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 }

@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
-
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;

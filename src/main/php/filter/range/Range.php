@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use stubbles\lang\exception\MethodNotSupportedException;
 /**
  * Interface for range definitions.
  *

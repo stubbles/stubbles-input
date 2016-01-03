@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ec1ff12aeb97edc059595b816b81dd32",
-    "content-hash": "90bbbce5b6a3a5b59f60e589c3c75367",
+    "hash": "7610271c922c61af64f4f7b63afe438c",
+    "content-hash": "d22faa7d25f667064a5f1d6bc4062501",
     "packages": [
         {
-            "name": "stubbles/core",
+            "name": "stubbles/reflect",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stubbles/stubbles-core.git",
-                "reference": "d1787484dbb8a2d383331b55fa527037bab26160"
+                "url": "https://github.com/stubbles/stubbles-reflect.git",
+                "reference": "f9e6cc19cc0744548bd078ae855ef5b855f17d32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-core/zipball/d1787484dbb8a2d383331b55fa527037bab26160",
-                "reference": "d1787484dbb8a2d383331b55fa527037bab26160",
+                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/f9e6cc19cc0744548bd078ae855ef5b855f17d32",
+                "reference": "f9e6cc19cc0744548bd078ae855ef5b855f17d32",
                 "shasum": ""
             },
             "require": {
-                "ext-iconv": "*",
-                "php": ">=5.6.0"
+                "php": ">=5.6.0",
+                "stubbles/sequence": "^7.0",
+                "stubbles/values": "^7.0"
             },
             "require-dev": {
                 "bovigo/assert": "^1.5",
-                "bovigo/callmap": "^2.0",
                 "mikey179/vfsstream": "^1.6",
                 "phpunit/phpunit": "^5.1"
             },
@@ -39,22 +39,107 @@
             },
             "autoload": {
                 "psr-4": {
-                    "stubbles\\": "src/main/php"
+                    "stubbles\\reflect\\": "src/main/php"
                 },
                 "files": [
-                    "src/main/php/lang/functions.php",
-                    "src/main/php/lang/reflect/functions.php",
-                    "src/main/php/peer/functions.php",
-                    "src/main/php/streams/functions.php"
+                    "src/main/php/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
-            "description": "Provides base classes for Stubbles packages.",
+            "description": "Reflection helper functions and annotations.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-01-01 08:45:41"
+            "time": "2016-01-03 17:57:20"
+        },
+        {
+            "name": "stubbles/sequence",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-sequence.git",
+                "reference": "ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-sequence/zipball/ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a",
+                "reference": "ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "bovigo/assert": "^1.5",
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\sequence\\": "src/main/php"
+                },
+                "files": [
+                    "src/main/php/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Stream your iterators.",
+            "homepage": "http://stubbles.net/",
+            "time": "2016-01-03 12:19:12"
+        },
+        {
+            "name": "stubbles/values",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-values.git",
+                "reference": "e09f6eb42414502faff5df696a540975d32e4bba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/e09f6eb42414502faff5df696a540975d32e4bba",
+                "reference": "e09f6eb42414502faff5df696a540975d32e4bba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "bovigo/assert": "^1.5",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\values\\": "src/main/php"
+                },
+                "files": [
+                    "src/main/php/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Useful classes to ease the work with values.",
+            "homepage": "http://stubbles.net/",
+            "time": "2016-01-03 16:01:46"
         }
     ],
     "packages-dev": [
@@ -1224,6 +1309,55 @@
             "description": "Simplified handling of dates and datespans.",
             "homepage": "http://stubbles.net/",
             "time": "2015-06-02 10:59:46"
+        },
+        {
+            "name": "stubbles/peer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-peer.git",
+                "reference": "c729a819868567d6b1552d004e8d2e365f444a6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/c729a819868567d6b1552d004e8d2e365f444a6f",
+                "reference": "c729a819868567d6b1552d004e8d2e365f444a6f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "bovigo/assert": "^1.5",
+                "bovigo/callmap": "^2.0",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^5.1",
+                "stubbles/values": "^7.0"
+            },
+            "suggest": {
+                "stubbles/values": "Will automatically add http uri parsing to stubbles\\values\\Parse"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\peer\\": "src/main/php"
+                },
+                "files": [
+                    "src/main/php/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Help with socket operations.",
+            "homepage": "http://stubbles.net/",
+            "time": "2016-01-03 15:48:08"
         },
         {
             "name": "symfony/yaml",
