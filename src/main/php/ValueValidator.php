@@ -9,18 +9,16 @@
  */
 namespace stubbles\input;
 use stubbles\input\Param;
-use stubbles\predicate\Contains;
-use stubbles\predicate\ContainsAnyOf;
-use stubbles\predicate\Equals;
-use stubbles\predicate\IsExistingHttpUri;
-use stubbles\predicate\IsHttpUri;
-use stubbles\predicate\IsIpAddress;
-use stubbles\predicate\IsIpV4Address;
-use stubbles\predicate\IsIpV6Address;
-use stubbles\predicate\IsMailAddress;
-use stubbles\predicate\IsOneOf;
-use stubbles\predicate\Predicate;
-use stubbles\predicate\Regex;
+use stubbles\input\predicate\Predicate;
+use stubbles\peer\IpAddress;
+use stubbles\peer\http\HttpUri;
+
+use function stubbles\input\predicate\contains;
+use function stubbles\input\predicate\containsAnyOf;
+use function stubbles\input\predicate\equals;
+use function stubbles\input\predicate\isOneOf;
+use function stubbles\peer\isMailAddress;
+use function stubbles\values\pattern;
 /**
  * Value object for request values to check them against validators.
  *
@@ -60,12 +58,12 @@ class ValueValidator
      * checks whether value contains given string
      *
      * @api
-     * @param   string  $contained  byte sequence the value must contain
+     * @param   string  $needle  byte sequence the value must contain
      * @return  bool
      */
-    public function contains($contained)
+    public function contains($needle)
     {
-        return $this->with(new Contains($contained));
+        return contains($needle)->test($this->param->value());
     }
 
     /**
@@ -78,7 +76,7 @@ class ValueValidator
      */
     public function containsAnyOf(array $contained)
     {
-        return $this->with(new ContainsAnyOf($contained));
+        return containsAnyOf($contained)->test($this->param->value());
     }
 
 
@@ -91,7 +89,7 @@ class ValueValidator
      */
     public function isEqualTo($expected)
     {
-        return $this->with(new Equals($expected));
+        return equals($expected)->test($this->param->value());
     }
 
     /**
@@ -102,7 +100,7 @@ class ValueValidator
      */
     public function isHttpUri()
     {
-        return $this->with(IsHttpUri::instance());
+        return HttpUri::isValid($this->param->value());
     }
 
     /**
@@ -114,7 +112,7 @@ class ValueValidator
      */
     public function isExistingHttpUri()
     {
-        return $this->with(IsExistingHttpUri::instance());
+        return HttpUri::exists($this->param->value());
     }
 
     /**
@@ -125,7 +123,7 @@ class ValueValidator
      */
     public function isIpAddress()
     {
-        return $this->with(IsIpAddress::instance());
+        return IpAddress::isValid($this->param->value());
     }
 
     /**
@@ -137,7 +135,7 @@ class ValueValidator
      */
     public function isIpV4Address()
     {
-        return $this->with(IsIpV4Address::instance());
+        return IpAddress::isValidV4($this->param->value());
     }
 
     /**
@@ -149,7 +147,7 @@ class ValueValidator
      */
     public function isIpV6Address()
     {
-        return $this->with(IsIpV6Address::instance());
+        return IpAddress::isValidV6($this->param->value());
     }
 
     /**
@@ -160,7 +158,7 @@ class ValueValidator
      */
     public function isMailAddress()
     {
-        return $this->with(IsMailAddress::instance());
+        return isMailAddress($this->param->value());
     }
 
     /**
@@ -172,7 +170,7 @@ class ValueValidator
      */
     public function isOneOf(array $allowedValues)
     {
-        return $this->with(new IsOneOf($allowedValues));
+        return isOneOf($allowedValues)->test($this->param->value());
     }
 
     /**
@@ -181,10 +179,24 @@ class ValueValidator
      * @api
      * @param   string  $regex  regular expression to apply
      * @return  bool
+     * @since   6.0.0
+     */
+    public function matches($regex)
+    {
+        return pattern($regex)->matches($this->param->value());
+    }
+
+    /**
+     * checks whether value satisfies given regular expression
+     *
+     * @api
+     * @param   string  $regex  regular expression to apply
+     * @return  bool
+     * @deprecated  since 6.0.0, use matches() instead, will be removed with 7.0.0
      */
     public function satisfiesRegex($regex)
     {
-        return $this->with(new Regex($regex));
+        return $this->matches($regex);
     }
 
     /**

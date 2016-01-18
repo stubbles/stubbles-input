@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7610271c922c61af64f4f7b63afe438c",
-    "content-hash": "d22faa7d25f667064a5f1d6bc4062501",
+    "hash": "61e3d8437cce0b5ce91b81f3455b17f1",
+    "content-hash": "f16da6095e4f8ff8ee39d0cad7d7ffb0",
     "packages": [
         {
             "name": "stubbles/reflect",
-            "version": "dev-master",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-reflect.git",
-                "reference": "f9e6cc19cc0744548bd078ae855ef5b855f17d32"
+                "reference": "1e5fe395856278a047e363cb70a872520457edcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/f9e6cc19cc0744548bd078ae855ef5b855f17d32",
-                "reference": "f9e6cc19cc0744548bd078ae855ef5b855f17d32",
+                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/1e5fe395856278a047e363cb70a872520457edcb",
+                "reference": "1e5fe395856278a047e363cb70a872520457edcb",
                 "shasum": ""
             },
             "require": {
@@ -51,24 +51,23 @@
             ],
             "description": "Reflection helper functions and annotations.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-01-03 17:57:20"
+            "time": "2016-01-11 20:01:25"
         },
         {
             "name": "stubbles/sequence",
-            "version": "dev-master",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-sequence.git",
-                "reference": "ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a"
+                "reference": "68defca3fdcae102b4d0c13c9f98d898aa75fcda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-sequence/zipball/ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a",
-                "reference": "ff7f0ac459c30359bd9a276a2a8f0ac70447fe1a",
+                "url": "https://api.github.com/repos/stubbles/stubbles-sequence/zipball/68defca3fdcae102b4d0c13c9f98d898aa75fcda",
+                "reference": "68defca3fdcae102b4d0c13c9f98d898aa75fcda",
                 "shasum": ""
             },
             "require": {
-                "ext-iconv": "*",
                 "php": ">=5.6.0"
             },
             "require-dev": {
@@ -95,7 +94,7 @@
             ],
             "description": "Stream your iterators.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-01-03 12:19:12"
+            "time": "2016-01-11 19:11:27"
         },
         {
             "name": "stubbles/values",
@@ -103,12 +102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "e09f6eb42414502faff5df696a540975d32e4bba"
+                "reference": "feed43172daa5262727fd5ef46abc2098a576fab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/e09f6eb42414502faff5df696a540975d32e4bba",
-                "reference": "e09f6eb42414502faff5df696a540975d32e4bba",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/feed43172daa5262727fd5ef46abc2098a576fab",
+                "reference": "feed43172daa5262727fd5ef46abc2098a576fab",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +121,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.0.x-dev"
+                    "dev-master": "7.1.x-dev"
                 }
             },
             "autoload": {
@@ -139,22 +138,22 @@
             ],
             "description": "Useful classes to ease the work with values.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-01-03 16:01:46"
+            "time": "2016-01-16 18:53:45"
         }
     ],
     "packages-dev": [
         {
             "name": "bovigo/assert",
-            "version": "dev-master",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/bovigo-assert.git",
-                "reference": "374b41780916284cc42dbb5da7a339ebc24ac738"
+                "reference": "f5870c58d343164f0ccc57e2cbb1b4794aea8c58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/374b41780916284cc42dbb5da7a339ebc24ac738",
-                "reference": "374b41780916284cc42dbb5da7a339ebc24ac738",
+                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/f5870c58d343164f0ccc57e2cbb1b4794aea8c58",
+                "reference": "f5870c58d343164f0ccc57e2cbb1b4794aea8c58",
                 "shasum": ""
             },
             "require": {
@@ -186,36 +185,38 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2016-01-01 08:35:50"
+            "time": "2016-01-11 15:09:16"
         },
         {
             "name": "bovigo/callmap",
-            "version": "v1.1.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/bovigo-callmap.git",
-                "reference": "1977f29b0eea36dc7fb84416baa2dc59e074aaed"
+                "reference": "d8a4e9b7c052a0908e9bac16ee7f82c83bd113f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/bovigo-callmap/zipball/1977f29b0eea36dc7fb84416baa2dc59e074aaed",
-                "reference": "1977f29b0eea36dc7fb84416baa2dc59e074aaed",
+                "url": "https://api.github.com/repos/mikey179/bovigo-callmap/zipball/d8a4e9b7c052a0908e9bac16ee7f82c83bd113f6",
+                "reference": "d8a4e9b7c052a0908e9bac16ee7f82c83bd113f6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8"
+                "bovigo/assert": " ^1.2",
+                "phpunit/phpunit": "~5.1"
             },
             "suggest": {
-                "phpunit/phpunit": "To use argument verification",
+                "bovigo/assert": "To use argument verification",
+                "phpunit/phpunit": "Alternative option for argument verification",
                 "xp-framework/core": "Alternative option for argument verification"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -231,7 +232,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Allows to stub and mock method calls by applying a callmap.",
-            "time": "2015-10-05 16:18:01"
+            "time": "2015-12-30 09:47:35"
         },
         {
             "name": "doctrine/instantiator",
@@ -289,16 +290,16 @@
         },
         {
             "name": "mikey179/vfsStream",
-            "version": "v1.6.1",
+            "version": "v1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/vfsStream.git",
-                "reference": "f4aabeb1976f96343ad1253c8d60ad40307e409a"
+                "reference": "fefd182fa739d4e23d9dc7c80d3344f528d600ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/f4aabeb1976f96343ad1253c8d60ad40307e409a",
-                "reference": "f4aabeb1976f96343ad1253c8d60ad40307e409a",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/fefd182fa739d4e23d9dc7c80d3344f528d600ab",
+                "reference": "fefd182fa739d4e23d9dc7c80d3344f528d600ab",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +332,7 @@
             ],
             "description": "Virtual file system to mock the real file system in unit tests.",
             "homepage": "http://vfs.bovigo.org/",
-            "time": "2015-12-04 12:02:33"
+            "time": "2016-01-13 09:41:49"
         },
         {
             "name": "myclabs/deep-copy",
@@ -486,16 +487,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "3.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f7bb5cddf4ffe113eeb737b05241adb947b43f9d"
+                "reference": "64d40a593fc31a8abf4ce3d200147ddf8ca64e52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f7bb5cddf4ffe113eeb737b05241adb947b43f9d",
-                "reference": "f7bb5cddf4ffe113eeb737b05241adb947b43f9d",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/64d40a593fc31a8abf4ce3d200147ddf8ca64e52",
+                "reference": "64d40a593fc31a8abf4ce3d200147ddf8ca64e52",
                 "shasum": ""
             },
             "require": {
@@ -518,7 +519,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -544,7 +545,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-11-12 21:08:20"
+            "time": "2016-01-11 10:05:34"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -726,16 +727,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.1.3",
+            "version": "5.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c047ff05d2279404af9a7e89e2a7151c32c88022"
+                "reference": "676c25c4ac563869572c878fdaf3db21587f5f3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c047ff05d2279404af9a7e89e2a7151c32c88022",
-                "reference": "c047ff05d2279404af9a7e89e2a7151c32c88022",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/676c25c4ac563869572c878fdaf3db21587f5f3b",
+                "reference": "676c25c4ac563869572c878fdaf3db21587f5f3b",
                 "shasum": ""
             },
             "require": {
@@ -796,7 +797,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-12-10 07:54:54"
+            "time": "2016-01-11 10:11:10"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1316,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-peer.git",
-                "reference": "c729a819868567d6b1552d004e8d2e365f444a6f"
+                "reference": "c35309a40d002df829c922c044efb06aef10fbb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/c729a819868567d6b1552d004e8d2e365f444a6f",
-                "reference": "c729a819868567d6b1552d004e8d2e365f444a6f",
+                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/c35309a40d002df829c922c044efb06aef10fbb3",
+                "reference": "c35309a40d002df829c922c044efb06aef10fbb3",
                 "shasum": ""
             },
             "require": {
@@ -1340,7 +1341,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.0.x-dev"
+                    "dev-master": "7.1.x-dev"
                 }
             },
             "autoload": {
@@ -1357,7 +1358,7 @@
             ],
             "description": "Help with socket operations.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-01-03 15:48:08"
+            "time": "2016-01-17 17:01:25"
         },
         {
             "name": "symfony/yaml",

@@ -10,7 +10,8 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\predicate\IsMailAddress;
+
+use function stubbles\peer\isMailAddress;
 /**
  * Class for filtering mail addresses.
  *
@@ -35,7 +36,7 @@ class MailFilter implements Filter
         }
 
         $value = $param->value();
-        if (!IsMailAddress::instance()->test($value)) {
+        if (!isMailAddress($value)) {
             $param->addError($this->detectErrorId($value));
             return null;
         }

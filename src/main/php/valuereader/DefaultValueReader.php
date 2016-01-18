@@ -329,10 +329,23 @@ class DefaultValueReader implements CommonValueReader
     }
 
     /**
+     * returns value if it is matched by given regular expression
+     *
+     * @param   string  $regex  regular expression to apply
+     * @return  string
+     * @since   6.0.0
+     */
+    public function ifMatches($regex)
+    {
+        return $this->default;
+    }
+
+    /**
      * returns value if it complies to a given regular expression, and null otherwise
      *
      * @param   string  $regex    regular expression to apply
      * @return  string
+     * @deprecated  since 6.0.0, use ifMatches() instead, will be removed with 7.0.0
      */
     public function ifSatisfiesRegex($regex)
     {

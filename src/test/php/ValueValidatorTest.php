@@ -9,7 +9,7 @@
  */
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
-use stubbles\predicate\Predicate;
+use stubbles\input\predicate\Predicate;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
@@ -23,7 +23,6 @@ use function bovigo\assert\predicate\isInstanceOf;
  */
 class ValueValidatorTest extends \PHPUnit_Framework_TestCase
 {
-    public function setup() { $this->markTestIncomplete(); }
     /**
      * helper method to create test instances
      *
@@ -260,17 +259,17 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function satisfiesRegexReturnsTrueIfValidatorSatisfied()
+    public function matchesReturnsTrueIfPatternMatchesValue()
     {
-        assertTrue($this->validate('foo')->satisfiesRegex('/foo/'));
+        assertTrue($this->validate('foo')->matches('/foo/'));
     }
 
     /**
      * @test
      */
-    public function satisfiesRegexReturnsFalseIfValidatorNotSatisfied()
+    public function matchesReturnsFalseIfPatternDoesNotMatchValue()
     {
-        assertFalse($this->validate('foo')->satisfiesRegex('/bar/'));
+        assertFalse($this->validate('foo')->matches('/bar/'));
     }
 
     /**

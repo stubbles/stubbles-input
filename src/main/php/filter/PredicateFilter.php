@@ -10,7 +10,7 @@
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
 use stubbles\input\Param;
-use stubbles\predicate\Predicate;
+use stubbles\input\predicate\Predicate;
 /**
  * Class for filtering values based on validators.
  *

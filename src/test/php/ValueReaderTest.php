@@ -26,7 +26,6 @@ require_once __DIR__ . '/filter/FilterTest.php';
  */
 class ValueReaderTest extends filter\FilterTest
 {
-    public function setup() {$this->markTestIncomplete();}
     /**
      * @test
      */
@@ -196,10 +195,10 @@ class ValueReaderTest extends filter\FilterTest
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsValidatedValue()
+    public function ifMatchesReturnsValidatedValue()
     {
         assert(
-                $this->readParam('Hardfloor')->ifSatisfiesRegex('/[a-zA-Z]{9}/'),
+                $this->readParam('Hardfloor')->ifMatches('/[a-zA-Z]{9}/'),
                 equals('Hardfloor')
         );
     }
@@ -207,12 +206,12 @@ class ValueReaderTest extends filter\FilterTest
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsDefaultValueIfParamIsNull()
+    public function ifMatchesReturnsDefaultValueIfParamIsNull()
     {
         assert(
                 $this->readParam(null)
                         ->defaultingTo('Moby')
-                        ->ifSatisfiesRegex('/[a-zA-Z]{9}/'),
+                        ->ifMatches('/[a-zA-Z]{9}/'),
                 equals('Moby')
         );
     }
@@ -220,71 +219,71 @@ class ValueReaderTest extends filter\FilterTest
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsNullIfValidationFails()
+    public function ifMatchesReturnsNullIfValidationFails()
     {
         assertNull(
                 $this->readParam('invalid')
                         ->defaultingTo('Moby')
-                        ->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+                        ->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsNullIfValidationFailsAndNoDefaultValueGiven()
+    public function ifMatchesReturnsNullIfValidationFailsAndNoDefaultValueGiven()
     {
         assertNull(
-                $this->readParam('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+                $this->readParam('invalid')->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsNullIfValidationFailsAndDefaultValueGiven()
+    public function ifMatchesReturnsNullIfValidationFailsAndDefaultValueGiven()
     {
         assertNull(
                 $this->readParam('invalid')
                         ->required()
-                        ->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+                        ->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexAddsParamErrorIfValidationFails()
+    public function ifMatchesAddsParamErrorIfValidationFails()
     {
-        $this->readParam('invalid')->ifSatisfiesRegex('/[a-zA-Z]{9}/');
+        $this->readParam('invalid')->ifMatches('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_WRONG_VALUE'));
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexReturnsNullIfParamIsNullAndRequired()
+    public function ifMatchesReturnsNullIfParamIsNullAndRequired()
     {
         assertNull(
-                $this->readParam(null)->required()->ifSatisfiesRegex('/[a-zA-Z]{9}/')
+                $this->readParam(null)->required()->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexAddsParamErrorIfParamIsNullAndRequired()
+    public function ifMatchesAddsParamErrorIfParamIsNullAndRequired()
     {
-        $this->readParam(null)->required()->ifSatisfiesRegex('/[a-zA-Z]{9}/');
+        $this->readParam(null)->required()->ifMatches('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
     /**
      * @test
      */
-    public function ifSatisfiesRegexAddsParamErrorWithDifferentErrorId()
+    public function ifMatchesAddsParamErrorWithDifferentErrorId()
     {
-        $this->readParam(null)->required('OTHER')->ifSatisfiesRegex('/[a-zA-Z]{9}/');
+        $this->readParam(null)->required('OTHER')->ifMatches('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
     }
 

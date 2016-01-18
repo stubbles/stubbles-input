@@ -7,11 +7,21 @@
   * deprecated `stubbles\input\ValueReader::asSecureString()`, use `stubbles\input\ValueReader::asSecret()` instead, will be removed with 7.0.0
   * deprecated `@Request[SecureString]`, use `@Request[Secret]` instead, will be removed with 7.0.0
   * removed `stubbles\input\ValueReader::asEnum()`
+  * deprecated `stubbles\input\ValueReader::ifSatisfiesRegex()`, use `stubbles\input\ValueReader::ifMatches()` instead, will be removed with 7.0.0
+  * deprecated `stubbles\input\ValueValidator::satisfiesRegex()`, use `stubbles\input\ValueValidator::matches()` instead, will be removed with 7.0.0
 
 
 ### Other changes
 
   * added proper error message texts for JSON filter errors `JSON_INPUT_TOO_BIG`, `JSON_INVALID` and `JSON_SYNTAX_ERROR`
+  * added `stubbles\input\predicate':
+    * `contains($needle)`
+    * `containsAnyOf(array $contained)`
+    * `equals($expected)`
+    * `isOneOf(array $allowedValues)`
+    * `not($predicate)`
+    * `Predicate`
+    * `CallablePredicate`
 
 
 5.2.1 (2015-06-22)

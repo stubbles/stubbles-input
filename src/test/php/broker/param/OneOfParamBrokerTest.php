@@ -39,7 +39,6 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function setUp()
     {
-        $this->markTestIncomplete();
         $this->paramBroker = new OneOfParamBroker();
     }
 
