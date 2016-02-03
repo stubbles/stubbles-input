@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "61e3d8437cce0b5ce91b81f3455b17f1",
-    "content-hash": "f16da6095e4f8ff8ee39d0cad7d7ffb0",
+    "hash": "856897428f6a1c78b8944929e523767f",
+    "content-hash": "2f729fce2f4fe146c23a32dba1d32353",
     "packages": [
         {
             "name": "stubbles/reflect",
@@ -98,32 +98,32 @@
         },
         {
             "name": "stubbles/values",
-            "version": "v7.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130"
+                "reference": "46ecc3d3d46fecbfa1b0fb5c7b09ceee81510d8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/e6951d0fff1208f4f917ae405aeafcd10c7e5130",
-                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/46ecc3d3d46fecbfa1b0fb5c7b09ceee81510d8b",
+                "reference": "46ecc3d3d46fecbfa1b0fb5c7b09ceee81510d8b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "bovigo/assert": "^1.6",
+                "bovigo/assert": "^1.5",
                 "bovigo/callmap": "^2.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "^5.2",
+                "phpunit/phpunit": "^5.1",
                 "stubbles/reflect": "^7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.1.x-dev"
+                    "dev-master": "7.2.x-dev"
                 }
             },
             "autoload": {
@@ -140,7 +140,7 @@
             ],
             "description": "Useful classes to ease the work with values.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-02-21 15:20:21"
+            "time": "2016-02-03 15:16:48"
         }
     ],
     "packages-dev": [
@@ -1375,23 +1375,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-peer.git",
-                "reference": "a353ffee529bfa219ee00033600bc76d33498772"
+                "reference": "c35309a40d002df829c922c044efb06aef10fbb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/a353ffee529bfa219ee00033600bc76d33498772",
-                "reference": "a353ffee529bfa219ee00033600bc76d33498772",
+                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/c35309a40d002df829c922c044efb06aef10fbb3",
+                "reference": "c35309a40d002df829c922c044efb06aef10fbb3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "bovigo/assert": "^1.6",
+                "bovigo/assert": "^1.5",
                 "bovigo/callmap": "^2.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "^5.2",
-                "stubbles/values": "^7.1"
+                "phpunit/phpunit": "^5.1",
+                "stubbles/values": "^7.0"
             },
             "suggest": {
                 "stubbles/values": "Will automatically add http uri parsing to stubbles\\values\\Parse"
@@ -1416,7 +1416,7 @@
             ],
             "description": "Help with socket operations.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-03-22 10:23:45"
+            "time": "2016-01-17 17:01:25"
         },
         {
             "name": "symfony/yaml",
