@@ -9,6 +9,7 @@
  */
 namespace stubbles\input\broker;
 use function bovigo\assert\assert;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\reflect;
 require_once __DIR__ . '/BrokerClass.php';
@@ -62,10 +63,11 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  \InvalidArgumentException
      */
     public function targetMethodsOfThrowsExceptionOnInvalidValue()
     {
-        RequestBroker::targetMethodsOf(404);
+        expect(function() {
+                RequestBroker::targetMethodsOf(404);
+        })->throws(\InvalidArgumentException::class);
     }
 }

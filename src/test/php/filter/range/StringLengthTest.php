@@ -14,6 +14,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\StringLength.
@@ -195,14 +196,15 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  LogicException
      * @since  2.3.1
      * @group  issue41
      * @dataProvider  truncateValues
      */
     public function truncateValueWhenNotAllowedThrowsLogicException($value)
     {
-        $this->stringLength->truncateToMaxBorder($value);
+        expect(function() use ($value) {
+                $this->stringLength->truncateToMaxBorder($value);
+        })->throws(\LogicException::class);
     }
 
     /**
@@ -218,13 +220,14 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      * @since  2.3.1
      * @group  issue41
      */
     public function createWithTruncateAndNoMaxLengthThrowsIllegalArgumentException()
     {
-        StringLength::truncate(50, null);
+        expect(function() {
+                StringLength::truncate(50, null);
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**

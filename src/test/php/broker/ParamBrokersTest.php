@@ -13,6 +13,7 @@ use stubbles\input\broker\param\ParamBroker;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
 use function stubbles\reflect\annotationsOfConstructor;
@@ -92,11 +93,12 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  RuntimeException
      */
     public function requestUnknownParamBrokerTypeThrowsRuntimeException()
     {
-        $this->requestBroker->paramBroker('doesNotExist');
+        expect(function() {
+                $this->requestBroker->paramBroker('doesNotExist');
+        })->throws(\RuntimeException::class);
     }
 
     /**

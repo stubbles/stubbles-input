@@ -10,6 +10,7 @@
 namespace stubbles\input\predicate;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 /**
  * Tests for stubbles\values\predicate\equals().
  *
@@ -20,11 +21,12 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function constructionWithObjectThrowsIllegalArgumentException()
     {
-        equals(new \stdClass());
+        expect(function() {
+                equals(new \stdClass());
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**

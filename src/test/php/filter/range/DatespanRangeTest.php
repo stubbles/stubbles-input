@@ -17,6 +17,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\DatespanRange.
@@ -125,11 +126,12 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @text
      * @dataProvider  ranges
-     * @expectedException  LogicException
      */
     public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range)
     {
-        $range->contains('foo');
+        expect(function() use ($range) {
+                $range->contains('foo');
+        })->throws(\LogicException::class);
     }
 
     /**
@@ -174,12 +176,13 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  BadMethodCallException
      * @since  2.3.1
      * @group  issue41
      */
     public function tryingToTruncateThrowsMethodNotSupportedException()
     {
-        $this->datespanRange->truncateToMaxBorder(new Day('2012-03-20'));
+        expect(function() {
+                $this->datespanRange->truncateToMaxBorder(new Day('2012-03-20'));
+        })->throws(\BadMethodCallException::class);
     }
 }

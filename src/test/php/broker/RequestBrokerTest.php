@@ -17,6 +17,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
 use function stubbles\reflect\annotationsOf;
@@ -64,11 +65,12 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function procureNonObjectThrowsInvalidArgumentException()
     {
-        $this->requestBroker->procure($this->request, 313);
+        expect(function() {
+                $this->requestBroker->procure($this->request, 313);
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**

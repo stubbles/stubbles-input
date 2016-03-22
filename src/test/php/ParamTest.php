@@ -8,10 +8,13 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamError;
+
 use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\Param.
@@ -138,14 +141,19 @@ class ParamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
-     * @expectedExceptionMessage  Given error must either be an error id or an instance of stubbles\input\errors\ParamError
      * @since  2.3.3
      * @group  issue_46
      */
     public function addNonParamErrorAndNoErrorIdResultsInInvalidArgumentException()
     {
         $param = new Param('foo', 'bar');
-        $param->addError(500);
+        expect(function() use ($param) {
+                $param->addError(500);
+        })
+        ->throws(\InvalidArgumentException::class)
+        ->withMessage(
+                'Given error must either be an error id or an instance of '
+                . ParamError::class
+        );
     }
 }

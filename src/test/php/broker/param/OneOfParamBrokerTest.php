@@ -15,6 +15,7 @@ use stubbles\input\ValueReader;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 require_once __DIR__ . '/WebRequest.php';
@@ -128,14 +129,15 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 
     /**
      * @test
-     * @expectedException  RuntimeException
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure(
-                NewInstance::of(Request::class),
-                $this->createRequestAnnotation(['source' => 'foo'])
-        );
+        expect(function() {
+                $this->paramBroker->procure(
+                        NewInstance::of(Request::class),
+                        $this->createRequestAnnotation(['source' => 'foo'])
+                );
+        })->throws(\RuntimeException::class);
     }
 
     /**
@@ -311,15 +313,17 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 
     /**
      * @test
-     * @expectedException  RuntimeException
-     * @expectedExceptionMessage  No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()
      * @since  3.0.0
      */
     public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing()
     {
-        $this->paramBroker->procure(
-                $this->createRequest(((string) $this->expectedValue())),
-                $this->createRequestAnnotation()
-        );
+        expect(function() {
+            $this->paramBroker->procure(
+                    $this->createRequest(((string) $this->expectedValue())),
+                    $this->createRequestAnnotation()
+            );
+        })
+        ->throws(\RuntimeException::class)
+        ->withMessage('No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()');
     }
 }

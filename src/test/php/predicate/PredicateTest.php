@@ -10,6 +10,7 @@
 namespace stubbles\input\predicate;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
 /**
@@ -58,11 +59,12 @@ class PredicateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function castFromWithOtherValueThrowsInvalidArgumentException()
     {
-        Predicate::castFrom(new \stdClass());
+        expect(function() {
+                Predicate::castFrom(new \stdClass());
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -88,13 +90,14 @@ class PredicateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      * @since  7.1.0
      */
     public function andWithoutArgumentThrowsInvalidArgumentException()
     {
         $predicate = new FooPredicate();
-        $predicate->and();
+        expect(function() use ($predicate) {
+                $predicate->and();
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -111,22 +114,25 @@ class PredicateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      * @since  7.1.0
      */
     public function orWithoutArgumentThrowsInvalidArgumentException()
     {
         $predicate = new FooPredicate();
-        $predicate->or();
+        expect(function() use ($predicate) {
+                $predicate->or();
+        })->throws(\InvalidArgumentException::class);
     }
 
     /**
      * @test
-     * @expectedException  BadMethodCallException
      * @since  7.1.0
      */
     public function callToUndefinedMethodThrowsBadMethodCallException()
     {
-        (new FooPredicate())->noWay();
+        $predicate = new FooPredicate();
+        expect(function() use ($predicate) {
+                $predicate->noWay();
+        })->throws(\BadMethodCallException::class);
     }
 }

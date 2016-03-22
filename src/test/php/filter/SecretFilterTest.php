@@ -14,6 +14,7 @@ use stubbles\values\Secret;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/FilterTest.php';
 /**
@@ -138,11 +139,12 @@ class SecretFilterTest extends FilterTest
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function asSecretThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecret()
     {
-        $this->readParam(null)->defaultingTo('baz')->asSecret()->unveil();
+        expect(function() {
+                $this->readParam(null)->defaultingTo('baz')->asSecret()->unveil();
+        })->throws(\LogicException::class);
     }
 
     /**

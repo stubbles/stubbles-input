@@ -12,6 +12,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\range\NumberRange.
@@ -160,12 +161,13 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  BadMethodCallException
      * @since  2.3.1
      * @group  issue41
      */
     public function tryingToTruncateThrowsMethodNotSupportedException()
     {
-        $this->numberRange->truncateToMaxBorder(11);
+        expect(function() {
+                $this->numberRange->truncateToMaxBorder(11);
+        })->throws(\BadMethodCallException::class);
     }
 }

@@ -14,6 +14,7 @@ use stubbles\values\Secret;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 
@@ -161,13 +162,14 @@ class PasswordFilterTest extends FilterTest
 
     /**
      * @test
-     * @expectedException  BadMethodCallException
      */
     public function asPasswordWithDefaultValueThrowsBadMethodCallException()
     {
-        $this->readParam(null)
-                ->defaultingTo('secret')
-                ->asPassword($this->passwordChecker);
+        expect(function() {
+                $this->readParam(null)
+                        ->defaultingTo('secret')
+                        ->asPassword($this->passwordChecker);
+        })->throws(\BadMethodCallException::class);
     }
 
     /**

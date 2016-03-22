@@ -18,6 +18,7 @@ use stubbles\values\Secret;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/WebRequest.php';
 /**
@@ -71,14 +72,15 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  RuntimeException
      */
     public function failsForUnknownSource()
     {
-        $this->paramBroker->procure(
-                NewInstance::of(Request::class),
-                $this->createRequestAnnotation(['source' => 'foo'])
-        );
+        expect(function() {
+                $this->paramBroker->procure(
+                        NewInstance::of(Request::class),
+                        $this->createRequestAnnotation(['source' => 'foo'])
+                );
+        })->throws(\RuntimeException::class);
     }
 
     /**
