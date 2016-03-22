@@ -9,8 +9,8 @@
  */
 namespace stubbles\input\errors\messages;
 use bovigo\callmap\NewInstance;
-use stubbles\ResourceLoader;
 use stubbles\input\errors\ParamError;
+use stubbles\values\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
 
 use function bovigo\assert\assert;
@@ -40,7 +40,6 @@ class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->markTestIncomplete();
         $this->errorMessages = new PropertyBasedParamErrorMessages(
                 $this->createResourceLoader()
         );

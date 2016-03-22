@@ -8,9 +8,9 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
-use stubbles\ResourceLoader;
 use stubbles\input\errors\ParamError;
 use stubbles\values\Properties;
+use stubbles\values\ResourceLoader;
 /**
  * Translates errors into messages which are stored in property files.
  *
@@ -22,11 +22,11 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * loader for master.xsl resource file
      *
-     * @type  \stubbles\ResourceLoader
+     * @type  \stubbles\values\ResourceLoader
      */
     private $resourceLoader;
     /**
-     * defalt locale to be used
+     * default locale to be used
      *
      * @type  string
      */
@@ -35,7 +35,8 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * constructor
      *
-     * @param  \stubbles\ResourceLoader  $resourceLoader
+     * @param  \stubbles\values\ResourceLoader  $resourceLoader
+     * @param  string                           $defaultLocale
      * @Property{defaultLocale}('stubbles.locale')
      */
     public function __construct(ResourceLoader $resourceLoader, $defaultLocale = 'default')
