@@ -6,7 +6,7 @@
     "description": "Stubbles Input enables to handle input data via validation and filtering.",
     "require": {
         "php": ">=5.6.0",
-        "stubbles/values": "^7.1",
+        "stubbles/values": "^7.2",
         "stubbles/reflect": "^7.0"
     },
     "require-dev": {

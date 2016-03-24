@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "61e3d8437cce0b5ce91b81f3455b17f1",
-    "content-hash": "f16da6095e4f8ff8ee39d0cad7d7ffb0",
+    "hash": "856897428f6a1c78b8944929e523767f",
+    "content-hash": "2f729fce2f4fe146c23a32dba1d32353",
     "packages": [
         {
             "name": "stubbles/reflect",
@@ -98,16 +98,16 @@
         },
         {
             "name": "stubbles/values",
-            "version": "v7.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130"
+                "reference": "4d9361bfdfd38528c88377a5905cfe24a6ce2a41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/e6951d0fff1208f4f917ae405aeafcd10c7e5130",
-                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/4d9361bfdfd38528c88377a5905cfe24a6ce2a41",
+                "reference": "4d9361bfdfd38528c88377a5905cfe24a6ce2a41",
                 "shasum": ""
             },
             "require": {
@@ -123,7 +123,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.1.x-dev"
+                    "dev-master": "7.2.x-dev"
                 }
             },
             "autoload": {
@@ -140,7 +140,7 @@
             ],
             "description": "Useful classes to ease the work with values.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-02-21 15:20:21"
+            "time": "2016-03-23 16:25:04"
         }
     ],
     "packages-dev": [
@@ -806,16 +806,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.0.6",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "49bc700750196c04dd6bc2c4c99cb632b893836b"
+                "reference": "7c34c9bdde4131b824086457a3145e27dba10ca1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/49bc700750196c04dd6bc2c4c99cb632b893836b",
-                "reference": "49bc700750196c04dd6bc2c4c99cb632b893836b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/7c34c9bdde4131b824086457a3145e27dba10ca1",
+                "reference": "7c34c9bdde4131b824086457a3145e27dba10ca1",
                 "shasum": ""
             },
             "require": {
@@ -833,7 +833,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -858,7 +858,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-12-08 08:47:06"
+            "time": "2016-03-24 05:58:25"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1375,12 +1375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-peer.git",
-                "reference": "a353ffee529bfa219ee00033600bc76d33498772"
+                "reference": "7040d9d9d7ae05f387d21636c0bf0567348af13c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/a353ffee529bfa219ee00033600bc76d33498772",
-                "reference": "a353ffee529bfa219ee00033600bc76d33498772",
+                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/7040d9d9d7ae05f387d21636c0bf0567348af13c",
+                "reference": "7040d9d9d7ae05f387d21636c0bf0567348af13c",
                 "shasum": ""
             },
             "require": {
@@ -1391,7 +1391,7 @@
                 "bovigo/callmap": "^2.0",
                 "mikey179/vfsstream": "^1.6",
                 "phpunit/phpunit": "^5.2",
-                "stubbles/values": "^7.1"
+                "stubbles/values": "^7.2"
             },
             "suggest": {
                 "stubbles/values": "Will automatically add http uri parsing to stubbles\\values\\Parse"
@@ -1416,7 +1416,7 @@
             ],
             "description": "Help with socket operations.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-03-22 10:23:45"
+            "time": "2016-03-24 10:39:27"
         },
         {
             "name": "symfony/yaml",
