@@ -353,38 +353,6 @@ class DefaultValueReader implements CommonValueReader
     }
 
     /**
-     * returns value if it denotes a path to an existing file, and null otherwise
-     *
-     * This should be used with greatest care in web environments as it only
-     * checks if the file exists, but not if there are any rights to access
-     * the specific file. It also does not prevent constructions which would
-     * allow an attacker to reach e.g. /etc/passwd via ../../ constructions.
-     *
-     * @param   string  $basePath  base path where file must reside in
-     * @return  string
-     */
-    public function ifIsFile($basePath = null)
-    {
-        return $this->default;
-    }
-
-    /**
-     * returns value if it denotes a path to an existing directory, and null otherwise
-     *
-     * This should be used with greatest care in web environments as it only
-     * checks if the directory exists, but not if there are any rights to access
-     * the specific directory. It also does not prevent constructions which would
-     * allow an attacker to reach a certain directory via ../../ constructions.
-     *
-     * @param   string  $basePath  base path where directory must reside in
-     * @return  string
-     */
-    public function ifIsDirectory($basePath = null)
-    {
-        return $this->default;
-    }
-
-    /**
      * returns param value when given predicate evaluates to true
      *
      * If value does not satisfy the predicate return value will be null.

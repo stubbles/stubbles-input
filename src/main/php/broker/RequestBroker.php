@@ -42,8 +42,6 @@ class RequestBroker
                     'date'           => new param\DateParamBroker(),
                     'datespan'       => new param\DatespanParamBroker(),
                     'day'            => new param\DayParamBroker(),
-                    'directory'      => new param\DirectoryParamBroker(),
-                    'file'           => new param\FileParamBroker(),
                     'float'          => new param\FloatParamBroker(),
                     'httpuri'        => new param\HttpUriParamBroker(),
                     'integer'        => new param\IntegerParamBroker(),

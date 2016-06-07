@@ -9,6 +9,8 @@
   * removed `stubbles\input\ValueReader::asEnum()`
   * deprecated `stubbles\input\ValueReader::ifSatisfiesRegex()`, use `stubbles\input\ValueReader::ifMatches()` instead, will be removed with 7.0.0
   * deprecated `stubbles\input\ValueValidator::satisfiesRegex()`, use `stubbles\input\ValueValidator::matches()` instead, will be removed with 7.0.0
+  * removed support for `@Request[File]` and `@Request[Directory]`
+  * removed `stubbles\input\ValueReader::ifIsFile()` and `stubbles\input\ValueReader::ifIsDirectory()`
 
 
 ### Other changes
