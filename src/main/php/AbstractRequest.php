@@ -72,7 +72,7 @@ abstract class AbstractRequest implements Request
      */
     public function validateParam($paramName)
     {
-        return new ValueValidator($this->params->get($paramName));
+        return new ValueValidator($this->params->value($paramName));
     }
 
     /**

@@ -31,7 +31,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     private function validate($value)
     {
-        return new ValueValidator(new Param('bar', $value));
+        return new ValueValidator($value);
     }
 
     /**

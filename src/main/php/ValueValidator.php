@@ -8,15 +8,11 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\input\Param;
 use stubbles\input\predicate\Predicate;
 use stubbles\peer\IpAddress;
 use stubbles\peer\http\HttpUri;
+use stubbles\values\Value;
 
-use function stubbles\input\predicate\contains;
-use function stubbles\input\predicate\containsAnyOf;
-use function stubbles\input\predicate\equals;
-use function stubbles\input\predicate\isOneOf;
 use function stubbles\peer\isMailAddress;
 use function stubbles\values\pattern;
 /**
@@ -31,16 +27,16 @@ class ValueValidator
      *
      * @type  string
      */
-    private $param;
+    private $value;
 
     /**
      * constructor
      *
-     * @param  \stubbles\input\Param  $param  original value
+     * @param  string  $value  original value
      */
-    public function __construct(Param $param)
+    public function __construct($value)
     {
-        $this->param = $param;
+        $this->value = $value;
     }
 
     /**
@@ -51,7 +47,7 @@ class ValueValidator
      */
     public static function forValue($paramValue)
     {
-        return new self(new Param('mock', $paramValue));
+        return new self($paramValue);
     }
 
     /**
@@ -63,7 +59,7 @@ class ValueValidator
      */
     public function contains($needle)
     {
-        return contains($needle)->test($this->param->value());
+        return Value::of($this->value)->contains($needle);
     }
 
     /**
@@ -76,7 +72,7 @@ class ValueValidator
      */
     public function containsAnyOf(array $contained)
     {
-        return containsAnyOf($contained)->test($this->param->value());
+        return Value::of($this->value)->containsAnyOf($contained);
     }
 
 
@@ -89,7 +85,7 @@ class ValueValidator
      */
     public function isEqualTo($expected)
     {
-        return equals($expected)->test($this->param->value());
+        return Value::of($this->value)->equals($expected);
     }
 
     /**
@@ -100,7 +96,7 @@ class ValueValidator
      */
     public function isHttpUri()
     {
-        return HttpUri::isValid($this->param->value());
+        return HttpUri::isValid($this->value);
     }
 
     /**
@@ -112,7 +108,7 @@ class ValueValidator
      */
     public function isExistingHttpUri()
     {
-        return HttpUri::exists($this->param->value());
+        return HttpUri::exists($this->value);
     }
 
     /**
@@ -123,7 +119,7 @@ class ValueValidator
      */
     public function isIpAddress()
     {
-        return IpAddress::isValid($this->param->value());
+        return IpAddress::isValid($this->value);
     }
 
     /**
@@ -135,7 +131,7 @@ class ValueValidator
      */
     public function isIpV4Address()
     {
-        return IpAddress::isValidV4($this->param->value());
+        return IpAddress::isValidV4($this->value);
     }
 
     /**
@@ -147,7 +143,7 @@ class ValueValidator
      */
     public function isIpV6Address()
     {
-        return IpAddress::isValidV6($this->param->value());
+        return IpAddress::isValidV6($this->value);
     }
 
     /**
@@ -158,7 +154,7 @@ class ValueValidator
      */
     public function isMailAddress()
     {
-        return isMailAddress($this->param->value());
+        return isMailAddress($this->value);
     }
 
     /**
@@ -170,7 +166,7 @@ class ValueValidator
      */
     public function isOneOf(array $allowedValues)
     {
-        return isOneOf($allowedValues)->test($this->param->value());
+        return Value::of($this->value)->isOneOf($allowedValues);
     }
 
     /**
@@ -183,7 +179,7 @@ class ValueValidator
      */
     public function matches($regex)
     {
-        return pattern($regex)->matches($this->param->value());
+        return pattern($regex)->matches($this->value);
     }
 
     /**
@@ -212,6 +208,6 @@ class ValueValidator
      */
     public function with($predicate)
     {
-        return Predicate::castFrom($predicate)->test($this->param->value());
+        return Predicate::castFrom($predicate)->test($this->value);
     }
 }

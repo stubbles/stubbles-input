@@ -101,7 +101,7 @@ class BaseConsoleRequest extends AbstractRequest implements ConsoleRequest
      */
     public function validateEnv($envName)
     {
-        return new ValueValidator($this->env->get($envName));
+        return new ValueValidator($this->env->value($envName));
     }
 
     /**
