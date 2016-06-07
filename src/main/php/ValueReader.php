@@ -16,8 +16,8 @@ use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
 use stubbles\peer\IpAddress;
+use stubbles\values\Value;
 
-use function stubbles\input\predicate\isOneOf;
 use function stubbles\values\pattern;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -449,7 +449,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsOneOf(array $allowedValues)
     {
-        if (isOneOf($allowedValues)->test($this->param->value())) {
+        if (Value::of($this->param->value())->isOneOf($allowedValues)) {
             return $this->param->value();
         }
 
