@@ -16,14 +16,6 @@
 ### Other changes
 
   * added proper error message texts for JSON filter errors `JSON_INPUT_TOO_BIG`, `JSON_INVALID` and `JSON_SYNTAX_ERROR`
-  * added `stubbles\input\predicate':
-    * `contains($needle)`
-    * `containsAnyOf(array $contained)`
-    * `equals($expected)`
-    * `isOneOf(array $allowedValues)`
-    * `not($predicate)`
-    * `Predicate`
-    * `CallablePredicate`
 
 
 5.2.1 (2015-06-22)

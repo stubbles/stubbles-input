@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "856897428f6a1c78b8944929e523767f",
-    "content-hash": "2f729fce2f4fe146c23a32dba1d32353",
+    "hash": "90b7c909090b508a6a74b2492bf5fcc0",
+    "content-hash": "fc7f446ce6111ec699ac5337218cba56",
     "packages": [
         {
             "name": "stubbles/reflect",
