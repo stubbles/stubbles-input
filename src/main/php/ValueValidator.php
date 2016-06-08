@@ -8,7 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\input\predicate\Predicate;
 use stubbles\peer\IpAddress;
 use stubbles\peer\http\HttpUri;
 use stubbles\values\Value;
@@ -198,16 +197,16 @@ class ValueValidator
     /**
      * evaluates value with given predicate
      *
-     * Given predicate can either be an instance of \stubbles\predicate\Predicate
-     * or any callable which returns a boolean value.
+     * Given predicate can be any callable which accepts a value and returns a
+     * boolean value.
      *
      * @api
-     * @param   \stubbles\predicate\Predicate|callable  $predicate  predicate to use
+     * @param   callable  $predicate  predicate to use
      * @return  bool
      * @since   3.0.0
      */
-    public function with($predicate)
+    public function with(callable $predicate)
     {
-        return Predicate::castFrom($predicate)->test($this->value);
+        return $predicate($this->value);
     }
 }

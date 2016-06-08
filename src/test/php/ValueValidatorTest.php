@@ -278,9 +278,9 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function withPredicateReturnsPredicateResult()
     {
-        $predicate = NewInstance::of(Predicate::class)
-                ->mapCalls(['test' => true]);
-        assertTrue($this->validate('foo')->with($predicate));
+        assertTrue($this->validate('foo')->with(
+                function($value) { return 'foo' === $value; }
+        ));
     }
 
     /**
