@@ -8,9 +8,6 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use bovigo\callmap\NewInstance;
-use stubbles\input\predicate\Predicate;
-
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
