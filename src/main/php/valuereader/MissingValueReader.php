@@ -330,13 +330,13 @@ class MissingValueReader implements CommonValueReader
      * If value does not satisfy the predicate return value will be null.
      *
      * @api
-     * @param   \stubbles\predicate\Predicate|callable  $predicate  predicate to use
-     * @param   string                                  $errorId    error id to be used in case validation fails
-     * @param   array                                   $details    optional  details for param error in case validation fails
+     * @param   callable  $predicate  predicate to use
+     * @param   string    $errorId    error id to be used in case validation fails
+     * @param   array     $details    optional  details for param error in case validation fails
      * @return  string
      * @since   3.0.0
      */
-    public function when($predicate, $errorId, array $details = [])
+    public function when(callable $predicate, $errorId, array $details = [])
     {
         $this->reportError();
         return null;

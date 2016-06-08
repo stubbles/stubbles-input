@@ -498,18 +498,18 @@ class ValueReader implements valuereader\CommonValueReader
      * If value does not satisfy the predicate return value will be null.
      *
      * @api
-     * @param   \stubbles\input\predicate\Predicate|callable  $predicate  predicate to use
-     * @param   string                                        $errorId    error id to be used in case validation fails
-     * @param   array                                         $details    optional  details for param error in case validation fails
+     * @param   callable  $predicate  predicate to use
+     * @param   string    $errorId    error id to be used in case validation fails
+     * @param   array     $details    optional  details for param error in case validation fails
      * @return  string
      * @since   3.0.0
      */
-    public function when($predicate, $errorId, array $details = [])
+    public function when(callable $predicate, $errorId, array $details = [])
     {
         return $this->handleFilter(
                 function() use($predicate, $errorId, $details)
                 {
-                    return new filter\PredicateFilter($predicate, $errorId, $details);
+                    return new filter\CallableFilter($predicate, $errorId, $details);
                 }
         );
     }
