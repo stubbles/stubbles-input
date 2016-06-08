@@ -509,7 +509,7 @@ class ValueReader implements valuereader\CommonValueReader
         return $this->handleFilter(
                 function() use($predicate, $errorId, $details)
                 {
-                    return new filter\CallableFilter($predicate, $errorId, $details);
+                    return new filter\PredicateFilter($predicate, $errorId, $details);
                 }
         );
     }

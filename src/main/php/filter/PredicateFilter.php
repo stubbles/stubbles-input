@@ -15,7 +15,7 @@ use stubbles\input\Param;
  *
  * @since  3.0.0
  */
-class CallableFilter implements Filter
+class PredicateFilter implements Filter
 {
     /**
      * predicate to be used
