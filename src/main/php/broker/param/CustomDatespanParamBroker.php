@@ -46,7 +46,7 @@ class CustomDatespanParamBroker implements ParamBroker
      */
     public function procureParam(Param $param, Annotation $annotation)
     {
-        throw new \stubbles\exception\MethodNotSupportedException('Can not procure a single param');
+        throw new \BadMethodCallException('Can not procure a single param');
     }
 
     /**
