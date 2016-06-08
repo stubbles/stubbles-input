@@ -58,7 +58,7 @@ class DatespanRange extends AbstractRange
         }
 
         if (!($value instanceof Datespan)) {
-            throw new \LogicException('Given value must be of instance stubbles\date\span\Datespan');
+            throw new \LogicException('Given value must be of instance ' . Datespan::class);
         }
 
         return $value->startsBefore($this->minDate->change()->timeTo('00:00:00'));
@@ -78,7 +78,7 @@ class DatespanRange extends AbstractRange
         }
 
         if (!($value instanceof Datespan)) {
-            throw new LogicException('Given value must be of instance stubbles\date\span\Datespan');
+            throw new LogicException('Given value must be of instance ' . Datespan::class);
         }
 
         return $value->endsAfter($this->maxDate->change()->timeTo('23:59:59'));
