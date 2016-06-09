@@ -62,16 +62,16 @@ class ValueValidator
     }
 
     /**
-     * checks whether value contains any of the given strings
+     * checks whether value contains any of the given elements
      *
      * @api
-     * @param   string[]  $contained
+     * @param   string[]  $elements
      * @return  bool
      * @since   4.3.0
      */
-    public function containsAnyOf(array $contained)
+    public function containsAnyOf(array $elements)
     {
-        return Value::of($this->value)->containsAnyOf($contained);
+        return Value::of($this->value)->containsAnyOf($elements);
     }
 
 
