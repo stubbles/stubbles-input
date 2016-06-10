@@ -265,11 +265,12 @@ class ValueReader implements valuereader\CommonValueReader
      * read as json value
      *
      * @api
+     * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
      * @return  \stdClass|array
      */
-    public function asJson()
+    public function asJson($maxLength = filter\JsonFilter::DEFAULT_MAX_LENGTH)
     {
-        return $this->withFilter(filter\JsonFilter::instance());
+        return $this->withFilter(new filter\JsonFilter($maxLength));
     }
 
     /**

@@ -224,7 +224,7 @@ an allowed password.
 Possible filter errors depend on the used implementation for the password checker.
 
 
-### `asJson()`
+### `asJson($maxLength = 20000)`
 
 Returns the request parameter as `array` or `\stdClass` value, depending on the
 JSON structure. In case the the parameter is not set or contains invalid JSON
@@ -233,6 +233,17 @@ the method returns `null`.
 ```php
 $decodedJson = $request->readParam($paramName)->asJson();
 ```
+
+#### Specifying valid JSON string length
+
+Additionally it is possible to specify a valid length for the value to filter:
+
+```php
+// accept all json strings up to a length of 1000 bytes
+$decodedJson = $request->readParam($paramName)->asJson(1000);
+```
+
+If no length is specified the default of 20,000 bytes is used.
 
 #### Possible filter errors
 

@@ -15,6 +15,7 @@
 
 ### Other changes
 
+  * `stubbles\input\ValueReader::asJson()` now allows to specify the allowed maximum length of the JSON input
   * added proper error message texts for JSON filter errors `JSON_INPUT_TOO_BIG`, `JSON_INVALID` and `JSON_SYNTAX_ERROR`
 
 

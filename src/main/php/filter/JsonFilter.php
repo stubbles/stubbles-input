@@ -18,7 +18,24 @@ use stubbles\input\Param;
  */
 class JsonFilter implements Filter
 {
-    use ReusableFilter;
+    /**
+     * maximum default allowed length of incoming JSON document in bytes
+     */
+    const DEFAULT_MAX_LENGTH = 20000;
+    /**
+     * @type  int
+     */
+    private $maxLength;
+
+    /**
+     * constructor
+     *
+     * @param  int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
+     */
+    public function __construct($maxLength = self::DEFAULT_MAX_LENGTH)
+    {
+        $this->maxLength = $maxLength;
+    }
 
     /**
      * apply filter on given param
@@ -32,8 +49,8 @@ class JsonFilter implements Filter
             return null;
         }
 
-        if ($param->length() > 20000) {
-            $param->addError('JSON_INPUT_TOO_BIG', ['maxLength' => 20000]);
+        if ($param->length() > $this->maxLength) {
+            $param->addError('JSON_INPUT_TOO_BIG', ['maxLength' => $this->maxLength]);
             return null;
         }
 
