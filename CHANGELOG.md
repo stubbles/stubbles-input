@@ -1,4 +1,4 @@
-6.0.0 (201?-??-??)
+6.0.0 (2016-??-??)
 ------------------
 
 ### BC breaks
@@ -11,6 +11,8 @@
   * deprecated `stubbles\input\ValueValidator::satisfiesRegex()`, use `stubbles\input\ValueValidator::matches()` instead, will be removed with 7.0.0
   * removed support for `@Request[File]` and `@Request[Directory]`
   * removed `stubbles\input\ValueReader::ifIsFile()` and `stubbles\input\ValueReader::ifIsDirectory()`
+  * moved `stubbles\input\console\ConsoleRequest` to `stubbles\console\input\ConsoleRequest` in stubbles/console
+  * moved `stubbles\input\console\BaseConsoleRequest` to `stubbles\console\input\BaseConsoleRequest` in stubbles/console
 
 
 ### Other changes
