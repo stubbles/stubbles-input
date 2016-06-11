@@ -148,21 +148,41 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenIllegalCharsInValue()
+    public function returnsNullWhenDotBeforeAtSign()
     {
-        assertNull(
-                $this->mailFilter->apply($this->createParam('foo&/4@mailadre.ss'))
-        );
+        assertNull($this->mailFilter->apply(
+                $this->createParam('foo.@mailadre.ss')
+        ));
     }
 
     /**
      * @test
      */
-    public function addsErrorToParamWhenIllegalCharsInValue()
+    public function addsErrorToParamWhenDotBeforeAtSign()
     {
-        $param = $this->createParam('foo&/4@mailadre.ss');
+        $param = $this->createParam('foo.@mailadre.ss');
         $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_CONTAINS_ILLEGAL_CHARS'));
+        assertTrue($param->hasError('MAILADDRESS_DOT_NEXT_TO_AT_SIGN'));
+    }
+
+    /**
+     * @test
+     */
+    public function returnsNullWhenDotAfterAtSign()
+    {
+        assertNull($this->mailFilter->apply(
+                $this->createParam('foo@.mailadre.ss')
+        ));
+    }
+
+    /**
+     * @test
+     */
+    public function addsErrorToParamWhenDotAfterAtSign()
+    {
+        $param = $this->createParam('foo@.mailadre.ss');
+        $this->mailFilter->apply($param);
+        assertTrue($param->hasError('MAILADDRESS_DOT_NEXT_TO_AT_SIGN'));
     }
 
     /**

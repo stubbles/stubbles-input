@@ -63,8 +63,8 @@ class MailFilter implements Filter
             return 'MAILADDRESS_MUST_CONTAIN_ONE_AT';
         }
 
-        if (preg_match('/^[' . preg_quote('abcdefghijklmnopqrstuvwxyz1234567890@.+_-') . ']+$/iD', $value) == false) {
-            return 'MAILADDRESS_CONTAINS_ILLEGAL_CHARS';
+        if (strpos($value, '.@') !== false || strpos($value, '@.') !== false) {
+            return 'MAILADDRESS_DOT_NEXT_TO_AT_SIGN';
         }
 
         if (strpos($value, '..') !== false) {

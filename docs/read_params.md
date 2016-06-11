@@ -84,11 +84,11 @@ Additionally it is possible to specify valid ranges for the value to filter:
 
 ```php
 // accepts all values between and including 1 to 10
-$int = $request->readParam($paramName)->asInt(new NumberRange(1, 10));  
+$int = $request->readParam($paramName)->asInt(new NumberRange(1, 10));
 // accepts all positive numbers >= 1
-$int = $request->readParam($paramName)->asInt(new NumberRange(1, null));  
+$int = $request->readParam($paramName)->asInt(new NumberRange(1, null));
 // accepts all negative numbers <= -1
-$int = $request->readParam($paramName)->asInt(new NumberRange(null, -1));  
+$int = $request->readParam($paramName)->asInt(new NumberRange(null, -1));
 ```
 
 #### Possible filter errors
@@ -112,9 +112,9 @@ Additionally it is possible to specify valid ranges for the value to filter:
 
 ```php
 // allows all values between and including 1 to 10
-$float = $request->readParam($paramName)->asFloat(new NumberRange(1, 10));  
+$float = $request->readParam($paramName)->asFloat(new NumberRange(1, 10));
 // accepts all positive numbers >= 1
-$float = $request->readParam($paramName)->asFloat(new NumberRange(1, null));  
+$float = $request->readParam($paramName)->asFloat(new NumberRange(1, null));
 // accepts all negative numbers <= -1
 $float = $request->readParam($paramName)->asFloat(new NumberRange(null, -1));
 ```
@@ -142,9 +142,9 @@ Additionally it is possible to specify a valid length for the value to filter:
 // allows all strings with a length between and including 1 to 10
 $string = $request->readParam($paramName)->asString(new StringLength(1, 10));
 // accepts all strings with length >= 1
-$string = $request->readParam($paramName)->asString(new StringLength(1, null));  
+$string = $request->readParam($paramName)->asString(new StringLength(1, null));
 // accepts all strings with length <= 10
-$string = $request->readParam($paramName)->asString(new StringLength(null, 10));  
+$string = $request->readParam($paramName)->asString(new StringLength(null, 10));
 ```
 
 #### Possible filter errors
@@ -171,9 +171,9 @@ Additionally it is possible to specify a valid length for the value to filter:
 // allows all strings with a length between and including 1 to 10
 $text = $request->readParam($paramName)->asText(new StringLength(1,10));
 // accepts all strings with length >= 1
-$text = $request->readParam($paramName)->asText(new StringLength(1, null));  
+$text = $request->readParam($paramName)->asText(new StringLength(1, null));
 // accepts all strings with length <= 10
-$text = $request->readParam($paramName)->asText(new StringLength(null, 10));  
+$text = $request->readParam($paramName)->asText(new StringLength(null, 10));
 ```
 
 #### Possible filter errors
@@ -199,9 +199,9 @@ Additionally it is possible to specify a valid length for the value to filter:
 // allows all strings with a length between and including 1 to 10
 $string = $request->readParam($paramName)->asSecret(new StringLength(1, 10));
 // accepts all strings with length >= 1
-$string = $request->readParam($paramName)->asSecret(new StringLength(1, null));  
+$string = $request->readParam($paramName)->asSecret(new StringLength(1, null));
 // accepts all strings with length <= 10
-$string = $request->readParam($paramName)->asSecret(new StringLength(null, 10));  
+$string = $request->readParam($paramName)->asSecret(new StringLength(null, 10));
 ```
 
 #### Possible filter errors
@@ -304,7 +304,7 @@ Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
  * _MAILADDRESS_CANNOT_CONTAIN_SPACES_ in case the value contains any spaces
  * _MAILADDRESS_CANNOT_CONTAIN_UMLAUTS_ in case the value contains german umlauts
  * _MAILADDRESS_MUST_CONTAIN_ONE_AT_ in case the value contains less or more than one _@_ character
- * _MAILADDRESS_CONTAINS_ILLEGAL_CHARS_ in case the value contains other invalid characters
+ * _MAILADDRESS_DOT_NEXT_TO_AT_SIGN_ in case the value contains a dot right before or after the _@_ character
  * _MAILADDRESS_CONTAINS_TWO_FOLLOWING_DOTS_ in case the contains two dots next to each other
  * _MAILADDRESS_INCORRECT_ in case the exact error could not be determined
 
@@ -344,9 +344,9 @@ Additionally it is possible to specify a valid date range for the value to filte
 $date = $request->readParam($paramName)
                 ->asDate(new DateRange(new Date('yesterday'), new Date('tomorrow')));
 // accepts all dates in the future including tomorrow
-$date = $request->readParam($paramName)->asDate(new DateRange(new Date('tomorrow'), null));  
+$date = $request->readParam($paramName)->asDate(new DateRange(new Date('tomorrow'), null));
 // accepts all dates in the past including yesterday
-$date = $request->readParam($paramName)->asDate(new DateRange(null, new Date('yesterday')));  
+$date = $request->readParam($paramName)->asDate(new DateRange(null, new Date('yesterday')));
 ```
 
 #### Possible filter errors
@@ -375,7 +375,7 @@ Additionally it is possible to specify a valid date range for the value to filte
 $day = $request->readParam($paramName)
                ->asDay(new DatespanRange(new Date('yesterday'), new Date('tomorrow')));
 // accepts all days in the future including tomorrow
-$day = $request->readParam($paramName)->asDay(new DatespanRange(new Date('tomorrow'), null));  
+$day = $request->readParam($paramName)->asDay(new DatespanRange(new Date('tomorrow'), null));
 // accepts all days in the past including yesterday
 $day = $request->readParam($paramName)->asDay(new DatespanRange(null, new Date('yesterday')));
 ```
