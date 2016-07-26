@@ -49,7 +49,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
         return new Annotation(
                 $this->getRequestAnnotationName(),
                 'SomeClass::someMethod()',
-                $values,
+                array_map(function($value) { return (string) $value; }, $values),
                 'Request'
         );
     }

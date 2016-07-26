@@ -56,7 +56,12 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
     protected function createRequestAnnotation(array $values = [])
     {
         $values['paramName'] = 'foo';
-        return new Annotation('Secret', 'foo', $values, 'Request');
+        return new Annotation(
+                'Secret',
+                'foo',
+                array_map(function($value) { return (string) $value; }, $values),
+                'Request'
+        );
     }
 
     /**

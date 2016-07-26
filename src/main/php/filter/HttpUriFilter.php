@@ -32,17 +32,16 @@ class HttpUriFilter implements Filter
      */
     public function apply(Param $param)
     {
+        if ($param->isEmpty()) {
+            return null;
+        }
+
         try {
-            $httpUri = HttpUri::fromString($param->value());
+            return HttpUri::fromString($param->value());
         } catch (MalformedUri $murle) {
             $param->addError('HTTP_URI_INCORRECT');
-            return null;
         }
 
-        if (null === $httpUri) {
-            return null;
-        }
-
-        return $httpUri;
+        return null;
     }
 }
