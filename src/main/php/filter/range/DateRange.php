@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -49,7 +50,7 @@ class DateRange extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function belowMinBorder($value)
+    protected function belowMinBorder($value): bool
     {
         if (null === $this->minDate) {
             return false;
@@ -64,7 +65,7 @@ class DateRange extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value): bool
     {
         if (null === $this->maxDate) {
             return false;
@@ -78,7 +79,7 @@ class DateRange extends AbstractRange
      *
      * @return  array
      */
-    protected function minBorderViolation()
+    protected function minBorderViolation(): array
     {
         return ['DATE_TOO_EARLY' => ['earliestDate' => $this->minDate->asString()]];
     }
@@ -88,7 +89,7 @@ class DateRange extends AbstractRange
      *
      * @return  array
      */
-    protected function maxBorderViolation()
+    protected function maxBorderViolation(): array
     {
         return ['DATE_TOO_LATE' => ['latestDate' => $this->maxDate->asString()]];
     }

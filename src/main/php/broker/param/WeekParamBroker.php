@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -41,7 +42,7 @@ class WeekParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\span\Week
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): Week
     {
         return Week::fromString($value);
     }

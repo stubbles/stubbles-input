@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -33,7 +34,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Float';
     }
@@ -43,7 +44,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  float
      */
-    protected function expectedValue()
+    protected function expectedValue(): float
     {
         return 3.03;
     }

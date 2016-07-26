@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -34,7 +35,7 @@ class ArrayParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  array
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): array
     {
         return array_map('trim', explode('|', $value));
     }

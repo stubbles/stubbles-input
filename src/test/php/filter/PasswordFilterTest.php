@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -53,7 +54,7 @@ class PasswordFilterTest extends FilterTest
      * @param  string  $expectedPassword
      * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
+    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword)
     {
         assert($actualPassword->unveil(), equals($expectedPassword));
     }

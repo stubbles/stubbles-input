@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -27,15 +28,21 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      */
     public function procure(Request $request, Annotation $annotation)
     {
-        $method      = $this->getMethod($request, $annotation);
-        $valueReader = $request->$method($annotation->getParamName());
+        $read        = $this->readSourceMethod($request, $annotation);
+        $valueReader = $request->$read($annotation->getParamName());
         /* @var $valueReader \stubbles\input\ValueReader */
         if ($annotation->isRequired()) {
-            return $this->filter($valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')), $annotation);
+            return $this->filter(
+                    $valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')),
+                    $annotation
+            );
         }
 
         if ($this->supportsDefault() && $annotation->hasValueByName('default')) {
-            return $this->filter($valueReader->defaultingTo($this->parseDefault($annotation->getDefault())), $annotation);
+            return $this->filter(
+                    $valueReader->defaultingTo($this->parseDefault($annotation->getDefault())),
+                    $annotation
+            );
         }
 
         return $this->filter($valueReader, $annotation);
@@ -46,7 +53,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      *
      * @return  bool
      */
-    protected function supportsDefault()
+    protected function supportsDefault(): bool
     {
         return true;
     }
@@ -77,16 +84,19 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * retrieves method to call on request instance
      *
-     * @param   \stubbles\input\Request                       $request
+     * @param   \stubbles\input\Request                  $request
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string
      * @throws  \RuntimeException
      */
-    private function getMethod(Request $request, Annotation $annotation)
+    private function readSourceMethod(Request $request, Annotation $annotation): string
     {
-        $method = 'read' . $this->getSource($annotation);
+        $method = 'read' . $this->source($annotation);
         if (!method_exists($request, $method)) {
-            throw new \RuntimeException('Unknown source ' . $annotation->getSource() . ' for ' . $annotation . ' on ' . get_class($request));
+            throw new \RuntimeException(
+                    'Unknown source ' . $annotation->getSource() . ' for '
+                    . $annotation . ' on ' . get_class($request)
+            );
         }
 
         return $method;
@@ -98,7 +108,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string
      */
-    private function getSource(Annotation $annotation)
+    private function source(Annotation $annotation): string
     {
         if ($annotation->hasValueByName('source')) {
             return ucfirst(strtolower($annotation->getSource()));

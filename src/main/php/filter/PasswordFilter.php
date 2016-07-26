@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -72,6 +73,10 @@ class PasswordFilter implements Filter
      */
     private function parse(Param $param)
     {
+        if ($param->isEmpty()) {
+            return null;
+        }
+
         $value = $param->value();
         if (is_array($value)) {
             if ($value[0] !== $value[1]) {
@@ -82,7 +87,7 @@ class PasswordFilter implements Filter
             $value = $value[0];
         }
 
-        if (strlen($value) === 0) {
+        if (empty($value) === 0) {
             return null;
         }
 

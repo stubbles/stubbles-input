@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -30,7 +31,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @return  string[]
      */
-    public static function allowedSource()
+    public static function allowedSource(): array
     {
         return ['foo', 'bar'];
     }
@@ -48,7 +49,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'OneOf';
     }
@@ -56,9 +57,9 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * returns expected filtered value
      *
-     * @return  array
+     * @return  string
      */
-    protected function expectedValue()
+    protected function expectedValue(): string
     {
         return 'foo';
     }

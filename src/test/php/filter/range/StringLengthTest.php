@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -40,10 +41,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         $this->stringLength = new StringLength(1, 10);
     }
 
-    /**
-     * @return  array
-     */
-    public function outOfRangeValues()
+    public function outOfRangeValues(): array
     {
         return [
             [''],
@@ -62,10 +60,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         assertFalse($this->stringLength->contains($value));
     }
 
-    /**
-     * @return  array
-     */
-    public function withinRangeValues()
+    public function withinRangeValues(): array
     {
         return [
             ['a'],
@@ -124,10 +119,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
         assertTrue($numberRange->contains($value));
     }
 
-    /**
-     * @return  array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             [new StringLength(1, 10)],

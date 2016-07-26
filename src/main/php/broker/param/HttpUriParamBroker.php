@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -30,16 +31,5 @@ class HttpUriParamBroker extends MultipleSourceParamBroker
         }
 
         return $valueReader->asHttpUri();
-    }
-
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stubbles\peer\http\HttpUri
-     */
-    protected function parseDefault($value)
-    {
-        return HttpUri::fromString($value);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -53,7 +54,7 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      * @param   array  $values
      * @return  Annotation
      */
-    protected function createRequestAnnotation(array $values = [])
+    protected function createRequestAnnotation(array $values = []): Annotation
     {
         $values['paramName'] = 'foo';
         return new Annotation(
@@ -68,9 +69,9 @@ class SecretParamBrokerTest extends \PHPUnit_Framework_TestCase
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \bovigo\callmap\Proxy
+     * @return  Request
      */
-    protected function createRequest($value)
+    protected function createRequest($value): Request
     {
         return NewInstance::of(Request::class)->mapCalls([
                 'readParam' => ValueReader::forValue($value)

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -37,7 +38,7 @@ class IntegerParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  int
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): int
     {
         return (int) $value;
     }

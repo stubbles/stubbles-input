@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,7 +27,7 @@ class AcceptFilter implements Filter
      * @param   \stubbles\input\Param  $param
      * @return  \stubbles\peer\http\AcceptHeader
      */
-    public function apply(Param $param)
+    public function apply(Param $param): AcceptHeader
     {
         if ($param->isNull() || $param->isEmpty()) {
             return new AcceptHeader();

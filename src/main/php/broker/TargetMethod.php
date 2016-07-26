@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -47,7 +48,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function paramName()
+    public function paramName(): string
     {
         return $this->annotation->paramName();
     }
@@ -58,7 +59,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function paramDescription()
+    public function paramDescription(): string
     {
         if ($this->annotation->hasParamDescription()) {
             return $this->annotation->paramDescription();
@@ -73,7 +74,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function valueDescription()
+    public function valueDescription(): string
     {
         if ($this->annotation->hasValueByName('valueDescription')) {
             return $this->annotation->getValueByName('valueDescription');
@@ -87,7 +88,7 @@ class TargetMethod
      *
      * @return  string
      */
-    public function expectedType()
+    public function expectedType(): string
     {
         return strtolower($this->annotation->getAnnotationName());
     }
@@ -98,7 +99,7 @@ class TargetMethod
      * @api
      * @return  \stubbles\reflect\annotation\Annotation
      */
-    public function annotation()
+    public function annotation(): Annotation
     {
         return $this->annotation;
     }
@@ -109,7 +110,7 @@ class TargetMethod
      * @api
      * @return  bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->annotation->isRequired();
     }
@@ -124,7 +125,7 @@ class TargetMethod
      * @api
      * @return  bool
      */
-    public function requiresParameter()
+    public function requiresParameter(): bool
     {
         return $this->method->getNumberOfParameters() > 0;
     }

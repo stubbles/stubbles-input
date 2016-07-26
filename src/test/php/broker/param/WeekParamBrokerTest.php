@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -37,7 +38,7 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Week';
     }
@@ -47,7 +48,7 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  \stubbles\date\span\Week
      */
-    protected function expectedValue()
+    protected function expectedValue(): Week
     {
         return Week::fromString('2015-W22');
     }

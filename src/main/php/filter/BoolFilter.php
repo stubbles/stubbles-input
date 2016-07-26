@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -28,7 +29,7 @@ class BoolFilter implements Filter
      * @param   \stubbles\input\Param  $param
      * @return  bool
      */
-    public function apply(Param $param)
+    public function apply(Param $param): bool
     {
         if (in_array($param->value(), [1, '1', 'true', true, 'yes'], true)) {
             return true;

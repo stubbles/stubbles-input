@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -39,10 +40,7 @@ class DateFilterTest extends FilterTest
         parent::setUp();
     }
 
-    /**
-     * @return  scalar
-     */
-    public function getEmptyValues()
+    public function getEmptyValues(): array
     {
         return [[''], [null]];
     }
@@ -170,7 +168,7 @@ class DateFilterTest extends FilterTest
     public function asDateReturnsNullIfParamIsOutOfRange()
     {
         assertNull(
-                $this->readParam(new Date('yesterday'))
+                $this->readParam((new Date('yesterday'))->asString())
                         ->asDate(new DateRange(Date::now(), null))
         );
     }
@@ -181,7 +179,7 @@ class DateFilterTest extends FilterTest
      */
     public function asDateAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->readParam(new Date('yesterday'))
+        $this->readParam((new Date('yesterday'))->asString())
              ->asDate(new DateRange(Date::now(), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }

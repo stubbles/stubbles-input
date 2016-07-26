@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,6 +9,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Interface for handling input data.
  *
@@ -20,14 +22,14 @@ interface Request
      *
      * @return  string
      */
-    public function method();
+    public function method(): string;
 
     /**
      * return a list of all param names registered in this request
      *
      * @return  string[]
      */
-    public function paramNames();
+    public function paramNames(): array;
 
     /**
      * returns list of errors for request parameters
@@ -35,7 +37,7 @@ interface Request
      * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
-    public function paramErrors();
+    public function paramErrors(): ParamErrors;
 
     /**
      * checks whether a request param is set
@@ -44,7 +46,7 @@ interface Request
      * @return  bool
      * @since   1.3.0
      */
-    public function hasParam($paramName);
+    public function hasParam(string $paramName): bool;
 
     /**
      * checks whether a request value from parameters is valid or not
@@ -53,7 +55,7 @@ interface Request
      * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
-    public function validateParam($paramName);
+    public function validateParam(string $paramName): ValueValidator;
 
     /**
      * returns request value from params for validation
@@ -62,5 +64,5 @@ interface Request
      * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
-    public function readParam($paramName);
+    public function readParam(string $paramName): ValueReader;
 }

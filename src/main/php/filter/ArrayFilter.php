@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,7 +39,7 @@ class ArrayFilter implements Filter
      *
      * @param  string  $separator  optional  separator to be used to split parameter value
      */
-    public function __construct($separator = self::SEPARATOR_DEFAULT)
+    public function __construct(string $separator = self::SEPARATOR_DEFAULT)
     {
         $this->setSeparator($separator);
     }
@@ -49,7 +50,7 @@ class ArrayFilter implements Filter
      * @param   string  $separator
      * @return  \stubbles\input\filter\ArrayFilter
      */
-    public function setSeparator($separator)
+    public function setSeparator(string $separator): self
     {
         $this->separator = $separator;
         return $this;

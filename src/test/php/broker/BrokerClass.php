@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -45,7 +46,7 @@ class BrokerClass
      *
      * @return  BrokerClass
      */
-    public static function create()
+    public static function create(): self
     {
         return new self();
     }
@@ -65,7 +66,7 @@ class BrokerClass
      *
      * @return  bool
      */
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return $this->verbose;
     }
@@ -76,7 +77,7 @@ class BrokerClass
      * @Request[String](paramName='bar', paramGroup='main')
      * @param  string  $bar
      */
-    public function setBar($bar)
+    public function setBar(string $bar)
     {
         $this->bar = $bar;
     }
@@ -97,7 +98,7 @@ class BrokerClass
      * @Request[Mock](paramName='baz', paramGroup='other')
      * @param  string  $baz
      */
-    public function setBaz($baz)
+    public function setBaz(string $baz)
     {
         $this->baz = $baz;
     }

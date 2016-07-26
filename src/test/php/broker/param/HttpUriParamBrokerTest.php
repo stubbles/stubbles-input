@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -35,7 +36,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'HttpUri';
     }
@@ -45,7 +46,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  HttpUri
      */
-    protected function expectedValue()
+    protected function expectedValue(): HttpUri
     {
         return HttpUri::fromString('http://localhost/');
     }

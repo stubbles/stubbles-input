@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -36,7 +37,7 @@ class DatespanParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Datespan';
     }
@@ -44,9 +45,9 @@ class DatespanParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * returns expected filtered value
      *
-     * @return  \stubbles\date\span\Datespan
+     * @return  \stubbles\date\span\Day
      */
-    protected function expectedValue()
+    protected function expectedValue(): Day
     {
         return new Day('2012-04-21');
     }

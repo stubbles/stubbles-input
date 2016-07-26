@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -31,7 +32,7 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Mail';
     }
@@ -41,7 +42,7 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function expectedValue()
+    protected function expectedValue(): string
     {
         return 'me@example.com';
     }

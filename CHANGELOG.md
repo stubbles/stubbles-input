@@ -4,6 +4,7 @@
 ### BC breaks
 
   * raised minimum required PHP version to 7.0.0
+  * introduced scalar type hints and strict type checking
   * removed methods deprecated in 6.0.0
     * `stubbles\input\ValueReader::asSecureString()`, use `stubbles\input\ValueReader::asSecret()` instead
     * `stubbles\input\ValueReader::ifSatisfiesRegex()`, use `stubbles\input\ValueReader::ifMatches()` instead

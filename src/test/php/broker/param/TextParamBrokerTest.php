@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -33,7 +34,7 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Text';
     }
@@ -43,7 +44,7 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function expectedValue()
+    protected function expectedValue(): string
     {
         return 'Do you expect me to talk?';
     }

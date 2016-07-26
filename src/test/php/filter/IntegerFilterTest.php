@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -22,10 +23,7 @@ require_once __DIR__ . '/FilterTest.php';
  */
 class IntegerFilterTest extends FilterTest
 {
-    /**
-     * @return  array
-     */
-    public function getValueResultTuples()
+    public function getValueResultTuples(): array
     {
         return [[8, 8],
                 ['8', 8],

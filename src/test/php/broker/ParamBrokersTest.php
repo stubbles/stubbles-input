@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -50,12 +51,7 @@ class ParamBrokersTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * returns default broker list
-     *
-     * @return  array
-     */
-    public function defaultBrokerList()
+    public function defaultBrokerList(): array
     {
         $defaultBroker = [];
         foreach (RequestBroker::buildInTypes() as $name => $paramBroker) {

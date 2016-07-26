@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -39,7 +40,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Array';
     }
@@ -49,7 +50,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  array
      */
-    protected function expectedValue()
+    protected function expectedValue(): array
     {
         return ['foo', 'bar'];
     }
@@ -155,8 +156,9 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)
-                ->mapCalls(['readHeader' => ValueReader::forValue('foo, bar')]);
+        $request = NewInstance::of(WebRequest::class)->mapCalls([
+                'readHeader' => ValueReader::forValue('foo, bar')
+        ]);
         assert(
                 $this->paramBroker->procure(
                         $request,
@@ -171,8 +173,9 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)
-                ->mapCalls(['readCookie' => ValueReader::forValue('foo, bar')]);
+        $request = NewInstance::of(WebRequest::class)->mapCalls([
+                'readCookie' => ValueReader::forValue('foo, bar')
+        ]);
         assert(
                 $this->paramBroker->procure(
                         $request,

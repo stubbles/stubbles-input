@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -10,6 +11,7 @@
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Filter;
+use stubbles\input\Param;
 use stubbles\input\filter\range\Range;
 
 use function bovigo\assert\assert;
@@ -61,7 +63,7 @@ class RangeFilterTest extends FilterTest
      * @param   mixed $value
      * @return  Param
      */
-    protected function createParam($value)
+    protected function createParam($value): Param
     {
         $param = parent::createParam($value);
         $this->filter->mapCalls(['apply' => $value]);

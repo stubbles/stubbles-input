@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -9,6 +10,8 @@
  */
 namespace stubbles\input\broker;
 use stubbles\input\Request;
+use stubbles\input\broker\param\ParamBroker;
+use stubbles\sequence\Sequence;
 
 use function stubbles\reflect\annotationsOf;
 use function stubbles\reflect\methodsOf;
@@ -32,7 +35,7 @@ class RequestBroker
      *
      * @return  \stubbles\input\broker\param\ParamBroker[]
      */
-    public static function buildInTypes()
+    public static function buildInTypes(): array
     {
         if (null === self::$buildInParamBroker) {
             self::$buildInParamBroker = [
@@ -90,7 +93,7 @@ class RequestBroker
      * @return  object
      * @throws  \InvalidArgumentException
      */
-    public function procure(Request $request, $object, $group = null)
+    public function procure(Request $request, $object, string $group = null)
     {
         if (!is_object($object)) {
             throw new \InvalidArgumentException('Parameter $object must be an object instance');
@@ -114,7 +117,7 @@ class RequestBroker
      * @return  \stubbles\input\broker\param\ParamBroker
      * @throws  \RuntimeException
      */
-    public function paramBroker($type)
+    public function paramBroker($type): ParamBroker
     {
         if (isset($this->paramBrokers[$type])) {
             return $this->paramBrokers[$type];
@@ -130,35 +133,33 @@ class RequestBroker
      * @param   string                          $group   optional  restrict list to given group
      * @return  \stubbles\input\broker\TargetMethod[]
      */
-    public static function targetMethodsOf($object, $group = null)
+    public static function targetMethodsOf($object, string $group = null): Sequence
     {
-        return methodsOf($object, \ReflectionMethod::IS_PUBLIC)
-                ->filter(
-                        function(\ReflectionMethod $method) use ($group)
-                        {
-                            if ($method->isStatic() || $method->isConstructor() || $method->isDestructor()) {
-                                return false;
-                            }
+        return methodsOf($object, \ReflectionMethod::IS_PUBLIC)->filter(
+                function(\ReflectionMethod $method) use ($group)
+                {
+                    if ($method->isStatic() || $method->isConstructor() || $method->isDestructor()) {
+                        return false;
+                    }
 
-                            if (!annotationsOf($method)->contain('Request')) {
-                                return false;
-                            }
+                    if (!annotationsOf($method)->contain('Request')) {
+                        return false;
+                    }
 
-                            if (empty($group) || annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
-                                return true;
-                            }
+                    if (empty($group) || annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
+                        return true;
+                    }
 
-                            return false;
-                        }
-                )
-                ->map(
-                        function(\ReflectionMethod $method)
-                        {
-                            return new TargetMethod(
-                                    $method,
-                                    annotationsOf($method)->firstNamed('Request')
-                            );
-                        }
+                    return false;
+                }
+        )->map(
+                function(\ReflectionMethod $method)
+                {
+                    return new TargetMethod(
+                            $method,
+                            annotationsOf($method)->firstNamed('Request')
+                    );
+                }
         );
     }
 }

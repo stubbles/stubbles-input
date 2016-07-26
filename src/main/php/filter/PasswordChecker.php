@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,5 +27,5 @@ interface PasswordChecker
      * @param   \stubbles\values\Secret  $proposedPassword
      * @return  array
      */
-    public function check(Secret $proposedPassword);
+    public function check(Secret $proposedPassword): array;
 }

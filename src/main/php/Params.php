@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -46,7 +47,7 @@ class Params implements \IteratorAggregate, \Countable
      * @param   string  $paramName
      * @return  bool
      */
-    public function contain($paramName)
+    public function contain(string $paramName): bool
     {
         return isset($this->params[$paramName]);
     }
@@ -57,7 +58,7 @@ class Params implements \IteratorAggregate, \Countable
      * @param   string  $paramName
      * @return  \stubbles\input\Param
      */
-    public function get($paramName)
+    public function get(string $paramName): Param
     {
         if (!isset($this->params[$paramName])) {
             return new Param($paramName, null);
@@ -72,7 +73,7 @@ class Params implements \IteratorAggregate, \Countable
      * @param   string  $paramName
      * @return  string
      */
-    public function value($paramName)
+    public function value(string $paramName)
     {
         if (!isset($this->params[$paramName])) {
             return null;
@@ -86,7 +87,7 @@ class Params implements \IteratorAggregate, \Countable
      *
      * @return  string[]
      */
-    public function names()
+    public function names(): array
     {
         return array_keys($this->params);
     }
@@ -96,7 +97,7 @@ class Params implements \IteratorAggregate, \Countable
      *
      * @return  \stubbles\input\errors\ParamErrors
      */
-    public function errors()
+    public function errors(): ParamErrors
     {
         if (null === $this->errors) {
             $this->errors = new ParamErrors();
@@ -110,7 +111,7 @@ class Params implements \IteratorAggregate, \Countable
      *
      * @return  int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->params);
     }
@@ -121,7 +122,7 @@ class Params implements \IteratorAggregate, \Countable
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return  \Traversable
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->params);
     }

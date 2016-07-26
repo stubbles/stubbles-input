@@ -25,7 +25,7 @@ class Param
     /**
      * original value
      *
-     * @type  string
+     * @type  string|array
      */
     private $value;
     /**
@@ -38,8 +38,8 @@ class Param
     /**
      * constructor
      *
-     * @param  string  $name   name of param
-     * @param  string  $value  original value
+     * @param  string        $name   name of param
+     * @param  string|array  $value  original value
      */
     public function __construct($name, $value)
     {
@@ -61,7 +61,7 @@ class Param
     /**
      * returns value of param
      *
-     * @return  string
+     * @return  string|array
      * @since   3.0.0
      */
     public function value()
@@ -88,7 +88,9 @@ class Param
      */
     public function isEmpty()
     {
-        return $this->isNull() || $this->length() === 0;
+        return $this->isNull()
+            || (is_array($this->value) && count($this->value) === 0)
+            || $this->length() === 0;
     }
 
     /**
@@ -98,7 +100,15 @@ class Param
      */
     public function length()
     {
-        return strlen($this->value);
+        if ($this->isNull() || (is_string($this->value) && strlen($this->value) === 0)) {
+            return 0;
+        }
+
+        if (is_string($this->value)) {
+            return strlen($this->value);
+        }
+
+        return strlen(current($this->value));
     }
 
     /**

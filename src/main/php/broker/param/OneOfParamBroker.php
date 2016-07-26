@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -24,7 +25,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->ifIsOneOf($this->getAllowedValues($annotation));
+        return $valueReader->ifIsOneOf($this->allowedValues($annotation));
     }
 
     /**
@@ -34,14 +35,20 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      * @return  string[]
      * @throws  \RuntimeException
      */
-    private function getAllowedValues(Annotation $annotation)
+    private function allowedValues(Annotation $annotation): array
     {
         if ($annotation->hasValueByName('allowed')) {
             return array_map('trim', explode('|', $annotation->getAllowed()));
         } elseif ($annotation->hasValueByName('allowedSource')) {
-            return call_user_func(array_map('trim', explode('::', str_replace('()', '', $annotation->getAllowedSource()))));
+            return call_user_func(array_map('trim', explode(
+                    '::',
+                    str_replace('()', '', $annotation->getAllowedSource())
+            )));
         }
 
-        throw new \RuntimeException('No list of allowed values in annotation @Request[OneOf] on ' . $annotation->target());
+        throw new \RuntimeException(
+                'No list of allowed values in annotation @Request[OneOf] on '
+                . $annotation->target()
+        );
     }
 }

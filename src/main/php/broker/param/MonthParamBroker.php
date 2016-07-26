@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -41,7 +42,7 @@ class MonthParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\span\Month
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): Month
     {
         return Month::fromString($value);
     }

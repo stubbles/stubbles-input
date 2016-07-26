@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,6 +9,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\input\errors\ParamErrors;
 /**
  * Abstract base class for requests.
  */
@@ -35,7 +37,7 @@ abstract class AbstractRequest implements Request
      *
      * @return  string[]
      */
-    public function paramNames()
+    public function paramNames(): array
     {
         return $this->params->names();
     }
@@ -46,7 +48,7 @@ abstract class AbstractRequest implements Request
      * @return  \stubbles\input\errors\ParamErrors
      * @since   1.3.0
      */
-    public function paramErrors()
+    public function paramErrors(): ParamErrors
     {
         return $this->params->errors();
     }
@@ -58,7 +60,7 @@ abstract class AbstractRequest implements Request
      * @return  bool
      * @since   1.3.0
      */
-    public function hasParam($paramName)
+    public function hasParam(string $paramName): bool
     {
         return $this->params->contain($paramName);
     }
@@ -70,7 +72,7 @@ abstract class AbstractRequest implements Request
      * @return  \stubbles\input\ValueValidator
      * @since   1.3.0
      */
-    public function validateParam($paramName)
+    public function validateParam(string $paramName): ValueValidator
     {
         return new ValueValidator($this->params->value($paramName));
     }
@@ -82,10 +84,11 @@ abstract class AbstractRequest implements Request
      * @return  \stubbles\input\ValueReader
      * @since   1.3.0
      */
-    public function readParam($paramName)
+    public function readParam(string $paramName): ValueReader
     {
-        return new ValueReader($this->params->errors(),
-                               $this->params->get($paramName)
+        return new ValueReader(
+                $this->params->errors(),
+                $this->params->get($paramName)
         );
     }
 }

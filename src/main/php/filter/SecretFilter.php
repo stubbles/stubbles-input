@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,7 +26,7 @@ class SecretFilter extends StringFilter
      * @param   \stubbles\input\Param         $param
      * @return  \stubbles\values\Secret  filtered string
      */
-    public function apply(Param $param)
+    public function apply(Param $param): Secret
     {
         $value = parent::apply($param);
         if (!empty($value)) {

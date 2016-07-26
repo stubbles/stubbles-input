@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -36,7 +37,7 @@ class LocalizedMessage
      * @param  string  $locale
      * @param  string  $message
      */
-    public function __construct($locale, $message)
+    public function __construct(string $locale, string $message)
     {
         $this->locale  = $locale;
         $this->message = $message;
@@ -48,7 +49,7 @@ class LocalizedMessage
      * @XmlAttribute(attributeName='locale')
      * @return  string
      */
-    public function locale()
+    public function locale(): string
     {
         return $this->locale;
     }
@@ -59,7 +60,7 @@ class LocalizedMessage
      * @XmlTag(tagName='content')
      * @return  string
      */
-    public function message()
+    public function message(): string
     {
         return $this->message;
     }
@@ -69,7 +70,7 @@ class LocalizedMessage
      *
      * @return  string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->message();
     }

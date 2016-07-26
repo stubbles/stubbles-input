@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -32,7 +33,7 @@ class FloatFilter implements NumberFilter
      * @param   int  $decimals
      * @return  \stubbles\input\filter\FloatFilter
      */
-    public function setDecimals($decimals)
+    public function setDecimals(int $decimals = null): self
     {
         $this->decimals = $decimals;
         return $this;

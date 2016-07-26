@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -21,7 +22,7 @@ abstract class AbstractRange implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function contains($value)
+    public function contains($value): bool
     {
         if (null === $value) {
             return false;
@@ -40,7 +41,7 @@ abstract class AbstractRange implements Range
      * @param   mixed  $value
      * @return  array
      */
-    public function errorsOf($value)
+    public function errorsOf($value): array
     {
         if ($this->belowMinBorder($value)) {
             return $this->minBorderViolation();
@@ -59,7 +60,7 @@ abstract class AbstractRange implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    protected abstract function belowMinBorder($value);
+    protected abstract function belowMinBorder($value): bool;
 
     /**
      * checks if given value is above max border of range
@@ -67,19 +68,19 @@ abstract class AbstractRange implements Range
      * @param   mixed  $value
      * @return  bool
      */
-    protected abstract function aboveMaxBorder($value);
+    protected abstract function aboveMaxBorder($value): bool;
 
     /**
      * returns error details for violations of lower border
      *
      * @return  array
      */
-    protected abstract function minBorderViolation();
+    protected abstract function minBorderViolation(): array;
 
     /**
      * returns error details for violations of upper border
      *
      * @return  array
      */
-    protected abstract function maxBorderViolation();
+    protected abstract function maxBorderViolation(): array;
 }

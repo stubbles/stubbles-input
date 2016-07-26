@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -57,7 +58,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string  $paramValue  actual value to use
      * @return  \stubbles\input\ValueReader
      */
-    public static function forValue($paramValue)
+    public static function forValue($paramValue): self
     {
         return new self(new ParamErrors(), new Param('mock', $paramValue));
     }
@@ -68,7 +69,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   \stubbles\input\Param  $param  param to use
      * @return  \stubbles\input\ValueReader
      */
-    public static function forParam(Param $param)
+    public static function forParam(Param $param): self
     {
         return new self(new ParamErrors(), $param);
     }
@@ -80,7 +81,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string  $errorId  optional  error id to use when value not set
      * @return  \stubbles\input\valuereader\CommonValueReader
      */
-    public function required($errorId = 'FIELD_EMPTY')
+    public function required(string $errorId = 'FIELD_EMPTY'): valuereader\CommonValueReader
     {
         if ($this->param->isNull()) {
             return new valuereader\MissingValueReader(
@@ -106,7 +107,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   mixed  $default  default value to use if no param value set
      * @return  \stubbles\input\valuereader\CommonValueReader
      */
-    public function defaultingTo($default)
+    public function defaultingTo($default): valuereader\CommonValueReader
     {
         if ($this->param->isNull()) {
             return new valuereader\DefaultValueReader($default);
@@ -123,7 +124,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  array
      * @since   2.0.0
      */
-    public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
         return $this->handleFilter(
                 function() use($separator) { return new ArrayFilter($separator); }
@@ -170,7 +171,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   int                                       $decimals  optional  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, $decimals = null)
+    public function asFloat(NumberRange $range = null, int $decimals = null)
     {
         return $this->handleFilter(
                 function() use($range, $decimals)
@@ -233,7 +234,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string[]                                   $allowedTags  optional  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, $allowedTags = [])
+    public function asText(StringLength $length = null, array $allowedTags = [])
     {
         return $this->handleFilter(
                 function() use($length, $allowedTags)
@@ -254,7 +255,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
      * @return  \stdClass|array
      */
-    public function asJson($maxLength = filter\JsonFilter::DEFAULT_MAX_LENGTH)
+    public function asJson(int $maxLength = filter\JsonFilter::DEFAULT_MAX_LENGTH)
     {
         return $this->withFilter(new filter\JsonFilter($maxLength));
     }
@@ -456,7 +457,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches($regex)
+    public function ifMatches(string $regex)
     {
         if (pattern($regex)->matches($this->param->value())) {
             return $this->param->value();
@@ -478,7 +479,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, $errorId, array $details = [])
+    public function when(callable $predicate, string $errorId, array $details = [])
     {
         return $this->handleFilter(
                 function() use($predicate, $errorId, $details)

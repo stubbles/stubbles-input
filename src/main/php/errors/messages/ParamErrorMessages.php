@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -23,7 +24,7 @@ interface ParamErrorMessages
      * @param   \stubbles\input\errors\ParamError  $error
      * @return  bool
      */
-    public function existFor(ParamError $error);
+    public function existFor(ParamError $error): bool;
 
     /**
      * returns a list of available locales for given error
@@ -31,7 +32,7 @@ interface ParamErrorMessages
      * @param   \stubbles\input\errors\ParamError  $error
      * @return  string[]
      */
-    public function localesFor(ParamError $error);
+    public function localesFor(ParamError $error): array;
 
     /**
      * creates a list of message for given param error
@@ -39,7 +40,7 @@ interface ParamErrorMessages
      * @param   \stubbles\input\errors\ParamError  $error
      * @return  \stubbles\input\errors\messages\LocalizedMessage[]
      */
-    public function messagesFor(ParamError $error);
+    public function messagesFor(ParamError $error): array;
 
     /**
      * creates message for given param error in given locale
@@ -47,8 +48,8 @@ interface ParamErrorMessages
      * If no locale is given the method falls back to a default locale.
      *
      * @param   \stubbles\input\errors\ParamError  $error
-     * @param   string      $locale
+     * @param   string                             $locale  optional
      * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
-    public function messageFor(ParamError $error, $locale = null);
+    public function messageFor(ParamError $error, string $locale = null): LocalizedMessage;
 }

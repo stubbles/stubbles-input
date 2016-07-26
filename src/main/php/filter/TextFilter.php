@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -36,7 +37,7 @@ class TextFilter extends StringFilter
      * @param   string[]  $allowedTags
      * @return  \stubbles\input\filter\TextFilter
      */
-    public function allowTags(array $allowedTags)
+    public function allowTags(array $allowedTags): self
     {
         $this->allowedTags = $allowedTags;
         return $this;
@@ -47,7 +48,7 @@ class TextFilter extends StringFilter
      *
      * @return  char[]
      */
-    protected function getNonAllowedCharacters()
+    protected function nonAllowedCharacters(): array
     {
         return [chr(13)];
     }
@@ -57,7 +58,7 @@ class TextFilter extends StringFilter
      *
      * @return  string
      */
-    protected function getAllowedTags()
+    protected function allowedTags(): string
     {
         if (count($this->allowedTags) > 0) {
             return '<' . join('><', $this->allowedTags) . '>';

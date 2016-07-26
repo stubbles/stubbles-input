@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -41,10 +42,7 @@ class DatespanFilterTest extends FilterTest
         parent::setUp();
     }
 
-    /**
-     * @return  scalar
-     */
-    public function getEmptyValues()
+    public function getEmptyValues(): array
     {
         return [[''], [null]];
     }

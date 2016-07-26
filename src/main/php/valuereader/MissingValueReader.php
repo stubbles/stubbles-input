@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -10,6 +11,7 @@
 namespace stubbles\input\valuereader;
 use stubbles\input\Filter;
 use stubbles\input\filter\ArrayFilter;
+use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
@@ -41,7 +43,7 @@ class MissingValueReader implements CommonValueReader
      * @param  \Closure  $reportError
      * @param  string    $defaultErrorId
      */
-    public function __construct(\Closure $reportError, $defaultErrorId)
+    public function __construct(\Closure $reportError, string $defaultErrorId)
     {
         $this->reportError    = $reportError;
         $this->defaultErrorId = $defaultErrorId;
@@ -52,7 +54,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @param  string  $errorId  optional
      */
-    private function reportError($errorId = null)
+    private function reportError(string $errorId = null)
     {
         $reportError = $this->reportError;
         $reportError((null === $errorId) ? ($this->defaultErrorId) : ($errorId));
@@ -64,7 +66,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
         $this->reportError();
         return null;
@@ -100,7 +102,7 @@ class MissingValueReader implements CommonValueReader
      * @param   int          $decimals  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, $decimals = null)
+    public function asFloat(NumberRange $range = null, int $decimals = null)
     {
         $this->reportError();
         return null;
@@ -137,7 +139,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string[]                                   $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, $allowedTags = [])
+    public function asText(StringLength $length = null, array $allowedTags = [])
     {
         $this->reportError();
         return null;
@@ -146,9 +148,10 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as json value
      *
+     * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
      * @return  \stdClass|array
      */
-    public function asJson()
+    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH)
     {
         $this->reportError();
         return null;
@@ -294,7 +297,7 @@ class MissingValueReader implements CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches($regex)
+    public function ifMatches(string $regex)
     {
         $this->reportError();
         return null;
@@ -312,7 +315,7 @@ class MissingValueReader implements CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, $errorId, array $details = [])
+    public function when(callable $predicate, string $errorId, array $details = [])
     {
         $this->reportError();
         return null;

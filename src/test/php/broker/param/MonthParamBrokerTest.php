@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -36,7 +37,7 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Month';
     }
@@ -44,9 +45,9 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * returns expected filtered value
      *
-     * @return  float
+     * @return  Month
      */
-    protected function expectedValue()
+    protected function expectedValue(): Month
     {
         return new Month(2012, 04);
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,17 +27,19 @@ class StringFilter implements Filter
      * @param   \stubbles\input\Param  $param
      * @return  string  filtered string
      */
-    public function apply(Param $param)
+    public function apply(Param $param): string
     {
         if ($param->isEmpty()) {
             return '';
         }
 
-        return strip_tags(str_replace($this->getNonAllowedCharacters(),
-                                      '',
-                                      stripslashes($param->value())
-                          ),
-                          $this->getAllowedTags()
+        return strip_tags(
+                str_replace(
+                        $this->nonAllowedCharacters(),
+                        '',
+                        stripslashes($param->value())
+                ),
+                $this->allowedTags()
         );
     }
 
@@ -45,7 +48,7 @@ class StringFilter implements Filter
      *
      * @return  char[]
      */
-    protected function getNonAllowedCharacters()
+    protected function nonAllowedCharacters(): array
     {
         return [chr(10), chr(13)];
     }
@@ -55,7 +58,7 @@ class StringFilter implements Filter
      *
      * @return  string
      */
-    protected function getAllowedTags()
+    protected function allowedTags()
     {
         return null;
     }

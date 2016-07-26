@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -43,7 +44,7 @@ class PredicateFilter implements Filter
      * @param  string    $errorId    error id to be used in case predicate fails
      * @param  array     $details    details for param error in case predicate fails
      */
-    public function __construct(callable $predicate, $errorId, array $details = [])
+    public function __construct(callable $predicate, string $errorId, array $details = [])
     {
         $this->predicate = $predicate;
         $this->errorId   = $errorId;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -33,7 +34,7 @@ class IntegerParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Integer';
     }
@@ -43,7 +44,7 @@ class IntegerParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  int
      */
-    protected function expectedValue()
+    protected function expectedValue(): int
     {
         return 303;
     }

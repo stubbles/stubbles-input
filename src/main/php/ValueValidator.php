@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -44,7 +45,7 @@ class ValueValidator
      * @param   string  $paramValue
      * @return  \stubbles\input\ValueValidator
      */
-    public static function forValue($paramValue)
+    public static function forValue($paramValue): self
     {
         return new self($paramValue);
     }
@@ -56,7 +57,7 @@ class ValueValidator
      * @param   string  $needle  byte sequence the value must contain
      * @return  bool
      */
-    public function contains($needle)
+    public function contains($needle): bool
     {
         return Value::of($this->value)->contains($needle);
     }
@@ -69,7 +70,7 @@ class ValueValidator
      * @return  bool
      * @since   4.3.0
      */
-    public function containsAnyOf(array $elements)
+    public function containsAnyOf(array $elements): bool
     {
         return Value::of($this->value)->containsAnyOf($elements);
     }
@@ -82,7 +83,7 @@ class ValueValidator
      * @param   string  $expected   byte sequence the value must be equal to
      * @return  bool
      */
-    public function isEqualTo($expected)
+    public function isEqualTo($expected): bool
     {
         return Value::of($this->value)->equals($expected);
     }
@@ -93,7 +94,7 @@ class ValueValidator
      * @api
      * @return  bool
      */
-    public function isHttpUri()
+    public function isHttpUri(): bool
     {
         return HttpUri::isValid($this->value);
     }
@@ -105,7 +106,7 @@ class ValueValidator
      * @return  bool
      * @since   2.0.0
      */
-    public function isExistingHttpUri()
+    public function isExistingHttpUri(): bool
     {
         return HttpUri::exists($this->value);
     }
@@ -116,7 +117,7 @@ class ValueValidator
      * @api
      * @return  bool
      */
-    public function isIpAddress()
+    public function isIpAddress(): bool
     {
         return IpAddress::isValid($this->value);
     }
@@ -128,7 +129,7 @@ class ValueValidator
      * @return  bool
      * @since   1.7.0
      */
-    public function isIpV4Address()
+    public function isIpV4Address(): bool
     {
         return IpAddress::isValidV4($this->value);
     }
@@ -140,7 +141,7 @@ class ValueValidator
      * @return  bool
      * @since   1.7.0
      */
-    public function isIpV6Address()
+    public function isIpV6Address(): bool
     {
         return IpAddress::isValidV6($this->value);
     }
@@ -151,7 +152,7 @@ class ValueValidator
      * @api
      * @return  string
      */
-    public function isMailAddress()
+    public function isMailAddress(): bool
     {
         return isMailAddress($this->value);
     }
@@ -163,7 +164,7 @@ class ValueValidator
      * @param   string[]  $allowedValues  list of allowed values
      * @return  bool
      */
-    public function isOneOf(array $allowedValues)
+    public function isOneOf(array $allowedValues): bool
     {
         return Value::of($this->value)->isOneOf($allowedValues);
     }
@@ -176,7 +177,7 @@ class ValueValidator
      * @return  bool
      * @since   6.0.0
      */
-    public function matches($regex)
+    public function matches(string $regex): bool
     {
         return pattern($regex)->matches($this->value);
     }
@@ -192,7 +193,7 @@ class ValueValidator
      * @return  bool
      * @since   3.0.0
      */
-    public function with(callable $predicate)
+    public function with(callable $predicate): bool
     {
         return $predicate($this->value);
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -22,7 +23,7 @@ class BoolParamBroker extends MultipleSourceParamBroker
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  bool
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): bool
     {
         return $valueReader->asBool();
     }

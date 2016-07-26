@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -48,7 +49,7 @@ class NumberRange extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function belowMinBorder($value)
+    protected function belowMinBorder($value): bool
     {
         if (null === $this->minValue) {
             return false;
@@ -63,7 +64,7 @@ class NumberRange extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value): bool
     {
         if (null === $this->maxValue) {
             return false;
@@ -77,7 +78,7 @@ class NumberRange extends AbstractRange
      *
      * @return  array
      */
-    protected function minBorderViolation()
+    protected function minBorderViolation(): array
     {
         return ['VALUE_TOO_SMALL' => ['minNumber' => $this->minValue]];
     }
@@ -87,7 +88,7 @@ class NumberRange extends AbstractRange
      *
      * @return  array
      */
-    protected function maxBorderViolation()
+    protected function maxBorderViolation(): array
     {
         return ['VALUE_TOO_GREAT' => ['maxNumber' => $this->maxValue]];
     }

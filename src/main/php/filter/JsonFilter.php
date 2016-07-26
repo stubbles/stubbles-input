@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -32,7 +33,7 @@ class JsonFilter implements Filter
      *
      * @param  int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
      */
-    public function __construct($maxLength = self::DEFAULT_MAX_LENGTH)
+    public function __construct(int $maxLength = self::DEFAULT_MAX_LENGTH)
     {
         $this->maxLength = $maxLength;
     }
@@ -81,10 +82,10 @@ class JsonFilter implements Filter
      * JSON can only be an object or an array structure (see JSON spec & RFC),
      * but json_decode() lacks this restriction.
      *
-     * @param   mixed  $json
+     * @param   string  $json
      * @return  bool
      */
-    private function isValidJsonStructure($json)
+    private function isValidJsonStructure(string $json): bool
     {
         if ('{' === $json[0] && $json[strlen($json) - 1] !== '}') {
             return false;

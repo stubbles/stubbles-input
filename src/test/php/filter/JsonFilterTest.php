@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -271,6 +272,7 @@ class JsonFilterTest extends FilterTest
         $this->readParam('foo')->asJson();
         assertTrue($this->paramErrors->existFor('bar'));
     }
+
     /**
      * @test
      */

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,10 +26,9 @@ class PasswordParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asPassword(
-                SimplePasswordChecker::create()
-                        ->minDiffChars($annotation->getMinDiffChars(SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS))
-                        ->minLength($annotation->getMinLength(SimplePasswordChecker::DEFAULT_MINLENGTH))
+        return $valueReader->asPassword(SimplePasswordChecker::create()
+                ->minDiffChars($annotation->getMinDiffChars(SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS))
+                ->minLength($annotation->getMinLength(SimplePasswordChecker::DEFAULT_MINLENGTH))
         );
     }
 
@@ -37,7 +37,7 @@ class PasswordParamBroker extends MultipleSourceParamBroker
      *
      * @return  bool
      */
-    protected function supportsDefault()
+    protected function supportsDefault(): bool
     {
         return false;
     }

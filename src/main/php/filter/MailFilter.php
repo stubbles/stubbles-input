@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -49,7 +50,7 @@ class MailFilter implements Filter
      * @param   string  $value
      * @return  string
      */
-    private function detectErrorId($value)
+    private function detectErrorId(string $value): string
     {
         if (preg_match('/\s/i', $value) != false) {
             return 'MAILADDRESS_CANNOT_CONTAIN_SPACES';

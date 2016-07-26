@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -43,10 +44,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
         $this->datespanRange = new DatespanRange('2012-03-17', '2012-03-19');
     }
 
-    /**
-     * @return  array
-     */
-    public function outOfRangeValues()
+    public function outOfRangeValues(): array
     {
         return [
             [new Day('2012-03-16')],
@@ -63,10 +61,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
         assertFalse($this->datespanRange->contains($value));
     }
 
-    /**
-     * @return  array
-     */
-    public function withinRangeValues()
+    public function withinRangeValues(): array
     {
         return [
             [new Day('2012-03-17')],
@@ -102,10 +97,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
         assertTrue($numberRange->contains(new Year(2037)));
     }
 
-    /**
-     * @return  array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             [new DatespanRange('2012-03-17', '2012-03-19')],

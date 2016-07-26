@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,6 +9,7 @@
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use stubbles\input\Filter;
 /**
  * Trait for filters which can be reused.
  *
@@ -27,7 +29,7 @@ trait ReusableFilter
      *
      * @return  \stubbles\input\Filter
      */
-    public static function instance()
+    public static function instance(): Filter
     {
         if (null === self::$instance) {
             self::$instance = new self();

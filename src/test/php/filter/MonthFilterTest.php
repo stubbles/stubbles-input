@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -41,10 +42,7 @@ class MonthFilterTest extends FilterTest
         parent::setUp();
     }
 
-    /**
-     * @return  scalar
-     */
-    public function getEmptyValues()
+    public function getEmptyValues(): array
     {
         return [[''],
                 [null]
@@ -164,7 +162,7 @@ class MonthFilterTest extends FilterTest
     public function asMonthReturnsNullIfParamIsOutOfRange()
     {
         assertNull(
-                $this->readParam(new Month())
+                $this->readParam((new Month())->asString())
                         ->asMonth(new DatespanRange(new Date('tomorrow'), null))
         );
     }
@@ -174,7 +172,7 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->readParam(new Month())
+        $this->readParam((new Month())->asString())
                 ->asMonth(new DatespanRange(new Date('tomorrow'), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }

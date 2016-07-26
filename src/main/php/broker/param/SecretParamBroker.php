@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,7 +39,7 @@ class SecretParamBroker extends MultipleSourceParamBroker
      *
      * @return  bool
      */
-    protected function supportsDefault()
+    protected function supportsDefault(): bool
     {
         return false;
     }

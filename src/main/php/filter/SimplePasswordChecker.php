@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -53,7 +54,7 @@ class SimplePasswordChecker implements PasswordChecker
      *
      * @return  \stubbles\input\filter\SimplePasswordChecker
      */
-    public static function create()
+    public static function create(): self
     {
         return new self();
     }
@@ -64,7 +65,7 @@ class SimplePasswordChecker implements PasswordChecker
      * @param   string[]  $values  list of values that are not allowed as password
      * @return  \stubbles\input\filter\SimplePasswordChecker
      */
-    public function disallowValues(array $values)
+    public function disallowValues(array $values): self
     {
         $this->disallowedValues = $values;
         return $this;
@@ -78,7 +79,7 @@ class SimplePasswordChecker implements PasswordChecker
      * @param   int  $minDiffChars
      * @return  \stubbles\input\filter\SimplePasswordChecker
      */
-    public function minDiffChars($minDiffChars)
+    public function minDiffChars(int $minDiffChars): self
     {
         $this->minDiffChars = $minDiffChars;
         return $this;
@@ -90,7 +91,7 @@ class SimplePasswordChecker implements PasswordChecker
      * @param   int  $minLength
      * @return  \stubbles\input\filter\SimplePasswordChecker
      */
-    public function minLength($minLength)
+    public function minLength(int $minLength): self
     {
         $this->minLength = $minLength;
         return $this;
@@ -105,7 +106,7 @@ class SimplePasswordChecker implements PasswordChecker
      * @param   \stubbles\values\Secret  $proposedPassword
      * @return  array
      */
-    public function check(Secret $proposedPassword)
+    public function check(Secret $proposedPassword): array
     {
         $errors = [];
         if ($proposedPassword->length() < $this->minLength) {

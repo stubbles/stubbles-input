@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -13,6 +14,7 @@ use stubbles\date\span\CustomDatespan;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\filter\range\DateRange;
+use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
  * Filter parameters based on a @Request[CustomDatespan] annotation.
@@ -60,10 +62,16 @@ class CustomDatespanParamBroker implements ParamBroker
     private function getDate(Request $request, Annotation $annotation, $type)
     {
         $nameMethod = 'get' . $type . 'Name';
-        return $this->readValue($request, $annotation->$nameMethod(), $annotation->isRequired(), $this->parseDate($annotation, 'default' . $type))
-                    ->asDate(new DateRange($this->parseDate($annotation, "min{$type}Date"),
-                                           $this->parseDate($annotation, "max{$type}Date")
-                             )
+        return $this->readValue(
+                        $request,
+                        $annotation->$nameMethod(),
+                        $annotation->isRequired(),
+                        $this->parseDate($annotation, 'default' . $type)
+                )
+                ->asDate(new DateRange(
+                        $this->parseDate($annotation, "min{$type}Date"),
+                        $this->parseDate($annotation, "max{$type}Date")
+                )
         );
     }
 
@@ -73,10 +81,14 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   \stubbles\input\Request  $request
      * @param   string                   $paramName
      * @param   bool                     $required
-     * @return  \stubbles\input\valuereader\CommonValueReader
+     * @return  \stubbles\input\ValueReader
      */
-    private function readValue(Request $request, $paramName, $required, $default)
-    {
+    private function readValue(
+            Request $request,
+            string $paramName,
+            bool $required,
+            Date $default = null
+    ): CommonValueReader {
         $valueFilter = $request->readParam($paramName);
         if ($required) {
             return $valueFilter->required();
@@ -94,7 +106,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   string                                        $field
      * @return  \stubbles\date\Date
      */
-    private function parseDate(Annotation $annotation, $field)
+    private function parseDate(Annotation $annotation, string $field)
     {
         if ($annotation->hasValueByName($field)) {
             return new Date($annotation->getValueByName($field));

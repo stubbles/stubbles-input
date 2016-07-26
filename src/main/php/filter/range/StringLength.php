@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -42,7 +43,7 @@ class StringLength extends AbstractRange
      * @param  int  $minLength
      * @param  int  $maxLength
      */
-    public function __construct($minLength, $maxLength)
+    public function __construct(int $minLength = null, int $maxLength = null)
     {
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
@@ -58,10 +59,12 @@ class StringLength extends AbstractRange
      * @throws  \InvalidArgumentException
      * @since   2.3.1
      */
-    public static function truncate($minLength, $maxLength)
+    public static function truncate(int $minLength = null, int $maxLength = null)
     {
         if (0 >= $maxLength) {
-            throw new \InvalidArgumentException('Max length must be greater than 0, otherwise truncation doesn\'t make sense');
+            throw new \InvalidArgumentException(
+                    'Max length must be greater than 0, otherwise truncation doesn\'t make sense'
+            );
         }
 
         $self = new self($minLength, $maxLength);
@@ -75,7 +78,7 @@ class StringLength extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function belowMinBorder($value)
+    protected function belowMinBorder($value): bool
     {
         if (null === $this->minLength) {
             return false;
@@ -90,7 +93,7 @@ class StringLength extends AbstractRange
      * @param   mixed  $value
      * @return  bool
      */
-    protected function aboveMaxBorder($value)
+    protected function aboveMaxBorder($value): bool
     {
         if (null === $this->maxLength) {
             return false;
@@ -105,7 +108,7 @@ class StringLength extends AbstractRange
      * @param   string|Secret $value
      * @return  int
      */
-    private function length($value)
+    private function length($value): int
     {
         if ($value instanceof Secret) {
             return $value->length();
@@ -121,7 +124,7 @@ class StringLength extends AbstractRange
      * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate($value)
+    public function allowsTruncate($value): bool
     {
         return $this->allowsTruncate && $this->aboveMaxBorder($value);
     }
@@ -152,7 +155,7 @@ class StringLength extends AbstractRange
      *
      * @return  array
      */
-    protected function minBorderViolation()
+    protected function minBorderViolation(): array
     {
         return ['STRING_TOO_SHORT' => ['minLength' => $this->minLength]];
     }
@@ -162,7 +165,7 @@ class StringLength extends AbstractRange
      *
      * @return  array
      */
-    protected function maxBorderViolation()
+    protected function maxBorderViolation(): array
     {
         return ['STRING_TOO_LONG' => ['maxLength' => $this->maxLength]];
     }

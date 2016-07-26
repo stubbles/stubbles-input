@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -39,7 +40,7 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   mixed $value
      * @return  Param
      */
-    protected function createParam($value)
+    protected function createParam($value): Param
     {
         return new Param('test', $value);
     }
@@ -50,7 +51,7 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   string  $value
      * @return  ValueReader
      */
-    protected function readParam($value)
+    protected function readParam($value): ValueReader
     {
         return $this->read(new Param('bar', $value));
     }
@@ -61,7 +62,7 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   Param  $param
      * @return  ValueReader
      */
-    protected function read(Param $param)
+    protected function read(Param $param): ValueReader
     {
         return new ValueReader($this->paramErrors, $param);
     }

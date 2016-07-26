@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -41,10 +42,7 @@ class WeekFilterTest extends FilterTest
         parent::setUp();
     }
 
-    /**
-     * @return  scalar
-     */
-    public function getEmptyValues()
+    public function getEmptyValues(): array
     {
         return [[''],
                 [null]
@@ -158,12 +156,11 @@ class WeekFilterTest extends FilterTest
 
     /**
      * @test
-     * @group  foo
      */
     public function asWeekReturnsNullIfParamIsOutOfRange()
     {
         assertNull(
-                $this->readParam(new Week(new Date('this monday')))
+                $this->readParam((new Week(new Date('this monday')))->asString())
                         ->asWeek(new DatespanRange(Date::now()->change()->byDays(8), null))
         );
     }
@@ -173,7 +170,7 @@ class WeekFilterTest extends FilterTest
      */
     public function asWeekAddsParamErrorIfParamIsOutOfRange()
     {
-        $this->readParam(new Week(new Date('this monday')))
+        $this->readParam((new Week(new Date('this monday')))->asString())
                 ->asWeek(new DatespanRange(Date::now()->change()->byDays(8), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }

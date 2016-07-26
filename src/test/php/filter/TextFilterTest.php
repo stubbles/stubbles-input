@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -55,12 +56,7 @@ class TextFilterTest extends FilterTest
         assertEmptyString($this->textFilter->apply($this->createParam('')));
     }
 
-    /**
-     * data provider for removesTags()
-     *
-     * @return  string
-     */
-    public function getAllowedTags()
+    public function getAllowedTags(): array
     {
         return [[[], 'this is bold and cursive and underlined with a link'],
                 [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],

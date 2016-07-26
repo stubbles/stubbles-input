@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,7 +27,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      * @param   string  $value
      * @return  ValueValidator
      */
-    private function validate($value)
+    private function validate($value): ValueValidator
     {
         return new ValueValidator($value);
     }

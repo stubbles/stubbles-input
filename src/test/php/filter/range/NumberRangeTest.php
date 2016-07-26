@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,10 +39,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
         $this->numberRange = new NumberRange(1, 10);
     }
 
-    /**
-     * @return  array
-     */
-    public function outOfRangeValues()
+    public function outOfRangeValues(): array
     {
         return [
             [0],
@@ -58,10 +56,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
         assertFalse($this->numberRange->contains($value));
     }
 
-    /**
-     * @return  array
-     */
-    public function withinRangeValues()
+    public function withinRangeValues(): array
     {
         return [
             [1],
@@ -98,10 +93,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
         assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
-    /**
-     * @return  array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             [new NumberRange(1, 10)],

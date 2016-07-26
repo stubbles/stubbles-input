@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -40,7 +41,7 @@ class FloatParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  float
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): float
     {
         return (float) $value;
     }

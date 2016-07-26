@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,10 +27,10 @@ class DateParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asDate(new DateRange($this->createDate($annotation->getMinDate()),
-                                                  $this->createDate($annotation->getMaxDate())
-                                    )
-        );
+        return $valueReader->asDate(new DateRange(
+                $this->createDate($annotation->getMinDate()),
+                $this->createDate($annotation->getMaxDate())
+        ));
     }
 
     /**

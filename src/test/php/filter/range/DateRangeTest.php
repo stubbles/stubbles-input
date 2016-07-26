@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -40,10 +41,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
         $this->dateRange = new DateRange('2012-03-17', '2012-03-19');
     }
 
-    /**
-     * @return  array
-     */
-    public function outOfRangeValues()
+    public function outOfRangeValues(): array
     {
         return [
             ['2012-03-16'],
@@ -60,10 +58,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
         assertFalse($this->dateRange->contains($value));
     }
 
-    /**
-     * @return  array
-     */
-    public function withinRangeValues()
+    public function withinRangeValues(): array
     {
         return [
             ['2012-03-17'],
@@ -99,10 +94,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
         assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
-    /**
-     * @return  array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             [new DateRange('2012-03-17', '2012-03-19')],

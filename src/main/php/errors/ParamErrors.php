@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -31,7 +32,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @return  \stubbles\input\errors\ParamError
      * @since   2.3.3
      */
-    public function append($paramName, $error, array $details = [])
+    public function append(string $paramName, $error, array $details = []): ParamError
     {
         $error = ParamError::fromData($error, $details);
         if (!isset($this->errors[$paramName])) {
@@ -48,7 +49,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @return  int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->errors);
     }
@@ -59,7 +60,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @api
      * @return  bool
      */
-    public function exist()
+    public function exist(): bool
     {
         return ($this->count() > 0);
     }
@@ -71,7 +72,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param   string  $paramName  name of parameter
      * @return  bool
      */
-    public function existFor($paramName)
+    public function existFor(string $paramName): bool
     {
         return isset($this->errors[$paramName]);
     }
@@ -84,7 +85,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param   string  $errorId    id of error
      * @return  bool
      */
-    public function existForWithId($paramName, $errorId)
+    public function existForWithId(string $paramName, string $errorId): bool
     {
         return (isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId]));
     }
@@ -95,7 +96,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param   string  $paramName
      * @return  \stubbles\input\errors\ParamError[]
      */
-    public function getFor($paramName)
+    public function getFor(string $paramName): array
     {
         if (isset($this->errors[$paramName])) {
             return $this->errors[$paramName];
@@ -109,9 +110,9 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @param   string  $paramName  name of param
      * @param   string  $errorId    id of error
-     * @return  \stubbles\input\errors\ParamError
+     * @return  \stubbles\input\errors\ParamError|null
      */
-    public function getForWithId($paramName, $errorId)
+    public function getForWithId(string $paramName, string $errorId)
     {
         if (isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId])) {
             return $this->errors[$paramName][$errorId];
@@ -127,7 +128,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @return  \Traversable
      * @since   2.0.0
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->errors);
     }
@@ -139,7 +140,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * @since   4.5.0
      * @XmlIgnore
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $result = [];
         foreach ($this->errors as $paramName => $errors) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -47,7 +48,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      * @param   array  $values
      * @return  Annotation
      */
-    private function createRequestAnnotation(array $values = [])
+    private function createRequestAnnotation(array $values = []): Annotation
     {
         $values['startName'] = 'foo';
         $values['endName']   = 'bar';
@@ -58,9 +59,9 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      * creates mocked request
      *
      * @param   mixed  $startValue
-     * @return  \bovigo\callmap\Proxy
+     * @return  Request
      */
-    private function createRequest($startValue, $endValue)
+    private function createRequest($startValue, $endValue): Request
     {
         return NewInstance::of(Request::class)
                 ->mapCalls(['readParam' => onConsecutiveCalls(

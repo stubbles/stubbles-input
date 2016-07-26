@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -21,10 +22,7 @@ require_once __DIR__ . '/BrokerClass.php';
  */
 class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @return  array
-     */
-    public function allowedValues()
+    public function allowedValues(): array
     {
         return [
             [new BrokerClass()],

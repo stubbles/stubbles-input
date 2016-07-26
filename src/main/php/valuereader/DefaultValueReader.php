@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -15,6 +16,7 @@ use stubbles\date\span\Month;
 use stubbles\date\span\Week;
 use stubbles\input\Filter;
 use stubbles\input\filter\ArrayFilter;
+use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
@@ -55,10 +57,13 @@ class DefaultValueReader implements CommonValueReader
      * @param   string    $expectedType  expected type of default value
      * @throws  \LogicException
      */
-    private function checkDefaultType(\Closure $isCorrectType, $expectedType)
+    private function checkDefaultType(\Closure $isCorrectType, string $expectedType)
     {
         if (!$isCorrectType()) {
-            throw new \LogicException('Default value is not of type ' . $expectedType . ' but of type ' . typeOf($this->default));
+            throw new \LogicException(
+                    'Default value is not of type ' . $expectedType
+                    . ' but of type ' . typeOf($this->default)
+            );
         }
     }
 
@@ -71,7 +76,7 @@ class DefaultValueReader implements CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray($separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
     {
         $this->checkDefaultType(function() { return is_array($this->default);}, 'array');
         return $this->default;
@@ -111,10 +116,10 @@ class DefaultValueReader implements CommonValueReader
      * will be thrown.
      *
      * @param   \stubbles\input\filter\range\NumberRange  $range
-     * @param   int          $decimals  number of decimals
+     * @param   int                                       $decimals  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, $decimals = null)
+    public function asFloat(NumberRange $range = null, int $decimals = null)
     {
         $this->checkDefaultType(function() { return is_float($this->default);}, 'float');
         return $this->default;
@@ -150,7 +155,7 @@ class DefaultValueReader implements CommonValueReader
      * @param   string[]                                   $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, $allowedTags = [])
+    public function asText(StringLength $length = null, array $allowedTags = [])
     {
         return $this->default;
     }
@@ -158,9 +163,10 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as json value
      *
+     * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
      * @return  \stdClass|array
      */
-    public function asJson()
+    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH)
     {
         return $this->default;
     }
@@ -323,7 +329,7 @@ class DefaultValueReader implements CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches($regex)
+    public function ifMatches(string $regex)
     {
         return $this->default;
     }
@@ -340,7 +346,7 @@ class DefaultValueReader implements CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, $errorId, array $details = [])
+    public function when(callable $predicate, string $errorId, array $details = [])
     {
         return $this->default;
     }

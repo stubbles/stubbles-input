@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -35,7 +36,7 @@ class ParamError implements \JsonSerializable
      * @param  string  $id       id of the current param error
      * @param  array   $details  details of what caused the error
      */
-    public function __construct($id, array $details = [])
+    public function __construct(string $id, array $details = [])
     {
         $this->id      = $id;
         $this->details = $details;
@@ -52,7 +53,7 @@ class ParamError implements \JsonSerializable
      * @return  \stubbles\input\errors\ParamError
      * @throws  \InvalidArgumentException
      */
-    public static function fromData($error, array $details = [])
+    public static function fromData($error, array $details = []): self
     {
         if ($error instanceof self) {
             return $error;
@@ -71,7 +72,7 @@ class ParamError implements \JsonSerializable
      * @XmlAttribute(attributeName='id')
      * @return  string
      */
-    public function id()
+    public function id(): string
     {
         return $this->id;
     }
@@ -83,7 +84,7 @@ class ParamError implements \JsonSerializable
      * @since   5.1.0
      * @XmlIgnore
      */
-    public function details()
+    public function details(): array
     {
         return $this->details;
     }
@@ -94,7 +95,7 @@ class ParamError implements \JsonSerializable
      * @param   array  $templates  map of locales and message templates
      * @return  \stubbles\input\errors\messages\LocalizedMessage[]
      */
-    public function fillMessages(array $templates)
+    public function fillMessages(array $templates): array
     {
         $messages = [];
         foreach ($templates as $locale => $message) {
@@ -111,7 +112,7 @@ class ParamError implements \JsonSerializable
      * @param   string  $locale   locale of the message
      * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
-    public function fillMessage($message, $locale)
+    public function fillMessage(string $message, string $locale): LocalizedMessage
     {
         foreach ($this->details as $key => $detail) {
             $message = str_replace('{' . $key . '}', $this->flattenDetail($detail), $message);
@@ -126,7 +127,7 @@ class ParamError implements \JsonSerializable
      * @param   mixed   $detail
      * @return  string
      */
-    private function flattenDetail($detail)
+    private function flattenDetail($detail): string
     {
         if (is_array($detail)) {
             return join(', ', $detail);
@@ -144,7 +145,7 @@ class ParamError implements \JsonSerializable
      * @since   4.5.0
      * @XmlIgnore
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return ['id' => $this->id, 'details' => $this->details];
     }

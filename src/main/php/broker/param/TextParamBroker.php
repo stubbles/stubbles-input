@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -30,7 +31,7 @@ class TextParamBroker extends MultipleSourceParamBroker
                         $annotation->getMinLength(),
                         $annotation->getMaxLength()
                 ),
-                $this->getAllowedTags($annotation)
+                $this->allowedTags($annotation)
         );
     }
 
@@ -40,7 +41,7 @@ class TextParamBroker extends MultipleSourceParamBroker
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string[]
      */
-    private function getAllowedTags(Annotation $annotation)
+    private function allowedTags(Annotation $annotation): array
     {
         if ($annotation->hasValueByName('allowedTags')) {
             return array_map('trim', explode(',', $annotation->getAllowedTags()));

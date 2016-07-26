@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -23,7 +24,7 @@ interface Range
      * @param   mixed  $value
      * @return  bool
      */
-    public function contains($value);
+    public function contains($value): bool;
 
     /**
      * returns list of errors when range does not contain given value
@@ -31,7 +32,7 @@ interface Range
      * @param   mixed  $value
      * @return  array
      */
-    public function errorsOf($value);
+    public function errorsOf($value): array;
 
     /**
      * checks whether value can be truncated to maximum value
@@ -40,7 +41,7 @@ interface Range
      * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate($value);
+    public function allowsTruncate($value): bool;
 
     /**
      * truncates given value to max border
@@ -64,7 +65,7 @@ trait NonTruncatingRange
      * @param   mixed  $value
      * @return  bool
      */
-    public function allowsTruncate($value)
+    public function allowsTruncate($value): bool
     {
         return false;
     }

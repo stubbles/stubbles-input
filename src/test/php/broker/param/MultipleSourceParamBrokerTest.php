@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -35,7 +36,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      *
      * @return  string
      */
-    protected abstract function getRequestAnnotationName();
+    protected abstract function getRequestAnnotationName(): string;
 
     /**
      * creates request annotation
@@ -43,7 +44,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      * @param   array  $values
      * @return  Annotation
      */
-    protected function createRequestAnnotation(array $values = [])
+    protected function createRequestAnnotation(array $values = []): Annotation
     {
         $values['paramName'] = 'foo';
         return new Annotation(
@@ -67,10 +68,11 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      * @param   mixed  $value
      * @return  \bovigo\callmap\Proxy
      */
-    protected function createRequest($value)
+    protected function createRequest($value): Request
     {
-        return NewInstance::of(Request::class)
-                ->mapCalls(['readParam' => ValueReader::forValue($value)]);
+        return NewInstance::of(Request::class)->mapCalls([
+                    'readParam' => ValueReader::forValue($value)
+        ]);
     }
 
     /**

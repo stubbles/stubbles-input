@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,7 +39,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      *
      * @return  string
      */
-    protected function getRequestAnnotationName()
+    protected function getRequestAnnotationName(): string
     {
         return 'Json';
     }
@@ -46,9 +47,9 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * returns expected filtered value
      *
-     * @return  HttpUri
+     * @return  \stdClass
      */
-    protected function expectedValue()
+    protected function expectedValue(): \stdClass
     {
         $phpJsonObj = new \stdClass();
         $phpJsonObj->method = 'add';

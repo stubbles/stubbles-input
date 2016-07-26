@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,7 +26,7 @@ class TestAbstractRequest extends AbstractRequest
      *
      * @return  string
      */
-    public function method()
+    public function method(): string
     {
         return 'test';
     }

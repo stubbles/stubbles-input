@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -45,11 +46,7 @@ class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     *
-     * @return  \bovigo\callmap\Proxy
-     */
-    private function createResourceLoader()
+    private function createResourceLoader(): ResourceLoader
     {
         $root = vfsStream::setup();
         vfsStream::newDirectory('package1/input/error')->at($root);
