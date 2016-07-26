@@ -205,20 +205,6 @@ class ValueReader implements valuereader\CommonValueReader
     }
 
     /**
-     * read as string value
-     *
-     * @api
-     * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
-     * @return  \stubbles\values\Secret
-     * @since   3.0.0
-     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
-     */
-    public function asSecureString(StringLength $length = null)
-    {
-        return $this->asSecret($length);
-    }
-
-    /**
      * read as secret
      *
      * @api
@@ -478,19 +464,6 @@ class ValueReader implements valuereader\CommonValueReader
 
         $this->paramErrors->append($this->param->name(), 'FIELD_WRONG_VALUE');
         return null;
-    }
-
-    /**
-     * returns value if it complies to a given regular expression, and null otherwise
-     *
-     * @api
-     * @param   string  $regex  regular expression to apply
-     * @return  string
-     * @deprecated  since 6.0.0, use ifMatches() instead, will be removed with 7.0.0
-     */
-    public function ifSatisfiesRegex($regex)
-    {
-        return $this->ifMatches($regex);
     }
 
     /**

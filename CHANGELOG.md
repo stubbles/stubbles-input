@@ -4,6 +4,11 @@
 ### BC breaks
 
   * raised minimum required PHP version to 7.0.0
+  * removed methods deprecated in 6.0.0
+    * `stubbles\input\ValueReader::asSecureString()`, use `stubbles\input\ValueReader::asSecret()` instead
+    * `stubbles\input\ValueReader::ifSatisfiesRegex()`, use `stubbles\input\ValueReader::ifMatches()` instead
+    * `stubbles\input\ValueValidator::satisfiesRegex()`, use `stubbles\input\ValueValidator::matches()` instead
+  * removed support for `@Request[SecureString]`, use `@Request[Secret]` instead, was deprecates in 6.0.0
 
 
 6.0.0 (2016-06-12)

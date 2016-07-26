@@ -182,19 +182,6 @@ class ValueValidator
     }
 
     /**
-     * checks whether value satisfies given regular expression
-     *
-     * @api
-     * @param   string  $regex  regular expression to apply
-     * @return  bool
-     * @deprecated  since 6.0.0, use matches() instead, will be removed with 7.0.0
-     */
-    public function satisfiesRegex($regex)
-    {
-        return $this->matches($regex);
-    }
-
-    /**
      * evaluates value with given predicate
      *
      * Given predicate can be any callable which accepts a value and returns a

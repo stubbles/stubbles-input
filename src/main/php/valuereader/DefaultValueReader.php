@@ -136,18 +136,6 @@ class DefaultValueReader implements CommonValueReader
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  \stubbles\Secret
-     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
-     */
-    public function asSecureString(StringLength $length = null)
-    {
-        return $this->asSecret($length);
-    }
-
-    /**
-     * read as string value
-     *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\Secret
      */
     public function asSecret(StringLength $length = null)
     {
@@ -336,18 +324,6 @@ class DefaultValueReader implements CommonValueReader
      * @since   6.0.0
      */
     public function ifMatches($regex)
-    {
-        return $this->default;
-    }
-
-    /**
-     * returns value if it complies to a given regular expression, and null otherwise
-     *
-     * @param   string  $regex    regular expression to apply
-     * @return  string
-     * @deprecated  since 6.0.0, use ifMatches() instead, will be removed with 7.0.0
-     */
-    public function ifSatisfiesRegex($regex)
     {
         return $this->default;
     }

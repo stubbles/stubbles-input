@@ -52,7 +52,6 @@ class RequestBroker
                     'password'       => new param\PasswordParamBroker(),
                     'string'         => new param\StringParamBroker(),
                     'secret'         => new param\SecretParamBroker(),
-                    'securestring'   => new param\SecretParamBroker(), // @deprecated, will be removed with 7.0.0
                     'text'           => new param\TextParamBroker(),
                     'week'           => new param\WeekParamBroker(),
                 ];

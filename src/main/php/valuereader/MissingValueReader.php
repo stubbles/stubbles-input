@@ -119,18 +119,6 @@ class MissingValueReader implements CommonValueReader
     }
 
     /**
-     * read as string value
-     *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\Secret
-     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
-     */
-    public function asSecureString(StringLength $length = null)
-    {
-        return $this->asSecret($length);
-    }
-
-    /**
      * read as secret
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
@@ -310,18 +298,6 @@ class MissingValueReader implements CommonValueReader
     {
         $this->reportError();
         return null;
-    }
-
-    /**
-     * returns value if it complies to a given regular expression, and null otherwise
-     *
-     * @param   string  $regex    regular expression to apply
-     * @return  string
-     * @deprecated  since 6.0.0, use ifMatches() instead, will be removed with 7.0.0
-     */
-    public function ifSatisfiesRegex($regex)
-    {
-        return $this->ifMatches($regex);
     }
 
     /**

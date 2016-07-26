@@ -63,15 +63,6 @@ interface CommonValueReader
     public function asString(StringLength $length = null);
 
     /**
-     * read as string value
-     *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  \stubbles\values\Secret
-     * @deprecated  since 6.0.0, use asSecret() instead, will be removed with 7.0.0
-     */
-    public function asSecureString(StringLength $length = null);
-
-    /**
      * read as secret
      *
      * @param   \stubbles\input\filter\range\StringLength  $length
@@ -210,15 +201,6 @@ interface CommonValueReader
      * @since   6.0.0
      */
     public function ifMatches($regex);
-
-    /**
-     * returns value if it complies to a given regular expression, and null otherwise
-     *
-     * @param   string  $regex    regular expression to apply
-     * @return  string
-     * @deprecated  since 6.0.0, use ifMatches() instead, will be removed with 7.0.0
-     */
-    public function ifSatisfiesRegex($regex);
 
     /**
      * returns param value when given predicate evaluates to true
