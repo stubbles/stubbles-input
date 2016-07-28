@@ -46,11 +46,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithoutPortIfItIsDefaultPort()
     {
-        assert(
-                $this->existinghttpUriFilter->apply($this->createParam('http://example.org'))
-                        ->asString(),
-                equals('http://example.org/')
-        );
+        list($httpUri) = $this->existinghttpUriFilter->apply($this->createParam('http://example.org'));
+        assert($httpUri->asString(), equals('http://example.org/'));
     }
 
 
@@ -60,11 +57,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithPortIfItIsNonDefaultPort()
     {
-        assert(
-                $this->existinghttpUriFilter->apply($this->createParam('http://example.org:45'))
-                        ->asString(),
-                equals('http://example.org:45/')
-        );
+        list($httpUri) = $this->existinghttpUriFilter->apply($this->createParam('http://example.org:45'));
+        assert($httpUri->asString(), equals('http://example.org:45/'));
     }
 
     /**
@@ -72,7 +66,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsNullForNull()
     {
-        assertNull($this->existinghttpUriFilter->apply($this->createParam(null)));
+        assertNull($this->existinghttpUriFilter->apply($this->createParam(null))[0]);
     }
 
     /**
@@ -80,7 +74,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsNullForEmptyValue()
     {
-        assertNull($this->existinghttpUriFilter->apply($this->createParam('')));
+        assertNull($this->existinghttpUriFilter->apply($this->createParam(''))[0]);
     }
 
     /**
@@ -91,7 +85,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
         assertNull(
                 $this->existinghttpUriFilter->apply(
                         $this->createParam('ftp://foobar.de/')
-                )
+                )[0]
         );
     }
 
@@ -101,8 +95,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
     public function addsErrorToParamForInvalidUri()
     {
         $param = $this->createParam('http://wrong example!');
-        $this->existinghttpUriFilter->apply($param);
-        assertTrue($param->hasError('HTTP_URI_INCORRECT'));
+        list($_, $errors) = $this->existinghttpUriFilter->apply($param);
+        assertTrue(isset($errors['HTTP_URI_INCORRECT']));
     }
 
     /**
@@ -110,11 +104,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsHttpUriIfUriHasDnsRecoed()
     {
-        assert(
-                $this->existinghttpUriFilter->apply($this->createParam('http://stubbles.net/'))
-                        ->asString(),
-                equals('http://stubbles.net/')
-        );
+        list($httpUri) = $this->existinghttpUriFilter->apply($this->createParam('http://stubbles.net/'));
+        assert($httpUri->asString(), equals('http://stubbles.net/'));
     }
 
     /**
@@ -125,7 +116,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
         assertNull(
                 $this->existinghttpUriFilter->apply(
                         $this->createParam('http://doesnotexist.1und1.de/')
-                )
+                )[0]
         );
     }
 
@@ -135,8 +126,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
     public function addsErrorToParamIfUriHasNoDnsRecoed()
     {
         $param = $this->createParam('http://doesnotexist/');
-        $this->existinghttpUriFilter->apply($param);
-        assertTrue($param->hasError('HTTP_URI_NOT_AVAILABLE'));
+        list($_, $errors) = $this->existinghttpUriFilter->apply($param);
+        assertTrue(isset($errors['HTTP_URI_NOT_AVAILABLE']));
     }
 
     /**

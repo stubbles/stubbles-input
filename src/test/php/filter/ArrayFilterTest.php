@@ -44,7 +44,7 @@ class ArrayFilterTest extends FilterTest
     {
         $arrayFilter = new ArrayFilter();
         assert(
-                $arrayFilter->apply($this->createParam($value)),
+                $arrayFilter->apply($this->createParam($value))[0],
                 equals($expected)
         );
     }
@@ -56,7 +56,7 @@ class ArrayFilterTest extends FilterTest
     {
         $arrayFilter = new ArrayFilter('|');
         assert(
-                $arrayFilter->apply($this->createParam('foo|bar')),
+                $arrayFilter->apply($this->createParam('foo|bar'))[0],
                 equals(['foo', 'bar'])
         );
     }

@@ -10,12 +10,12 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
 use stubbles\input\filter\range\Range;
+use stubbles\values\Value;
 /**
  * Range filter to ensure a value is inbetween a certain range.
  */
-class RangeFilter implements Filter
+class RangeFilter extends Filter
 {
     /**
      * decorated filter
@@ -59,30 +59,30 @@ class RangeFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  number  filtered number
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        $value = $this->filter->apply($param);
+        list($value, $errors) = $this->filter->apply($value);
+        if (count($errors) > 0) {
+            return $this->errors($errors);
+        }
+
         if (null === $value) {
-            return null;
+            return $this->null();
         }
 
         if ($this->range->contains($value)) {
-            return $value;
+            return $this->filtered($value);
         }
 
         if ($this->range->allowsTruncate($value)) {
-            return $this->range->truncateToMaxBorder($value);
+            return $this->filtered($this->range->truncateToMaxBorder($value));
         }
 
-        foreach ($this->range->errorsOf($value) as $errorId => $details) {
-            $param->addError($errorId, $details);
-        }
-
-        return null;
+        return $this->errors($this->range->errorsOf($value));
     }
 }

@@ -10,14 +10,14 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for decoding JSON.
  *
  * @link  http://www.json.org/
  * @link  http://www.ietf.org/rfc/rfc4627.txt
  */
-class JsonFilter implements Filter
+class JsonFilter extends Filter
 {
     /**
      * maximum default allowed length of incoming JSON document in bytes
@@ -39,41 +39,38 @@ class JsonFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stdClass|array
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
-        if ($param->length() > $this->maxLength) {
-            $param->addError('JSON_INPUT_TOO_BIG', ['maxLength' => $this->maxLength]);
-            return null;
+        if (strlen($value->value()) > $this->maxLength) {
+            return $this->error('JSON_INPUT_TOO_BIG', ['maxLength' => $this->maxLength]);
         }
 
-        $value = $param->value();
-        if (!$this->isValidJsonStructure($value)) {
-            $param->addError('JSON_INVALID');
-            return null;
+        $json = $value->value();
+        if (!$this->isValidJsonStructure($json)) {
+            return $this->error('JSON_INVALID');
         }
 
-        $decodedJson = json_decode($value);
+        $decodedJson = json_decode($json);
         $errorCode   = json_last_error();
         if (JSON_ERROR_NONE !== $errorCode) {
-            $param->addError(
+            return $this->error(
                     'JSON_SYNTAX_ERROR',
                     ['errorCode' => $errorCode,
                      'errorMsg'  => json_last_error_msg()
                     ]
             );
-            return null;
         }
 
-        return $decodedJson;
+        return $this->filtered($decodedJson);
     }
 
     /**

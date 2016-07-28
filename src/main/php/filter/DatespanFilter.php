@@ -11,38 +11,35 @@ declare(strict_types=1);
 namespace stubbles\input\filter;
 use stubbles\date\span;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering datespans.
  *
  * @since  4.3.0
  */
-class DatespanFilter implements Filter
+class DatespanFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
      * In case the given value can not be transformed into the target type
-     * the return value is null. Additionally the $param instance is filled
-     * with a FilterError.
+     * the return value is null.
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\date\span\Datespan
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
         try {
-            return span\parse($param->value());
+            return $this->filtered(span\parse($value->value()));
         } catch (\InvalidArgumentException $iae) {
-            $param->addError('DATESPAN_INVALID');
+            return $this->error('DATESPAN_INVALID');
         }
-
-        return null;
     }
 }

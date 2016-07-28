@@ -45,7 +45,7 @@ class JsonFilterTest extends FilterTest
      */
     public function returnsNullIfParamIsNull()
     {
-        assertNull($this->jsonFilter->apply($this->createParam(null)));
+        assertNull($this->jsonFilter->apply($this->createParam(null))[0]);
     }
 
     /**
@@ -53,7 +53,7 @@ class JsonFilterTest extends FilterTest
      */
     public function filterValidJsonArray()
     {
-        assert($this->jsonFilter->apply($this->createParam('[1]')), equals([1]));
+        assert($this->jsonFilter->apply($this->createParam('[1]'))[0], equals([1]));
     }
 
     /**
@@ -64,7 +64,7 @@ class JsonFilterTest extends FilterTest
         $obj = new \stdClass();
         $obj->id = "abc";
         assert(
-                $this->jsonFilter->apply($this->createParam('{"id":"abc"}')),
+                $this->jsonFilter->apply($this->createParam('{"id":"abc"}'))[0],
                 equals($obj)
         );
     }
@@ -82,7 +82,7 @@ class JsonFilterTest extends FilterTest
         assert(
                 $this->jsonFilter->apply(
                         $this->createParam('{"method":"add","params":[1,2],"id":1}')
-                ),
+                )[0],
                 equals($phpJsonObj)
         );
     }
@@ -95,7 +95,7 @@ class JsonFilterTest extends FilterTest
         assertNull(
                 $this->jsonFilter->apply(
                         $this->createParam(str_repeat("a", 20001))
-                )
+                )[0]
         );
     }
 
@@ -105,8 +105,8 @@ class JsonFilterTest extends FilterTest
     public function addsErrorToParamForTooBigValue()
     {
         $param = $this->createParam(str_repeat("a", 20001));
-        $this->jsonFilter->apply($param);
-        assertTrue($param->hasError('JSON_INPUT_TOO_BIG'));
+        list($_, $errors) = $this->jsonFilter->apply($param);
+        assertTrue(isset($errors['JSON_INPUT_TOO_BIG']));
     }
 
     /**
@@ -114,7 +114,7 @@ class JsonFilterTest extends FilterTest
      */
     public function returnsNullForInvalidJsonCurlyBraces()
     {
-        assertNull($this->jsonFilter->apply($this->createParam('{foo]')));
+        assertNull($this->jsonFilter->apply($this->createParam('{foo]'))[0]);
     }
 
     /**
@@ -123,8 +123,8 @@ class JsonFilterTest extends FilterTest
     public function addsErrorToParamForInvalidJsonCurlyBraces()
     {
         $param = $this->createParam('{foo]');
-        $this->jsonFilter->apply($param);
-        assertTrue($param->hasError('JSON_INVALID'));
+        list($_, $errors) = $this->jsonFilter->apply($param);
+        assertTrue(isset($errors['JSON_INVALID']));
     }
 
     /**
@@ -132,7 +132,7 @@ class JsonFilterTest extends FilterTest
      */
     public function returnsNullForInvalidJsonBrackets()
     {
-        assertNull($this->jsonFilter->apply($this->createParam('[foo}')));
+        assertNull($this->jsonFilter->apply($this->createParam('[foo}'))[0]);
     }
 
     /**
@@ -141,8 +141,8 @@ class JsonFilterTest extends FilterTest
     public function addsErrorToParamForInvalidJsonBrackets()
     {
         $param = $this->createParam('[foo}');
-        $this->jsonFilter->apply($param);
-        assertTrue($param->hasError('JSON_INVALID'));
+        list($_, $errors) = $this->jsonFilter->apply($param);
+        assertTrue(isset($errors['JSON_INVALID']));
     }
 
     /**
@@ -153,7 +153,7 @@ class JsonFilterTest extends FilterTest
         assertNull(
                 $this->jsonFilter->apply(
                         $this->createParam('{"foo":"bar","foo","bar"}')
-                )
+                )[0]
         );
     }
 
@@ -163,8 +163,8 @@ class JsonFilterTest extends FilterTest
     public function addsErrorToParamForInvalidJsonStructure()
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
-        $this->jsonFilter->apply($param);
-        assertTrue($param->hasError('JSON_SYNTAX_ERROR'));
+        list($_, $errors) = $this->jsonFilter->apply($param);
+        assertTrue(isset($errors['JSON_SYNTAX_ERROR']));
     }
 
     /**
@@ -174,9 +174,9 @@ class JsonFilterTest extends FilterTest
     public function errorContainsErrorCode()
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
-        $this->jsonFilter->apply($param);
+        list($_, $errors) = $this->jsonFilter->apply($param);
         assert(
-                $param->errors()['JSON_SYNTAX_ERROR']->details(),
+                $errors['JSON_SYNTAX_ERROR']->details(),
                 hasKey('errorCode')
         );
     }
@@ -188,9 +188,9 @@ class JsonFilterTest extends FilterTest
     public function errorContainsErrorMessage()
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
-        $this->jsonFilter->apply($param);
+        list($_, $errors) = $this->jsonFilter->apply($param);
         assert(
-                $param->errors()['JSON_SYNTAX_ERROR']->details(),
+                $errors['JSON_SYNTAX_ERROR']->details(),
                 hasKey('errorMsg')
         );
     }
@@ -200,7 +200,7 @@ class JsonFilterTest extends FilterTest
      */
     public function returnsNullForInvalidJsonAlthoughPhpWouldDecodeItProperly()
     {
-        assertNull($this->jsonFilter->apply($this->createParam('"foo"')));
+        assertNull($this->jsonFilter->apply($this->createParam('"foo"'))[0]);
     }
 
     /**
@@ -209,8 +209,8 @@ class JsonFilterTest extends FilterTest
     public function addsErrorToParamForInvalidJsonAlthoughPhpWouldDecodeItProperly()
     {
         $param = $this->createParam('"foo"');
-        $this->jsonFilter->apply($param);
-        assertTrue($param->hasError('JSON_INVALID'));
+        list($_, $errors) = $this->jsonFilter->apply($param);
+        assertTrue(isset($errors['JSON_INVALID']));
     }
 
     /**

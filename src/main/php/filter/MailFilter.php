@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 
 use function stubbles\peer\isMailAddress;
 /**
@@ -20,29 +20,28 @@ use function stubbles\peer\isMailAddress;
  * - given param value is null or an empty string,
  * - given param value doesn't contain a valid mail address.
  */
-class MailFilter implements Filter
+class MailFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  string  the checked mail address to check
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
-        $value = $param->value();
-        if (!isMailAddress($value)) {
-            $param->addError($this->detectErrorId($value));
-            return null;
+        $mailAddress = $value->value();
+        if (!isMailAddress($mailAddress)) {
+            return $this->error($this->detectErrorId($mailAddress));
         }
 
-        return $value;
+        return $this->filtered($mailAddress);
     }
 
     /**

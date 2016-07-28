@@ -10,37 +10,37 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering strings (singe line).
  *
  * This filter removes all line breaks, slashes and any HTML tags. In case the
  * given param value is null it returns an empty string.
  */
-class StringFilter implements Filter
+class StringFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  string  filtered string
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param): string
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return '';
+        if ($value->isEmpty()) {
+            return $this->filtered('');
         }
 
-        return strip_tags(
+        return $this->filtered(strip_tags(
                 str_replace(
                         $this->nonAllowedCharacters(),
                         '',
-                        stripslashes($param->value())
+                        stripslashes($value->value())
                 ),
                 $this->allowedTags()
-        );
+        ));
     }
 
     /**

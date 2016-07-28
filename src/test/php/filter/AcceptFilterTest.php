@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
+use stubbles\peer\http\AcceptHeader;
+use stubbles\values\Value;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertEmpty;
@@ -26,12 +27,11 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      * apply filter on given value
      *
      * @param   string  $value
-     * @return  stubbles\peer\http\AcceptHeader
+     * @return  \stubbles\peer\http\AcceptHeader
      */
-    private function apply($value)
+    private function apply($acceptHeader): AcceptHeader
     {
-        $acceptFilter = AcceptFilter::instance();
-        return $acceptFilter->apply(new Param('Accept', $value));
+        return AcceptFilter::instance()->apply(Value::of($acceptHeader))[0];
     }
 
     /**

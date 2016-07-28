@@ -1,4 +1,4 @@
-7.0.0 (2016-07-26)
+7.0.0 (2016-07-??)
 ------------------
 
 ### BC breaks
@@ -10,6 +10,13 @@
     * `stubbles\input\ValueReader::ifSatisfiesRegex()`, use `stubbles\input\ValueReader::ifMatches()` instead
     * `stubbles\input\ValueValidator::satisfiesRegex()`, use `stubbles\input\ValueValidator::matches()` instead
   * removed support for `@Request[SecureString]`, use `@Request[Secret]` instead, was deprecates in 6.0.0
+  * `stubbles\input\Filter` is now an abstract class, not an interface
+  * `stubbles\input\Filter::apply()` now accepts `stubbles\values\Value` instead of `stubbles\input\Param` and must return an `array`
+
+
+### Other changes
+
+  * fixed bug that `stubbles\input\ValueReader::asSecret()` removed some characters
 
 
 6.0.0 (2016-06-12)

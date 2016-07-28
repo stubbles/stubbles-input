@@ -10,9 +10,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
 use stubbles\peer\MalformedUri;
 use stubbles\peer\http\HttpUri;
+use stubbles\values\Value;
 /**
  * Class for filtering strings for valid HTTP URIs.
  *
@@ -21,28 +21,26 @@ use stubbles\peer\http\HttpUri;
  * - Given param value contains an invalid http uri.
  * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
  */
-class HttpUriFilter implements Filter
+class HttpUriFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\peer\http\HttpUri
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
         try {
-            return HttpUri::fromString($param->value());
+            return $this->filtered(HttpUri::fromString($value->value()));
         } catch (MalformedUri $murle) {
-            $param->addError('HTTP_URI_INCORRECT');
+            return $this->error('HTTP_URI_INCORRECT');
         }
-
-        return null;
     }
 }

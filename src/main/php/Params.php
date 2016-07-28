@@ -10,8 +10,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
+use stubbles\values\Value;
 /**
- * Interface for handling input data.
+ * Wrapper for parameters and their errors.
  *
  * @since  2.0.0
  * @internal
@@ -53,25 +54,14 @@ class Params implements \IteratorAggregate, \Countable
     }
 
     /**
-     * returns raw parameter with value or null if not set
-     *
-     * @param   string  $paramName
-     * @return  \stubbles\input\Param
-     */
-    public function get(string $paramName): Param
-    {
-        return new Param($paramName, $this->params[$paramName] ?? null);
-    }
-
-    /**
      * returns raw value of parameter or null if not set
      *
      * @param   string  $paramName
-     * @return  string
+     * @return  \stubbles\values\Value
      */
-    public function value(string $paramName)
+    public function value(string $paramName): Value
     {
-        return $this->params[$paramName] ?? null;
+        return Value::of($this->params[$paramName] ?? null);
     }
 
     /**

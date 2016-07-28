@@ -10,13 +10,13 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Wraps a callable as filter.
  *
  * @since  3.0.0
  */
-class WrapCallableFilter implements Filter
+class WrapCallableFilter extends Filter
 {
     /**
      * actual filter logic
@@ -36,14 +36,20 @@ class WrapCallableFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  mixed
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        $filter = $this->filter;
-        return $filter($param);
+        $filter   = $this->filter;
+        $errors   = [];
+        $filtered = $filter($value, $errors);
+        if (count($errors) > 0) {
+            return $this->errors($errors);
+        }
+
+        return $this->filtered($filtered);
     }
 }

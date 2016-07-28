@@ -45,7 +45,7 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        assertEmptyString($this->textFilter->apply($this->createParam(null)));
+        assertEmptyString($this->textFilter->apply($this->createParam(null))[0]);
     }
 
     /**
@@ -53,10 +53,10 @@ class TextFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        assertEmptyString($this->textFilter->apply($this->createParam('')));
+        assertEmptyString($this->textFilter->apply($this->createParam(''))[0]);
     }
 
-    public function getAllowedTags(): array
+    public function allowedTags(): array
     {
         return [[[], 'this is bold and cursive and underlined with a link'],
                 [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],
@@ -66,18 +66,16 @@ class TextFilterTest extends FilterTest
     }
 
     /**
-     * @param  string[]  $allowedTags
-     * @param  string    $expected
      * @test
-     * @dataProvider  getAllowedTags
+     * @dataProvider  allowedTags
      */
-    public function removesTags(array $allowedTags, $expected)
+    public function removesTags(array $allowedTags, string $expected)
     {
         assert(
                 $this->textFilter->allowTags($allowedTags)
                         ->apply($this->createParam(
                                 'this is <b>bold</b> and <i>cursive</i> and <u>underlined</u> with a <a href="http://example.org/">link</a>'
-                        )),
+                        ))[0],
                 equals($expected)
         );
     }
@@ -88,7 +86,7 @@ class TextFilterTest extends FilterTest
     public function removesSlashes()
     {
         assert(
-                $this->textFilter->apply($this->createParam("\'kkk")),
+                $this->textFilter->apply($this->createParam("\'kkk"))[0],
                 equals("'kkk")
         );
     }
@@ -99,7 +97,7 @@ class TextFilterTest extends FilterTest
     public function removesCarriageReturn()
     {
         assert(
-                $this->textFilter->apply($this->createParam("cde\rkkk")),
+                $this->textFilter->apply($this->createParam("cde\rkkk"))[0],
                 equals("cdekkk")
         );
     }
@@ -110,7 +108,7 @@ class TextFilterTest extends FilterTest
     public function doesNotRemoveLineBreaks()
     {
         assert(
-                $this->textFilter->apply($this->createParam("ab\ncde\nkkk")),
+                $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
                 equals("ab\ncde\nkkk")
         );
     }

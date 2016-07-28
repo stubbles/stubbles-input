@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace stubbles\input\filter;
 use stubbles\date\span\Day;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering dates.
  *
@@ -23,32 +23,29 @@ use stubbles\input\Param;
  *
  * @see  http://php.net/manual/de/datetime.formats.php
  */
-class DayFilter implements Filter
+class DayFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
      * In case the given value can not be transformed into the target type
-     * the return value is null. Additionally the $param instance is filled
-     * with a FilterError.
+     * the return value is null.
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\date\span\Day
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
         try {
-            return new Day($param->value());
+            return $this->filtered(new Day($value->value()));
         } catch (\InvalidArgumentException $iae) {
-            $param->addError('DATE_INVALID');
+            return $this->error('DATE_INVALID');
         }
-
-        return null;
     }
 }

@@ -10,16 +10,15 @@ declare(strict_types=1);
  */
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
-use stubbles\input\filter\ArrayFilter;
-use stubbles\input\filter\PasswordChecker;
-use stubbles\input\filter\range\DateRange;
-use stubbles\input\filter\range\DatespanRange;
-use stubbles\input\filter\range\StringLength;
-use stubbles\input\filter\range\NumberRange;
-use stubbles\peer\IpAddress;
+use stubbles\input\filter\{
+    ArrayFilter,
+    PasswordChecker,
+    range\DateRange,
+    range\DatespanRange,
+    range\StringLength,
+    range\NumberRange
+};
 use stubbles\values\Value;
-
-use function stubbles\values\pattern;
 /**
  * Value object for request values to filter them or retrieve them after validation.
  *
@@ -34,22 +33,33 @@ class ValueReader implements valuereader\CommonValueReader
      */
     private $paramErrors;
     /**
+     * name of parameter to read
+     *
+     * @type  string
+     */
+    private $paramName;
+    /**
      * parameter to filter
      *
-     * @type  \stubbles\input\Param
+     * @type  \stubbles\values\Value
      */
-    private $param;
+    private $value;
 
     /**
      * constructor
      *
      * @param  \stubbles\input\errors\ParamErrors  $paramErrors  list of errors to add any filter errors to
-     * @param  \stubbles\input\Param               $param        parameter to filter
+     * @param  string                              $paramName    name of parameter to read
+     * @param  \stubbles\values\Value               $value        value to read
      */
-    public function __construct(ParamErrors $paramErrors, Param $param)
-    {
+    public function __construct(
+            ParamErrors $paramErrors,
+            string $paramName,
+            Value $value
+    ) {
         $this->paramErrors = $paramErrors;
-        $this->param       = $param;
+        $this->paramName   = $paramName;
+        $this->value       = $value;
     }
 
     /**
@@ -60,7 +70,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public static function forValue($paramValue): self
     {
-        return new self(new ParamErrors(), new Param('mock', $paramValue));
+        return new self(new ParamErrors(), 'mock', Value::of($paramValue));
     }
 
     /**
@@ -68,10 +78,11 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @param   \stubbles\input\Param  $param  param to use
      * @return  \stubbles\input\ValueReader
+     * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
     public static function forParam(Param $param): self
     {
-        return new self(new ParamErrors(), $param);
+        return self::forValue($param->value());
     }
 
     /**
@@ -83,11 +94,11 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function required(string $errorId = 'FIELD_EMPTY'): valuereader\CommonValueReader
     {
-        if ($this->param->isNull()) {
+        if ($this->value->isNull()) {
             return new valuereader\MissingValueReader(
                     function($actualErrorId)
                     {
-                        $this->paramErrors->append($this->param->name(), $actualErrorId);
+                        $this->paramErrors->append($this->paramName, $actualErrorId);
                     },
                     $errorId
             );
@@ -109,7 +120,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function defaultingTo($default): valuereader\CommonValueReader
     {
-        if ($this->param->isNull()) {
+        if ($this->value->isNull()) {
             return new valuereader\DefaultValueReader($default);
         }
 
@@ -420,11 +431,11 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsIpAddress()
     {
-        if (IpAddress::isValid($this->param->value())) {
-            return $this->param->value();
+        if ($this->value->isIpAddress()) {
+            return $this->value->value();
         }
 
-        $this->paramErrors->append($this->param->name(), 'INVALID_IP_ADDRESS');
+        $this->paramErrors->append($this->paramName, 'INVALID_IP_ADDRESS');
         return null;
     }
 
@@ -437,12 +448,12 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifIsOneOf(array $allowedValues)
     {
-        if (Value::of($this->param->value())->isOneOf($allowedValues)) {
-            return $this->param->value();
+        if ($this->value->isOneOf($allowedValues)) {
+            return $this->value->value();
         }
 
         $this->paramErrors->append(
-                $this->param->name(),
+                $this->paramName,
                 'FIELD_NO_SELECT',
                 ['ALLOWED' => join('|', $allowedValues)]
         );
@@ -459,11 +470,11 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function ifMatches(string $regex)
     {
-        if (pattern($regex)->matches($this->param->value())) {
-            return $this->param->value();
+        if ($this->value->isMatchedBy($regex)) {
+            return $this->value->value();
         }
 
-        $this->paramErrors->append($this->param->name(), 'FIELD_WRONG_VALUE');
+        $this->paramErrors->append($this->paramName, 'FIELD_WRONG_VALUE');
         return null;
     }
 
@@ -500,7 +511,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function withFilter(Filter $filter)
     {
-        if ($this->param->isNull()) {
+        if ($this->value->isNull()) {
             return null;
         }
 
@@ -515,7 +526,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     private function handleFilter(\Closure $createFilter)
     {
-        if ($this->param->isNull()) {
+        if ($this->value->isNull()) {
             return null;
         }
 
@@ -532,13 +543,13 @@ class ValueReader implements valuereader\CommonValueReader
      */
     private function applyFilter(Filter $filter)
     {
-        $value = $filter->apply($this->param);
-        if (!$this->param->hasErrors()) {
-            return $value;
+        list($filtered, $errors) = $filter->apply($this->value);
+        if (count($errors) === 0) {
+            return $filtered;
         }
 
-        foreach ($this->param->errors() as $error) {
-            $this->paramErrors->append($this->param->name(), $error);
+        foreach ($errors as $error) {
+            $this->paramErrors->append($this->paramName, $error);
         }
 
         return null;
@@ -571,7 +582,7 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function withCallable(callable $filter)
     {
-        if ($this->param->isNull()) {
+        if ($this->value->isNull()) {
             return null;
         }
 
@@ -588,6 +599,6 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function unsecure()
     {
-        return $this->param->value();
+        return $this->value->value();
     }
 }

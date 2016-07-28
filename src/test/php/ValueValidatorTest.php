@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use stubbles\values\Value;
+
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -29,7 +31,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     private function validate($value): ValueValidator
     {
-        return new ValueValidator($value);
+        return new ValueValidator(Value::of($value));
     }
 
     /**
@@ -277,7 +279,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
     public function withPredicateReturnsPredicateResult()
     {
         assertTrue($this->validate('foo')->with(
-                function($value) { return 'foo' === $value; }
+                function(Value $value) { return 'foo' === $value->value(); }
         ));
     }
 

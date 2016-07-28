@@ -10,8 +10,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
 use stubbles\values\Secret;
+use stubbles\values\Value;
 /**
  * Class for filtering passwords.
  *
@@ -21,7 +21,7 @@ use stubbles\values\Secret;
  * not equal the password is not allowed (can be used to prevent mistyped
  * passwords in register or password change forms).
  */
-class PasswordFilter implements Filter
+class PasswordFilter extends Filter
 {
     /**
      * actual algorithm to check the password with
@@ -41,56 +41,54 @@ class PasswordFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\values\Secret  secured password
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        $proposedPassword = $this->parse($param);
+        if ($value->isEmpty()) {
+            return $this->null();
+        }
+
+        list($proposedPassword, $errors) = $this->parse($value->value());
+        if (count($errors) > 0) {
+            return $this->errors($errors);
+        }
+
         if (null === $proposedPassword) {
-            return null;
+            return $this->null();
         }
 
         $errors = $this->checker->check($proposedPassword);
         if (count($errors) > 0) {
-            foreach ($errors as $errorId => $details) {
-                $param->addError($errorId, $details);
-            }
-
-            return null;
+            return $this->errors($errors);
         }
 
-        return $proposedPassword;
+        return $this->filtered($proposedPassword);
     }
 
     /**
      * parses password from given param value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\values\Secret
+     * @param   string|array  $value
+     * @return  array
      */
-    private function parse(Param $param)
+    private function parse($value): array
     {
-        if ($param->isEmpty()) {
-            return null;
-        }
-
-        $value = $param->value();
         if (is_array($value)) {
             if ($value[0] !== $value[1]) {
-                $param->addError('PASSWORDS_NOT_EQUAL');
-                return null;
+                return $this->error('PASSWORDS_NOT_EQUAL');
             }
 
             $value = $value[0];
         }
 
         if (empty($value) === 0) {
-            return null;
+            return [null, []];
         }
 
-        return Secret::create($value);
+        return [Secret::create($value), []];
     }
 }

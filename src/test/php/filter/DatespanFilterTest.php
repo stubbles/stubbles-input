@@ -54,7 +54,7 @@ class DatespanFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        assertNull($this->datespanFilter->apply($this->createParam($value)));
+        assertNull($this->datespanFilter->apply($this->createParam($value))[0]);
     }
 
     /**
@@ -63,7 +63,7 @@ class DatespanFilterTest extends FilterTest
     public function validParamsAreReturnedAsDayInstance()
     {
         assert(
-                $this->datespanFilter->apply($this->createParam('2008-09-27')),
+                $this->datespanFilter->apply($this->createParam('2008-09-27'))[0],
                 equals(new Day('2008-09-27'))
         );
     }
@@ -74,7 +74,7 @@ class DatespanFilterTest extends FilterTest
     public function applyReturnsNullForInvalidDay()
     {
 
-        assertNull($this->datespanFilter->apply($this->createParam('invalid day')));
+        assertNull($this->datespanFilter->apply($this->createParam('invalid day'))[0]);
     }
 
     /**
@@ -83,8 +83,8 @@ class DatespanFilterTest extends FilterTest
     public function applyAddsErrorForInvalidDay()
     {
         $param = $this->createParam('invalid day');
-        $this->datespanFilter->apply($param);
-        assertTrue($param->hasError('DATESPAN_INVALID'));
+        list($_, $errors) = $this->datespanFilter->apply($param);
+        assertTrue(isset($errors['DATESPAN_INVALID']));
     }
 
     /**

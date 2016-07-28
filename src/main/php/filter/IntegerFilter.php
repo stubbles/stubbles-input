@@ -9,30 +9,31 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
+use stubbles\input\Filter;
+use stubbles\values\Value;
 /**
  * Basic class for filters on request variables of type integer.
  *
  * This filter takes any value and casts it to int.
  */
-class IntegerFilter implements NumberFilter
+class IntegerFilter extends Filter implements NumberFilter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  int
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isNull()) {
-            return null;
+        if ($value->isNull()) {
+            return $this->null();
         }
 
-        $value = $param->value();
-        settype($value, 'integer');
-        return $value;
+        $int = $value->value();
+        settype($int, 'integer');
+        return $this->filtered($int);
     }
 }

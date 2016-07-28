@@ -49,7 +49,7 @@ class FloatFilterTest extends FilterTest
     {
         $floatFilter = new FloatFilter();
         assert(
-                $floatFilter->setDecimals(3)->apply($this->createParam($value)),
+                $floatFilter->setDecimals(3)->apply($this->createParam($value))[0],
                 equals($expected)
         );
     }
@@ -61,7 +61,7 @@ class FloatFilterTest extends FilterTest
     {
         $floatFilter = new FloatFilter();
         assert(
-                $floatFilter->setDecimals(2)->apply($this->createParam('1.564')),
+                $floatFilter->setDecimals(2)->apply($this->createParam('1.564'))[0],
                 equals(156)
         );
     }
@@ -72,7 +72,7 @@ class FloatFilterTest extends FilterTest
     public function decimalsNotSet()
     {
         $floatFilter = new FloatFilter();
-        assert($floatFilter->apply($this->createParam('1.564')), equals(1.564));
+        assert($floatFilter->apply($this->createParam('1.564'))[0], equals(1.564));
     }
 
     /**

@@ -45,7 +45,7 @@ class MailFilterTest extends FilterTest
      */
     public function returnsNullWhenValueIsNull()
     {
-        assertNull($this->mailFilter->apply($this->createParam(null)));
+        assertNull($this->mailFilter->apply($this->createParam(null))[0]);
     }
 
     /**
@@ -53,7 +53,7 @@ class MailFilterTest extends FilterTest
      */
     public function returnsNullWhenValueIsEmpty()
     {
-        assertNull($this->mailFilter->apply($this->createParam('')));
+        assertNull($this->mailFilter->apply($this->createParam(''))[0]);
     }
 
     /**
@@ -62,7 +62,7 @@ class MailFilterTest extends FilterTest
     public function returnsFilteredValue()
     {
         assert(
-                $this->mailFilter->apply($this->createParam('example@example.org')),
+                $this->mailFilter->apply($this->createParam('example@example.org'))[0],
                 equals('example@example.org')
         );
     }
@@ -92,7 +92,7 @@ class MailFilterTest extends FilterTest
     public function returnsNullWhenSpaceInValue()
     {
         assertNull(
-                $this->mailFilter->apply($this->createParam('space in@mailadre.ss'))
+                $this->mailFilter->apply($this->createParam('space in@mailadre.ss'))[0]
         );
     }
 
@@ -102,8 +102,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenSpaceInValue()
     {
         $param = $this->createParam('space in@mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_CANNOT_CONTAIN_SPACES'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_CANNOT_CONTAIN_SPACES']));
     }
 
     /**
@@ -112,7 +112,7 @@ class MailFilterTest extends FilterTest
     public function returnsNullWhenGermanUmlautInValue()
     {
         assertNull(
-                $this->mailFilter->apply($this->createParam('föö@mailadre.ss'))
+                $this->mailFilter->apply($this->createParam('föö@mailadre.ss'))[0]
         );
     }
 
@@ -122,8 +122,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenGermanUmlautInValue()
     {
         $param = $this->createParam('föö@mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_CANNOT_CONTAIN_UMLAUTS'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_CANNOT_CONTAIN_UMLAUTS']));
     }
 
     /**
@@ -132,7 +132,7 @@ class MailFilterTest extends FilterTest
     public function returnsNullWhenMoreThanOneAtCharacterInValue()
     {
         assertNull(
-                $this->mailFilter->apply($this->createParam('foo@bar@mailadre.ss'))
+                $this->mailFilter->apply($this->createParam('foo@bar@mailadre.ss'))[0]
         );
     }
 
@@ -142,8 +142,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenMoreThanOneAtCharacterInValue()
     {
         $param = $this->createParam('foo@bar@mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_MUST_CONTAIN_ONE_AT'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_MUST_CONTAIN_ONE_AT']));
     }
 
     /**
@@ -153,7 +153,7 @@ class MailFilterTest extends FilterTest
     {
         assertNull($this->mailFilter->apply(
                 $this->createParam('foo.@mailadre.ss')
-        ));
+        )[0]);
     }
 
     /**
@@ -162,8 +162,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenDotBeforeAtSign()
     {
         $param = $this->createParam('foo.@mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_DOT_NEXT_TO_AT_SIGN'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_DOT_NEXT_TO_AT_SIGN']));
     }
 
     /**
@@ -173,7 +173,7 @@ class MailFilterTest extends FilterTest
     {
         assertNull($this->mailFilter->apply(
                 $this->createParam('foo@.mailadre.ss')
-        ));
+        )[0]);
     }
 
     /**
@@ -182,8 +182,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenDotAfterAtSign()
     {
         $param = $this->createParam('foo@.mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_DOT_NEXT_TO_AT_SIGN'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_DOT_NEXT_TO_AT_SIGN']));
     }
 
     /**
@@ -192,7 +192,7 @@ class MailFilterTest extends FilterTest
     public function returnsNullWhenTwoFollowingDotsInValue()
     {
         assertNull(
-                $this->mailFilter->apply($this->createParam('foo..bar@mailadre.ss'))
+                $this->mailFilter->apply($this->createParam('foo..bar@mailadre.ss'))[0]
         );
     }
 
@@ -202,8 +202,8 @@ class MailFilterTest extends FilterTest
     public function addsErrorToParamWhenTwoFollowingDotsInValue()
     {
         $param = $this->createParam('foo..bar@mailadre.ss');
-        $this->mailFilter->apply($param);
-        assertTrue($param->hasError('MAILADDRESS_CONTAINS_TWO_FOLLOWING_DOTS'));
+        list($_, $errors) = $this->mailFilter->apply($param);
+        assertTrue(isset($errors['MAILADDRESS_CONTAINS_TWO_FOLLOWING_DOTS']));
     }
 
     /**

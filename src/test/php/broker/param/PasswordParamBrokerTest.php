@@ -92,6 +92,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
     public function canWorkWithParam()
     {

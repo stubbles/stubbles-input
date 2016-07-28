@@ -9,12 +9,17 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use function bovigo\assert\assert;
-use function bovigo\assert\assertFalse;
-use function bovigo\assert\assertNull;
-use function bovigo\assert\assertTrue;
-use function bovigo\assert\predicate\equals;
-use function bovigo\assert\predicate\isOfSize;
+use stubbles\values\Value;
+
+use function bovigo\assert\{
+    assert,
+    assertFalse,
+    assertNull,
+    assertTrue,
+    predicate\equals,
+    predicate\isOfSize,
+    predicate\isSameAs
+};
 /**
  * Tests for stubbles\input\Params.
  *
@@ -56,25 +61,9 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnsNullParamIfParamDoesNotExist()
-    {
-        assertTrue($this->params->get('doesNotExist')->isNull());
-    }
-
-    /**
-     * @test
-     */
-    public function returnsParamWithValueIfParamExists()
-    {
-        assert($this->params->get('foo')->value(), equals('bar'));
-    }
-
-    /**
-     * @test
-     */
     public function returnsNullValueIfParamDoesNotExist()
     {
-        assertNull($this->params->value('doesNotExist'));
+        assert($this->params->value('doesNotExist'), isSameAs(Value::of(null)));
     }
 
     /**
@@ -82,7 +71,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfParamExists()
     {
-        assert($this->params->value('foo'), equals('bar'));
+        assert($this->params->value('foo'), equals(Value::of('bar')));
     }
 
     /**

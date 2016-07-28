@@ -10,6 +10,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
+use stubbles\input\errors\ParamError;
+use stubbles\values\Value;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
@@ -294,9 +296,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsNullIfParameterNotSet()
     {
-        $param  = new Param('bar', null);
+        $value  = Value::of(null);
         $filter = NewInstance::of(Filter::class);
-        assertNull($this->read($param)->withFilter($filter));
+        assertNull($this->read($value)->withFilter($filter));
         verify($filter, 'apply')->wasNeverCalled();
     }
 
@@ -306,10 +308,10 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsDefaultValueIfParameterNotSet()
     {
-        $param  = new Param('bar', null);
+        $value  = Value::of(null);
         $filter = NewInstance::of(Filter::class);
         assert(
-                $this->read($param)->defaultingTo('foo')->withFilter($filter),
+                $this->read($value)->defaultingTo('foo')->withFilter($filter),
                 equals('foo')
         );
         verify($filter, 'apply')->wasNeverCalled();
@@ -320,10 +322,10 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsNullIfParamHasErrors()
     {
-        $param = new Param('bar', 'foo');
-        $param->addError('SOME_ERROR');
-        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'baz']);
-        assertNull($this->read($param)->withFilter($filter));
+        $filter = NewInstance::of(Filter::class)->mapCalls([
+                'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
+        ]);
+        assertNull($this->read(Value::of('foo'))->withFilter($filter));
     }
 
     /**
@@ -331,10 +333,11 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterErrorListContainsParamError()
     {
-        $param = new Param('bar', 'foo');
-        $param->addError('SOME_ERROR');
-        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'baz']);
-        $this->read($param)->withFilter($filter);
+        $value = Value::of('foo');
+        $filter = NewInstance::of(Filter::class)->mapCalls([
+                'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
+        ]);
+        $this->read($value)->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'SOME_ERROR'));
     }
 
@@ -343,9 +346,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsNullIfParamRequiredButNotSet()
     {
-        $param  = new Param('bar', null);
+        $value  = Value::of(null);
         $filter = NewInstance::of(Filter::class);
-        assertNull($this->read($param)->required()->withFilter($filter));
+        assertNull($this->read($value)->required()->withFilter($filter));
         verify($filter, 'apply')->wasNeverCalled();
     }
 
@@ -354,9 +357,9 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterAddsRequiredErrorWhenRequiredAndParamNotSet()
     {
-        $param = new Param('bar', null);
+        $value  = Value::of(null);
         $filter = NewInstance::of(Filter::class);
-        $this->read($param)->required()->withFilter($filter);
+        $this->read($value)->required()->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
         verify($filter, 'apply')->wasNeverCalled();
     }
@@ -366,7 +369,7 @@ class ValueReaderTest extends filter\FilterTest
      */
     public function withFilterReturnsValueFromFilter()
     {
-        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => 'foo']);
+        $filter = NewInstance::of(Filter::class)->mapCalls(['apply' => ['foo', []]]);
         assert($this->readParam('foo')->withFilter($filter), equals('foo'));
     }
 
@@ -416,13 +419,13 @@ class ValueReaderTest extends filter\FilterTest
      */
     private function createCallable()
     {
-        return function(Param $param)
+        return function(Value $value, array &$errors)
                {
-                   if ($param->value() == 303) {
+                   if ($value->value() == 303) {
                        return 'Roland TB-303';
                    }
 
-                   $param->addError('INVALID_303');
+                   $errors['INVALID_303'] = [];
                    return null;
                };
     }

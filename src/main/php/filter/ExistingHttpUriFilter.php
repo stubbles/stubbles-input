@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering strings for valid HTTP URIs.
  *
@@ -26,23 +26,26 @@ class ExistingHttpUriFilter extends HttpUriFilter
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\peer\http\HttpUri
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        $httpUri = parent::apply($param);
+        list($httpUri, $errors) = parent::apply($value);
+        if (count($errors) > 0) {
+            return $this->errors($errors);
+        }
+
         if (null === $httpUri) {
-            return null;
+            return $this->null();
         }
 
         if (!$httpUri->hasDnsRecord()) {
-            $param->addError('HTTP_URI_NOT_AVAILABLE');
-            return null;
+            return $this->error('HTTP_URI_NOT_AVAILABLE');
         }
 
-        return $httpUri;
+        return $this->filtered($httpUri);
     }
 }

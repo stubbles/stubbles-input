@@ -10,13 +10,13 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering values based on using a callable as predicate.
  *
  * @since  3.0.0
  */
-class PredicateFilter implements Filter
+class PredicateFilter extends Filter
 {
     /**
      * predicate to be used
@@ -52,19 +52,18 @@ class PredicateFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  string
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
         $predicate = $this->predicate;
-        if ($predicate($param->value())) {
-            return $param->value();
+        if ($predicate($value->value())) {
+            return $this->filtered($value->value());
         }
 
-        $param->addError($this->errorId, $this->details);
-        return null;
+        return $this->error($this->errorId, $this->details);
     }
 }

@@ -88,7 +88,8 @@ abstract class AbstractRequest implements Request
     {
         return new ValueReader(
                 $this->params->errors(),
-                $this->params->get($paramName)
+                $paramName,
+                $this->params->value($paramName)
         );
     }
 }

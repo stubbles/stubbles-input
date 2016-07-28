@@ -9,11 +9,10 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Filter;
 /**
  * Marker interface for filters of type float and int.
  */
-interface NumberFilter extends Filter
+interface NumberFilter
 {
     // intentionally empty
 }

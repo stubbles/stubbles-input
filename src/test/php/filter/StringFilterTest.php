@@ -45,7 +45,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsNull()
     {
-        assertEmptyString($this->stringFilter->apply($this->createParam(null)));
+        assertEmptyString($this->stringFilter->apply($this->createParam(null))[0]);
     }
 
     /**
@@ -53,7 +53,7 @@ class StringFilterTest extends FilterTest
      */
     public function returnsEmptyStringWhenParamIsEmptyString()
     {
-        assertEmptyString($this->stringFilter->apply($this->createParam('')));
+        assertEmptyString($this->stringFilter->apply($this->createParam(''))[0]);
     }
 
     /**
@@ -62,7 +62,7 @@ class StringFilterTest extends FilterTest
     public function removesTags()
     {
         assert(
-                $this->stringFilter->apply($this->createParam("kkk<b>")),
+                $this->stringFilter->apply($this->createParam("kkk<b>"))[0],
                 equals("kkk")
         );
     }
@@ -73,7 +73,7 @@ class StringFilterTest extends FilterTest
     public function removesSlashes()
     {
         assert(
-                $this->stringFilter->apply($this->createParam("\'kkk")),
+                $this->stringFilter->apply($this->createParam("\'kkk"))[0],
                 equals("'kkk")
         );
     }
@@ -84,7 +84,7 @@ class StringFilterTest extends FilterTest
     public function removesCarriageReturn()
     {
         assert(
-                $this->stringFilter->apply($this->createParam("cde\rkkk")),
+                $this->stringFilter->apply($this->createParam("cde\rkkk"))[0],
                 equals("cdekkk")
         );
     }
@@ -95,7 +95,7 @@ class StringFilterTest extends FilterTest
     public function removesLineBreaks()
     {
         assert(
-                $this->stringFilter->apply($this->createParam("ab\ncde\nkkk")),
+                $this->stringFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
                 equals("abcdekkk")
         );
     }

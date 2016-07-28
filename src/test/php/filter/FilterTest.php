@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
 use stubbles\input\ValueReader;
 use stubbles\input\errors\ParamErrors;
+use stubbles\values\Value;
 /**
  * Base class for tests of stubbles\input\Filter instances.
  *
@@ -40,9 +40,9 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      * @param   mixed $value
      * @return  Param
      */
-    protected function createParam($value): Param
+    protected function createParam($value): Value
     {
-        return new Param('test', $value);
+        return Value::of($value);
     }
 
     /**
@@ -53,17 +53,17 @@ abstract class FilterTest extends \PHPUnit_Framework_TestCase
      */
     protected function readParam($value): ValueReader
     {
-        return $this->read(new Param('bar', $value));
+        return $this->read(Value::of($value));
     }
 
     /**
      * helper function to create request value instance
      *
-     * @param   Param  $param
+     * @param   Value  $value
      * @return  ValueReader
      */
-    protected function read(Param $param): ValueReader
+    protected function read(Value $value): ValueReader
     {
-        return new ValueReader($this->paramErrors, $param);
+        return new ValueReader($this->paramErrors, 'bar', $value);
     }
 }

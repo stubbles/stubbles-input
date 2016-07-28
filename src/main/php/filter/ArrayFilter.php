@@ -10,7 +10,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Parse;
+use stubbles\values\Value;
 /**
  * Basic class for filters on request variables of type array.
  *
@@ -21,7 +22,7 @@ use stubbles\input\Param;
  *
  * @since  2.0.0
  */
-class ArrayFilter implements Filter
+class ArrayFilter extends Filter
 {
     /**
      * default separator to be used to split string
@@ -57,21 +58,20 @@ class ArrayFilter implements Filter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
+     * @param   \stubbles\values\Value  $value
      * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isNull()) {
-            return null;
+        if ($value->isNull()) {
+            return $this->null();
         }
 
-        if ($param->isEmpty()) {
-            return [];
-        }
-
-        return array_map('trim', explode($this->separator, $param->value()));
+        return $this->filtered(array_map(
+                'trim',
+                Parse::toList($value->value(), $this->separator)
+        ));
     }
 }

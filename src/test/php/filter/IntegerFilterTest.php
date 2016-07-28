@@ -45,7 +45,7 @@ class IntegerFilterTest extends FilterTest
     {
         $integerFilter = IntegerFilter::instance();
         assert(
-                $integerFilter->apply($this->createParam($value)),
+                $integerFilter->apply($this->createParam($value))[0],
                 equals($expected)
         );
     }

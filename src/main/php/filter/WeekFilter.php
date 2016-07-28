@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace stubbles\input\filter;
 use stubbles\date\span\Week;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering weeks.
  *
@@ -23,32 +23,29 @@ use stubbles\input\Param;
  *
  * @since  4.5.0
  */
-class WeekFilter implements Filter
+class WeekFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
      * In case the given value can not be transformed into the target type
-     * the return value is null. Additionally the $param instance is filled
-     * with a FilterError.
+     * the return value is null.
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\date\span\Week
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
         try {
-            return Week::fromString($param->value());
+            return $this->filtered(Week::fromString($value->value()));
         } catch (\InvalidArgumentException $iae) {
-            $param->addError('WEEK_INVALID');
+            return $this->error('WEEK_INVALID');
         }
-
-        return null;
     }
 }

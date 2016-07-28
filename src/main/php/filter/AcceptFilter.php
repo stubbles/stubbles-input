@@ -10,33 +10,33 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
 use stubbles\peer\http\AcceptHeader;
+use stubbles\values\Value;
 /**
  * Filters accept headers.
  *
  * @since  2.0.1
  */
-class AcceptFilter implements Filter
+class AcceptFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\peer\http\AcceptHeader
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param): AcceptHeader
+    public function apply(Value $value): array
     {
-        if ($param->isNull() || $param->isEmpty()) {
-            return new AcceptHeader();
+        if ($value->isNull() || empty($value->value())) {
+            return $this->filtered(new AcceptHeader());
         }
 
         try {
-            return AcceptHeader::parse($param->value());
+            return $this->filtered(AcceptHeader::parse($value->value()));
         } catch (\InvalidArgumentException $iae) {
-            return new AcceptHeader();
+            return $this->filtered(new AcceptHeader());
         }
     }
 }

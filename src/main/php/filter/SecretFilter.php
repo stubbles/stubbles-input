@@ -9,30 +9,30 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
+use stubbles\input\Filter;
 use stubbles\values\Secret;
+use stubbles\values\Value;
 /**
  * Class for filtering secrets.
  *
  * @since  3.0.0
  */
-class SecretFilter extends StringFilter
+class SecretFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param         $param
-     * @return  \stubbles\values\Secret  filtered string
+     * @param   \stubbles\values\Value    $value
+     * @return  array
      */
-    public function apply(Param $param): Secret
+    public function apply(Value $value): array
     {
-        $value = parent::apply($param);
-        if (!empty($value)) {
-            return Secret::create($value);
+        if ($value->isEmpty()) {
+            return $this->filtered(Secret::forNull());
         }
 
-        return Secret::forNull();
+        return $this->filtered(Secret::create($value->value()));
     }
 }

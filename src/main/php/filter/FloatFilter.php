@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input\filter;
-use stubbles\input\Param;
+use stubbles\input\Filter;
+use stubbles\values\Value;
 /**
  * Filters on request variables of type double / float.
  *
@@ -18,7 +19,7 @@ use stubbles\input\Param;
  * operations for accuracy. If no value for x is given the value to filter is
  * returned as is after the cast.
  */
-class FloatFilter implements NumberFilter
+class FloatFilter extends Filter implements NumberFilter
 {
     /**
      * number of decimals
@@ -40,23 +41,23 @@ class FloatFilter implements NumberFilter
     }
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  int|float
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isNull()) {
-            return null;
+        if ($value->isNull()) {
+            return $this->null();
         }
 
-        $value = $param->value();
-        settype($value, 'float');
+        $float = $value->value();
+        settype($float, 'float');
         if (empty($this->decimals)) {
-            return $value;
+            return $this->filtered($float);
         }
 
-        return (int) ($value * pow(10, $this->decimals));
+        return $this->filtered((int) ($float * pow(10, $this->decimals)));
     }
 }

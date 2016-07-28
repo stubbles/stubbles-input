@@ -67,7 +67,7 @@ class PasswordFilterTest extends FilterTest
         $this->passwordChecker->mapCalls(['check' => []]);
         $this->assertPasswordEquals(
                 '425%$%"�$%t 32',
-                $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32'))
+                $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32'))[0]
         );
     }
 
@@ -76,7 +76,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullForNull()
     {
-        assertNull($this->passwordFilter->apply($this->createParam(null)));
+        assertNull($this->passwordFilter->apply($this->createParam(null))[0]);
         verify($this->passwordChecker, 'check')->wasNeverCalled();
 
     }
@@ -86,7 +86,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullForEmptyString()
     {
-        assertNull($this->passwordFilter->apply($this->createParam('')));
+        assertNull($this->passwordFilter->apply($this->createParam(''))[0]);
         verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
 
@@ -98,7 +98,7 @@ class PasswordFilterTest extends FilterTest
         $this->passwordChecker->mapCalls(['check' => []]);
         $this->assertPasswordEquals(
                 'foo',
-                $this->passwordFilter->apply($this->createParam(['foo', 'foo']))
+                $this->passwordFilter->apply($this->createParam(['foo', 'foo']))[0]
         );
     }
 
@@ -108,7 +108,7 @@ class PasswordFilterTest extends FilterTest
     public function returnsNullIfBothArrayValuesAreDifferent()
     {
         assertNull(
-                $this->passwordFilter->apply($this->createParam(['foo', 'bar']))
+                $this->passwordFilter->apply($this->createParam(['foo', 'bar']))[0]
         );
         verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
@@ -119,8 +119,8 @@ class PasswordFilterTest extends FilterTest
     public function addsErrorToParamWhenBothArrayValuesAreDifferent()
     {
         $param = $this->createParam(['foo', 'bar']);
-        $this->passwordFilter->apply($param);
-        assertTrue($param->hasError('PASSWORDS_NOT_EQUAL'));
+        list($_, $errors) = $this->passwordFilter->apply($param);
+        assertTrue(isset($errors['PASSWORDS_NOT_EQUAL']));
         verify($this->passwordChecker, 'check')->wasNeverCalled();
     }
 
@@ -132,7 +132,7 @@ class PasswordFilterTest extends FilterTest
         $this->passwordChecker->mapCalls(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
-        assertNull($this->passwordFilter->apply($this->createParam('bar')));
+        assertNull($this->passwordFilter->apply($this->createParam('bar'))[0]);
     }
 
     /**
@@ -144,8 +144,8 @@ class PasswordFilterTest extends FilterTest
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
         $param = $this->createParam('bar');
-        $this->passwordFilter->apply($param);
-        assertTrue($param->hasError('PASSWORD_TOO_SHORT'));
+        list($_, $errors) = $this->passwordFilter->apply($param);
+        assertTrue(isset($errors['PASSWORD_TOO_SHORT']));
     }
 
     /**

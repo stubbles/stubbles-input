@@ -56,7 +56,7 @@ class MonthFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        assertNull($this->monthFilter->apply($this->createParam($value)));
+        assertNull($this->monthFilter->apply($this->createParam($value))[0]);
     }
 
     /**
@@ -65,7 +65,7 @@ class MonthFilterTest extends FilterTest
     public function validParamsAreReturnedAsMonthInstance()
     {
         assert(
-                $this->monthFilter->apply($this->createParam('2008-09-27')),
+                $this->monthFilter->apply($this->createParam('2008-09-27'))[0],
                 equals(new Month(2008, 9))
         );
     }
@@ -75,7 +75,7 @@ class MonthFilterTest extends FilterTest
      */
     public function applyReturnsNullForInvalidMonth()
     {
-        assertNull($this->monthFilter->apply($this->createParam('invalid day')));
+        assertNull($this->monthFilter->apply($this->createParam('invalid day'))[0]);
     }
 
     /**
@@ -84,8 +84,8 @@ class MonthFilterTest extends FilterTest
     public function applyAddsErrorForInvalidDay()
     {
         $param = $this->createParam('invalid day');
-        $this->monthFilter->apply($param);
-        assertTrue($param->hasError('MONTH_INVALID'));
+        list($_, $errors) = $this->monthFilter->apply($param);
+        assertTrue(isset($errors['MONTH_INVALID']));
     }
 
     /**

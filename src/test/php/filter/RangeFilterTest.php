@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Filter;
-use stubbles\input\Param;
 use stubbles\input\filter\range\Range;
+use stubbles\values\Value;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
@@ -60,13 +60,13 @@ class RangeFilterTest extends FilterTest
     /**
      * creates param
      *
-     * @param   mixed $value
-     * @return  Param
+     * @param   mixed  $value
+     * @return  Value
      */
-    protected function createParam($value): Param
+    protected function createParam($value): Value
     {
         $param = parent::createParam($value);
-        $this->filter->mapCalls(['apply' => $value]);
+        $this->filter->mapCalls(['apply' => [$value, []]]);
         return $param;
     }
 
@@ -75,7 +75,7 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsNullIfDecoratedFilterReturnsNull()
     {
-        assertNull($this->rangeFilter->apply($this->createParam(null)));
+        assertNull($this->rangeFilter->apply($this->createParam(null))[0]);
         verify($this->range, 'contains')->wasNeverCalled();
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }
@@ -87,7 +87,7 @@ class RangeFilterTest extends FilterTest
     {
         $this->range->mapCalls(['contains' => true]);
         assert(
-                $this->rangeFilter->apply($this->createParam(303)),
+                $this->rangeFilter->apply($this->createParam(303))[0],
                 equals(303)
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();
@@ -104,8 +104,9 @@ class RangeFilterTest extends FilterTest
                 'allowsTruncate' => false,
                 'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
         ]);
-        assertNull($this->rangeFilter->apply($param));
-        assertTrue($param->hasError('LOWER_BORDER_VIOLATION'));
+        list($result, $errors) = $this->rangeFilter->apply($param);
+        assertNull($result);
+        assertTrue(isset($errors['LOWER_BORDER_VIOLATION']));
     }
 
     /**
@@ -121,7 +122,7 @@ class RangeFilterTest extends FilterTest
                 'truncateToMaxBorder' => 'foo'
         ]);
         assert(
-                $this->rangeFilter->apply($this->createParam('foobar')),
+                $this->rangeFilter->apply($this->createParam('foobar'))[0],
                 equals('foo')
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();

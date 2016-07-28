@@ -52,7 +52,7 @@ class DateFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        assertNull($this->dateFilter->apply($this->createParam($value)));
+        assertNull($this->dateFilter->apply($this->createParam($value))[0]);
     }
 
     /**
@@ -61,7 +61,7 @@ class DateFilterTest extends FilterTest
     public function validParamsAreReturnedAsDateInstance()
     {
         assert(
-                $this->dateFilter->apply($this->createParam('2008-09-27')),
+                $this->dateFilter->apply($this->createParam('2008-09-27'))[0],
                 equals(new Date('2008-09-27 00:00:00'))
         );
     }
@@ -72,7 +72,7 @@ class DateFilterTest extends FilterTest
     public function applyReturnsNullForInvalidDate()
     {
 
-        assertNull($this->dateFilter->apply($this->createParam('invalid date')));
+        assertNull($this->dateFilter->apply($this->createParam('invalid date'))[0]);
     }
 
     /**
@@ -81,8 +81,8 @@ class DateFilterTest extends FilterTest
     public function applyAddsErrorForInvalidDate()
     {
         $param = $this->createParam('invalid date');
-        $this->dateFilter->apply($param);
-        assertTrue($param->hasError('DATE_INVALID'));
+        list($_, $errors) = $this->dateFilter->apply($param);
+        assertTrue(isset($errors['DATE_INVALID']));
     }
 
     /**

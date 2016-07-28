@@ -34,6 +34,7 @@ interface ParamBroker
      * @param   \stubbles\input\Param                    $param
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  mixed
+     * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
     public function procureParam(Param $param, Annotation $annotation);
 }

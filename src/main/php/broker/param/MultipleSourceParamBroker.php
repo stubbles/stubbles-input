@@ -14,6 +14,7 @@ use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
+use stubbles\values\Value;
 /**
  * Broker to be used to retrieve parameters based on annotations.
  */
@@ -72,13 +73,13 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * handles a single param
      *
-     * @param   \stubbles\input\Param                         $param
+     * @param   \stubbles\values\Value                   $param
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */
     public function procureParam(Param $param, Annotation $annotation)
     {
-        return $this->filter(ValueReader::forParam($param), $annotation);
+        return $this->filter(ValueReader::forValue($param->value()), $annotation);
     }
 
     /**

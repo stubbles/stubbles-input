@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace stubbles\input\filter;
 use stubbles\date\span\Month;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Class for filtering months.
  *
@@ -23,32 +23,29 @@ use stubbles\input\Param;
  *
  * @since  2.5.1
  */
-class MonthFilter implements Filter
+class MonthFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
      * In case the given value can not be transformed into the target type
-     * the return value is null. Additionally the $param instance is filled
-     * with a FilterError.
+     * the return value is null.
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  \stubbles\date\span\Month
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param)
+    public function apply(Value $value): array
     {
-        if ($param->isEmpty()) {
-            return null;
+        if ($value->isEmpty()) {
+            return $this->null();
         }
 
         try {
-            return Month::fromString($param->value());
+            return $this->filtered(Month::fromString($value->value()));
         } catch (\InvalidArgumentException $iae) {
-            $param->addError('MONTH_INVALID');
+            return $this->error('MONTH_INVALID');
         }
-
-        return null;
     }
 }

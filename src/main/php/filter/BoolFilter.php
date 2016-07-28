@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use stubbles\input\Filter;
-use stubbles\input\Param;
+use stubbles\values\Value;
 /**
  * Basic class for filters on request variables of type boolean.
  *
@@ -19,22 +19,18 @@ use stubbles\input\Param;
  *
  * @since  1.2.0
  */
-class BoolFilter implements Filter
+class BoolFilter extends Filter
 {
     use ReusableFilter;
 
     /**
-     * apply filter on given param
+     * apply filter on given value
      *
-     * @param   \stubbles\input\Param  $param
-     * @return  bool
+     * @param   \stubbles\values\Value  $value
+     * @return  array
      */
-    public function apply(Param $param): bool
+    public function apply(Value $value): array
     {
-        if (in_array($param->value(), [1, '1', 'true', true, 'yes'], true)) {
-            return true;
-        }
-
-        return false;
+        return $this->filtered($value->isOneOf([1, '1', 'true', true, 'yes'], true));
     }
 }

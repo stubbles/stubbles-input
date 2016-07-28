@@ -58,7 +58,7 @@ class SecretFilterTest extends FilterTest
     {
         $this->assertSecretEquals(
                 null,
-                $this->secretFilter->apply($this->createParam(null))
+                $this->secretFilter->apply($this->createParam(null))[0]
         );
     }
 
@@ -69,51 +69,7 @@ class SecretFilterTest extends FilterTest
     {
         $this->assertSecretEquals(
                 null,
-                $this->secretFilter->apply($this->createParam(''))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function removesTags()
-    {
-        $this->assertSecretEquals(
-                "kkk",
-                $this->secretFilter->apply($this->createParam("kkk<b>"))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function removesSlashes()
-    {
-        $this->assertSecretEquals(
-                "'kkk",
-                $this->secretFilter->apply($this->createParam("\'kkk"))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function removesCarriageReturn()
-    {
-        $this->assertSecretEquals(
-                "cdekkk",
-                $this->secretFilter->apply($this->createParam("cde\rkkk"))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function removesLineBreaks()
-    {
-        $this->assertSecretEquals(
-                "abcdekkk",
-                $this->secretFilter->apply($this->createParam("ab\ncde\nkkk"))
+                $this->secretFilter->apply($this->createParam(''))[0]
         );
     }
 

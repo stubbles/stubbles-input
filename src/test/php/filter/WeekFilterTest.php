@@ -56,7 +56,7 @@ class WeekFilterTest extends FilterTest
      */
     public function emptyParamsAreReturnedAsNull($value)
     {
-        assertNull($this->weekFilter->apply($this->createParam($value)));
+        assertNull($this->weekFilter->apply($this->createParam($value))[0]);
     }
 
     /**
@@ -65,7 +65,7 @@ class WeekFilterTest extends FilterTest
     public function validParamsAreReturnedAsWeekInstance()
     {
         assert(
-                $this->weekFilter->apply($this->createParam('2008-W09')),
+                $this->weekFilter->apply($this->createParam('2008-W09'))[0],
                 equals(Week::fromString('2008-W09'))
         );
     }
@@ -75,7 +75,7 @@ class WeekFilterTest extends FilterTest
      */
     public function applyReturnsNullForInvalidMonth()
     {
-        assertNull($this->weekFilter->apply($this->createParam('invalid day')));
+        assertNull($this->weekFilter->apply($this->createParam('invalid day'))[0]);
     }
 
     /**
@@ -84,8 +84,8 @@ class WeekFilterTest extends FilterTest
     public function applyAddsErrorForInvalidDay()
     {
         $param = $this->createParam('invalid week');
-        $this->weekFilter->apply($param);
-        assertTrue($param->hasError('WEEK_INVALID'));
+        list($_, $errors) = $this->weekFilter->apply($param);
+        assertTrue(isset($errors['WEEK_INVALID']));
     }
 
     /**

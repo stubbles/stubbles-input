@@ -9,12 +9,7 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input;
-use stubbles\peer\IpAddress;
-use stubbles\peer\http\HttpUri;
 use stubbles\values\Value;
-
-use function stubbles\peer\isMailAddress;
-use function stubbles\values\pattern;
 /**
  * Value object for request values to check them against validators.
  *
@@ -23,18 +18,16 @@ use function stubbles\values\pattern;
 class ValueValidator
 {
     /**
-     * original value
-     *
-     * @type  string
+     * @type  \stubbles\values\Value
      */
     private $value;
 
     /**
      * constructor
      *
-     * @param  string  $value  original value
+     * @param  \stubbles\values\Value  $value  original value
      */
-    public function __construct($value)
+    public function __construct(Value $value)
     {
         $this->value = $value;
     }
@@ -47,7 +40,7 @@ class ValueValidator
      */
     public static function forValue($paramValue): self
     {
-        return new self($paramValue);
+        return new self(Value::of($paramValue));
     }
 
     /**
@@ -59,7 +52,7 @@ class ValueValidator
      */
     public function contains($needle): bool
     {
-        return Value::of($this->value)->contains($needle);
+        return $this->value->contains($needle);
     }
 
     /**
@@ -72,7 +65,7 @@ class ValueValidator
      */
     public function containsAnyOf(array $elements): bool
     {
-        return Value::of($this->value)->containsAnyOf($elements);
+        return $this->value->containsAnyOf($elements);
     }
 
 
@@ -85,7 +78,7 @@ class ValueValidator
      */
     public function isEqualTo($expected): bool
     {
-        return Value::of($this->value)->equals($expected);
+        return $this->value->equals($expected);
     }
 
     /**
@@ -96,7 +89,7 @@ class ValueValidator
      */
     public function isHttpUri(): bool
     {
-        return HttpUri::isValid($this->value);
+        return $this->value->isHttpUri();
     }
 
     /**
@@ -108,7 +101,7 @@ class ValueValidator
      */
     public function isExistingHttpUri(): bool
     {
-        return HttpUri::exists($this->value);
+        return $this->value->isExistingHttpUri();
     }
 
     /**
@@ -119,7 +112,7 @@ class ValueValidator
      */
     public function isIpAddress(): bool
     {
-        return IpAddress::isValid($this->value);
+        return $this->value->isIpAddress();
     }
 
     /**
@@ -131,7 +124,7 @@ class ValueValidator
      */
     public function isIpV4Address(): bool
     {
-        return IpAddress::isValidV4($this->value);
+        return $this->value->isIpV4Address();
     }
 
     /**
@@ -143,7 +136,7 @@ class ValueValidator
      */
     public function isIpV6Address(): bool
     {
-        return IpAddress::isValidV6($this->value);
+        return $this->value->isIpV6Address();
     }
 
     /**
@@ -154,7 +147,7 @@ class ValueValidator
      */
     public function isMailAddress(): bool
     {
-        return isMailAddress($this->value);
+        return $this->value->isMailAddress();
     }
 
     /**
@@ -166,7 +159,7 @@ class ValueValidator
      */
     public function isOneOf(array $allowedValues): bool
     {
-        return Value::of($this->value)->isOneOf($allowedValues);
+        return $this->value->isOneOf($allowedValues);
     }
 
     /**
@@ -179,14 +172,14 @@ class ValueValidator
      */
     public function matches(string $regex): bool
     {
-        return pattern($regex)->matches($this->value);
+        return $this->value->isMatchedBy($regex);
     }
 
     /**
      * evaluates value with given predicate
      *
-     * Given predicate can be any callable which accepts a value and returns a
-     * boolean value.
+     * Given predicate can be any callable which accepts an instance of
+     * stubbles\values\Value and returns a boolean value.
      *
      * @api
      * @param   callable  $predicate  predicate to use
