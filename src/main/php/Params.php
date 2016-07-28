@@ -60,11 +60,7 @@ class Params implements \IteratorAggregate, \Countable
      */
     public function get(string $paramName): Param
     {
-        if (!isset($this->params[$paramName])) {
-            return new Param($paramName, null);
-        }
-
-        return new Param($paramName, $this->params[$paramName]);
+        return new Param($paramName, $this->params[$paramName] ?? null);
     }
 
     /**
@@ -75,11 +71,7 @@ class Params implements \IteratorAggregate, \Countable
      */
     public function value(string $paramName)
     {
-        if (!isset($this->params[$paramName])) {
-            return null;
-        }
-
-        return $this->params[$paramName];
+        return $this->params[$paramName] ?? null;
     }
 
     /**
