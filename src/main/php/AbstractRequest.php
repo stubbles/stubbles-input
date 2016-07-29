@@ -25,11 +25,11 @@ abstract class AbstractRequest implements Request
     /**
      * constructor
      *
-     * @param  \stubbles\input\Params  $params
+     * @param  array  $params
      */
-    public function __construct(Params $params)
+    public function __construct(array $params)
     {
-        $this->params = $params;
+        $this->params = new Params($params);
     }
 
     /**

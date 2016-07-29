@@ -17,21 +17,6 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
 /**
- * Helper class for the test.
- */
-class TestAbstractRequest extends AbstractRequest
-{
-    /**
-     * returns the request method
-     *
-     * @return  string
-     */
-    public function method(): string
-    {
-        return 'test';
-    }
-}
-/**
  * Tests for stubbles\input\AbstractRequest.
  *
  * @group  core
@@ -50,7 +35,14 @@ class AbstractRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->abstractRequest = new TestAbstractRequest(new Params(['foo' => 'bar', 'roland' => 'TB-303']));
+        $this->abstractRequest = new class(
+                ['foo' => 'bar', 'roland' => 'TB-303']
+        ) extends AbstractRequest {
+            public function method(): string
+            {
+                return 'test';
+            }
+        };
     }
 
     /**
