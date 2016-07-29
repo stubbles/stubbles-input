@@ -52,7 +52,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @param  \stubbles\input\errors\ParamErrors  $paramErrors  list of errors to add any filter errors to
      * @param  string                              $paramName    name of parameter to read
-     * @param  \stubbles\values\Value               $value        value to read
+     * @param  \stubbles\values\Value              $value        value to read
      */
     public function __construct(
             ParamErrors $paramErrors,
@@ -605,17 +605,17 @@ class ValueReader implements valuereader\CommonValueReader
      * return the filtered value. It can add errors to the provided param when
      * the param value is not satisfying.
      * <code>
-     * $result = $request->readParam('name')
-     *                   ->withCallable(function(Param $param)
-     *                                  {
-     *                                      if ($param->value() == 303) {
-     *                                          return 'Roland TB-303';
-     *                                      }
+     * $result = $request->readParam('name')->withCallable(
+     *         function(Value $value, array &$errors)
+     *         {
+     *             if ($value->equals(303)) {
+     *                 return 'Roland TB-303';
+     *             }
      *
-     *                                      $param->addError('INVALID_303');
-     *                                      return null;
-     *                                  }
-     *                     );
+     *             $errors['INVALID_303'] = [];
+     *             return null;
+     *         }
+     * );
      * </code>
      *
      * @api
