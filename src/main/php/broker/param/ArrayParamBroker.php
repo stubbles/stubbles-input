@@ -10,7 +10,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\valuereader\CommonValueReader;
-use stubbles\input\filter\ArrayFilter;
 use stubbles\reflect\annotation\Annotation;
 /**
  * Filter arrays based on a @Request[Array] annotation.
@@ -26,7 +25,7 @@ class ArrayParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asArray($annotation->getSeparator(ArrayFilter::SEPARATOR_DEFAULT));
+        return $valueReader->asArray($annotation->getSeparator(CommonValueReader::ARRAY_SEPARATOR));
     }
 
     /**

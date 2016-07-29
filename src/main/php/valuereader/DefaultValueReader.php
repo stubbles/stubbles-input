@@ -15,7 +15,6 @@ use stubbles\date\span\Day;
 use stubbles\date\span\Month;
 use stubbles\date\span\Week;
 use stubbles\input\Filter;
-use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
@@ -76,7 +75,7 @@ class DefaultValueReader implements CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = self::ARRAY_SEPARATOR)
     {
         $this->checkDefaultType(function() { return is_array($this->default);}, 'array');
         return $this->default;

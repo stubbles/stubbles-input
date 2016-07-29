@@ -19,6 +19,7 @@ use stubbles\input\filter\{
     range\NumberRange
 };
 use stubbles\peer\http\HttpUri;
+use stubbles\values\Parse;
 use stubbles\values\Value;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -131,15 +132,25 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * read as array value
      *
+     * When input param is null return value is null, if input param is an empty
+     * string return value is an empty array. For all other values the given param
+     * will be split using the separator (defaults to ',') and each array element
+     * will be trimmed to remove superfluous whitespace.
+     *
      * @api
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      * @since   2.0.0
      */
-    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = self::ARRAY_SEPARATOR)
     {
-        return $this->handleFilter(
-                function() use($separator) { return new ArrayFilter($separator); }
+        if ($this->value->isNull()) {
+            return null;
+        }
+
+        return array_map(
+                'trim',
+                Parse::toList($this->value->value(), $separator)
         );
     }
 
@@ -152,7 +163,11 @@ class ValueReader implements valuereader\CommonValueReader
      */
     public function asBool()
     {
-        return $this->withFilter(filter\BoolFilter::instance());
+        if ($this->value->isNull()) {
+            return null;
+        }
+
+        return $this->value->isOneOf([1, '1', 'true', true, 'yes'], true);
     }
 
     /**

@@ -10,7 +10,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\valuereader;
 use stubbles\input\Filter;
-use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
@@ -66,7 +65,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT)
+    public function asArray(string $separator = self::ARRAY_SEPARATOR)
     {
         $this->reportError();
         return null;

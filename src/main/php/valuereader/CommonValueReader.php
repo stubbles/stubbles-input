@@ -25,12 +25,17 @@ use stubbles\input\filter\range\NumberRange;
 interface CommonValueReader
 {
     /**
+     * default separator to be used to split string
+     */
+    const ARRAY_SEPARATOR = ',';
+
+    /**
      * read as array value
      *
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray(string $separator = ArrayFilter::SEPARATOR_DEFAULT);
+    public function asArray(string $separator = self::ARRAY_SEPARATOR);
 
     /**
      * read as boolean value

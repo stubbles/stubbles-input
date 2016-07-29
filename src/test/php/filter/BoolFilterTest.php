@@ -14,7 +14,7 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 require_once __DIR__ . '/FilterTest.php';
 /**
- * Tests for stubbles\input\filter\BoolFilter.
+ * Tests for stubbles\input\ValueReader::asBool().
  *
  * @since  1.2.0
  * @group  filter
@@ -22,27 +22,11 @@ require_once __DIR__ . '/FilterTest.php';
 class BoolFilterTest extends FilterTest
 {
     /**
-     * instance to test
-     *
-     * @type  BoolFilter
-     */
-    private $boolFilter;
-
-    /**
-     * set up test environment
-     */
-    public function setUp()
-    {
-        $this->boolFilter = BoolFilter::instance();
-        parent::setUp();
-    }
-
-    /**
      * @test
      */
     public function filtering1AsIntReturnsTrue()
     {
-        assertTrue($this->boolFilter->apply($this->createParam(1))[0]);
+        assertTrue($this->readParam(1)->asBool());
     }
 
     /**
@@ -50,7 +34,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering1AsStringReturnsTrue()
     {
-        assertTrue($this->boolFilter->apply($this->createParam('1'))[0]);
+        assertTrue($this->readParam('1')->asBool());
     }
 
     /**
@@ -58,7 +42,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringTrueAsStringReturnsTrue()
     {
-        assertTrue($this->boolFilter->apply($this->createParam('true'))[0]);
+        assertTrue($this->readParam('true')->asBool());
     }
 
     /**
@@ -66,7 +50,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringTrueAsBoolReturnsTrue()
     {
-        assertTrue($this->boolFilter->apply($this->createParam(true))[0]);
+        assertTrue($this->readParam(true)->asBool());
     }
 
     /**
@@ -76,7 +60,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringYesAsStringReturnsTrue()
     {
-        assertTrue($this->boolFilter->apply($this->createParam('yes'))[0]);
+        assertTrue($this->readParam('yes')->asBool());
     }
 
     /**
@@ -84,7 +68,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering0AsIntReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam(0))[0]);
+        assertFalse($this->readParam(0)->asBool());
     }
 
     /**
@@ -92,7 +76,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filtering0AsStringReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam('0'))[0]);
+        assertFalse($this->readParam('0')->asBool());
     }
 
     /**
@@ -100,7 +84,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringFalseAsStringReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam('false'))[0]);
+        assertFalse($this->readParam('false')->asBool());
     }
 
     /**
@@ -108,7 +92,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringFalseAsBoolReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam(false))[0]);
+        assertFalse($this->readParam(false)->asBool());
     }
 
     /**
@@ -118,7 +102,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringNoAsStringReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam('no'))[0]);
+        assertFalse($this->readParam('no')->asBool());
     }
 
     /**
@@ -126,7 +110,7 @@ class BoolFilterTest extends FilterTest
      */
     public function filteringAnyStringReturnsFalse()
     {
-        assertFalse($this->boolFilter->apply($this->createParam('a string'))[0]);
+        assertFalse($this->readParam('a string')->asBool());
     }
 
     /**
