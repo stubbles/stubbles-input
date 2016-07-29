@@ -18,6 +18,7 @@ use stubbles\input\filter\{
     range\StringLength,
     range\NumberRange
 };
+use stubbles\peer\http\HttpUri;
 use stubbles\values\Value;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -286,27 +287,53 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * read as http uri
      *
+     * Return value is null in the following cases:
+     * - Given param value is null or empty string.
+     * - Given param value contains an invalid http uri.
+     * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
+     *
      * @api
      * @return  \stubbles\peer\http\HttpUri
      */
     public function asHttpUri()
     {
-        return $this->handleFilter(
-                function() { return filter\HttpUriFilter::instance(); }
-        );
+        if ($this->value->isEmpty()) {
+            return null;
+        }
+
+        if ($this->value->isHttpUri()) {
+            return HttpUri::fromString($this->value->value());
+        }
+
+        $this->paramErrors->append($this->paramName, 'HTTP_URI_INCORRECT');
+        return null;
     }
 
     /**
      * read as http uri if it does exist
+     *
+     * Return value is null in the following cases:
+     * - Given param value is null or empty string.
+     * - Given param value contains an invalid http uri.
+     * - Given http uri doesn't have a DNS record but DNS record is enforced.
+     * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
      *
      * @api
      * @return  \stubbles\peer\http\HttpUri
      */
     public function asExistingHttpUri()
     {
-        return $this->handleFilter(
-                function() { return filter\ExistingHttpUriFilter::instance(); }
-        );
+        $httpUri = $this->asHttpUri();
+        if (null === $httpUri) {
+            return null;
+        }
+
+        if ($httpUri->hasDnsRecord()) {
+            return $httpUri;
+        }
+
+        $this->paramErrors->append($this->paramName, 'HTTP_URI_NOT_AVAILABLE');
+        return null;
     }
 
     /**
