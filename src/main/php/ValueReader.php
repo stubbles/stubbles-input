@@ -319,16 +319,17 @@ class ValueReader implements valuereader\CommonValueReader
      * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
      *
      * @api
+     * @param   callable  $checkdnsrr  optional  function with which to check DNS record, defaults to checkdnsrr()
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asExistingHttpUri()
+    public function asExistingHttpUri(callable $checkdnsrr = null)
     {
         $httpUri = $this->asHttpUri();
         if (null === $httpUri) {
             return null;
         }
 
-        if ($httpUri->hasDnsRecord()) {
+        if ($httpUri->hasDnsRecord($checkdnsrr)) {
             return $httpUri;
         }
 

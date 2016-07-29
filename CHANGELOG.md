@@ -17,6 +17,7 @@
 ### Other changes
 
   * fixed bug that `stubbles\input\ValueReader::asSecret()` removed some characters
+  * added optional parameter `$checkdnsrr` for `stubbles\input\ValueReader::asExistingHttpUri()` to influence which function is used for dns checks
 
 
 6.0.0 (2016-06-12)
