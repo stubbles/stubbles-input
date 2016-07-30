@@ -99,16 +99,16 @@
         },
         {
             "name": "stubbles/values",
-            "version": "dev-master",
+            "version": "v8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "82b592239ec91b51ab5daff80f34f07a8a6b6dde"
+                "reference": "16dab0c6fa8f278b27120caac6389845ad7d2d28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/82b592239ec91b51ab5daff80f34f07a8a6b6dde",
-                "reference": "82b592239ec91b51ab5daff80f34f07a8a6b6dde",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/16dab0c6fa8f278b27120caac6389845ad7d2d28",
+                "reference": "16dab0c6fa8f278b27120caac6389845ad7d2d28",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
             ],
             "description": "Useful classes to ease the work with values.",
             "homepage": "http://stubbles.net/",
-            "time": "2016-07-28 21:08:21"
+            "time": "2016-07-30 19:18:15"
         }
     ],
     "packages-dev": [
@@ -1580,16 +1580,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.1.2",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "2884c26ce4c1d61aebf423a8b912950fe7c764de"
+                "reference": "1819adf2066880c7967df7180f4f662b6f0567ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/2884c26ce4c1d61aebf423a8b912950fe7c764de",
-                "reference": "2884c26ce4c1d61aebf423a8b912950fe7c764de",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/1819adf2066880c7967df7180f4f662b6f0567ac",
+                "reference": "1819adf2066880c7967df7180f4f662b6f0567ac",
                 "shasum": ""
             },
             "require": {
@@ -1625,7 +1625,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:41:56"
+            "time": "2016-07-17 14:02:08"
         },
         {
             "name": "webmozart/assert",
