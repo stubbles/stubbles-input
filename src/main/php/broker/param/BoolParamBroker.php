@@ -21,9 +21,9 @@ class BoolParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  bool
+     * @return  bool|null
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation): bool
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
         return $valueReader->asBool();
     }
