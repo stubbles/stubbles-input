@@ -59,7 +59,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function paramDescription(): string
+    public function paramDescription()
     {
         if ($this->annotation->hasParamDescription()) {
             return $this->annotation->paramDescription();
@@ -74,7 +74,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function valueDescription(): string
+    public function valueDescription()
     {
         if ($this->annotation->hasValueByName('valueDescription')) {
             return $this->annotation->getValueByName('valueDescription');
