@@ -6,7 +6,7 @@ is valid. In case the parameter does not exist or is not valid the validation
 will evaluate to `false`, otherwise to `true`.
 
 
-#### `contains($contained)`
+#### `contains($contained): bool`
 
 Returns `true` if the request parameter contains the value given with `$contained`.
 
@@ -17,7 +17,7 @@ if ($request->validateParam($paramName)->contains('foo')) {
 ```
 
 
-#### `containsAnyOf(array $elements)`
+#### `containsAnyOf(array $elements): bool`
 
 Returns `true` if the request parameter contains any of the values given with `$elements`.
 
@@ -28,7 +28,7 @@ if ($request->validateParam($paramName)->containsAnyOf(['foo', 'bar', 'baz'])) {
 ```
 
 
-#### `isEqualTo($expected)`
+#### `isEqualTo($expected): bool`
 
 Returns `true` if the request parameter is equal to the value given with `$expected`.
 
@@ -39,7 +39,7 @@ if ($request->validateParam($paramName)->isEqualTo('foo')) {
 ```
 
 
-#### `isHttpUri()`
+#### `isHttpUri(): bool`
 
 Returns `true` if the request parameter represents an HTTP URI.
 
@@ -52,7 +52,7 @@ if ($request->validateParam($paramName)->isHttpUri()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isExistingHttpUri()`
+#### `isExistingHttpUri(): bool`
 
 Returns `true` if the request parameter represents an HTTP URI and this URI does exist.
 
@@ -65,7 +65,7 @@ if ($request->validateParam($paramName)->isExistingHttpUri()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isIpAddress()`
+#### `isIpAddress(): bool`
 
 Returns `true` if the request parameter represents a valid IP address, either IPv4 or IPv6.
 
@@ -78,7 +78,7 @@ if ($request->validateParam($paramName)->isIpAddress()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isIpV4Address()`
+#### `isIpV4Address(): bool`
 
 Returns `true` if the request parameter represents a valid IPv4 address.
 
@@ -91,7 +91,7 @@ if ($request->validateParam($paramName)->isIpV4Address()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isIpV6Address()`
+#### `isIpV6Address(): bool`
 
 Returns `true` if the request parameter represents a valid IPv6 address.
 
@@ -104,7 +104,7 @@ if ($request->validateParam($paramName)->isIpV6Address()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isMailAddress()`
+#### `isMailAddress(): bool`
 
 Returns `true` if the request parameter represents a valid mail address.
 
@@ -117,7 +117,7 @@ if ($request->validateParam($paramName)->isMailAddress()) {
 Note: requires _[stubbles/peer](https://github.com/stubbles/stubbles-peer)_.
 
 
-#### `isOneOf(array $allowedValues)`
+#### `isOneOf(array $allowedValues): bool`
 
 Returns `true` if the request parameter is equal to one of the values given with `$allowedValues`.
 
@@ -128,7 +128,7 @@ if ($request->validateParam($paramName)->isOneOf(['foo', 'bar', 'baz'])) {
 ```
 
 
-#### `matches($regex)`
+#### `matches(string $regex): bool`
 
 Returns `true` if the request parameter matches the regular expression given with `$regex`.
 
@@ -139,7 +139,7 @@ if ($request->validateParam($paramName)->matches('/^[0-9]+$/')) {
 ```
 
 
-#### `with(callable $predicate)`
+#### `with(callable $predicate): bool`
 
 _Available since release 3.0.0_
 

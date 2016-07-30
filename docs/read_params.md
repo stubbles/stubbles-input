@@ -45,7 +45,7 @@ parameter error list with _FIELD_EMPTY_, and the subsequent value of `$int` will
 be `null`.
 
 
-### `asArray($separator = ',')`
+### `asArray(string $separator = ',')`
 
 Returns the request parameter as `array` value. In case the the parameter is not
 set the method returns `null`. In case the parameter is an empty string the
@@ -401,7 +401,7 @@ $value = $request->readParam($paramName)->ifIsOneOf(['foo', 'bar', 'baz']);
  * _FIELD_NO_SELECT_ in case the parameter is not one of the allowed values
 
 
-### `ifMatches($regex)`
+### `ifMatches(string $regex)`
 
 Returns the parameter value if it satisfies the regular expression given with
 `$regex`. Returns `null` otherwise.
