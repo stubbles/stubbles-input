@@ -9,12 +9,14 @@ declare(strict_types=1);
  * @package  stubbles\input
  */
 namespace stubbles\input;
+use bovigo\callmap\NewCallable;
 use stubbles\values\Value;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\isInstanceOf;
+use function bovigo\callmap\verify;
 /**
  * Tests for stubbles\input\ValueValidator.
  *
@@ -121,9 +123,10 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
+        $checkdnsrr = NewCallable::stub('checkdnsrr')->mapCall(false);
         assertFalse(
                 $this->validate('http://doesnotexist')
-                     ->isExistingHttpUri()
+                     ->isExistingHttpUri($checkdnsrr)
         );
     }
 
