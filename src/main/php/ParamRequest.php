@@ -11,9 +11,9 @@ declare(strict_types=1);
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
 /**
- * Abstract base class for requests.
+ * Base class for requests with parameters.
  */
-abstract class AbstractRequest implements Request
+abstract class ParamRequest implements Request
 {
     /**
      * list of params
