@@ -23,13 +23,13 @@ _stubbles/input_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/input": "^6.0"
+    composer require "stubbles/input": "^7.0"
 
 
 Requirements
 ------------
 
-_stubbles/input_ requires at least PHP 5.6.
+_stubbles/input_ requires at least PHP 7.0.
 
 
 Request parameters
@@ -37,27 +37,27 @@ Request parameters
 
 The Request API provides access to request parameters in different ways:
 
-### `getParamNames()`
+### `getParamNames(): array`
 
 Returns a list of all parameter names.
 
-### `paramErrors()`
+### `paramErrors(): ParamErrors`
 
-Returns a list of all parameter errors that occurred during filtering single
+Returns a list of all parameter errors that occurred during reading single
 request parameters.
 
-### `hasParam($paramName)`
+### `hasParam(string $paramName): bool`
 
 Checks if a parameter with the given name is present in the current request.
 
-### `validateParam($paramName)`
+### `validateParam(string $paramName): ValueValidator`
 
 Returns a value validator with methods that can be used to check if the parameter
 with the given name is valid.
 
 See [validate parameters details](docs/validate_params.md).
 
-### `readParam($paramName)`
+### `readParam(string $paramName): ValueReader`
 
 Returns a value reader that can be used to read the parameter with the given
 name. In case the parameter does not exist the reader will return `null`.
