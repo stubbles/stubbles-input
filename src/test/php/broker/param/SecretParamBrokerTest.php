@@ -28,6 +28,11 @@ use function bovigo\assert\predicate\equals;
  */
 class SecretParamBrokerTest extends TestCase
 {
+    /**
+     * @type  SecretParamBroker
+     */
+    private $paramBroker;
+
     protected function setUp(): void
     {
         $this->paramBroker = new SecretParamBroker();
