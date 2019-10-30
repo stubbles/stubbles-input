@@ -13,7 +13,6 @@ use stubbles\date\span\Week;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
-require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\WeekParamBroker.
  *

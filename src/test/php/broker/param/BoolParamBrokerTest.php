@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use function bovigo\assert\assertTrue;
-require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
 /**
  * Tests for stubbles\input\broker\param\BoolParamBroker.
  *

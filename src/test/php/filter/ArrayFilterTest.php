@@ -15,7 +15,6 @@ use function bovigo\assert\{
     assertTrue,
     predicate\equals
 };
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\ValueReader::asArray().
  *

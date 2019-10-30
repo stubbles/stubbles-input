@@ -10,7 +10,6 @@ namespace stubbles\input\filter;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\ValueReader::asBool().
  *

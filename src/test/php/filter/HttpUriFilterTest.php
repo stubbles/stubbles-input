@@ -13,13 +13,12 @@ use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\HttpUriFilter.
  *
  * @group  filter
  */
-class HttpUrlFilterTest extends FilterTest
+class HttpUriFilterTest extends FilterTest
 {
     /**
      * @test

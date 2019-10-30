@@ -16,8 +16,6 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
-
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\PasswordFilter.
  *

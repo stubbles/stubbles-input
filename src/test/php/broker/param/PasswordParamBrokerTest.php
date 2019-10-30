@@ -15,12 +15,10 @@ use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
 use stubbles\values\Secret;
 
-
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
-require_once __DIR__ . '/WebRequest.php';
 /**
  * Tests for stubbles\input\broker\param\PasswordParamBroker.
  *

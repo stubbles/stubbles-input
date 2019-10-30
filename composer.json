@@ -26,6 +26,11 @@
             "stubbles\\input\\": "src/main/php"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "stubbles\\input\\": "src/test/php"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "7.0.x-dev"

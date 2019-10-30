@@ -17,7 +17,6 @@ use stubbles\reflect\annotation\Annotation;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
-require_once __DIR__ . '/WebRequest.php';
 /**
  * Base tests for stubbles\input\broker\param\MultipleSourceParamBroker.
  */

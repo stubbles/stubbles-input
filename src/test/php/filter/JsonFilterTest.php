@@ -13,7 +13,6 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\hasKey;
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\JsonFilter.
  *

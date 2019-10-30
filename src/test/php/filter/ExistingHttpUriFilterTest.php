@@ -18,14 +18,13 @@ use function bovigo\assert\{
     predicate\equals,
     predicate\isSameAs
 };
-require_once __DIR__ . '/FilterTest.php';
 /**
  * Tests for stubbles\input\filter\ExistingHttpUriFilter.
  *
  * @group  filter
  * @since  3.0.0
  */
-class ExistingHttpUrlFilterTest extends FilterTest
+class ExistingHttpUriFilterTest extends FilterTest
 {
     private $checkdnsrr;
 
