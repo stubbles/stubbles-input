@@ -23,7 +23,7 @@ class MailFilterTest extends FilterTest
     /**
      * instance to test
      *
-     * @var  MailFilter
+     * @type  Filter
      */
     private $mailFilter;
 
