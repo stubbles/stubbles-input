@@ -23,7 +23,7 @@ abstract class Filter
      * apply filter on given value
      *
      * @param   \stubbles\values\Value  $value
-     * @return  mixed  filtered value
+     * @return  array  filtered value
      */
     abstract public function apply(Value $value): array;
 

@@ -71,7 +71,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * handles a single param
      *
-     * @param   \stubbles\values\Value                   $param
+     * @param   \stubbles\input\Param                    $param
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  mixed
      */

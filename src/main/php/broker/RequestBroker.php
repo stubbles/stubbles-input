@@ -129,7 +129,7 @@ class RequestBroker
      *
      * @param   object|string|\ReflectionClass  $object
      * @param   string                          $group   optional  restrict list to given group
-     * @return  \stubbles\input\broker\TargetMethod[]
+     * @return  \stubbles\sequence\Sequence
      */
     public static function targetMethodsOf($object, string $group = null): Sequence
     {

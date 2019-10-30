@@ -145,7 +145,7 @@ class DatespanFilterTest extends FilterTest
         assertThat(
                 $this->readParam('2012-03-11')
                         ->asDatespan()
-                        ->format('Y-m-d'),
+                        ->asString(),
                 equals('2012-03-11')
         );
 

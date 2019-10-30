@@ -141,7 +141,7 @@ class ValueValidator
      * checks whether value is a mail address
      *
      * @api
-     * @return  string
+     * @return  bool
      */
     public function isMailAddress(): bool
     {

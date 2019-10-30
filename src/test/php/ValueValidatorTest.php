@@ -122,11 +122,7 @@ class ValueValidatorTest extends TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
-        $checkdnsrr = NewCallable::stub('checkdnsrr')->returns(false);
-        assertFalse(
-                $this->validate('http://doesnotexist')
-                     ->isExistingHttpUri($checkdnsrr)
-        );
+        assertFalse($this->validate('http://doesnotexist')->isExistingHttpUri());
     }
 
     /**

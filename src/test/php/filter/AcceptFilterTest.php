@@ -25,7 +25,7 @@ class AcceptFilterTest extends TestCase
     /**
      * apply filter on given value
      *
-     * @param   string  $value
+     * @param   string  $acceptHeader
      * @return  \stubbles\peer\http\AcceptHeader
      */
     private function apply($acceptHeader): AcceptHeader

@@ -1,0 +1,11 @@
+parameters:
+  level: 2
+  paths:
+    - ./src
+  ignoreErrors:
+    # False positive
+    - '#PHPDoc tag @return with type bovigo\\callmap\\Proxy is not subtype of native type#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::is#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::dnsCheck#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::paramGroup#'

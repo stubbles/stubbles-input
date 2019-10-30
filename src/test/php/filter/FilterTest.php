@@ -34,7 +34,7 @@ abstract class FilterTest extends TestCase
      * creates param
      *
      * @param   mixed $value
-     * @return  Param
+     * @return  Value
      */
     protected function createParam($value): Value
     {
