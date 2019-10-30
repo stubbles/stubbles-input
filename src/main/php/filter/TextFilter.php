@@ -44,7 +44,7 @@ class TextFilter extends StringFilter
     /**
      * returns list of non allowed characters
      *
-     * @return  char[]
+     * @return  string[]
      */
     protected function nonAllowedCharacters(): array
     {
