@@ -5,6 +5,7 @@ parameters:
   ignoreErrors:
     # False positive
     - '#PHPDoc tag @return with type bovigo\\callmap\\Proxy is not subtype of native type#'
+    - '#but returns bovigo\\callmap\\ClassProxy#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::is#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::dnsCheck#'
