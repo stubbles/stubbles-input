@@ -77,7 +77,7 @@ class DatespanRange extends AbstractRange
         }
 
         if (!($value instanceof Datespan)) {
-            throw new LogicException('Given value must be of instance ' . Datespan::class);
+            throw new \LogicException('Given value must be of instance ' . Datespan::class);
         }
 
         return $value->endsAfter($this->maxDate->change()->timeTo('23:59:59'));
