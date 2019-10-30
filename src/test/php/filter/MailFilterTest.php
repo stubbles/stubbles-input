@@ -5,12 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
@@ -30,11 +28,7 @@ class MailFilterTest extends FilterTest
      */
     private $mailFilter;
 
-    /**
-     * create test environment
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->mailFilter = MailFilter::instance();
         parent::setUp();
@@ -61,7 +55,7 @@ class MailFilterTest extends FilterTest
      */
     public function returnsFilteredValue()
     {
-        assert(
+        assertThat(
                 $this->mailFilter->apply($this->createParam('example@example.org'))[0],
                 equals('example@example.org')
         );
@@ -221,7 +215,7 @@ class MailFilterTest extends FilterTest
      */
     public function asMailAddressReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assert(
+        assertThat(
                 $this->readParam(null)
                         ->defaultingTo('baz@example.org')
                         ->asMailAddress(),
@@ -275,7 +269,7 @@ class MailFilterTest extends FilterTest
      */
     public function asMailAddressReturnsValidValue()
     {
-        assert(
+        assertThat(
                 $this->readParam('foo@example.org')->asMailAddress(),
                 equals('foo@example.org')
         );

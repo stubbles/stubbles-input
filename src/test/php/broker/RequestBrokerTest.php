@@ -10,11 +10,12 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\input\broker\param\ParamBroker;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
@@ -30,7 +31,7 @@ require_once __DIR__ . '/BrokerClass.php';
  * @group  broker
  * @group  broker_core
  */
-class RequestBrokerTest extends \PHPUnit_Framework_TestCase
+class RequestBrokerTest extends TestCase
 {
     /**
      * instance to test
@@ -45,10 +46,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private $request;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->requestBroker = new RequestBroker();
         $this->request       = NewInstance::of(Request::class);
@@ -79,12 +77,12 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function procuresOnlyThoseInGivenGroup()
     {
-        $this->request->mapCalls(
+        $this->request->returns(
                 ['readParam' => ValueReader::forValue('just some string value')]
         );
         $object = $this->requestBroker->procure($this->request, new BrokerClass(), 'main');
         assertFalse($object->isVerbose());
-        assert($object->getBar(), equals('just some string value'));
+        assertThat($object->getBar(), equals('just some string value'));
         assertNull($object->getBaz());
     }
 
@@ -95,8 +93,8 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
     {
 
         $paramBroker = NewInstance::of(ParamBroker::class)
-                ->mapCalls(['procure' => 'just another string value']);
-        $this->request->mapCalls(
+                ->returns(['procure' => 'just another string value']);
+        $this->request->returns(
                 ['readParam' => onConsecutiveCalls(
                         ValueReader::forValue('on'),
                         ValueReader::forValue('just some string value'),
@@ -107,7 +105,7 @@ class RequestBrokerTest extends \PHPUnit_Framework_TestCase
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
         $object = $requestBroker->procure($this->request, new BrokerClass());
         assertTrue($object->isVerbose());
-        assert($object->getBar(), equals('just some string value'));
-        assert($object->getBaz(), equals('just another string value'));
+        assertThat($object->getBar(), equals('just some string value'));
+        assertThat($object->getBaz(), equals('just another string value'));
     }
 }

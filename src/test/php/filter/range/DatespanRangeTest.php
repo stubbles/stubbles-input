@@ -5,16 +5,15 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use PHPUnit\Framework\TestCase;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\date\span\Month;
 use stubbles\date\span\Year;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -27,7 +26,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @group  filter_range
  */
-class DatespanRangeTest extends \PHPUnit_Framework_TestCase
+class DatespanRangeTest extends TestCase
 {
     /**
      * instance to test
@@ -36,10 +35,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
      */
     private $datespanRange;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->datespanRange = new DatespanRange('2012-03-17', '2012-03-19');
     }
@@ -139,7 +135,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assert(
+        assertThat(
                 $this->datespanRange->errorsOf(new Day('2012-03-16')),
                 equals(['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]])
         );
@@ -150,7 +146,7 @@ class DatespanRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assert(
+        assertThat(
                 $this->datespanRange->errorsOf(new Day('2012-03-20')),
                 equals(['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]])
         );

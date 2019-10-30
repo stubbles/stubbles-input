@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
+use PHPUnit\Framework\TestCase;
 use stubbles\values\Secret;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -24,7 +23,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @group  filter_range
  */
-class StringLengthTest extends \PHPUnit_Framework_TestCase
+class StringLengthTest extends TestCase
 {
     /**
      * instance to test
@@ -33,10 +32,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     private $stringLength;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->stringLength = new StringLength(1, 10);
     }
@@ -150,7 +146,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assert(
+        assertThat(
                 $this->stringLength->errorsOf(''),
                 equals(['STRING_TOO_SHORT' => ['minLength' => 1]])
         );
@@ -161,7 +157,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assert(
+        assertThat(
                 $this->stringLength->errorsOf('abcdefghijk'),
                 equals(['STRING_TOO_LONG' => ['maxLength' => 10]])
         );
@@ -229,7 +225,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSubstringWithMaxLength()
     {
-        assert(
+        assertThat(
                 StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),
                 equals('foo')
         );
@@ -241,7 +237,7 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function truncateToMaxBorderReturnsSecureSubstringWithMaxLength()
     {
-        assert(
+        assertThat(
                 StringLength::truncate(null, 3)
                             ->truncateToMaxBorder(Secret::create('foobar'))
                             ->unveil(),

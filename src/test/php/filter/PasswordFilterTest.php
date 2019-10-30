@@ -5,14 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
 use stubbles\values\Secret;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
@@ -40,10 +38,7 @@ class PasswordFilterTest extends FilterTest
      */
     private $passwordChecker;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->passwordChecker = NewInstance::of(PasswordChecker::class);
         $this->passwordFilter  = new PasswordFilter($this->passwordChecker);
@@ -56,7 +51,7 @@ class PasswordFilterTest extends FilterTest
      */
     private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword)
     {
-        assert($actualPassword->unveil(), equals($expectedPassword));
+        assertThat($actualPassword->unveil(), equals($expectedPassword));
     }
 
     /**
@@ -64,7 +59,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsValueWhenCheckerDoesNotObject()
     {
-        $this->passwordChecker->mapCalls(['check' => []]);
+        $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(
                 '425%$%"�$%t 32',
                 $this->passwordFilter->apply($this->createParam('425%$%"�$%t 32'))[0]
@@ -95,7 +90,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsPasswordIfBothArrayValuesAreEqual()
     {
-        $this->passwordChecker->mapCalls(['check' => []]);
+        $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(
                 'foo',
                 $this->passwordFilter->apply($this->createParam(['foo', 'foo']))[0]
@@ -129,7 +124,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function returnsNullIfCheckerReportsErrors()
     {
-        $this->passwordChecker->mapCalls(
+        $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
         assertNull($this->passwordFilter->apply($this->createParam('bar'))[0]);
@@ -140,7 +135,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function addsErrorToParamWhenValueIsNotAllowed()
     {
-        $this->passwordChecker->mapCalls(
+        $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
         $param = $this->createParam('bar');
@@ -189,7 +184,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsNullIfParamIsInvalid()
     {
-        $this->passwordChecker->mapCalls(
+        $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
         assertNull($this->readParam('foo')->asPassword($this->passwordChecker));
@@ -201,7 +196,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordAddsParamErrorIfParamIsInvalid()
     {
-        $this->passwordChecker->mapCalls(
+        $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
         );
         $this->readParam('foo')->asPassword($this->passwordChecker);
@@ -213,7 +208,7 @@ class PasswordFilterTest extends FilterTest
      */
     public function asPasswordReturnsValidValue()
     {
-        $this->passwordChecker->mapCalls(['check' => []]);
+        $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(
                 'abcde',
                 $this->readParam('abcde')->asPassword($this->passwordChecker)

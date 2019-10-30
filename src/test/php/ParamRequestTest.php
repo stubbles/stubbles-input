@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\ParamErrors;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertFalse,
     assertTrue,
     predicate\equals,
@@ -23,7 +22,7 @@ use function bovigo\assert\{
  *
  * @group  core
  */
-class ParamRequestTest extends \PHPUnit_Framework_TestCase
+class ParamRequestTest extends TestCase
 {
     /**
      * instance to test
@@ -32,10 +31,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     private $paramRequest;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramRequest = new class(
                 ['foo' => 'bar', 'roland' => 'TB-303']
@@ -52,7 +48,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->paramNames(),
                 equals(['foo', 'roland'])
         );
@@ -63,7 +59,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsParamErrors()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->paramErrors(),
                 isInstanceOf(ParamErrors::class)
         );
@@ -90,7 +86,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidator()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->validateParam('foo'),
                 isInstanceOf(ValueValidator::class)
         );
@@ -101,7 +97,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function validateParamReturnsValueValidatorForNonExistingParam()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->validateParam('baz'),
                 isInstanceOf(ValueValidator::class)
         );
@@ -112,7 +108,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReader()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->readParam('foo'),
                 isInstanceOf(ValueReader::class)
         );
@@ -123,7 +119,7 @@ class ParamRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function readParamReturnsValueReaderForNonExistingParam()
     {
-        assert(
+        assertThat(
                 $this->paramRequest->readParam('baz'),
                 isInstanceOf(ValueReader::class)
         );

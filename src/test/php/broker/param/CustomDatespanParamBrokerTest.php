@@ -5,17 +5,16 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\date\span\CustomDatespan;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
@@ -25,7 +24,7 @@ use function bovigo\callmap\onConsecutiveCalls;
  * @group  broker
  * @group  broker_param
  */
-class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
+class CustomDatespanParamBrokerTest extends TestCase
 {
     /**
      * instance to test
@@ -34,10 +33,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private $customDatespanParamBroker;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->customDatespanParamBroker = new CustomDatespanParamBroker();
     }
@@ -64,7 +60,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
     private function createRequest($startValue, $endValue): Request
     {
         return NewInstance::of(Request::class)
-                ->mapCalls(['readParam' => onConsecutiveCalls(
+                ->returns(['readParam' => onConsecutiveCalls(
                         ValueReader::forValue($startValue),
                         ValueReader::forValue($endValue)
                 )]
@@ -76,7 +72,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDatespan()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('2012-02-05', '2012-04-21'),
                         $this->createRequestAnnotation([])
@@ -155,7 +151,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultStartDateIfStartDateIsMissingAndDefaultGiven()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest(null, '2012-04-21'),
                         $this->createRequestAnnotation(['defaultStart' => 'today'])
@@ -169,7 +165,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultEndDateIfEndDateIsMissingAndDefaultGiven()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('2012-02-05', null),
                         $this->createRequestAnnotation(['defaultEnd' => 'today'])
@@ -183,7 +179,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsDefaultIfBothDatesAreMissingAndDefaultGiven()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest(null, null),
                         $this->createRequestAnnotation(
@@ -227,7 +223,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfStartInRange()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('today', 'tomorrow'),
                         $this->createRequestAnnotation(
@@ -271,7 +267,7 @@ class CustomDatespanParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfEndInRange()
     {
-        assert(
+        assertThat(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('yesterday', 'today'),
                         $this->createRequestAnnotation(

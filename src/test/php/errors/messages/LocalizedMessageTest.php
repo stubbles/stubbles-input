@@ -5,11 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\annotationsOf;
@@ -20,7 +20,7 @@ use function stubbles\reflect\annotationsOf;
  * @group  errors
  * @group  errors_message
  */
-class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
+class LocalizedMessageTest extends TestCase
 {
     /**
      * instance to test
@@ -29,10 +29,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     private $localizedMessage;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->localizedMessage = new LocalizedMessage(
                 'en_EN',
@@ -75,7 +72,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function localeAttributeEqualsGivenLocale()
     {
-        assert($this->localizedMessage->locale(), equals('en_EN'));
+        assertThat($this->localizedMessage->locale(), equals('en_EN'));
     }
 
     /**
@@ -83,7 +80,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function contentOfStringEqualsGivenString()
     {
-        assert(
+        assertThat(
                 $this->localizedMessage->message(),
                 equals('This is a localized string.')
         );
@@ -95,7 +92,7 @@ class LocalizedMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function conversionToStringYieldsMessage()
     {
-        assert(
+        assertThat(
                 (string) $this->localizedMessage,
                 equals('This is a localized string.')
         );

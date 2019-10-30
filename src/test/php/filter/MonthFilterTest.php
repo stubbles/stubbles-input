@@ -5,15 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use stubbles\date\Date;
 use stubbles\date\span\Month;
 use stubbles\input\filter\range\DatespanRange;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -33,10 +31,7 @@ class MonthFilterTest extends FilterTest
      */
     private $monthFilter;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->monthFilter = MonthFilter::instance();
         parent::setUp();
@@ -64,7 +59,7 @@ class MonthFilterTest extends FilterTest
      */
     public function validParamsAreReturnedAsMonthInstance()
     {
-        assert(
+        assertThat(
                 $this->monthFilter->apply($this->createParam('2008-09-27'))[0],
                 equals(new Month(2008, 9))
         );
@@ -102,7 +97,7 @@ class MonthFilterTest extends FilterTest
     public function asMonthReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = new Month();
-        assert(
+        assertThat(
                 $this->readParam(null)
                         ->defaultingTo($default)
                         ->asMonth(),
@@ -149,7 +144,7 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsValidValue()
     {
-        assert(
+        assertThat(
                 $this->readParam('2012-03-11')->asMonth()->asString(),
                 equals('2012-03')
         );

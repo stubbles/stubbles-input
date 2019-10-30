@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\ParamError;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -22,7 +21,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  core
  */
-class ParamTest extends \PHPUnit_Framework_TestCase
+class ParamTest extends TestCase
 {
     /**
      * @test
@@ -30,7 +29,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenName()
     {
         $param = new Param('foo', 'bar');
-        assert($param->name(), equals('foo'));
+        assertThat($param->name(), equals('foo'));
     }
 
     /**
@@ -39,7 +38,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsGivenValue()
     {
         $param = new Param('foo', 'bar');
-        assert($param->value(), equals('bar'));
+        assertThat($param->value(), equals('bar'));
     }
 
     /**
@@ -75,7 +74,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     public function returnsValueLength()
     {
         $param = new Param('foo', 'bar');
-        assert($param->length(), equals(3));
+        assertThat($param->length(), equals(3));
     }
 
     /**
@@ -113,7 +112,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        assert($param->errors(), equals(['SOME_ERROR' => $error]));
+        assertThat($param->errors(), equals(['SOME_ERROR' => $error]));
     }
 
     /**
@@ -137,7 +136,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
-        assert($param->errors(), equals(['SOME_ERROR' => $error]));
+        assertThat($param->errors(), equals(['SOME_ERROR' => $error]));
     }
 
     /**

@@ -5,8 +5,6 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
@@ -14,7 +12,7 @@ use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
@@ -36,10 +34,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
         return ['foo', 'bar'];
     }
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramBroker = new OneOfParamBroker();
     }
@@ -69,7 +64,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(
@@ -85,7 +80,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSetWithAllowedSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation([
@@ -147,7 +142,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canWorkWithParam()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procureParam(
                         new Param('name', ((string) $this->expectedValue())),
                         $this->createRequestAnnotation(['allowed' => 'foo|bar'])
@@ -162,7 +157,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canWorkWithParamWithAllowedSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procureParam(
                         new Param('name', ((string) $this->expectedValue())),
                         $this->createRequestAnnotation([
@@ -178,7 +173,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsDefaultSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation(['allowed' => 'foo|bar'])
@@ -192,7 +187,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsDefaultSourceWithAllowedSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation([
@@ -208,7 +203,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation(
@@ -224,7 +219,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsSourceWithAllowedSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation([
@@ -241,10 +236,10 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(
@@ -260,10 +255,10 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequestWithAllowedSource()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation([
@@ -280,10 +275,10 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(
@@ -299,10 +294,10 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequestWithAllowedSource()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation([

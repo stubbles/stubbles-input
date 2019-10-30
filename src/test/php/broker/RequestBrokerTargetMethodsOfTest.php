@@ -5,11 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+
+use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\reflect;
@@ -20,7 +20,7 @@ require_once __DIR__ . '/BrokerClass.php';
  * @group  broker
  * @group  broker_core
  */
-class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
+class RequestBrokerTargetMethodsOfTest extends TestCase
 {
     public function allowedValues(): array
     {
@@ -42,7 +42,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        assert($paramNames, equals(['verbose', 'bar', 'baz']));
+        assertThat($paramNames, equals(['verbose', 'bar', 'baz']));
     }
 
     /**
@@ -56,7 +56,7 @@ class RequestBrokerTargetMethodsOfTest extends \PHPUnit_Framework_TestCase
             $paramNames[] = $targetMethod->paramName();
         }
 
-        assert($paramNames, equals(['bar']));
+        assertThat($paramNames, equals(['bar']));
     }
 
     /**

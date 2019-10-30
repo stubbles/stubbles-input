@@ -5,24 +5,23 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/WebRequest.php';
 /**
  * Base tests for stubbles\input\broker\param\MultipleSourceParamBroker.
  */
-abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
+abstract class MultipleSourceParamBrokerTest extends TestCase
 {
     /**
      * instance to test
@@ -70,7 +69,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequest($value): Request
     {
-        return NewInstance::of(Request::class)->mapCalls([
+        return NewInstance::of(Request::class)->returns([
                     'readParam' => ValueReader::forValue($value)
         ]);
     }
@@ -94,7 +93,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canWorkWithParam()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procureParam(
                         new Param('name', ((string) $this->expectedValue())),
                         $this->createRequestAnnotation()
@@ -108,7 +107,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsDefaultSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation()
@@ -122,7 +121,7 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function usesParamAsSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(((string) $this->expectedValue())),
                         $this->createRequestAnnotation(['source' => 'param'])
@@ -136,10 +135,10 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'header'])
@@ -153,10 +152,10 @@ abstract class MultipleSourceParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'cookie'])

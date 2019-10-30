@@ -5,16 +5,15 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\errors\messages;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\ParamError;
 use stubbles\values\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -27,7 +26,7 @@ use function stubbles\reflect\annotationsOfConstructorParameter;
  * @group  errors
  * @group  errors_message
  */
-class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
+class PropertyBasedParamErrorMessagesTest extends TestCase
 {
     /**
      * instance to test
@@ -36,10 +35,7 @@ class PropertyBasedParamErrorMessagesTest extends \PHPUnit_Framework_TestCase
      */
     private $errorMessages;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->errorMessages = new PropertyBasedParamErrorMessages(
                 $this->createResourceLoader()
@@ -66,7 +62,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
                  ->at($root->getChild('package2/input/error'));
         return NewInstance::of(ResourceLoader::class)
-                ->mapCalls(['availableResourceUris' => [
+                ->returns(['availableResourceUris' => [
                         vfsStream::url('root/package1/input/error/message.ini'),
                         vfsStream::url('root/package2/input/error/message.ini')
                 ]]
@@ -112,7 +108,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalesForExistingError()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->localesFor(
                         new ParamError('id', ['foo' => 'bar'])
                 ),
@@ -137,7 +133,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsListOfLocalizedMessagesForExistingError()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->messagesFor(new ParamError('id', ['foo' => 'bar'])),
                 equals([
                         new LocalizedMessage('default', 'An error of type bar occurred.'),
@@ -164,7 +160,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingLocale()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
                         'de_DE'
@@ -179,7 +175,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInExistingBaseLocale()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
                         'en_UK'
@@ -194,7 +190,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInDefaultLocale()
     {
         $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
-        assert(
+        assertThat(
                 $errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
                         'fr_FR'
@@ -209,7 +205,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
     {
         $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
-        assert(
+        assertThat(
                 $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
                 equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
         );
@@ -221,7 +217,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsMessageInFallbackLocale()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->messageFor(
                         new ParamError('id', ['foo' => 'bar']),
                         'fr_FR'
@@ -236,7 +232,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     public function returnsEmptyMessageForNonExistingError()
     {
 
-        assert(
+        assertThat(
                 $this->errorMessages->messageFor(
                         new ParamError('doesNotExist'),
                         'en_*'
@@ -255,7 +251,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
                 $this->errorMessages
         );
         assertTrue($annotations->contain('Property'));
-        assert(
+        assertThat(
                 $annotations->firstNamed('Property')->getValue(),
                 equals('stubbles.locale')
         );

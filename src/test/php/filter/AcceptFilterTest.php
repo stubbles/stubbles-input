@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use PHPUnit\Framework\TestCase;
 use stubbles\peer\http\AcceptHeader;
 use stubbles\values\Value;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmpty;
 use function bovigo\assert\predicate\isOfSize;
 /**
@@ -21,7 +20,7 @@ use function bovigo\assert\predicate\isOfSize;
  * @since  2.0.1
  * @group  filter
  */
-class AcceptFilterTest extends \PHPUnit_Framework_TestCase
+class AcceptFilterTest extends TestCase
 {
     /**
      * apply filter on given value
@@ -63,6 +62,6 @@ class AcceptFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsFilledAcceptHeaderWhenParamValueIsValid()
     {
-        assert($this->apply('text/plain;q=0.5'), isOfSize(1));
+        assertThat($this->apply('text/plain;q=0.5'), isOfSize(1));
     }
 }

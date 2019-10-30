@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input;
+use PHPUnit\Framework\TestCase;
 use stubbles\values\Value;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertFalse,
     assertNull,
     assertTrue,
@@ -25,7 +24,7 @@ use function bovigo\assert\{
  *
  * @group  core
  */
-class ParamsTest extends \PHPUnit_Framework_TestCase
+class ParamsTest extends TestCase
 {
     /**
      * instanct to test
@@ -34,10 +33,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     private $params;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->params = new Params(['foo' => 'bar', 'baz' => 'value']);
     }
@@ -63,7 +59,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsNullValueIfParamDoesNotExist()
     {
-        assert($this->params->value('doesNotExist'), isSameAs(Value::of(null)));
+        assertThat($this->params->value('doesNotExist'), isSameAs(Value::of(null)));
     }
 
     /**
@@ -71,7 +67,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsValueIfParamExists()
     {
-        assert($this->params->value('foo'), equals(Value::of('bar')));
+        assertThat($this->params->value('foo'), equals(Value::of('bar')));
     }
 
     /**
@@ -79,7 +75,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsListOfParamNames()
     {
-        assert($this->params->names(), equals(['foo', 'baz']));
+        assertThat($this->params->names(), equals(['foo', 'baz']));
     }
 
     /**
@@ -95,7 +91,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     public function paramsCanBeCounted()
     {
-        assert($this->params, isOfSize(2));
+        assertThat($this->params, isOfSize(2));
     }
 
     /**
@@ -106,11 +102,11 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $i = 0;
         foreach ($this->params as $paramName => $paramValue) {
             if (0 === $i) {
-                assert($paramName, equals('foo'));
-                assert($paramValue, equals('bar'));
+                assertThat($paramName, equals('foo'));
+                assertThat($paramValue, equals('bar'));
             } else {
-                assert($paramName, equals('baz'));
-                assert($paramValue, equals('value'));
+                assertThat($paramName, equals('baz'));
+                assertThat($paramValue, equals('value'));
             }
 
             $i++;

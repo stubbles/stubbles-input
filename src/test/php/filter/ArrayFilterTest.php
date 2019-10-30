@@ -5,13 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertEmptyArray,
     assertNull,
     assertTrue,
@@ -42,7 +40,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function value($value, $expected)
     {
-        assert($this->readParam($value)->asArray(), equals($expected));
+        assertThat($this->readParam($value)->asArray(), equals($expected));
     }
 
     /**
@@ -50,7 +48,7 @@ class ArrayFilterTest extends FilterTest
      */
     public function usingDifferentSeparator()
     {
-        assert($this->readParam('foo|bar')->asArray('|'), equals(['foo', 'bar']));
+        assertThat($this->readParam('foo|bar')->asArray('|'), equals(['foo', 'bar']));
     }
 
     /**
@@ -59,7 +57,7 @@ class ArrayFilterTest extends FilterTest
     public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = ['foo' => 'bar'];
-        assert(
+        assertThat(
                 $this->readParam(null)
                         ->defaultingTo($default)
                         ->asArray(),

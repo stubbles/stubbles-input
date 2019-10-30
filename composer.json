@@ -11,11 +11,11 @@
     },
     "require-dev": {
         "mikey179/vfsStream": "^1.6",
-        "phpunit/phpunit": "^5.4",
-        "bovigo/callmap": "^3.1",
-        "bovigo/assert": "^2.0",
-        "stubbles/date": "^7.0",
-        "stubbles/peer": "^8.1"
+        "phpunit/phpunit": "^8.4",
+        "bovigo/callmap": "^5.0.1",
+        "bovigo/assert": "^5.0",
+        "stubbles/date": "^8.0",
+        "stubbles/peer": "^9.0"
     },
     "suggest": {
         "stubbles/date": "To filter input params as date or datespan instances.",

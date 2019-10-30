@@ -5,14 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\StringLength;
 use stubbles\values\Secret;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
@@ -33,10 +31,7 @@ class SecretFilterTest extends FilterTest
      */
     private $secretFilter;
 
-    /**
-     * create test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->secretFilter = SecretFilter::instance();
         parent::setUp();
@@ -48,7 +43,7 @@ class SecretFilterTest extends FilterTest
      */
     private function assertSecretEquals($expected, Secret $actual)
     {
-        assert($actual->unveil(), equals($expected));
+        assertThat($actual->unveil(), equals($expected));
     }
 
     /**
@@ -145,7 +140,7 @@ class SecretFilterTest extends FilterTest
      */
     public function asSecretReturnsValidValue()
     {
-        assert($this->readParam('foo')->asSecret()->unveil(), equals('foo'));
+        assertThat($this->readParam('foo')->asSecret()->unveil(), equals('foo'));
     }
 
 }

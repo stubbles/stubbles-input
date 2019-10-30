@@ -5,11 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\errors;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
@@ -22,7 +22,7 @@ use function bovigo\assert\predicate\isSameAs;
  *
  * @group  errors
  */
-class ParamErrorsTest extends \PHPUnit_Framework_TestCase
+class ParamErrorsTest extends TestCase
 {
     /**
      * instance to test
@@ -31,10 +31,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      */
     private $paramErrors;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramErrors = new ParamErrors();
     }
@@ -52,7 +49,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
      */
     public function initialErrorCountIsZero()
     {
-        assert($this->paramErrors, isOfSize(0));
+        assertThat($this->paramErrors, isOfSize(0));
     }
 
     /**
@@ -88,7 +85,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendingAnErrorIncreasesErrorCount()
     {
         $this->paramErrors->append('foo', 'errorid');
-        assert($this->paramErrors, isOfSize(1));
+        assertThat($this->paramErrors, isOfSize(1));
     }
 
     /**
@@ -97,7 +94,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsContainedInListForParam()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        assert(
+        assertThat(
                 $this->paramErrors->getFor('foo'),
                 equals(['errorid' => $paramError])
         );
@@ -109,7 +106,7 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
     public function appendedErrorIsReturnedWhenRequested()
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
-        assert(
+        assertThat(
                 $this->paramErrors->getForWithId('foo', 'errorid'),
                 isSameAs($paramError)
         );
@@ -176,14 +173,14 @@ class ParamErrorsTest extends \PHPUnit_Framework_TestCase
         $i = 0;
         foreach ($this->paramErrors as $paramName => $paramErrors) {
             if (0 === $i) {
-                assert($paramName, equals('foo'));
-                assert(
+                assertThat($paramName, equals('foo'));
+                assertThat(
                         $paramErrors,
                         equals(['id1' => $paramError1, 'id2' => $paramError2])
                 );
             } else {
-                assert($paramName, equals('bar'));
-                assert($paramErrors, equals(['id1' => $paramError3]));
+                assertThat($paramName, equals('bar'));
+                assertThat($paramErrors, equals(['id1' => $paramError3]));
             }
 
             $i++;

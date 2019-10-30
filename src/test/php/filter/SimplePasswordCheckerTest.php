@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
+use PHPUnit\Framework\TestCase;
 use stubbles\values\Secret;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\predicate\equals;
 /**
@@ -20,7 +19,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @since  3.0.0
  */
-class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
+class SimplePasswordCheckerTest extends TestCase
 {
     /**
      * instance to test
@@ -29,10 +28,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     private $simplePasswordChecker;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->simplePasswordChecker = SimplePasswordChecker::create();
     }
@@ -52,7 +48,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithDefaultValuesAndNonSatisfyingPassword()
     {
-        assert(
+        assertThat(
                 $this->simplePasswordChecker->check(Secret::create('ooo')),
                 equals([
                         'PASSWORD_TOO_SHORT'           => ['minLength' => SimplePasswordChecker::DEFAULT_MINLENGTH],
@@ -66,7 +62,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithChangedValuesAndNonSatisfyingPassword()
     {
-        assert(
+        assertThat(
                 $this->simplePasswordChecker->minLength(10)
                         ->minDiffChars(8)
                         ->check(Secret::create('topsecret')),
@@ -82,7 +78,7 @@ class SimplePasswordCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function reportsErrorsWithDisallowedValues()
     {
-        assert(
+        assertThat(
                 $this->simplePasswordChecker->disallowValues(['topsecret'])
                         ->check(Secret::create('topsecret')),
                 equals(['PASSWORD_DISALLOWED' => []])

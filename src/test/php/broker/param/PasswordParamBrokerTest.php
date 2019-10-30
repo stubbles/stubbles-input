@@ -5,11 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
@@ -17,7 +16,7 @@ use stubbles\reflect\annotation\Annotation;
 use stubbles\values\Secret;
 
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
@@ -28,12 +27,9 @@ require_once __DIR__ . '/WebRequest.php';
  * @group  broker
  * @group  broker_param
  */
-class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
+class PasswordParamBrokerTest extends TestCase
 {
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramBroker = new PasswordParamBroker();
     }
@@ -44,7 +40,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
     {
-        assert($actualPassword->unveil(), equals($expectedPassword));
+        assertThat($actualPassword->unveil(), equals($expectedPassword));
     }
 
     /**
@@ -72,7 +68,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     protected function createRequest($value): Request
     {
-        return NewInstance::of(Request::class)->mapCalls([
+        return NewInstance::of(Request::class)->returns([
                 'readParam' => ValueReader::forValue($value)
         ]);
     }
@@ -138,7 +134,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('topsecret')
         ]);
         $this->assertPasswordEquals(
@@ -155,7 +151,7 @@ class PasswordParamBrokerTest extends \PHPUnit_Framework_TestCase
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request =  NewInstance::of(WebRequest::class)->mapCalls([
+        $request =  NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue('topsecret')
         ]);
         $this->assertPasswordEquals(

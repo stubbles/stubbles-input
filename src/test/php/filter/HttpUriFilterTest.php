@@ -5,13 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use stubbles\peer\http\HttpUri;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -28,7 +26,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithoutPortIfItIsDefaultPort()
     {
-        assert(
+        assertThat(
                 $this->readParam('http://example.org')->asHttpUri(),
                 equals(HttpUri::fromString('http://example.org/'))
         );
@@ -41,7 +39,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithPortIfItIsNonDefaultPort()
     {
-        assert(
+        assertThat(
                 $this->readParam('http://example.org:45')->asHttpUri(),
                 equals(HttpUri::fromString('http://example.org:45/'))
         );
@@ -87,7 +85,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function doesNotPerformDnsCheck()
     {
-        assert(
+        assertThat(
                 $this->readParam('http://doesnotexist')->asHttpUri(),
                 equals(HttpUri::fromString('http://doesnotexist'))
         );
@@ -99,7 +97,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assert(
+        assertThat(
                  $this->readParam(null)
                       ->defaultingTo(HttpUri::fromString('http://example.com/'))
                       ->asHttpUri(),
@@ -150,7 +148,7 @@ class HttpUrlFilterTest extends FilterTest
      */
     public function asHttpUriReturnsValidValue()
     {
-        assert(
+        assertThat(
                 $this->readParam('http://example.com/')->asHttpUri(),
                 equals(HttpUri::fromString('http://example.com/'))
         );

@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input;
 use bovigo\callmap\NewCallable;
+use PHPUnit\Framework\TestCase;
 use stubbles\values\Value;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\isInstanceOf;
@@ -23,7 +22,7 @@ use function bovigo\callmap\verify;
  * @since  1.3.0
  * @group  validator
  */
-class ValueValidatorTest extends \PHPUnit_Framework_TestCase
+class ValueValidatorTest extends TestCase
 {
     /**
      * helper method to create test instances
@@ -123,7 +122,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
     {
-        $checkdnsrr = NewCallable::stub('checkdnsrr')->mapCall(false);
+        $checkdnsrr = NewCallable::stub('checkdnsrr')->returns(false);
         assertFalse(
                 $this->validate('http://doesnotexist')
                      ->isExistingHttpUri($checkdnsrr)
@@ -291,7 +290,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeCreatedAsMock()
     {
-        assert(
+        assertThat(
                 ValueValidator::forValue('bar'),
                 isInstanceOf(ValueValidator::class)
         );

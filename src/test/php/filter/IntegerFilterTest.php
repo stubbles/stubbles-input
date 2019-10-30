@@ -5,13 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use stubbles\input\filter\range\NumberRange;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -44,7 +42,7 @@ class IntegerFilterTest extends FilterTest
     public function value($value, $expected)
     {
         $integerFilter = IntegerFilter::instance();
-        assert(
+        assertThat(
                 $integerFilter->apply($this->createParam($value))[0],
                 equals($expected)
         );
@@ -65,7 +63,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
     {
-        assert($this->readParam(null)->defaultingTo(303)->asInt(), equals(303));
+        assertThat($this->readParam(null)->defaultingTo(303)->asInt(), equals(303));
     }
 
     /**
@@ -112,7 +110,7 @@ class IntegerFilterTest extends FilterTest
      */
     public function asIntReturnsValidValue()
     {
-        assert($this->readParam('313')->asInt(), equals(313));
+        assertThat($this->readParam('313')->asInt(), equals(313));
 
     }
 }

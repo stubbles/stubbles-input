@@ -5,8 +5,6 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewCallable;
@@ -14,7 +12,7 @@ use stubbles\peer\http\HttpUri;
 
 use function bovigo\callmap\verify;
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertNull,
     assertTrue,
     predicate\equals,
@@ -31,9 +29,9 @@ class ExistingHttpUrlFilterTest extends FilterTest
 {
     private $checkdnsrr;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        $this->checkdnsrr = NewCallable::stub('checkdnsrr')->mapCall(false);
+        $this->checkdnsrr = NewCallable::stub('checkdnsrr')->returns(false);
         parent::setUp();
     }
 
@@ -42,8 +40,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithoutPortIfItIsDefaultPort()
     {
-        $this->checkdnsrr->mapCall(true);
-        assert(
+        $this->checkdnsrr->returns(true);
+        assertThat(
                 $this->readParam('http://example.org')->asExistingHttpUri($this->checkdnsrr),
                 equals(HttpUri::fromString('http://example.org/'))
         );
@@ -54,8 +52,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsUriWithPortIfItIsNonDefaultPort()
     {
-        $this->checkdnsrr->mapCall(true);
-        assert(
+        $this->checkdnsrr->returns(true);
+        assertThat(
                 $this->readParam('http://example.org:45')->asExistingHttpUri($this->checkdnsrr),
                 equals(HttpUri::fromString('http://example.org:45/'))
         );
@@ -102,7 +100,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
     public function doesNotActuallyCheckDnsRecordWhenUriIsInvalidAnyway()
     {
         $this->readParam('ftp://foobar.de/')->asExistingHttpUri($this->checkdnsrr);
-        verify($this->checkdnsrr)->wasNeverCalled();
+        assertTrue(verify($this->checkdnsrr)->wasNeverCalled());
     }
 
     /**
@@ -110,8 +108,8 @@ class ExistingHttpUrlFilterTest extends FilterTest
      */
     public function returnsHttpUriIfUriHasDnsRecoed()
     {
-        $this->checkdnsrr->mapCall(true);
-        assert(
+        $this->checkdnsrr->returns(true);
+        assertThat(
                 $this->readParam('http://stubbles.net/')->asExistingHttpUri($this->checkdnsrr),
                 equals(HttpUri::fromString('http://stubbles.net/'))
         );
@@ -146,7 +144,7 @@ class ExistingHttpUrlFilterTest extends FilterTest
     public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $httpUri = HttpUri::fromString('http://example.com/');
-        assert(
+        assertThat(
                 $this->readParam(null)
                         ->defaultingTo($httpUri)
                         ->asExistingHttpUri(),

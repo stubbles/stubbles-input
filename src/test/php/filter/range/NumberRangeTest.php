@@ -5,11 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter\range;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
@@ -22,7 +22,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @group  filter_range
  */
-class NumberRangeTest extends \PHPUnit_Framework_TestCase
+class NumberRangeTest extends TestCase
 {
     /**
      * instance to test
@@ -31,10 +31,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     private $numberRange;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->numberRange = new NumberRange(1, 10);
     }
@@ -124,7 +121,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMinBorderErrorWhenValueBelowRange()
     {
-        assert(
+        assertThat(
                 $this->numberRange->errorsOf(0),
                 equals(['VALUE_TOO_SMALL' => ['minNumber' => 1]])
         );
@@ -135,7 +132,7 @@ class NumberRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function errorListContainsMaxBorderErrorWhenValueAboveRange()
     {
-        assert(
+        assertThat(
                 $this->numberRange->errorsOf(11),
                 equals(['VALUE_TOO_GREAT' => ['maxNumber' => 10]])
         );

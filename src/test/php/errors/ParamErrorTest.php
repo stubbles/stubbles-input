@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\errors;
+use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\messages\LocalizedMessage;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\annotationsOf;
@@ -20,7 +19,7 @@ use function stubbles\reflect\annotationsOf;
  *
  * @group  errors
  */
-class ParamErrorTest extends \PHPUnit_Framework_TestCase
+class ParamErrorTest extends TestCase
 {
     /**
      * instance to test
@@ -29,10 +28,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     private $paramError;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramError = new ParamError('id', ['foo' => 'bar']);
     }
@@ -42,7 +38,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenId()
     {
-        assert($this->paramError->id(), equals('id'));
+        assertThat($this->paramError->id(), equals('id'));
     }
 
     /**
@@ -51,7 +47,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenDetails()
     {
-        assert($this->paramError->details(), equals(['foo' => 'bar']));
+        assertThat($this->paramError->details(), equals(['foo' => 'bar']));
     }
 
     /**
@@ -60,7 +56,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithDetails()
     {
 
-        assert(
+        assertThat(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -79,7 +75,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => ['bar', 'baz']]);
-        assert(
+        assertThat(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -98,7 +94,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function replacesPlaceHolderInMessagesWithObjectDetails()
     {
         $this->paramError = new ParamError('id', ['foo' => new \stdClass()]);
-        assert(
+        assertThat(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'
@@ -117,7 +113,7 @@ class ParamErrorTest extends \PHPUnit_Framework_TestCase
     public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet()
     {
         $this->paramError = new ParamError('id');
-        assert(
+        assertThat(
                 $this->paramError->fillMessages(
                         ['en_*'  => 'An error of type {foo} occurred.',
                          'de_DE' => 'Es ist ein Fehler vom Typ {foo} aufgetreten.'

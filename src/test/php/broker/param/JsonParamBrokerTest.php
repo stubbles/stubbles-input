@@ -5,15 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
 use stubbles\input\Param;
 use stubbles\input\ValueReader;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 require_once __DIR__ . '/MultipleSourceParamBrokerTest.php';
@@ -26,10 +24,7 @@ require_once __DIR__ . '/WebRequest.php';
  */
 class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
 {
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->paramBroker = new JsonParamBroker();
     }
@@ -63,7 +58,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesDefaultFromAnnotationIfParamNotSet()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest(null),
                         $this->createRequestAnnotation(
@@ -106,7 +101,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canWorkWithParam()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procureParam(
                         new Param('name', '{"method":"add","params":[1,2],"id":1}'),
                         $this->createRequestAnnotation([])
@@ -120,7 +115,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsDefaultSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest('{"method":"add","params":[1,2],"id":1}'),
                         $this->createRequestAnnotation([])
@@ -134,7 +129,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function usesParamAsSource()
     {
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $this->createRequest('{"method":"add","params":[1,2],"id":1}'),
                         $this->createRequestAnnotation(['source' => 'param'])
@@ -148,10 +143,10 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseHeaderAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'header'])
@@ -165,10 +160,10 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      */
     public function canUseCookieAsSourceForWebRequest()
     {
-        $request = NewInstance::of(WebRequest::class)->mapCalls([
+        $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')
         ]);
-        assert(
+        assertThat(
                 $this->paramBroker->procure(
                         $request,
                         $this->createRequestAnnotation(['source' => 'cookie'])

@@ -5,12 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -31,10 +29,7 @@ class JsonFilterTest extends FilterTest
      */
     private $jsonFilter;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->jsonFilter = new JsonFilter();
         parent::setUp();
@@ -53,7 +48,7 @@ class JsonFilterTest extends FilterTest
      */
     public function filterValidJsonArray()
     {
-        assert($this->jsonFilter->apply($this->createParam('[1]'))[0], equals([1]));
+        assertThat($this->jsonFilter->apply($this->createParam('[1]'))[0], equals([1]));
     }
 
     /**
@@ -63,7 +58,7 @@ class JsonFilterTest extends FilterTest
     {
         $obj = new \stdClass();
         $obj->id = "abc";
-        assert(
+        assertThat(
                 $this->jsonFilter->apply($this->createParam('{"id":"abc"}'))[0],
                 equals($obj)
         );
@@ -79,7 +74,7 @@ class JsonFilterTest extends FilterTest
         $phpJsonObj->params = [1, 2];
         $phpJsonObj->id = 1;
 
-        assert(
+        assertThat(
                 $this->jsonFilter->apply(
                         $this->createParam('{"method":"add","params":[1,2],"id":1}')
                 )[0],
@@ -175,7 +170,7 @@ class JsonFilterTest extends FilterTest
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
         list($_, $errors) = $this->jsonFilter->apply($param);
-        assert(
+        assertThat(
                 $errors['JSON_SYNTAX_ERROR']->details(),
                 hasKey('errorCode')
         );
@@ -189,7 +184,7 @@ class JsonFilterTest extends FilterTest
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
         list($_, $errors) = $this->jsonFilter->apply($param);
-        assert(
+        assertThat(
                 $errors['JSON_SYNTAX_ERROR']->details(),
                 hasKey('errorMsg')
         );
@@ -220,7 +215,7 @@ class JsonFilterTest extends FilterTest
     public function asJsonReturnsDefaultIfParamIsNullAndNotRequired()
     {
         $default = ['foo' => 'bar'];
-        assert(
+        assertThat(
                 $this->readParam(null)->defaultingTo($default)->asJson(),
                 equals($default)
         );
@@ -278,6 +273,6 @@ class JsonFilterTest extends FilterTest
      */
     public function asJsonReturnsValidValue() {
         $value = ['foo', 'bar'];
-        assert($this->readParam(json_encode($value))->asJson(), equals($value));
+        assertThat($this->readParam(json_encode($value))->asJson(), equals($value));
     }
 }

@@ -5,8 +5,6 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\input
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
@@ -14,7 +12,7 @@ use stubbles\input\Filter;
 use stubbles\input\filter\range\Range;
 use stubbles\values\Value;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
@@ -47,10 +45,7 @@ class RangeFilterTest extends FilterTest
      */
     private $range;
 
-    /**
-     * create test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->filter      = NewInstance::of(Filter::class);
         $this->range       = NewInstance::of(Range::class);
@@ -66,7 +61,7 @@ class RangeFilterTest extends FilterTest
     protected function createParam($value): Value
     {
         $param = parent::createParam($value);
-        $this->filter->mapCalls(['apply' => [$value, []]]);
+        $this->filter->returns(['apply' => [$value, []]]);
         return $param;
     }
 
@@ -85,8 +80,8 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsValueIfInRange()
     {
-        $this->range->mapCalls(['contains' => true]);
-        assert(
+        $this->range->returns(['contains' => true]);
+        assertThat(
                 $this->rangeFilter->apply($this->createParam(303))[0],
                 equals(303)
         );
@@ -99,7 +94,7 @@ class RangeFilterTest extends FilterTest
     public function returnsNullIfValueNotInRange()
     {
         $param = $this->createParam(303);
-        $this->range->mapCalls([
+        $this->range->returns([
                 'contains'       => false,
                 'allowsTruncate' => false,
                 'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
@@ -116,12 +111,12 @@ class RangeFilterTest extends FilterTest
      */
     public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed()
     {
-        $this->range->mapCalls([
+        $this->range->returns([
                 'contains'            => false,
                 'allowsTruncate'      => true,
                 'truncateToMaxBorder' => 'foo'
         ]);
-        assert(
+        assertThat(
                 $this->rangeFilter->apply($this->createParam('foobar'))[0],
                 equals('foo')
         );
