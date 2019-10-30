@@ -6,8 +6,8 @@
     "description": "Stubbles Input enables to handle input data via validation and filtering.",
     "require": {
         "php": "^7.0",
-        "stubbles/values": "^8.1",
-        "stubbles/reflect": "^8.0"
+        "stubbles/values": "^9.0",
+        "stubbles/reflect": "^9.0"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6.7",

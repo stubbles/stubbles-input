@@ -89,7 +89,7 @@ class CustomDatespanParamBrokerTest extends TestCase
         assertNull(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('invalid', '2012-04-21'),
-                        $this->createRequestAnnotation(['required' => true])
+                        $this->createRequestAnnotation(['required' => 'true'])
                 )
         );
     }
@@ -102,7 +102,7 @@ class CustomDatespanParamBrokerTest extends TestCase
         assertNull(
                 $this->customDatespanParamBroker->procure(
                         $this->createRequest('2012-02-05', 'invalid'),
-                        $this->createRequestAnnotation(['required' => true])
+                        $this->createRequestAnnotation(['required' => 'true'])
                 )
         );
     }
