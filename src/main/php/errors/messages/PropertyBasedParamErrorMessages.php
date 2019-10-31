@@ -90,7 +90,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     {
         $usedLocale = $this->selectLocale($error->id(), $locale);
         return $error->fillMessage(
-                $this->properties()->value($error->id(), $usedLocale, ''),
+                (string) $this->properties()->value($error->id(), $usedLocale, ''),
                 $usedLocale
         );
     }
@@ -110,7 +110,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
                 return $requestedLocale;
             }
 
-            $baseLocale = substr($requestedLocale, 0, strpos($requestedLocale, '_')) . '_*';
+            $baseLocale = substr($requestedLocale, 0, (int) strpos($requestedLocale, '_')) . '_*';
             if ($properties->containValue($errorId, $baseLocale)) {
                 return $baseLocale;
             }

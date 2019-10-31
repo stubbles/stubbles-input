@@ -66,7 +66,7 @@ class ValueReader implements valuereader\CommonValueReader
     /**
      * create instance as mock with empty param errors
      *
-     * @param   string  $paramValue  actual value to use
+     * @param   string|array|null  $paramValue  actual value to use
      * @return  \stubbles\input\ValueReader
      */
     public static function forValue($paramValue): self
