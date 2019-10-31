@@ -14,7 +14,6 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
-use stubbles\peer\http\HttpUri;
 use stubbles\values\Secret;
 /**
  * Marker interface for all ValueReader methods which support a default value.
@@ -171,9 +170,9 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as http uri
      *
-     * @return  \stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri|null
      */
-    public function asHttpUri(): ?HttpUri
+    public function asHttpUri()
     {
         $this->reportError(('FIELD_EMPTY' === $this->defaultErrorId) ? ('HTTP_URI_MISSING') : ($this->defaultErrorId));
         return null;
@@ -182,9 +181,9 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as http uri if it does exist
      *
-     * @return  \stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri|null
      */
-    public function asExistingHttpUri(): ?HttpUri
+    public function asExistingHttpUri()
     {
         $this->reportError(('FIELD_EMPTY' === $this->defaultErrorId) ? ('HTTP_URI_MISSING') : ($this->defaultErrorId));
         return null;
@@ -205,7 +204,7 @@ class MissingValueReader implements CommonValueReader
      * read as date value
      *
      * @param   \stubbles\input\filter\range\DateRange  $range
-     * @return  \stubbles\date\Date
+     * @return  \stubbles\date\Date|null
      */
     public function asDate(DateRange $range = null)
     {
@@ -217,7 +216,7 @@ class MissingValueReader implements CommonValueReader
      * read as day
      *
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Day
+     * @return  \stubbles\date\span\Day|null
      */
     public function asDay(DatespanRange $range = null)
     {
@@ -229,7 +228,7 @@ class MissingValueReader implements CommonValueReader
      * read as week
      *
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Week
+     * @return  \stubbles\date\span\Week|null
      * @since   4.5.0
      */
     public function asWeek(DatespanRange $range = null)
@@ -242,7 +241,7 @@ class MissingValueReader implements CommonValueReader
      * read as month
      *
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Month
+     * @return  \stubbles\date\span\Month|null
      */
     public function asMonth(DatespanRange $range = null)
     {
@@ -257,7 +256,7 @@ class MissingValueReader implements CommonValueReader
      * IllegalStateException will be thrown.
      *
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Datespan
+     * @return  \stubbles\date\span\Datespan|null
      * @since   4.3.0
      */
     public function asDatespan(DatespanRange $range = null)

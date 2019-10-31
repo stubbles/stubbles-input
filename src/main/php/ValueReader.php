@@ -307,9 +307,9 @@ class ValueReader implements valuereader\CommonValueReader
      * In all other cases an instance of stubbles\peer\http\HttpUri is returned.
      *
      * @api
-     * @return  \stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri|null
      */
-    public function asHttpUri(): ?HttpUri
+    public function asHttpUri()
     {
         if ($this->value->isEmpty()) {
             return null;
@@ -334,9 +334,9 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   callable  $checkdnsrr  optional  function with which to check DNS record, defaults to checkdnsrr()
-     * @return  \stubbles\peer\http\HttpUri
+     * @return  \stubbles\peer\http\HttpUri|null
      */
-    public function asExistingHttpUri(callable $checkdnsrr = null): ?HttpUri
+    public function asExistingHttpUri(callable $checkdnsrr = null)
     {
         $httpUri = $this->asHttpUri();
         if (null === $httpUri) {
@@ -367,7 +367,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\DateRange  $range  optional  allowed range of allowed dates
-     * @return  \stubbles\date\Date
+     * @return  \stubbles\date\Date|null
      */
     public function asDate(DateRange $range = null)
     {
@@ -387,7 +387,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\DatespanRange  $range  optional  range where the day must be within
-     * @return  \stubbles\date\span\Day
+     * @return  \stubbles\date\span\Day|null
      * @since   2.0.0
      */
     public function asDay(DatespanRange $range = null)
@@ -408,7 +408,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Week
+     * @return  \stubbles\date\span\Week|null
      * @since   4.5.0
      */
     public function asWeek(DatespanRange $range = null)
@@ -429,7 +429,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   \stubbles\input\filter\range\DatespanRange  $range  optional  range where the month must be within
-     * @return  \stubbles\date\span\Month
+     * @return  \stubbles\date\span\Month|null
      * @since   2.5.1
      */
     public function asMonth(DatespanRange $range = null)
@@ -449,7 +449,7 @@ class ValueReader implements valuereader\CommonValueReader
      * read as datespan
 
      * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Datespan
+     * @return  \stubbles\date\span\Datespan|null
      * @since   4.3.0
      */
     public function asDatespan(DatespanRange $range = null)
