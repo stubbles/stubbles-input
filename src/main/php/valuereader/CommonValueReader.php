@@ -15,6 +15,8 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\peer\http\HttpUri;
+use stubbles\values\Secret;
 /**
  * Interface for common value readings.
  *
@@ -33,14 +35,14 @@ interface CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray(string $separator = self::ARRAY_SEPARATOR);
+    public function asArray(string $separator = self::ARRAY_SEPARATOR): ?array;
 
     /**
      * read as boolean value
      *
      * @return  bool
      */
-    public function asBool();
+    public function asBool(): ?bool;
 
     /**
      * read as integer value
@@ -48,7 +50,7 @@ interface CommonValueReader
      * @param   \stubbles\input\filter\range\NumberRange  $range
      * @return  int
      */
-    public function asInt(NumberRange $range = null);
+    public function asInt(NumberRange $range = null): ?int;
 
     /**
      * read as float value
@@ -57,7 +59,7 @@ interface CommonValueReader
      * @param   int                                       $decimals  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null);
+    public function asFloat(NumberRange $range = null, int $decimals = null): ?float;
 
     /**
      * read as string value
@@ -65,7 +67,7 @@ interface CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  string
      */
-    public function asString(StringLength $length = null);
+    public function asString(StringLength $length = null): ?string;
 
     /**
      * read as secret
@@ -73,7 +75,7 @@ interface CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  \stubbles\values\Secret
      */
-    public function asSecret(StringLength $length = null);
+    public function asSecret(StringLength $length = null): ?Secret;
 
     /**
      * read as text value
@@ -82,13 +84,13 @@ interface CommonValueReader
      * @param   string[]                                   $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, array $allowedTags = []);
+    public function asText(StringLength $length = null, array $allowedTags = []): ?string;
 
     /**
      * read as json value
      *
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array
+     * @return  \stdClass|array|null
      */
     public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH);
 
@@ -98,7 +100,7 @@ interface CommonValueReader
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\values\Secret
      */
-    public function asPassword(PasswordChecker $checker);
+    public function asPassword(PasswordChecker $checker): ?Secret;
 
     /**
      * read as http uri
@@ -108,7 +110,7 @@ interface CommonValueReader
      *
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asHttpUri();
+    public function asHttpUri(): ?HttpUri;
 
     /**
      * read as http uri if it does exist
@@ -118,14 +120,14 @@ interface CommonValueReader
      *
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asExistingHttpUri();
+    public function asExistingHttpUri(): ?HttpUri;
 
     /**
      * returns value if it is a mail address, and null otherwise
      *
      * @return  string
      */
-    public function asMailAddress();
+    public function asMailAddress(): ?string;
 
     /**
      * read as date value
@@ -189,7 +191,7 @@ interface CommonValueReader
      *
      * @return  string
      */
-    public function ifIsIpAddress();
+    public function ifIsIpAddress(): ?string;
 
     /**
      * returns value if it is an allowed value according to list of allowed values, and null otherwise
@@ -197,7 +199,7 @@ interface CommonValueReader
      * @param   string[]  $allowedValues  list of allowed values
      * @return  string
      */
-    public function ifIsOneOf(array $allowedValues);
+    public function ifIsOneOf(array $allowedValues): ?string;
 
     /**
      * returns value if it is matched by given regular expression
@@ -206,7 +208,7 @@ interface CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches(string $regex);
+    public function ifMatches(string $regex): ?string;
 
     /**
      * returns param value when given predicate evaluates to true
@@ -220,7 +222,7 @@ interface CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, string $errorId, array $details = []);
+    public function when(callable $predicate, string $errorId, array $details = []): ?string;
 
     /**
      * filters value with given filter

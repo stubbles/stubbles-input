@@ -14,6 +14,8 @@ use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\peer\http\HttpUri;
+use stubbles\values\Secret;
 /**
  * Marker interface for all ValueReader methods which support a default value.
  *
@@ -63,7 +65,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string  $separator  optional  character to split input value with
      * @return  array
      */
-    public function asArray(string $separator = self::ARRAY_SEPARATOR)
+    public function asArray(string $separator = self::ARRAY_SEPARATOR): ?array
     {
         $this->reportError();
         return null;
@@ -74,7 +76,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @return  bool
      */
-    public function asBool()
+    public function asBool(): ?bool
     {
         $this->reportError();
         return null;
@@ -86,7 +88,7 @@ class MissingValueReader implements CommonValueReader
      * @param   \stubbles\input\filter\range\NumberRange  $range
      * @return  int
      */
-    public function asInt(NumberRange $range = null)
+    public function asInt(NumberRange $range = null): ?int
     {
         $this->reportError();
         return null;
@@ -99,7 +101,7 @@ class MissingValueReader implements CommonValueReader
      * @param   int          $decimals  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null)
+    public function asFloat(NumberRange $range = null, int $decimals = null): ?float
     {
         $this->reportError();
         return null;
@@ -111,7 +113,7 @@ class MissingValueReader implements CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  string
      */
-    public function asString(StringLength $length = null)
+    public function asString(StringLength $length = null): ?string
     {
         $this->reportError();
         return null;
@@ -123,7 +125,7 @@ class MissingValueReader implements CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length
      * @return  \stubbles\values\Secret
      */
-    public function asSecret(StringLength $length = null)
+    public function asSecret(StringLength $length = null): ?Secret
     {
         $this->reportError();
         return null;
@@ -136,7 +138,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string[]                                   $allowedTags  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, array $allowedTags = [])
+    public function asText(StringLength $length = null, array $allowedTags = []): ?string
     {
         $this->reportError();
         return null;
@@ -146,7 +148,7 @@ class MissingValueReader implements CommonValueReader
      * read as json value
      *
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array
+     * @return  \stdClass|array|null
      */
     public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH)
     {
@@ -160,7 +162,7 @@ class MissingValueReader implements CommonValueReader
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\values\Secret
      */
-    public function asPassword(PasswordChecker $checker)
+    public function asPassword(PasswordChecker $checker): ?Secret
     {
         $this->reportError();
         return null;
@@ -171,7 +173,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asHttpUri()
+    public function asHttpUri(): ?HttpUri
     {
         $this->reportError(('FIELD_EMPTY' === $this->defaultErrorId) ? ('HTTP_URI_MISSING') : ($this->defaultErrorId));
         return null;
@@ -182,7 +184,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asExistingHttpUri()
+    public function asExistingHttpUri(): ?HttpUri
     {
         $this->reportError(('FIELD_EMPTY' === $this->defaultErrorId) ? ('HTTP_URI_MISSING') : ($this->defaultErrorId));
         return null;
@@ -193,7 +195,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @return  string
      */
-    public function asMailAddress()
+    public function asMailAddress(): ?string
     {
         $this->reportError(('FIELD_EMPTY' === $this->defaultErrorId) ? ('MAILADDRESS_MISSING') : ($this->defaultErrorId));
         return null;
@@ -269,7 +271,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @return  string
      */
-    public function ifIsIpAddress()
+    public function ifIsIpAddress(): ?string
     {
         $this->reportError();
         return null;
@@ -281,7 +283,7 @@ class MissingValueReader implements CommonValueReader
      * @param   string[]  $allowedValues  list of allowed values
      * @return  string
      */
-    public function ifIsOneOf(array $allowedValues)
+    public function ifIsOneOf(array $allowedValues): ?string
     {
         $this->reportError();
         return null;
@@ -294,7 +296,7 @@ class MissingValueReader implements CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches(string $regex)
+    public function ifMatches(string $regex): ?string
     {
         $this->reportError();
         return null;
@@ -312,7 +314,7 @@ class MissingValueReader implements CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, string $errorId, array $details = [])
+    public function when(callable $predicate, string $errorId, array $details = []): ?string
     {
         $this->reportError();
         return null;

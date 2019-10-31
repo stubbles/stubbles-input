@@ -18,6 +18,7 @@ use stubbles\input\filter\{
 };
 use stubbles\peer\http\HttpUri;
 use stubbles\values\Parse;
+use stubbles\values\Secret;
 use stubbles\values\Value;
 /**
  * Value object for request values to filter them or retrieve them after validation.
@@ -140,7 +141,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  array
      * @since   2.0.0
      */
-    public function asArray(string $separator = self::ARRAY_SEPARATOR)
+    public function asArray(string $separator = self::ARRAY_SEPARATOR): ?array
     {
         if ($this->value->isNull()) {
             return null;
@@ -159,7 +160,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  bool
      * @since   1.7.0
      */
-    public function asBool()
+    public function asBool(): ?bool
     {
         if ($this->value->isNull()) {
             return null;
@@ -175,7 +176,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   \stubbles\input\filter\range\NumberRange  $range  optional  range of allowed values
      * @return  int
      */
-    public function asInt(NumberRange $range = null)
+    public function asInt(NumberRange $range = null): ?int
     {
         return $this->handleFilter(
                 function() use($range)
@@ -196,7 +197,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   int                                       $decimals  optional  number of decimals
      * @return  float
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null)
+    public function asFloat(NumberRange $range = null, int $decimals = null): ?float
     {
         return $this->handleFilter(
                 function() use($range, $decimals)
@@ -217,7 +218,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
      * @return  string
      */
-    public function asString(StringLength $length = null)
+    public function asString(StringLength $length = null): ?string
     {
         return $this->handleFilter(
                 function() use($length)
@@ -238,7 +239,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  \stubbles\values\Secret
      * @since   6.0.0
      */
-    public function asSecret(StringLength $length = null)
+    public function asSecret(StringLength $length = null): ?Secret
     {
         return $this->handleFilter(
                 function() use($length)
@@ -259,7 +260,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string[]                                   $allowedTags  optional  list of allowed tags
      * @return  string
      */
-    public function asText(StringLength $length = null, array $allowedTags = [])
+    public function asText(StringLength $length = null, array $allowedTags = []): ?string
     {
         return $this->handleFilter(
                 function() use($length, $allowedTags)
@@ -278,7 +279,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array
+     * @return  \stdClass|array|null
      */
     public function asJson(int $maxLength = filter\JsonFilter::DEFAULT_MAX_LENGTH)
     {
@@ -292,7 +293,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
      * @return  \stubbles\values\Secret
      */
-    public function asPassword(PasswordChecker $checker)
+    public function asPassword(PasswordChecker $checker): ?Secret
     {
         return $this->withFilter(new filter\PasswordFilter($checker));
     }
@@ -308,7 +309,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asHttpUri()
+    public function asHttpUri(): ?HttpUri
     {
         if ($this->value->isEmpty()) {
             return null;
@@ -335,7 +336,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   callable  $checkdnsrr  optional  function with which to check DNS record, defaults to checkdnsrr()
      * @return  \stubbles\peer\http\HttpUri
      */
-    public function asExistingHttpUri(callable $checkdnsrr = null)
+    public function asExistingHttpUri(callable $checkdnsrr = null): ?HttpUri
     {
         $httpUri = $this->asHttpUri();
         if (null === $httpUri) {
@@ -356,7 +357,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @return  string
      */
-    public function asMailAddress()
+    public function asMailAddress(): ?string
     {
         return $this->withFilter(filter\MailFilter::instance());
     }
@@ -470,7 +471,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @return  string
      */
-    public function ifIsIpAddress()
+    public function ifIsIpAddress(): ?string
     {
         if ($this->value->isIpAddress()) {
             return $this->value->value();
@@ -487,7 +488,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   string[]  $allowedValues  list of allowed values
      * @return  string
      */
-    public function ifIsOneOf(array $allowedValues)
+    public function ifIsOneOf(array $allowedValues): ?string
     {
         if ($this->value->isOneOf($allowedValues)) {
             return $this->value->value();
@@ -509,7 +510,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  string
      * @since   6.0.0
      */
-    public function ifMatches(string $regex)
+    public function ifMatches(string $regex): ?string
     {
         if ($this->value->isMatchedBy($regex)) {
             return $this->value->value();
@@ -531,7 +532,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @return  string
      * @since   3.0.0
      */
-    public function when(callable $predicate, string $errorId, array $details = [])
+    public function when(callable $predicate, string $errorId, array $details = []): ?string
     {
         return $this->handleFilter(
                 function() use($predicate, $errorId, $details)
@@ -638,7 +639,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @return  string
      */
-    public function unsecure()
+    public function unsecure(): ?string
     {
         return $this->value->value();
     }
