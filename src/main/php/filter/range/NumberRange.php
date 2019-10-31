@@ -35,7 +35,7 @@ class NumberRange extends AbstractRange
      * @param  int  $minValue
      * @param  int  $maxValue
      */
-    public function __construct($minValue, $maxValue)
+    public function __construct(?int $minValue, ?int $maxValue)
     {
         $this->minValue = $minValue;
         $this->maxValue = $maxValue;

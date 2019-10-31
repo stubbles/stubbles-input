@@ -38,9 +38,9 @@ class Param
      * constructor
      *
      * @param  string        $name   name of param
-     * @param  string|array  $value  original value
+     * @param  string|array|null  $value  original value
      */
-    public function __construct($name, $value)
+    public function __construct(string $name, $value)
     {
         $this->name  = $name;
         $this->value = $value;
@@ -52,7 +52,7 @@ class Param
      * @return  string
      * @since   3.0.0
      */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -60,7 +60,7 @@ class Param
     /**
      * returns value of param
      *
-     * @return  string|array
+     * @return  string|array|null
      * @since   3.0.0
      */
     public function value()
@@ -73,7 +73,7 @@ class Param
      *
      * @return  bool
      */
-    public function isNull()
+    public function isNull(): bool
     {
         return null === $this->value;
     }
@@ -85,7 +85,7 @@ class Param
      *
      * @return  bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->isNull()
             || (is_array($this->value) && count($this->value) === 0)
@@ -97,7 +97,7 @@ class Param
      *
      * @return  int
      */
-    public function length()
+    public function length(): int
     {
         if ($this->isNull() || (is_string($this->value) && strlen($this->value) === 0)) {
             return 0;
@@ -117,7 +117,7 @@ class Param
      * @param   array                                     $details  details of what caused the error
      * @return  \stubbles\input\errors\ParamError
      */
-    public function addError($error, array $details = [])
+    public function addError($error, array $details = []): ParamError
     {
         $error = ParamError::fromData($error, $details);
         $this->errors[$error->id()] = $error;
@@ -130,7 +130,7 @@ class Param
      * @param   string  $errorId
      * @return  bool
      */
-    public function hasError($errorId)
+    public function hasError($errorId): bool
     {
         return isset($this->errors[$errorId]);
     }
@@ -140,7 +140,7 @@ class Param
      *
      * @return  bool
      */
-    public function hasErrors()
+    public function hasErrors(): bool
     {
         return count($this->errors) > 0;
     }
@@ -151,7 +151,7 @@ class Param
      * @return  \stubbles\input\errors\ParamError[]
      * @since   3.0.0
      */
-    public function errors()
+    public function errors(): array
     {
         return $this->errors;
     }

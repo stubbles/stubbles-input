@@ -99,8 +99,8 @@ class ParamBrokersTest extends TestCase
      */
     public function addingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
     {
-        $oaramBroker   = NewInstance::of(ParamBroker::class);
-        $requestBroker = new RequestBroker(['mock' => $oaramBroker]);
+        $paramBroker   = NewInstance::of(ParamBroker::class);
+        $requestBroker = new RequestBroker(['mock' => $paramBroker]);
         assertThat(
                 $requestBroker->paramBroker($key),
                 isInstanceOf($brokerClass)

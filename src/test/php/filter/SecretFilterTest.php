@@ -40,7 +40,7 @@ class SecretFilterTest extends FilterTest
      * @param  string  $expected
      * @param  Secret  $actual
      */
-    private function assertSecretEquals($expected, Secret $actual)
+    private function assertSecretEquals(?string $expected, Secret $actual)
     {
         assertThat($actual->unveil(), equals($expected));
     }

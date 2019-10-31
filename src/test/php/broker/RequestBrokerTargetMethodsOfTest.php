@@ -13,7 +13,6 @@ use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\reflect;
-require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker::targetMethodsOf().
  *

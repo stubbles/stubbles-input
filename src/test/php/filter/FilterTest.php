@@ -44,7 +44,7 @@ abstract class FilterTest extends TestCase
     /**
      * helper function to create request value instance
      *
-     * @param   string  $value
+     * @param   mixed  $value
      * @return  ValueReader
      */
     protected function readParam($value): ValueReader

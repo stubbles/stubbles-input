@@ -6,7 +6,12 @@ parameters:
     # False positive
     - '#PHPDoc tag @return with type bovigo\\callmap\\Proxy is not subtype of native type#'
     - '#but returns bovigo\\callmap\\ClassProxy#'
+    - '#bovigo\\callmap\\ClassProxy given#'
+    - '#array<string, bovigo\\callmap\\ClassProxy> given#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::is#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::dnsCheck#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::paramGroup#'
+    - '#stubbles\\input\\Param::addError\(\) expects string\|stubbles\\input\\errors\\ParamError, int given#'
+    - '#static method stubbles\\input\\broker\\RequestBroker::targetMethodsOf\(\) expects object\|string, int given#'
+    - '#expects org\\bovigo\\vfs\\vfsStreamContainer, org\\bovigo\\vfs\\vfsStreamContent given#'

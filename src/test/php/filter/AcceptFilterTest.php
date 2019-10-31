@@ -28,7 +28,7 @@ class AcceptFilterTest extends TestCase
      * @param   string  $acceptHeader
      * @return  \stubbles\peer\http\AcceptHeader
      */
-    private function apply($acceptHeader): AcceptHeader
+    private function apply(?string $acceptHeader): AcceptHeader
     {
         return AcceptFilter::instance()->apply(Value::of($acceptHeader))[0];
     }
