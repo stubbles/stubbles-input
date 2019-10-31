@@ -83,7 +83,7 @@ class PasswordFilter extends Filter
             $value = $value[0];
         }
 
-        if (empty($value) === 0) {
+        if (empty($value)) {
             return [null, []];
         }
 
