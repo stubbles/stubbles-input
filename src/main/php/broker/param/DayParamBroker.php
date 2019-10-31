@@ -24,7 +24,7 @@ class DayParamBroker extends MultipleSourceParamBroker
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\date\span\Day
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Day
     {
         return $valueReader->asDay(new DatespanRange(
                 $this->createDate($annotation->getMinStartDate()),
@@ -49,7 +49,7 @@ class DayParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\Date
      */
-    private function createDate($value)
+    private function createDate($value): ?Date
     {
         if (empty($value)) {
             return null;

@@ -26,7 +26,7 @@ class MonthParamBroker extends MultipleSourceParamBroker
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\date\span\Month
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Month
     {
         return $valueReader->asMonth(new DatespanRange(
                 $this->createDate($annotation->getMinStartDate()),
@@ -51,7 +51,7 @@ class MonthParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\Date
      */
-    private function createDate($value)
+    private function createDate($value): ?Date
     {
         if (empty($value)) {
             return null;

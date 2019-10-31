@@ -23,7 +23,7 @@ class DateParamBroker extends MultipleSourceParamBroker
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
      * @return  \stubbles\date\Date
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Date
     {
         return $valueReader->asDate(new DateRange(
                 $this->createDate($annotation->getMinDate()),
@@ -37,7 +37,7 @@ class DateParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\Date
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): ?Date
     {
         return $this->createDate($value);
     }
@@ -48,7 +48,7 @@ class DateParamBroker extends MultipleSourceParamBroker
      * @param   string  $value
      * @return  \stubbles\date\Date
      */
-    private function createDate($value)
+    private function createDate($value): ?Date
     {
         if (empty($value)) {
             return null;

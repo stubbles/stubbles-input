@@ -26,7 +26,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   \stubbles\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
      * @return  \stubbles\date\span\CustomDatespan
      */
-    public function procure(Request $request, Annotation $annotation)
+    public function procure(Request $request, Annotation $annotation): ?CustomDatespan
     {
         $startDate = $this->getDate($request, $annotation, 'Start');
         $endDate   = $this->getDate($request, $annotation, 'End');
@@ -57,7 +57,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   string      $type
      * @return  \stubbles\date\Date
      */
-    private function getDate(Request $request, Annotation $annotation, $type)
+    private function getDate(Request $request, Annotation $annotation, $type): ?Date
     {
         $nameMethod = 'get' . $type . 'Name';
         return $this->readValue(
@@ -79,7 +79,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   \stubbles\input\Request  $request
      * @param   string                   $paramName
      * @param   bool                     $required
-     * @return  \stubbles\input\ValueReader
+     * @return  \stubbles\input\valuereader\CommonValueReader
      */
     private function readValue(
             Request $request,
@@ -104,7 +104,7 @@ class CustomDatespanParamBroker implements ParamBroker
      * @param   string                                        $field
      * @return  \stubbles\date\Date
      */
-    private function parseDate(Annotation $annotation, string $field)
+    private function parseDate(Annotation $annotation, string $field): ?Date
     {
         if ($annotation->hasValueByName($field)) {
             return new Date($annotation->getValueByName($field));

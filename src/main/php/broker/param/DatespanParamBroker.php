@@ -8,10 +8,12 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use stubbles\date\Date;
-use stubbles\date\span;
+use stubbles\date\span\Datespan;
 use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
+
+use function stubbles\date\span\parse;
 /**
  * Filter boolean values based on a @Request[Datespan] annotation.
  *
@@ -24,9 +26,9 @@ class DatespanParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\span\Datespan
+     * @return  \stubbles\date\span\Datespan|null
      */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Datespan
     {
         return $valueReader->asDatespan(new DatespanRange(
                 $this->createDate($annotation->getMinStartDate()),
@@ -38,20 +40,20 @@ class DatespanParamBroker extends MultipleSourceParamBroker
      * parses default value from annotation
      *
      * @param   string  $value
-     * @return  \stubbles\date\span\Datespan
+     * @return  \stubbles\date\span\Datespan|null
      */
-    protected function parseDefault($value)
+    protected function parseDefault($value): ?Datespan
     {
-        return span\parse($value);
+        return parse($value);
     }
 
     /**
      * creates date from value
      *
      * @param   string  $value
-     * @return  \stubbles\date\Date
+     * @return  \stubbles\date\Date|null
      */
-    private function createDate($value)
+    private function createDate($value): ?Date
     {
         if (empty($value)) {
             return null;
