@@ -57,7 +57,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function paramDescription()
+    public function paramDescription(): ?string
     {
         if ($this->annotation->hasParamDescription()) {
             return $this->annotation->paramDescription();
@@ -72,7 +72,7 @@ class TargetMethod
      * @api
      * @return  string
      */
-    public function valueDescription()
+    public function valueDescription(): ?string
     {
         if ($this->annotation->hasValueByName('valueDescription')) {
             return $this->annotation->getValueByName('valueDescription');
@@ -135,7 +135,7 @@ class TargetMethod
      * @param  object  $object  instance to invoke the method on
      * @param  mixed   $value   value to pass to the method
      */
-    public function invoke($object, $value)
+    public function invoke($object, $value): void
     {
         if (null !== $value) {
             $this->method->invoke($object, $value);
