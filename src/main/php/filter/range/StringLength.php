@@ -130,22 +130,22 @@ class StringLength extends AbstractRange
     /**
      * truncates given value to max length
      *
-     * @param   string  $value
+     * @param   string|Secret  $value
      * @return  string|Secret
      * @throws  \LogicException
      * @since   2.3.1
      */
     public function truncateToMaxBorder($value)
     {
-        if ($this->allowsTruncate($value)) {
-            if ($value instanceof Secret) {
-                return $value->substring(0, $this->maxLength);
-            }
-
-            return substr($value, 0, $this->maxLength);
+        if (!$this->allowsTruncate($value)) {
+            throw new \LogicException('Truncate value to max length not allowed');
         }
 
-        throw new \LogicException('Truncate value to max length not allowed');
+        if ($value instanceof Secret) {
+            return $value->substring(0, $this->maxLength);
+        }
+
+        return substr($value, 0, $this->maxLength);
     }
 
     /**
