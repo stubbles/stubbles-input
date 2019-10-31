@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.0 (2019-11-??)
+
+### BC breaks
+
+* `stubbles\input\broker\RequestBroker::procure()` doesn't return the given and procured object instance any more
+
 ## 7.0.0 (2016-07-31)
 
 ### BC breaks

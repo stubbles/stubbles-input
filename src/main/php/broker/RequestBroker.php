@@ -88,15 +88,9 @@ class RequestBroker
      * @param   \stubbles\input\Request  $request
      * @param   object                   $object   the object instance to fill with values
      * @param   string                   $group    restrict procurement to given group
-     * @return  object
-     * @throws  \InvalidArgumentException
      */
-    public function procure(Request $request, $object, string $group = null)
+    public function procure(Request $request, object $object, string $group = null)
     {
-        if (!is_object($object)) {
-            throw new \InvalidArgumentException('Parameter $object must be an object instance');
-        }
-
         foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
             $targetMethod->invoke(
                     $object,
@@ -104,8 +98,6 @@ class RequestBroker
                          ->procure($request, $targetMethod->annotation())
             );
         }
-
-        return $object;
     }
 
     /**
@@ -115,7 +107,7 @@ class RequestBroker
      * @return  \stubbles\input\broker\param\ParamBroker
      * @throws  \RuntimeException
      */
-    public function paramBroker($type): ParamBroker
+    public function paramBroker(string $type): ParamBroker
     {
         if (isset($this->paramBrokers[$type])) {
             return $this->paramBrokers[$type];

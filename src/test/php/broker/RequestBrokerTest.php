@@ -21,8 +21,6 @@ use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
 use function stubbles\reflect\annotationsOf;
-
-require_once __DIR__ . '/BrokerClass.php';
 /**
  * Tests for stubbles\input\broker\RequestBroker.
  *
@@ -63,22 +61,13 @@ class RequestBrokerTest extends TestCase
     /**
      * @test
      */
-    public function procureNonObjectThrowsInvalidArgumentException()
-    {
-        expect(function() {
-                $this->requestBroker->procure($this->request, 313);
-        })->throws(\InvalidArgumentException::class);
-    }
-
-    /**
-     * @test
-     */
     public function procuresOnlyThoseInGivenGroup()
     {
         $this->request->returns(
                 ['readParam' => ValueReader::forValue('just some string value')]
         );
-        $object = $this->requestBroker->procure($this->request, new BrokerClass(), 'main');
+        $object = new BrokerClass();
+        $this->requestBroker->procure($this->request, $object, 'main');
         assertFalse($object->isVerbose());
         assertThat($object->getBar(), equals('just some string value'));
         assertNull($object->getBaz());
@@ -101,7 +90,8 @@ class RequestBrokerTest extends TestCase
                 ]
         );
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
-        $object = $requestBroker->procure($this->request, new BrokerClass());
+        $object = new BrokerClass();
+        $requestBroker->procure($this->request, $object);
         assertTrue($object->isVerbose());
         assertThat($object->getBar(), equals('just some string value'));
         assertThat($object->getBaz(), equals('just another string value'));

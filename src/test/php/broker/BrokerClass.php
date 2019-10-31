@@ -54,7 +54,7 @@ class BrokerClass
      *
      * @Request[Bool](paramName='verbose', paramGroup='noparam')
      */
-    public function enableVerbose()
+    public function enableVerbose(): void
     {
         $this->verbose = true;
     }
@@ -75,7 +75,7 @@ class BrokerClass
      * @Request[String](paramName='bar', paramGroup='main')
      * @param  string  $bar
      */
-    public function setBar(string $bar)
+    public function setBar(string $bar): void
     {
         $this->bar = $bar;
     }
@@ -85,7 +85,7 @@ class BrokerClass
      *
      * @return  string
      */
-    public function getBar()
+    public function getBar(): ?string
     {
         return $this->bar;
     }
@@ -96,7 +96,7 @@ class BrokerClass
      * @Request[Mock](paramName='baz', paramGroup='other')
      * @param  string  $baz
      */
-    public function setBaz(string $baz)
+    public function setBaz(string $baz): void
     {
         $this->baz = $baz;
     }
@@ -106,7 +106,7 @@ class BrokerClass
      *
      * @return  string
      */
-    public function getBaz()
+    public function getBaz(): ?string
     {
         return $this->baz;
     }
