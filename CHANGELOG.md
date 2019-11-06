@@ -7,7 +7,8 @@
 * `stubbles\input\broker\RequestBroker::procure()` doesn't return the given and procured object instance any more
 * `stubbles\input\filter\range\StringLength` doesn't support instances of `stubbles\values\Secret` any more
 * `stubbles\input\ValueReader::asSecret()` doesn't take a `stubbles\input\filter\range\StringLength` any more but `stubbles\input\filter\range\SecretMinLength`
-* Annotation `@Request[Secret]` doesn't support the `maxLength` attribute any more
+* `@Request[Secret]` doesn't support the `maxLength` attribute any more
+* `@Request[OneOf]` will throw an exception when callback specified with `allowedSource` doesn't exist or isn't callable
 
 ## 7.0.0 (2016-07-31)
 

@@ -107,6 +107,24 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
 
     /**
      * @test
+     * @since  8.0.0
+     */
+    public function throwsRuntimeExceptionWhenAllowedSourceIsNoValidCallback()
+    {
+        expect(function() {
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation([
+                        'allowedSource' => __CLASS__ . '::doesNotExist()',
+                        'required' => true
+                ])
+            );
+        })
+        ->throws(\RuntimeException::class);
+    }
+
+    /**
+     * @test
      */
     public function returnsNullIfParamNotSetAndRequiredWithAllowedSource()
     {
