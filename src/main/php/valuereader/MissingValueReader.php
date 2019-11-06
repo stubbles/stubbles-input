@@ -12,6 +12,7 @@ use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
+use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
 use stubbles\values\Secret;
@@ -121,10 +122,10 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as secret
      *
-     * @param   \stubbles\input\filter\range\StringLength  $length
+     * @param   \stubbles\input\filter\range\SecretMinLength  $length
      * @return  \stubbles\values\Secret
      */
-    public function asSecret(StringLength $length = null): ?Secret
+    public function asSecret(SecretMinLength $length = null): ?Secret
     {
         $this->reportError();
         return null;

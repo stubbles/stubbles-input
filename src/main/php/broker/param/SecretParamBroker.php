@@ -7,7 +7,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\filter\range\StringLength;
+use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -26,10 +26,11 @@ class SecretParamBroker extends MultipleSourceParamBroker
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
-        return $valueReader->asSecret(new StringLength(
-                $annotation->getMinLength(),
-                $annotation->getMaxLength()
-        ));
+        if ($annotation->hasMinLength()) {
+            return $valueReader->asSecret(new SecretMinLength($annotation->getMinLength()));
+        }
+
+        return $valueReader->asSecret();
     }
 
     /**

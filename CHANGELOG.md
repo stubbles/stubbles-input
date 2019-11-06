@@ -5,6 +5,9 @@
 ### BC breaks
 
 * `stubbles\input\broker\RequestBroker::procure()` doesn't return the given and procured object instance any more
+* `stubbles\input\filter\range\StringLength` doesn't support instances of `stubbles\values\Secret` any more
+* `stubbles\input\ValueReader::asSecret()` doesn't take a `stubbles\input\filter\range\StringLength` any more but `stubbles\input\filter\range\SecretMinLength`
+* Annotation `@Request[Secret]` doesn't support the `maxLength` attribute any more
 
 ## 7.0.0 (2016-07-31)
 

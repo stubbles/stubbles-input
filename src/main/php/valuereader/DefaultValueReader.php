@@ -17,6 +17,7 @@ use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\filter\range\DatespanRange;
+use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
 use stubbles\values\Secret;
@@ -135,10 +136,10 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as string value
      *
-     * @param   \stubbles\input\filter\range\StringLength  $length
+     * @param   \stubbles\input\filter\range\SecretMinLength  $length
      * @return  \stubbles\values\Secret
      */
-    public function asSecret(StringLength $length = null): ?Secret
+    public function asSecret(SecretMinLength $length = null): ?Secret
     {
         $this->checkDefaultType(function() { return ($this->default instanceof Secret); }, Secret::class);
         return $this->default;

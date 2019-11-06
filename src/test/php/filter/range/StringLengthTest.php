@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter\range;
 use PHPUnit\Framework\TestCase;
-use stubbles\values\Secret;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
@@ -41,9 +40,7 @@ class StringLengthTest extends TestCase
     {
         return [
             [''],
-            ['abcdefghijk'],
-            [Secret::forNull()],
-            [Secret::create('abcdefghijk')]
+            ['abcdefghijk']
         ];
     }
 
@@ -62,11 +59,7 @@ class StringLengthTest extends TestCase
             ['a'],
             ['ab'],
             ['abcdefghi'],
-            ['abcdefghij'],
-            [Secret::create('a')],
-            [Secret::create('ab')],
-            [Secret::create('abcdefghi')],
-            [Secret::create('abcdefghij')]
+            ['abcdefghij']
         ];
     }
 
@@ -84,7 +77,7 @@ class StringLengthTest extends TestCase
      */
     public function lowValues()
     {
-        return [[''], [Secret::forNull()]];
+        return [['']];
     }
 
     /**
@@ -102,7 +95,7 @@ class StringLengthTest extends TestCase
      */
     public function highValues()
     {
-        return [[str_pad('a', 100)], [Secret::create(str_pad('a', 100))]];
+        return [[str_pad('a', 100)]];
     }
 
     /**
@@ -168,7 +161,7 @@ class StringLengthTest extends TestCase
      */
     public function truncateValues()
     {
-        return [['foobar'], [Secret::create('foobar')]];
+        return [['foobar']];
     }
 
     /**
@@ -227,20 +220,6 @@ class StringLengthTest extends TestCase
     {
         assertThat(
                 StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),
-                equals('foo')
-        );
-    }
-
-    /**
-     * @test
-     * @since  3.0.0
-     */
-    public function truncateToMaxBorderReturnsSecureSubstringWithMaxLength()
-    {
-        assertThat(
-                StringLength::truncate(null, 3)
-                            ->truncateToMaxBorder(Secret::create('foobar'))
-                            ->unveil(),
                 equals('foo')
         );
     }

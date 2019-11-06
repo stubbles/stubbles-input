@@ -10,6 +10,7 @@ parameters:
     - '#array<string, bovigo\\callmap\\ClassProxy> given#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::is#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::has#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::dnsCheck#'
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::paramGroup#'
     - '#stubbles\\input\\Param::addError\(\) expects string\|stubbles\\input\\errors\\ParamError, int given#'

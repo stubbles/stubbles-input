@@ -7,7 +7,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
-use stubbles\input\filter\range\StringLength;
+use stubbles\input\filter\range\SecretMinLength;
 use stubbles\values\Secret;
 
 use function bovigo\assert\assertThat;
@@ -121,7 +121,7 @@ class SecretFilterTest extends FilterTest
     public function asSecretReturnsNullIfParamIsInvalid()
     {
         assertNull(
-                $this->readParam('foo')->asSecret(new StringLength(5, null))
+                $this->readParam('foo')->asSecret(new SecretMinLength(5))
         );
     }
 
@@ -130,7 +130,7 @@ class SecretFilterTest extends FilterTest
      */
     public function asSecretAddsParamErrorIfParamIsInvalid()
     {
-        $this->readParam('foo')->asSecret(new StringLength(5, null));
+        $this->readParam('foo')->asSecret(new SecretMinLength(5));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 

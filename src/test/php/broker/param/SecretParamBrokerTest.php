@@ -196,27 +196,14 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfLongerThanMaxLength()
-    {
-        assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do you expect me to talk?'),
-                        $this->createRequestAnnotation(['maxLength' => 10])
-                )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function returnsValueIfInRange()
+    public function returnsValueIfLongerThenMinLength()
     {
         $this->assertSecretEquals(
                 'Do you expect me to talk?',
                 $this->paramBroker->procure(
                         $this->createRequest('Do you expect me to talk?'),
                         $this->createRequestAnnotation(
-                                ['minLength' => 10, 'maxLength' => 30]
+                                ['minLength' => 10]
                         )
                 )
         );

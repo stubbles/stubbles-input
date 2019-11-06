@@ -82,7 +82,7 @@ class StringLength extends AbstractRange
             return false;
         }
 
-        return $this->length($value) < $this->minLength;
+        return \iconv_strlen($value) < $this->minLength;
     }
 
     /**
@@ -97,22 +97,7 @@ class StringLength extends AbstractRange
             return false;
         }
 
-        return $this->length($value) > $this->maxLength;
-    }
-
-    /**
-     * returns length of given value
-     *
-     * @param   string|Secret $value
-     * @return  int
-     */
-    private function length($value): int
-    {
-        if ($value instanceof Secret) {
-            return $value->length();
-        }
-
-        return iconv_strlen($value);
+        return \iconv_strlen($value) > $this->maxLength;
     }
 
     /**
@@ -130,8 +115,8 @@ class StringLength extends AbstractRange
     /**
      * truncates given value to max length
      *
-     * @param   string|Secret  $value
-     * @return  string|Secret
+     * @param   string  $value
+     * @return  string
      * @throws  \LogicException
      * @since   2.3.1
      */
@@ -139,10 +124,6 @@ class StringLength extends AbstractRange
     {
         if (!$this->allowsTruncate($value)) {
             throw new \LogicException('Truncate value to max length not allowed');
-        }
-
-        if ($value instanceof Secret) {
-            return $value->substring(0, $this->maxLength);
         }
 
         return substr($value, 0, $this->maxLength);

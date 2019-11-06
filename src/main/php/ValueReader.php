@@ -13,6 +13,7 @@ use stubbles\input\filter\{
     PasswordChecker,
     range\DateRange,
     range\DatespanRange,
+    range\SecretMinLength,
     range\StringLength,
     range\NumberRange
 };
@@ -235,11 +236,11 @@ class ValueReader implements valuereader\CommonValueReader
      * read as secret
      *
      * @api
-     * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
+     * @param   \stubbles\input\filter\range\SecretMinLength  $length  optional  required min length of string
      * @return  \stubbles\values\Secret
      * @since   6.0.0
      */
-    public function asSecret(StringLength $length = null): ?Secret
+    public function asSecret(SecretMinLength $length = null): ?Secret
     {
         return $this->handleFilter(
                 function() use($length)
