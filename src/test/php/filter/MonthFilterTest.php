@@ -143,9 +143,10 @@ class MonthFilterTest extends FilterTest
      */
     public function asMonthReturnsValidValue()
     {
+        $month = $this->readParam('2012-03-11')->asMonth();
         assertThat(
-                $this->readParam('2012-03-11')->asMonth()->asString(),
-                equals('2012-03')
+            $month !== null ? $month->asString() : null,
+            equals('2012-03')
         );
 
     }

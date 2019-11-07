@@ -141,9 +141,10 @@ class WeekFilterTest extends FilterTest
      */
     public function asWeekReturnsValidValue()
     {
+        $week = $this->readParam('2012-W03')->asWeek();
         assertThat(
-                $this->readParam('2012-W03')->asWeek()->asString(),
-                equals('2012-W03')
+            $week !== null ? $week->asString() : null,
+            equals('2012-W03')
         );
 
     }

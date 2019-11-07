@@ -146,11 +146,10 @@ class DateFilterTest extends FilterTest
      */
     public function asDateReturnsValidValue()
     {
+        $date = $this->readParam('2012-03-11')->asDate();
         assertThat(
-                $this->readParam('2012-03-11')
-                        ->asDate()
-                        ->format('Y-m-d'),
-                equals('2012-03-11')
+            $date !== null ? $date->format('Y-m-d') : null,
+            equals('2012-03-11')
         );
 
     }

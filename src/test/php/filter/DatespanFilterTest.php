@@ -142,11 +142,10 @@ class DatespanFilterTest extends FilterTest
      */
     public function asDatespanReturnsValidValue()
     {
+        $datespan = $this->readParam('2012-03-11')->asDatespan();
         assertThat(
-                $this->readParam('2012-03-11')
-                        ->asDatespan()
-                        ->asString(),
-                equals('2012-03-11')
+            $datespan !== null ? $datespan->asString() : null,
+            equals('2012-03-11')
         );
 
     }
