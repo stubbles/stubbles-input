@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input;
 use bovigo\callmap\NewCallable;
+use bovigo\callmap\NewInstance;
 use PHPUnit\Framework\TestCase;
+use stubbles\peer\http\HttpUri;
 use stubbles\values\Value;
 
 use function bovigo\assert\assertThat;
@@ -24,6 +26,11 @@ use function bovigo\callmap\verify;
  */
 class ValueValidatorTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        Value::defineCheck('isExistingHttpUri', [HttpUri::class, 'exists']);
+    }
+
     /**
      * helper method to create test instances
      *
@@ -106,6 +113,7 @@ class ValueValidatorTest extends TestCase
      */
     public function isExistingHttpUriReturnsTrueIfValidatorSatisfied()
     {
+        Value::defineCheck('isExistingHttpUri', function(): bool { return true; });
         assertTrue($this->validate('http://localhost/')->isExistingHttpUri());
     }
 
@@ -114,15 +122,8 @@ class ValueValidatorTest extends TestCase
      */
     public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfied()
     {
+        Value::defineCheck('isExistingHttpUri', function(): bool { return false; });
         assertFalse($this->validate('foo')->isExistingHttpUri());
-    }
-
-    /**
-     * @test
-     */
-    public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfiedWithNonExistingUri()
-    {
-        assertFalse($this->validate('http://doesnotexist')->isExistingHttpUri());
     }
 
     /**
