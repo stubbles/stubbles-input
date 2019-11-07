@@ -115,7 +115,11 @@ class SimplePasswordChecker implements PasswordChecker
             $errors['PASSWORD_DISALLOWED'] = [];
         }
 
-        if (null !== $this->minDiffChars && count(count_chars($proposedPassword->unveil(), 1)) < $this->minDiffChars) {
+
+        if (null !== $this->minDiffChars
+          // cast to string after unveiling because count_chars()
+          // expects a string, so null becomes an empty string
+          && count(count_chars((string) $proposedPassword->unveil(), 1)) < $this->minDiffChars) {
             $errors['PASSWORD_TOO_LESS_DIFF_CHARS'] = ['minDiff' => $this->minDiffChars];
         }
 

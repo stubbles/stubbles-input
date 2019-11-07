@@ -56,8 +56,8 @@ class StringFilter extends Filter
      *
      * @return  string
      */
-    protected function allowedTags(): ?string
+    protected function allowedTags(): string
     {
-        return null;
+        return '';
     }
 }
