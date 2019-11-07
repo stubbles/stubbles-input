@@ -121,7 +121,7 @@ abstract class MultipleSourceParamBroker implements ParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
-     * @return  mixed
+     * @return  mixed|null
      */
     protected abstract function filter(CommonValueReader $valueReader, Annotation $annotation);
 }

@@ -22,7 +22,7 @@ class SecretParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation       $annotation   annotation which contains filter metadata
-     * @return  \stubbles\values\Secret
+     * @return  \stubbles\values\Secret|null
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
