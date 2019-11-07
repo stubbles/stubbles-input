@@ -19,7 +19,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  string
+     * @return  string|null
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
@@ -30,7 +30,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      * reads default value
      *
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  array|null
+     * @return  array
      * @throws  \RuntimeException
      */
     private function allowedValues(Annotation $annotation): array
