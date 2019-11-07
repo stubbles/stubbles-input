@@ -20,7 +20,7 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * list of parameters
      *
-     * @type  array
+     * @type  array<string,string>
      */
     private $params;
     /**
@@ -33,7 +33,7 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * constructor
      *
-     * @param  array  $params
+     * @param  array<string,string>  $params
      */
     public function __construct(array $params)
     {
@@ -65,7 +65,7 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * return an array of all param names registered in this request
      *
-     * @return  string[]
+     * @return  array
      */
     public function names(): array
     {
