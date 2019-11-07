@@ -148,10 +148,12 @@ class ValueReader implements valuereader\CommonValueReader
             return null;
         }
 
-        return array_map(
-                'trim',
-                Parse::toList($this->value->value(), $separator)
-        );
+        $val = Parse::toList($this->value->value(), $separator);
+        if (null === $val) {
+            return null;
+        }
+
+        return array_map('trim', $val);
     }
 
     /**
