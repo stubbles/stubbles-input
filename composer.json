@@ -5,7 +5,7 @@
     "license": "BSD-3-Clause",
     "description": "Stubbles Input enables to handle input data via validation and filtering.",
     "require": {
-        "php": "^7.0",
+        "php": "^7.3",
         "ext-iconv": "*",
         "stubbles/values": "^9.0",
         "stubbles/reflect": "^9.0"
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "7.0.x-dev"
+            "dev-master": "8.0.x-dev"
         }
     },
     "minimum-stability": "dev",

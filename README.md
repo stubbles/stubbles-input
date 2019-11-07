@@ -23,13 +23,13 @@ _stubbles/input_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/input": "^7.0"
+    composer require "stubbles/input": "^8.0"
 
 
 Requirements
 ------------
 
-_stubbles/input_ requires at least PHP 7.0.
+_stubbles/input_ requires at least PHP 7.3.
 
 
 Request parameters
