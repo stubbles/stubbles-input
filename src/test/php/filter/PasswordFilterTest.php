@@ -47,9 +47,10 @@ class PasswordFilterTest extends FilterTest
      * @param  string  $expectedPassword
      * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword)
+    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword = null)
     {
-        assertThat($actualPassword->unveil(), equals($expectedPassword));
+        $actual = $actualPassword !== null ? $actualPassword->unveil() : null;
+        assertThat($actual, equals($expectedPassword));
     }
 
     /**

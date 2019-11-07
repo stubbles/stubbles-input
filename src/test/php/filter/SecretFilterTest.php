@@ -36,13 +36,10 @@ class SecretFilterTest extends FilterTest
         parent::setUp();
     }
 
-    /**
-     * @param  string  $expected
-     * @param  Secret  $actual
-     */
-    private function assertSecretEquals(?string $expected, Secret $actual)
+    private function assertSecretEquals(?string $expected, Secret $actualSecret = null)
     {
-        assertThat($actual->unveil(), equals($expected));
+        $actual = $actualSecret !== null ? $actualSecret->unveil() : null;
+        assertThat($actual, equals($expected));
     }
 
     /**
@@ -94,7 +91,7 @@ class SecretFilterTest extends FilterTest
     public function asSecretThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecret()
     {
         expect(function() {
-                $this->readParam(null)->defaultingTo('baz')->asSecret()->unveil();
+                $this->readParam(null)->defaultingTo('baz')->asSecret();
         })->throws(\LogicException::class);
     }
 
@@ -139,7 +136,8 @@ class SecretFilterTest extends FilterTest
      */
     public function asSecretReturnsValidValue()
     {
-        assertThat($this->readParam('foo')->asSecret()->unveil(), equals('foo'));
+        $secret = $this->readParam('foo')->asSecret();
+        assertThat($secret !== null ? $secret->unveil() : null, equals('foo'));
     }
 
 }
