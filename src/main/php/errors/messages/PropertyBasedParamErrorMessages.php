@@ -110,7 +110,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
                 return $requestedLocale;
             }
 
-            $baseLocale = substr($requestedLocale, 0, (int) strpos($requestedLocale, '_')) . '_*';
+            $baseLocale = $this->baseLocale($requestedLocale);
             if ($properties->containValue($errorId, $baseLocale)) {
                 return $baseLocale;
             }
@@ -120,7 +120,17 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
             return $this->defaultLocale;
         }
 
+        $baseLocale = $this->baseLocale($this->defaultLocale);
+        if ($properties->containValue($errorId, $baseLocale)) {
+            return $baseLocale;
+        }
+
         return 'default';
+    }
+
+    private function baseLocale(string $locale): string
+    {
+       return substr($locale, 0, (int) strpos($locale, '_')) . '_*';
     }
 
     /**

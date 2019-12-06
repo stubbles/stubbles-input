@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.0.1 (2019-12-06)
+
+* Fixed problem that setting `stubbles.locale` to something like `de_DE` didn't fall back to using messages with `de_*`
+
 ## 8.0.0 (2019-11-07)
 
 ### BC breaks

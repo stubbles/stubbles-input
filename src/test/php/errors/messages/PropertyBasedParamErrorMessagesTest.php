@@ -213,6 +213,19 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 
     /**
      * @test
+     * @since  8.0.1
+     */
+    public function returnsMessageInBaseLocaleIfNoLocaleGivenAndNoSpecificLocaleMessageAvailable()
+    {
+        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_EN');
+        assertThat(
+                $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
+                equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
+        );
+    }
+
+    /**
+     * @test
      */
     public function returnsMessageInFallbackLocale()
     {
