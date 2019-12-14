@@ -11,13 +11,14 @@ namespace stubbles\input\errors;
  * Container for a filter error list.
  *
  * @since  1.3.0
+ * @implements  \IteratorAggregate<string,array<string,ParamError>>
  */
 class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * list of errors that occurred while applying a filter on a param
      *
-     * @type  array
+     * @type  array<string,array<string,ParamError>>
      */
     private $errors = [];
 
@@ -123,10 +124,10 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * provides an iterator to iterate over all errors
      *
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  \Traversable
+     * @return  \Iterator<string,array<string,ParamError>>
      * @since   2.0.0
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->errors);
     }
