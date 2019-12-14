@@ -70,8 +70,8 @@ class PasswordFilter extends Filter
     /**
      * parses password from given param value
      *
-     * @param   string|array  $value
-     * @return  array
+     * @param   string|string[]  $value
+     * @return  mixed[]
      */
     private function parse($value): array
     {
