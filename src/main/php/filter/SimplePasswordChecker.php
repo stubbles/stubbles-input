@@ -31,7 +31,7 @@ class SimplePasswordChecker implements PasswordChecker
     /**
      * minimum amount of different characters in the password
      *
-     * @type  int
+     * @var  int
      */
     private $minDiffChars        = self::DEFAULT_MIN_DIFF_CHARS;
     /**
@@ -102,7 +102,7 @@ class SimplePasswordChecker implements PasswordChecker
      * error ids.
      *
      * @param   \stubbles\values\Secret  $proposedPassword
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     public function check(Secret $proposedPassword): array
     {

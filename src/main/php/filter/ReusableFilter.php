@@ -18,7 +18,7 @@ trait ReusableFilter
     /**
      * reusable instance
      *
-     * @type  \stubbles\input\Filter
+     * @var  Filter
      */
     private static $instance;
 
