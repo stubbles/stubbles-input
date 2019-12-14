@@ -29,7 +29,7 @@ class ParamsTest extends TestCase
     /**
      * instanct to test
      *
-     * @type  Params
+     * @var  Params
      */
     private $params;
 
@@ -41,7 +41,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function returnsFalseIfParamDoesNotExist()
+    public function returnsFalseIfParamDoesNotExist(): void
     {
         assertFalse($this->params->contain('doesNotExist'));
     }
@@ -49,7 +49,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function returnsTrueIfParamDoesExist()
+    public function returnsTrueIfParamDoesExist(): void
     {
         assertTrue($this->params->contain('foo'));
     }
@@ -57,7 +57,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullValueIfParamDoesNotExist()
+    public function returnsNullValueIfParamDoesNotExist(): void
     {
         assertThat($this->params->value('doesNotExist'), isSameAs(Value::of(null)));
     }
@@ -65,7 +65,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function returnsValueIfParamExists()
+    public function returnsValueIfParamExists(): void
     {
         assertThat($this->params->value('foo'), equals(Value::of('bar')));
     }
@@ -73,7 +73,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function returnsListOfParamNames()
+    public function returnsListOfParamNames(): void
     {
         assertThat($this->params->names(), equals(['foo', 'baz']));
     }
@@ -81,7 +81,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function listOfParamErrorsIsInitiallyEmpty()
+    public function listOfParamErrorsIsInitiallyEmpty(): void
     {
         assertFalse($this->params->errors()->exist());
     }
@@ -89,7 +89,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function paramsCanBeCounted()
+    public function paramsCanBeCounted(): void
     {
         assertThat($this->params, isOfSize(2));
     }
@@ -97,7 +97,7 @@ class ParamsTest extends TestCase
     /**
      * @test
      */
-    public function canIterateOverParams()
+    public function canIterateOverParams(): void
     {
         $i = 0;
         foreach ($this->params as $paramName => $paramValue) {

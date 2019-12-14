@@ -1,18 +1,13 @@
+includes:
+  - vendor/bovigo/assert/src/main/resources/phpstan/bovigo-assert.neon
 parameters:
+  inferPrivatePropertyTypeFromConstructor: true
   level: 7
   paths:
     - ./src
   ignoreErrors:
     # False positive
-    - '#PHPDoc tag @return with type bovigo\\callmap\\Proxy is not subtype of native type#'
-    - '#but returns bovigo\\callmap\\ClassProxy#'
-    - '#bovigo\\callmap\\ClassProxy given#'
-    - '#array<string, bovigo\\callmap\\ClassProxy> given#'
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::is#'
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::has#'
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::dnsCheck#'
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::paramGroup#'
+    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::#'
     - '#stubbles\\input\\Param::addError\(\) expects string\|stubbles\\input\\errors\\ParamError, int given#'
     - '#static method stubbles\\input\\broker\\RequestBroker::targetMethodsOf\(\) expects object\|string, int given#'
     - '#expects org\\bovigo\\vfs\\vfsStreamContainer, org\\bovigo\\vfs\\vfsStreamContent given#'

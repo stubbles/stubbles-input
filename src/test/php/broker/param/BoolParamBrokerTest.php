@@ -44,7 +44,7 @@ class BoolParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertTrue(
                 $this->paramBroker->procure(

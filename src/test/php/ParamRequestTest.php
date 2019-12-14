@@ -27,7 +27,7 @@ class ParamRequestTest extends TestCase
     /**
      * instance to test
      *
-     * @type  ParamRequest
+     * @var  ParamRequest
      */
     private $paramRequest;
 
@@ -46,7 +46,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function returnsListOfParamNames()
+    public function returnsListOfParamNames(): void
     {
         assertThat(
                 $this->paramRequest->paramNames(),
@@ -57,7 +57,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function returnsParamErrors()
+    public function returnsParamErrors(): void
     {
         assertThat(
                 $this->paramRequest->paramErrors(),
@@ -68,7 +68,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function returnsFalseOnCheckForNonExistingParam()
+    public function returnsFalseOnCheckForNonExistingParam(): void
     {
         assertFalse($this->paramRequest->hasParam('baz'));
     }
@@ -76,7 +76,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function returnsTrueOnCheckForExistingParam()
+    public function returnsTrueOnCheckForExistingParam(): void
     {
         assertTrue($this->paramRequest->hasParam('foo'));
     }
@@ -84,7 +84,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function validateParamReturnsValueValidator()
+    public function validateParamReturnsValueValidator(): void
     {
         assertThat(
                 $this->paramRequest->validateParam('foo'),
@@ -95,7 +95,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function validateParamReturnsValueValidatorForNonExistingParam()
+    public function validateParamReturnsValueValidatorForNonExistingParam(): void
     {
         assertThat(
                 $this->paramRequest->validateParam('baz'),
@@ -106,7 +106,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueReader()
+    public function readParamReturnsValueReader(): void
     {
         assertThat(
                 $this->paramRequest->readParam('foo'),
@@ -117,7 +117,7 @@ class ParamRequestTest extends TestCase
     /**
      * @test
      */
-    public function readParamReturnsValueReaderForNonExistingParam()
+    public function readParamReturnsValueReaderForNonExistingParam(): void
     {
         assertThat(
                 $this->paramRequest->readParam('baz'),

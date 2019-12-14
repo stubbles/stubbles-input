@@ -15,19 +15,19 @@ class BrokerClass
     /**
      * test property
      *
-     * @type  string
+     * @var  string
      */
     private $bar     = null;
     /**
      * test property
      *
-     * @type  string
+     * @var  string
      */
     private $baz     = null;
     /**
      * verbosity switch
      *
-     * @type  bool
+     * @var  bool
      */
     private $verbose = false;
 

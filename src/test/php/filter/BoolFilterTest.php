@@ -21,7 +21,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filtering1AsIntReturnsTrue()
+    public function filtering1AsIntReturnsTrue(): void
     {
         assertTrue($this->readParam(1)->asBool());
     }
@@ -29,7 +29,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filtering1AsStringReturnsTrue()
+    public function filtering1AsStringReturnsTrue(): void
     {
         assertTrue($this->readParam('1')->asBool());
     }
@@ -37,7 +37,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filteringTrueAsStringReturnsTrue()
+    public function filteringTrueAsStringReturnsTrue(): void
     {
         assertTrue($this->readParam('true')->asBool());
     }
@@ -45,7 +45,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filteringTrueAsBoolReturnsTrue()
+    public function filteringTrueAsBoolReturnsTrue(): void
     {
         assertTrue($this->readParam(true)->asBool());
     }
@@ -55,7 +55,7 @@ class BoolFilterTest extends FilterTest
      * @since  2.4.1
      * @group  issue_49
      */
-    public function filteringYesAsStringReturnsTrue()
+    public function filteringYesAsStringReturnsTrue(): void
     {
         assertTrue($this->readParam('yes')->asBool());
     }
@@ -63,7 +63,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filtering0AsIntReturnsFalse()
+    public function filtering0AsIntReturnsFalse(): void
     {
         assertFalse($this->readParam(0)->asBool());
     }
@@ -71,7 +71,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filtering0AsStringReturnsFalse()
+    public function filtering0AsStringReturnsFalse(): void
     {
         assertFalse($this->readParam('0')->asBool());
     }
@@ -79,7 +79,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filteringFalseAsStringReturnsFalse()
+    public function filteringFalseAsStringReturnsFalse(): void
     {
         assertFalse($this->readParam('false')->asBool());
     }
@@ -87,7 +87,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filteringFalseAsBoolReturnsFalse()
+    public function filteringFalseAsBoolReturnsFalse(): void
     {
         assertFalse($this->readParam(false)->asBool());
     }
@@ -97,7 +97,7 @@ class BoolFilterTest extends FilterTest
      * @since  2.4.1
      * @group  issue_49
      */
-    public function filteringNoAsStringReturnsFalse()
+    public function filteringNoAsStringReturnsFalse(): void
     {
         assertFalse($this->readParam('no')->asBool());
     }
@@ -105,7 +105,7 @@ class BoolFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filteringAnyStringReturnsFalse()
+    public function filteringAnyStringReturnsFalse(): void
     {
         assertFalse($this->readParam('a string')->asBool());
     }
@@ -115,7 +115,7 @@ class BoolFilterTest extends FilterTest
      * @test
      * @group  bug266
      */
-    public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull()
+    public function asBoolReturnsDefaultIfParamIsNullAndDefaultIsNotNull(): void
     {
         assertTrue($this->readParam(null)->defaultingTo(true)->asBool());
     }
@@ -124,7 +124,7 @@ class BoolFilterTest extends FilterTest
      * @since  1.7.0
      * @test
      */
-    public function asBoolReturnsNullIfParamIsNull()
+    public function asBoolReturnsNullIfParamIsNull(): void
     {
         assertNull($this->readParam(null)->asBool());
     }
@@ -134,7 +134,7 @@ class BoolFilterTest extends FilterTest
      * @test
      * @group  bug266
      */
-    public function asBoolWithFalseValueReturnsFalse()
+    public function asBoolWithFalseValueReturnsFalse(): void
     {
         assertFalse($this->readParam(0)->asBool());
     }
@@ -144,7 +144,7 @@ class BoolFilterTest extends FilterTest
      * @test
      * @group  bug266
      */
-    public function asBoolWithTrueValueReturnsTrue()
+    public function asBoolWithTrueValueReturnsTrue(): void
     {
         assertTrue($this->readParam(1)->asBool());
     }

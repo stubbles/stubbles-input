@@ -28,7 +28,7 @@ class DateRangeTest extends TestCase
     /**
      * instance to test
      *
-     * @type  DateRange
+     * @var  DateRange
      */
     private $dateRange;
 
@@ -37,6 +37,9 @@ class DateRangeTest extends TestCase
         $this->dateRange = new DateRange('2012-03-17', '2012-03-19');
     }
 
+    /**
+     * @return  array<string[]>
+     */
     public function outOfRangeValues(): array
     {
         return [
@@ -49,11 +52,14 @@ class DateRangeTest extends TestCase
      * @test
      * @dataProvider  outOfRangeValues
      */
-    public function valueOutOfRangeIsNotContainedInRange($value)
+    public function valueOutOfRangeIsNotContainedInRange(string $value): void
     {
         assertFalse($this->dateRange->contains($value));
     }
 
+    /**
+     * @return  array<string[]>
+     */
     public function withinRangeValues(): array
     {
         return [
@@ -67,7 +73,7 @@ class DateRangeTest extends TestCase
      * @test
      * @dataProvider  withinRangeValues
      */
-    public function valueWithinRangeIsContainedInRange($value)
+    public function valueWithinRangeIsContainedInRange(string $value): void
     {
         assertTrue($this->dateRange->contains($value));
     }
@@ -75,7 +81,7 @@ class DateRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsLowValuesIfMinValueIsNull()
+    public function rangeContainsLowValuesIfMinValueIsNull(): void
     {
         $numberRange = new DateRange(null, '2012-03-19');
         assertTrue($numberRange->contains(1));
@@ -84,12 +90,15 @@ class DateRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsHighValuesIfMaxValueIsNull()
+    public function rangeContainsHighValuesIfMaxValueIsNull(): void
     {
         $numberRange = new DateRange('2012-03-17', null);
         assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
+    /**
+     * @return  array<DateRange[]>
+     */
     public function ranges(): array
     {
         return [
@@ -103,7 +112,7 @@ class DateRangeTest extends TestCase
      * @test
      * @dataProvider  ranges
      */
-    public function rangeDoesNotContainNull(DateRange $range)
+    public function rangeDoesNotContainNull(DateRange $range): void
     {
         assertFalse($range->contains(null));
     }
@@ -111,7 +120,7 @@ class DateRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListIsEmptyIfValueContainedInRange()
+    public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->dateRange->errorsOf('2012-03-17'));
     }
@@ -119,7 +128,7 @@ class DateRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
                 $this->dateRange->errorsOf('2012-03-16'),
@@ -130,7 +139,7 @@ class DateRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
                 $this->dateRange->errorsOf('2012-03-20'),
@@ -143,7 +152,7 @@ class DateRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function doesNotAllowToTruncate()
+    public function doesNotAllowToTruncate(): void
     {
         assertFalse($this->dateRange->allowsTruncate('2012-03-20'));
     }
@@ -153,10 +162,9 @@ class DateRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function tryingToTruncateThrowsBadMethodCallException()
+    public function tryingToTruncateThrowsBadMethodCallException(): void
     {
-        expect(function() {
-                $this->dateRange->truncateToMaxBorder(new Date('2012-03-20'));
-        })->throws(\BadMethodCallException::class);
+        expect(function() { $this->dateRange->truncateToMaxBorder('2012-03-20'); })
+            ->throws(\BadMethodCallException::class);
     }
 }

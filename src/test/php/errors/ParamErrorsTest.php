@@ -27,7 +27,7 @@ class ParamErrorsTest extends TestCase
     /**
      * instance to test
      *
-     * @type  ParamErrors
+     * @var  ParamErrors
      */
     private $paramErrors;
 
@@ -39,7 +39,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function hasNoErrorsInitially()
+    public function hasNoErrorsInitially(): void
     {
         assertFalse($this->paramErrors->exist());
     }
@@ -47,7 +47,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function initialErrorCountIsZero()
+    public function initialErrorCountIsZero(): void
     {
         assertThat($this->paramErrors, isOfSize(0));
     }
@@ -55,7 +55,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function paramErrorsExistIfOneAppended()
+    public function paramErrorsExistIfOneAppended(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->exist());
@@ -64,7 +64,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function appendedErrorExistsForGivenParamName()
+    public function appendedErrorExistsForGivenParamName(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->existFor('foo'));
@@ -73,7 +73,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function appendedErrorExistsForGivenParamNameAndErrorId()
+    public function appendedErrorExistsForGivenParamNameAndErrorId(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->existForWithId('foo', 'errorid'));
@@ -82,7 +82,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function appendingAnErrorIncreasesErrorCount()
+    public function appendingAnErrorIncreasesErrorCount(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertThat($this->paramErrors, isOfSize(1));
@@ -91,7 +91,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function appendedErrorIsContainedInListForParam()
+    public function appendedErrorIsContainedInListForParam(): void
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
         assertThat(
@@ -103,7 +103,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function appendedErrorIsReturnedWhenRequested()
+    public function appendedErrorIsReturnedWhenRequested(): void
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
         assertThat(
@@ -115,7 +115,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function existForReturnsFalseIfNoErrorAddedBefore()
+    public function existForReturnsFalseIfNoErrorAddedBefore(): void
     {
         assertFalse($this->paramErrors->existFor('foo'));
     }
@@ -123,7 +123,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function getForReturnsEmptyArrayIfNoErrorAddedBefore()
+    public function getForReturnsEmptyArrayIfNoErrorAddedBefore(): void
     {
         assertEmptyArray($this->paramErrors->getFor('foo'));
     }
@@ -131,7 +131,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function existForWithIdReturnsFalseIfNoErrorAddedBefore()
+    public function existForWithIdReturnsFalseIfNoErrorAddedBefore(): void
     {
         assertFalse($this->paramErrors->existForWithId('foo', 'id'));
     }
@@ -139,7 +139,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function getForWithIdReturnsNullIfNoErrorAddedBefore()
+    public function getForWithIdReturnsNullIfNoErrorAddedBefore(): void
     {
         assertNull($this->paramErrors->getForWithId('foo', 'id'));
     }
@@ -147,7 +147,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function existForWithIdReturnsFalseIfNoErrorOfThisNameAddedBefore()
+    public function existForWithIdReturnsFalseIfNoErrorOfThisNameAddedBefore(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertFalse($this->paramErrors->existForWithId('foo', 'baz'));
@@ -156,7 +156,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function getForWithIdReturnsNullIfNoErrorOfThisNameAddedBefore()
+    public function getForWithIdReturnsNullIfNoErrorOfThisNameAddedBefore(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertNull($this->paramErrors->getForWithId('foo', 'baz'));
@@ -165,7 +165,7 @@ class ParamErrorsTest extends TestCase
     /**
      * @test
      */
-    public function canIterateOverParamErrors()
+    public function canIterateOverParamErrors(): void
     {
         $paramError1 = $this->paramErrors->append('foo', 'id1');
         $paramError2 = $this->paramErrors->append('foo', 'id2');

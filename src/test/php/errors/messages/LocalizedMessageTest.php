@@ -25,7 +25,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * instance to test
      *
-     * @type  LocalizedMessage
+     * @var  LocalizedMessage
      */
     private $localizedMessage;
 
@@ -40,7 +40,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * @test
      */
-    public function annotationPresentOnClass()
+    public function annotationPresentOnClass(): void
     {
         assertTrue(annotationsOf($this->localizedMessage)->contain('XmlTag'));
     }
@@ -48,7 +48,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * @test
      */
-    public function annotationPresentOnGetLocaleMethod()
+    public function annotationPresentOnGetLocaleMethod(): void
     {
         assertTrue(
                 annotationsOf($this->localizedMessage, 'locale')
@@ -59,7 +59,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * @test
      */
-    public function annotationPresentOngetMessageMethod()
+    public function annotationPresentOngetMessageMethod(): void
     {
         assertTrue(
                 annotationsOf($this->localizedMessage, 'message')
@@ -70,7 +70,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * @test
      */
-    public function localeAttributeEqualsGivenLocale()
+    public function localeAttributeEqualsGivenLocale(): void
     {
         assertThat($this->localizedMessage->locale(), equals('en_EN'));
     }
@@ -78,7 +78,7 @@ class LocalizedMessageTest extends TestCase
     /**
      * @test
      */
-    public function contentOfStringEqualsGivenString()
+    public function contentOfStringEqualsGivenString(): void
     {
         assertThat(
                 $this->localizedMessage->message(),
@@ -90,7 +90,7 @@ class LocalizedMessageTest extends TestCase
      * @since  2.0.0
      * @test
      */
-    public function conversionToStringYieldsMessage()
+    public function conversionToStringYieldsMessage(): void
     {
         assertThat(
                 (string) $this->localizedMessage,

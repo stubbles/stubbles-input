@@ -27,7 +27,7 @@ class StringLengthTest extends TestCase
     /**
      * instance to test
      *
-     * @type  StringLength
+     * @var  StringLength
      */
     private $stringLength;
 
@@ -36,6 +36,9 @@ class StringLengthTest extends TestCase
         $this->stringLength = new StringLength(1, 10);
     }
 
+    /**
+     * @return  array<string[]>
+     */
     public function outOfRangeValues(): array
     {
         return [
@@ -48,11 +51,14 @@ class StringLengthTest extends TestCase
      * @test
      * @dataProvider  outOfRangeValues
      */
-    public function valueOutOfRangeIsNotContainedInRange($value)
+    public function valueOutOfRangeIsNotContainedInRange(string $value): void
     {
         assertFalse($this->stringLength->contains($value));
     }
 
+    /**
+     * @return  array<string[]>
+     */
     public function withinRangeValues(): array
     {
         return [
@@ -67,15 +73,15 @@ class StringLengthTest extends TestCase
      * @test
      * @dataProvider  withinRangeValues
      */
-    public function valueWithinRangeIsContainedInRange($value)
+    public function valueWithinRangeIsContainedInRange(string $value): void
     {
         assertTrue($this->stringLength->contains($value));
     }
 
     /**
-     * @return  array
+     * @return  array<string[]>
      */
-    public function lowValues()
+    public function lowValues(): array
     {
         return [['']];
     }
@@ -84,16 +90,16 @@ class StringLengthTest extends TestCase
      * @test
      * @dataProvider  lowValues
      */
-    public function rangeContainsLowValuesIfMinValueIsNull($value)
+    public function rangeContainsLowValuesIfMinValueIsNull(string $value): void
     {
         $numberRange = new StringLength(null, 10);
         assertTrue($numberRange->contains($value));
     }
 
     /**
-     * @return  array
+     * @return  array<string[]>
      */
-    public function highValues()
+    public function highValues(): array
     {
         return [[str_pad('a', 100)]];
     }
@@ -102,12 +108,15 @@ class StringLengthTest extends TestCase
      * @test
      * @dataProvider  highValues
      */
-    public function rangeContainsHighValuesIfMaxValueIsNull($value)
+    public function rangeContainsHighValuesIfMaxValueIsNull(string $value): void
     {
         $numberRange = new StringLength(1, null);
         assertTrue($numberRange->contains($value));
     }
 
+    /**
+     * @return  array<StringLength[]>
+     */
     public function ranges(): array
     {
         return [
@@ -121,7 +130,7 @@ class StringLengthTest extends TestCase
      * @test
      * @dataProvider  ranges
      */
-    public function rangeDoesNotContainNull(StringLength $range)
+    public function rangeDoesNotContainNull(StringLength $range): void
     {
         assertFalse($range->contains(null));
     }
@@ -129,7 +138,7 @@ class StringLengthTest extends TestCase
     /**
      * @test
      */
-    public function errorListIsEmptyIfValueContainedInRange()
+    public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->stringLength->errorsOf('foo'));
     }
@@ -137,7 +146,7 @@ class StringLengthTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
                 $this->stringLength->errorsOf(''),
@@ -148,7 +157,7 @@ class StringLengthTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
                 $this->stringLength->errorsOf('abcdefghijk'),
@@ -157,9 +166,9 @@ class StringLengthTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<string[]>
      */
-    public function truncateValues()
+    public function truncateValues(): array
     {
         return [['foobar']];
     }
@@ -170,7 +179,7 @@ class StringLengthTest extends TestCase
      * @group  issue41
      * @dataProvider  truncateValues
      */
-    public function doesNotAllowTruncateByDefault($value)
+    public function doesNotAllowTruncateByDefault(string $value): void
     {
         assertFalse($this->stringLength->allowsTruncate($value));
     }
@@ -181,7 +190,7 @@ class StringLengthTest extends TestCase
      * @group  issue41
      * @dataProvider  truncateValues
      */
-    public function truncateValueWhenNotAllowedThrowsLogicException($value)
+    public function truncateValueWhenNotAllowedThrowsLogicException(string $value): void
     {
         expect(function() use ($value) {
                 $this->stringLength->truncateToMaxBorder($value);
@@ -194,7 +203,7 @@ class StringLengthTest extends TestCase
      * @group  issue41
      * @dataProvider  truncateValues
      */
-    public function allowsTruncateWhenCreatedThisWay($value)
+    public function allowsTruncateWhenCreatedThisWay(string $value): void
     {
         assertTrue(StringLength::truncate(null, 3)->allowsTruncate($value));
     }
@@ -204,7 +213,7 @@ class StringLengthTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function createWithTruncateAndNoMaxLengthThrowsIllegalArgumentException()
+    public function createWithTruncateAndNoMaxLengthThrowsIllegalArgumentException(): void
     {
         expect(function() {
                 StringLength::truncate(50, null);
@@ -216,7 +225,7 @@ class StringLengthTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function truncateToMaxBorderReturnsSubstringWithMaxLength()
+    public function truncateToMaxBorderReturnsSubstringWithMaxLength(): void
     {
         assertThat(
                 StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),

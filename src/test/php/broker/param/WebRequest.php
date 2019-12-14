@@ -8,12 +8,13 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use stubbles\input\Request;
+use stubbles\input\ValueReader;
 /**
  * Helper interface for tests.
  */
 interface WebRequest extends Request
 {
-    public function readHeader($headerName);
+    public function readHeader(string $headerName): ValueReader;
 
-    public function readCookie($cookieName);
+    public function readCookie(string $cookieName): ValueReader;
 }

@@ -23,9 +23,7 @@ use function bovigo\assert\predicate\equals;
 abstract class MultipleSourceParamBrokerTest extends TestCase
 {
     /**
-     * instance to test
-     *
-     * @type  ParamBroker
+     * @var  ParamBroker
      */
     protected $paramBroker;
 
@@ -39,7 +37,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * creates request annotation
      *
-     * @param   array  $values
+     * @param   array<string,mixed>  $values
      * @return  Annotation
      */
     protected function createRequestAnnotation(array $values = []): Annotation
@@ -64,7 +62,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \bovigo\callmap\Proxy
+     * @return  Request&\bovigo\callmap\ClassProxy
      */
     protected function createRequest($value): Request
     {
@@ -76,7 +74,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function failsForUnknownSource()
+    public function failsForUnknownSource(): void
     {
         expect(function() {
                 $this->paramBroker->procure(
@@ -90,7 +88,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         assertThat(
                 $this->paramBroker->procureParam(
@@ -104,7 +102,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -118,7 +116,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -132,7 +130,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
@@ -149,7 +147,7 @@ abstract class MultipleSourceParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))

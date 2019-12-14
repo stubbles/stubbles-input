@@ -26,7 +26,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function returnsGivenName()
+    public function returnsGivenName(): void
     {
         $param = new Param('foo', 'bar');
         assertThat($param->name(), equals('foo'));
@@ -35,7 +35,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function returnsGivenValue()
+    public function returnsGivenValue(): void
     {
         $param = new Param('foo', 'bar');
         assertThat($param->value(), equals('bar'));
@@ -44,7 +44,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function isNullIfValueIsNull()
+    public function isNullIfValueIsNull(): void
     {
         $param = new Param('foo', null);
         assertTrue($param->isNull());
@@ -53,7 +53,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function isEmptyIfValueIsNull()
+    public function isEmptyIfValueIsNull(): void
     {
         $param = new Param('foo', null);
         assertTrue($param->isEmpty());
@@ -62,7 +62,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function isEmptyIfValueIsEmptyString()
+    public function isEmptyIfValueIsEmptyString(): void
     {
         $param = new Param('foo', '');
         assertTrue($param->isEmpty());
@@ -71,7 +71,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function returnsValueLength()
+    public function returnsValueLength(): void
     {
         $param = new Param('foo', 'bar');
         assertThat($param->length(), equals(3));
@@ -80,7 +80,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function hasNoErrorByDefault()
+    public function hasNoErrorByDefault(): void
     {
         $param = new Param('foo', 'bar');
         assertFalse($param->hasErrors());
@@ -89,7 +89,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function hasEmptyErrorListByDefault()
+    public function hasEmptyErrorListByDefault(): void
     {
         $param = new Param('foo', 'bar');
         assertEmptyArray($param->errors());
@@ -98,7 +98,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function hasErrorIfAddedWithId()
+    public function hasErrorIfAddedWithId(): void
     {
         $param = new Param('foo', 'bar');
         $param->addError('SOME_ERROR');
@@ -108,7 +108,7 @@ class ParamTest extends TestCase
     /**
      * @test
      */
-    public function hasNonEmptyErrorListIfErrorAddedWithIdAndDetails()
+    public function hasNonEmptyErrorListIfErrorAddedWithIdAndDetails(): void
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
@@ -120,7 +120,7 @@ class ParamTest extends TestCase
      * @since  2.3.3
      * @group  issue_46
      */
-    public function hasErrorIfAddedAsInstance()
+    public function hasErrorIfAddedAsInstance(): void
     {
         $param = new Param('foo', 'bar');
         $param->addError('SOME_ERROR');
@@ -132,7 +132,7 @@ class ParamTest extends TestCase
      * @since  2.3.3
      * @group  issue_46
      */
-    public function hasNonEmptyErrorListIfErrorAddedAsInstance()
+    public function hasNonEmptyErrorListIfErrorAddedAsInstance(): void
     {
         $param = new Param('foo', 'bar');
         $error = $param->addError('SOME_ERROR', ['some' => 'detail']);
@@ -144,7 +144,7 @@ class ParamTest extends TestCase
      * @since  2.3.3
      * @group  issue_46
      */
-    public function addNonParamErrorAndNoErrorIdResultsInInvalidArgumentException()
+    public function addNonParamErrorAndNoErrorIdResultsInInvalidArgumentException(): void
     {
         $param = new Param('foo', 'bar');
         expect(function() use ($param) {

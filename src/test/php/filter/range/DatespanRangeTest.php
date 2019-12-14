@@ -31,7 +31,7 @@ class DatespanRangeTest extends TestCase
     /**
      * instance to test
      *
-     * @type  DatespanRange
+     * @var  DatespanRange
      */
     private $datespanRange;
 
@@ -40,6 +40,9 @@ class DatespanRangeTest extends TestCase
         $this->datespanRange = new DatespanRange('2012-03-17', '2012-03-19');
     }
 
+    /**
+     * @return  array<Day[]>
+     */
     public function outOfRangeValues(): array
     {
         return [
@@ -52,11 +55,14 @@ class DatespanRangeTest extends TestCase
      * @test
      * @dataProvider  outOfRangeValues
      */
-    public function valueOutOfRangeIsNotContainedInRange($value)
+    public function valueOutOfRangeIsNotContainedInRange(Day $value): void
     {
         assertFalse($this->datespanRange->contains($value));
     }
 
+    /**
+     * @return  array<Day[]>
+     */
     public function withinRangeValues(): array
     {
         return [
@@ -70,7 +76,7 @@ class DatespanRangeTest extends TestCase
      * @test
      * @dataProvider  withinRangeValues
      */
-    public function valueWithinRangeIsContainedInRange($value)
+    public function valueWithinRangeIsContainedInRange(Day $value): void
     {
         assertTrue($this->datespanRange->contains($value));
     }
@@ -78,7 +84,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsLowValuesIfMinValueIsNull()
+    public function rangeContainsLowValuesIfMinValueIsNull(): void
     {
         $numberRange = new DatespanRange(null, '2012-03-19');
         assertTrue($numberRange->contains(new Month('1970-12')));
@@ -87,12 +93,15 @@ class DatespanRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsHighValuesIfMaxValueIsNull()
+    public function rangeContainsHighValuesIfMaxValueIsNull(): void
     {
         $numberRange = new DatespanRange('2012-03-17', null);
         assertTrue($numberRange->contains(new Year(2037)));
     }
 
+    /**
+     * @return  array<DatespanRange[]>
+     */
     public function ranges(): array
     {
         return [
@@ -106,7 +115,7 @@ class DatespanRangeTest extends TestCase
      * @test
      * @dataProvider  ranges
      */
-    public function rangeDoesNotContainNull(DatespanRange $range)
+    public function rangeDoesNotContainNull(DatespanRange $range): void
     {
         assertFalse($range->contains(null));
     }
@@ -115,7 +124,7 @@ class DatespanRangeTest extends TestCase
      * @text
      * @dataProvider  ranges
      */
-    public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range)
+    public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range): void
     {
         expect(function() use ($range) {
                 $range->contains('foo');
@@ -125,7 +134,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListIsEmptyIfValueContainedInRange()
+    public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->datespanRange->errorsOf(new Day('2012-03-17')));
     }
@@ -133,7 +142,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
                 $this->datespanRange->errorsOf(new Day('2012-03-16')),
@@ -144,7 +153,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
                 $this->datespanRange->errorsOf(new Day('2012-03-20')),
@@ -157,7 +166,7 @@ class DatespanRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function doesNotAllowToTruncate()
+    public function doesNotAllowToTruncate(): void
     {
         assertFalse($this->datespanRange->allowsTruncate(new Day('2012-03-20')));
     }
@@ -167,10 +176,9 @@ class DatespanRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function tryingToTruncateThrowsMethodNotSupportedException()
+    public function tryingToTruncateThrowsMethodNotSupportedException(): void
     {
-        expect(function() {
-                $this->datespanRange->truncateToMaxBorder(new Day('2012-03-20'));
-        })->throws(\BadMethodCallException::class);
+        expect(function() { $this->datespanRange->truncateToMaxBorder('2012-03-20'); })
+            ->throws(\BadMethodCallException::class);
     }
 }

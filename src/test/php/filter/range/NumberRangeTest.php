@@ -27,7 +27,7 @@ class NumberRangeTest extends TestCase
     /**
      * instance to test
      *
-     * @type  NumberRange
+     * @var  NumberRange
      */
     private $numberRange;
 
@@ -36,6 +36,9 @@ class NumberRangeTest extends TestCase
         $this->numberRange = new NumberRange(1, 10);
     }
 
+    /**
+     * @return  array<int[]>
+     */
     public function outOfRangeValues(): array
     {
         return [
@@ -48,11 +51,14 @@ class NumberRangeTest extends TestCase
      * @test
      * @dataProvider  outOfRangeValues
      */
-    public function valueOutOfRangeIsNotContainedInRange($value)
+    public function valueOutOfRangeIsNotContainedInRange(int $value): void
     {
         assertFalse($this->numberRange->contains($value));
     }
 
+    /**
+     * @return  array<int[]>
+     */
     public function withinRangeValues(): array
     {
         return [
@@ -67,7 +73,7 @@ class NumberRangeTest extends TestCase
      * @test
      * @dataProvider  withinRangeValues
      */
-    public function valueWithinRangeIsContainedInRange($value)
+    public function valueWithinRangeIsContainedInRange(int $value): void
     {
         assertTrue($this->numberRange->contains($value));
     }
@@ -75,7 +81,7 @@ class NumberRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsLowValuesIfMinValueIsNull()
+    public function rangeContainsLowValuesIfMinValueIsNull(): void
     {
         $numberRange = new NumberRange(null, 10);
         assertTrue($numberRange->contains(PHP_INT_MAX * -1));
@@ -84,12 +90,15 @@ class NumberRangeTest extends TestCase
     /**
      * @test
      */
-    public function rangeContainsHighValuesIfMaxValueIsNull()
+    public function rangeContainsHighValuesIfMaxValueIsNull(): void
     {
         $numberRange = new NumberRange(1, null);
         assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
+    /**
+     * @return  array<NumberRange[]>
+     */
     public function ranges(): array
     {
         return [
@@ -103,7 +112,7 @@ class NumberRangeTest extends TestCase
      * @test
      * @dataProvider  ranges
      */
-    public function rangeDoesNotContainNull(NumberRange $range)
+    public function rangeDoesNotContainNull(NumberRange $range): void
     {
         assertFalse($range->contains(null));
     }
@@ -111,7 +120,7 @@ class NumberRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListIsEmptyIfValueContainedInRange()
+    public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->numberRange->errorsOf(3));
     }
@@ -119,7 +128,7 @@ class NumberRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMinBorderErrorWhenValueBelowRange()
+    public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
                 $this->numberRange->errorsOf(0),
@@ -130,7 +139,7 @@ class NumberRangeTest extends TestCase
     /**
      * @test
      */
-    public function errorListContainsMaxBorderErrorWhenValueAboveRange()
+    public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
                 $this->numberRange->errorsOf(11),
@@ -143,7 +152,7 @@ class NumberRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function doesNotAllowToTruncate()
+    public function doesNotAllowToTruncate(): void
     {
         assertFalse($this->numberRange->allowsTruncate(11));
     }
@@ -153,10 +162,9 @@ class NumberRangeTest extends TestCase
      * @since  2.3.1
      * @group  issue41
      */
-    public function tryingToTruncateThrowsMethodNotSupportedException()
+    public function tryingToTruncateThrowsMethodNotSupportedException(): void
     {
-        expect(function() {
-                $this->numberRange->truncateToMaxBorder(11);
-        })->throws(\BadMethodCallException::class);
+        expect(function() { $this->numberRange->truncateToMaxBorder('11'); })
+            ->throws(\BadMethodCallException::class);
     }
 }

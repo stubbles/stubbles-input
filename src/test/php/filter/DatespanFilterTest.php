@@ -26,7 +26,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * instance to test
      *
-     * @type  \stubbles\date\span\DatespanFilter
+     * @var  \stubbles\input\filter\DatespanFilter
      */
     private $datespanFilter;
 
@@ -36,17 +36,20 @@ class DatespanFilterTest extends FilterTest
         parent::setUp();
     }
 
+    /**
+     * @return  array<mixed[]>
+     */
     public function getEmptyValues(): array
     {
         return [[''], [null]];
     }
 
     /**
-     * @param  scalar  $value
+     * @param  mixed  $value
      * @test
      * @dataProvider  getEmptyValues
      */
-    public function emptyParamsAreReturnedAsNull($value)
+    public function emptyParamsAreReturnedAsNull($value): void
     {
         assertNull($this->datespanFilter->apply($this->createParam($value))[0]);
     }
@@ -54,7 +57,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function validParamsAreReturnedAsDayInstance()
+    public function validParamsAreReturnedAsDayInstance(): void
     {
         assertThat(
                 $this->datespanFilter->apply($this->createParam('2008-09-27'))[0],
@@ -65,7 +68,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function applyReturnsNullForInvalidDay()
+    public function applyReturnsNullForInvalidDay(): void
     {
 
         assertNull($this->datespanFilter->apply($this->createParam('invalid day'))[0]);
@@ -74,7 +77,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function applyAddsErrorForInvalidDay()
+    public function applyAddsErrorForInvalidDay(): void
     {
         $param = $this->createParam('invalid day');
         list($_, $errors) = $this->datespanFilter->apply($param);
@@ -84,7 +87,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsNullIfParamIsNullAndNotRequired()
+    public function asDatespanReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asDatespan());
     }
@@ -92,7 +95,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asDatespanReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = new Day();
         assertThat(
@@ -106,7 +109,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsNullIfParamIsNullAndRequired()
+    public function asDatespanReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asDatespan());
     }
@@ -114,7 +117,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanAddsParamErrorIfParamIsNullAndRequired()
+    public function asDatespanAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asDatespan();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -123,7 +126,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsNullIfParamIsInvalid()
+    public function asDatespanReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asDatespan());
     }
@@ -131,7 +134,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanAddsParamErrorIfParamIsInvalid()
+    public function asDatespanAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asDatespan();
         assertTrue($this->paramErrors->existFor('bar'));
@@ -140,7 +143,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsValidValue()
+    public function asDatespanReturnsValidValue(): void
     {
         $datespan = $this->readParam('2012-03-11')->asDatespan();
         assertThat(
@@ -153,7 +156,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanReturnsNullIfParamIsOutOfRange()
+    public function asDatespanReturnsNullIfParamIsOutOfRange(): void
     {
         assertNull(
                 $this->readParam('yesterday')
@@ -164,7 +167,7 @@ class DatespanFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asDatespanAddsParamErrorIfParamIsOutOfRange()
+    public function asDatespanAddsParamErrorIfParamIsOutOfRange(): void
     {
         $this->readParam('yesterday')
              ->asDatespan(new DatespanRange(Date::now(), null));

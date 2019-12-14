@@ -29,7 +29,7 @@ use function bovigo\assert\predicate\equals;
 class SecretParamBrokerTest extends TestCase
 {
     /**
-     * @type  SecretParamBroker
+     * @var  SecretParamBroker
      */
     private $paramBroker;
 
@@ -42,7 +42,7 @@ class SecretParamBrokerTest extends TestCase
      * @param  string  $expected
      * @param  Secret  $actual
      */
-    private function assertSecretEquals($expected, Secret $actual)
+    private function assertSecretEquals(string $expected, Secret $actual): void
     {
         assertThat($actual->unveil(), equals($expected));
     }
@@ -50,7 +50,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * creates request annotation
      *
-     * @param   array  $values
+     * @param   array<string,mixed>  $values
      * @return  Annotation
      */
     protected function createRequestAnnotation(array $values = []): Annotation
@@ -80,7 +80,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function failsForUnknownSource()
+    public function failsForUnknownSource(): void
     {
         expect(function() {
                 $this->paramBroker->procure(
@@ -94,7 +94,7 @@ class SecretParamBrokerTest extends TestCase
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         $this->assertSecretEquals(
                 'topsecret',
@@ -108,7 +108,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         $this->assertSecretEquals(
                 'topsecret',
@@ -122,7 +122,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         $this->assertSecretEquals(
                 'topsecret',
@@ -136,7 +136,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('topsecret')
@@ -153,7 +153,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request =  NewInstance::of(WebRequest::class)->returns([
             'readCookie' => ValueReader::forValue('topsecret')
@@ -170,7 +170,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -183,7 +183,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfShorterThanMinLength()
+    public function returnsNullIfShorterThanMinLength(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -196,7 +196,7 @@ class SecretParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsValueIfLongerThenMinLength()
+    public function returnsValueIfLongerThenMinLength(): void
     {
         $this->assertSecretEquals(
                 'Do you expect me to talk?',

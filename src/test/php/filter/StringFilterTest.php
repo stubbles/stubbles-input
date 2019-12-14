@@ -22,9 +22,7 @@ use function bovigo\assert\predicate\equals;
 class StringFilterTest extends FilterTest
 {
     /**
-     * the instance to test
-     *
-     * @type  StringFilter
+     * @var  StringFilter
      */
     private $stringFilter;
 
@@ -37,7 +35,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsEmptyStringWhenParamIsNull()
+    public function returnsEmptyStringWhenParamIsNull(): void
     {
         assertEmptyString($this->stringFilter->apply($this->createParam(null))[0]);
     }
@@ -45,7 +43,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsEmptyStringWhenParamIsEmptyString()
+    public function returnsEmptyStringWhenParamIsEmptyString(): void
     {
         assertEmptyString($this->stringFilter->apply($this->createParam(''))[0]);
     }
@@ -53,7 +51,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesTags()
+    public function removesTags(): void
     {
         assertThat(
                 $this->stringFilter->apply($this->createParam("kkk<b>"))[0],
@@ -64,7 +62,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesSlashes()
+    public function removesSlashes(): void
     {
         assertThat(
                 $this->stringFilter->apply($this->createParam("\'kkk"))[0],
@@ -75,7 +73,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesCarriageReturn()
+    public function removesCarriageReturn(): void
     {
         assertThat(
                 $this->stringFilter->apply($this->createParam("cde\rkkk"))[0],
@@ -86,7 +84,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesLineBreaks()
+    public function removesLineBreaks(): void
     {
         assertThat(
                 $this->stringFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
@@ -98,7 +96,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired()
+    public function asStringReturnsEmptyStringIfParamIsNullAndNotRequired(): void
     {
         assertEmptyString($this->readParam(null)->asString());
     }
@@ -107,7 +105,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asStringReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat(
                 $this->readParam(null)->defaultingTo('baz')->asString(),
@@ -119,7 +117,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringReturnsNullIfParamIsNullAndRequired()
+    public function asStringReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asString());
     }
@@ -128,7 +126,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringAddsParamErrorIfParamIsNullAndRequired()
+    public function asStringAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asString();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -138,7 +136,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringReturnsNullIfParamIsInvalid()
+    public function asStringReturnsNullIfParamIsInvalid(): void
     {
         assertNull(
                 $this->readParam('foo')->asString(new StringLength(5, null))
@@ -149,7 +147,7 @@ class StringFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asStringAddsParamErrorIfParamIsInvalid()
+    public function asStringAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asString(new StringLength(5, null));
         assertTrue($this->paramErrors->existFor('bar'));
@@ -158,7 +156,7 @@ class StringFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asStringReturnsValidValue()
+    public function asStringReturnsValidValue(): void
     {
         assertThat($this->readParam('foo')->asString(), equals('foo'));
     }

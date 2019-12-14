@@ -25,21 +25,15 @@ use function bovigo\callmap\verify;
 class RangeFilterTest extends FilterTest
 {
     /**
-     * instance to test
-     *
-     * @type  RangeFilter
+     * @var  RangeFilter
      */
     private $rangeFilter;
     /**
-     * mocked decorated filter
-     *
-     * @type  \bovigo\callmap\Proxy
+     * @var  Filter&\bovigo\callmap\ClassProxy
      */
     private $filter;
     /**
-     * mocked range definition
-     *
-     * @type  \bovigo\callmap\Proxy
+     * @var  Range&\bovigo\callmap\ClassProxy
      */
     private $range;
 
@@ -66,7 +60,7 @@ class RangeFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfDecoratedFilterReturnsNull()
+    public function returnsNullIfDecoratedFilterReturnsNull(): void
     {
         assertNull($this->rangeFilter->apply($this->createParam(null))[0]);
         verify($this->range, 'contains')->wasNeverCalled();
@@ -76,7 +70,7 @@ class RangeFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsValueIfInRange()
+    public function returnsValueIfInRange(): void
     {
         $this->range->returns(['contains' => true]);
         assertThat(
@@ -89,7 +83,7 @@ class RangeFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfValueNotInRange()
+    public function returnsNullIfValueNotInRange(): void
     {
         $param = $this->createParam(303);
         $this->range->returns([
@@ -107,7 +101,7 @@ class RangeFilterTest extends FilterTest
      * @since  2.3.1
      * @group  issue41
      */
-    public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed()
+    public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed(): void
     {
         $this->range->returns([
                 'contains'            => false,

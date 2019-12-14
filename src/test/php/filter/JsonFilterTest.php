@@ -22,9 +22,7 @@ use function bovigo\assert\predicate\hasKey;
 class JsonFilterTest extends FilterTest
 {
     /**
-     * Object under test.
-     *
-     * @type  JsonFilter
+     * @var  JsonFilter
      */
     private $jsonFilter;
 
@@ -37,7 +35,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfParamIsNull()
+    public function returnsNullIfParamIsNull(): void
     {
         assertNull($this->jsonFilter->apply($this->createParam(null))[0]);
     }
@@ -45,7 +43,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filterValidJsonArray()
+    public function filterValidJsonArray(): void
     {
         assertThat($this->jsonFilter->apply($this->createParam('[1]'))[0], equals([1]));
     }
@@ -53,7 +51,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filterValidJsonObject()
+    public function filterValidJsonObject(): void
     {
         $obj = new \stdClass();
         $obj->id = "abc";
@@ -66,7 +64,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function filterValidJsonRpc()
+    public function filterValidJsonRpc(): void
     {
         $phpJsonObj = new \stdClass();
         $phpJsonObj->method = 'add';
@@ -84,7 +82,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForTooBigValue()
+    public function returnsNullForTooBigValue(): void
     {
         assertNull(
                 $this->jsonFilter->apply(
@@ -96,7 +94,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForTooBigValue()
+    public function addsErrorToParamForTooBigValue(): void
     {
         $param = $this->createParam(str_repeat("a", 20001));
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -106,7 +104,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForInvalidJsonCurlyBraces()
+    public function returnsNullForInvalidJsonCurlyBraces(): void
     {
         assertNull($this->jsonFilter->apply($this->createParam('{foo]'))[0]);
     }
@@ -114,7 +112,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForInvalidJsonCurlyBraces()
+    public function addsErrorToParamForInvalidJsonCurlyBraces(): void
     {
         $param = $this->createParam('{foo]');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -124,7 +122,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForInvalidJsonBrackets()
+    public function returnsNullForInvalidJsonBrackets(): void
     {
         assertNull($this->jsonFilter->apply($this->createParam('[foo}'))[0]);
     }
@@ -132,7 +130,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForInvalidJsonBrackets()
+    public function addsErrorToParamForInvalidJsonBrackets(): void
     {
         $param = $this->createParam('[foo}');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -142,7 +140,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForInvalidJsonStructure()
+    public function returnsNullForInvalidJsonStructure(): void
     {
         assertNull(
                 $this->jsonFilter->apply(
@@ -154,7 +152,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForInvalidJsonStructure()
+    public function addsErrorToParamForInvalidJsonStructure(): void
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -165,7 +163,7 @@ class JsonFilterTest extends FilterTest
      * @test
      * @since  6.0.0
      */
-    public function errorContainsErrorCode()
+    public function errorContainsErrorCode(): void
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -179,7 +177,7 @@ class JsonFilterTest extends FilterTest
      * @test
      * @since  6.0.0
      */
-    public function errorContainsErrorMessage()
+    public function errorContainsErrorMessage(): void
     {
         $param = $this->createParam('{"foo":"bar","foo","bar"}');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -192,7 +190,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForInvalidJsonAlthoughPhpWouldDecodeItProperly()
+    public function returnsNullForInvalidJsonAlthoughPhpWouldDecodeItProperly(): void
     {
         assertNull($this->jsonFilter->apply($this->createParam('"foo"'))[0]);
     }
@@ -200,7 +198,7 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForInvalidJsonAlthoughPhpWouldDecodeItProperly()
+    public function addsErrorToParamForInvalidJsonAlthoughPhpWouldDecodeItProperly(): void
     {
         $param = $this->createParam('"foo"');
         list($_, $errors) = $this->jsonFilter->apply($param);
@@ -211,7 +209,7 @@ class JsonFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asJsonReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asJsonReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = ['foo' => 'bar'];
         assertThat(
@@ -224,7 +222,7 @@ class JsonFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asJsonReturnsNullIfParamIsNullAndRequired()
+    public function asJsonReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asJson());
     }
@@ -233,7 +231,7 @@ class JsonFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asJsonAddsParamErrorIfParamIsNullAndRequired()
+    public function asJsonAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asJson();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -243,7 +241,7 @@ class JsonFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asJsonReturnsNullIfParamIsInvalid()
+    public function asJsonReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asJson());
     }
@@ -252,7 +250,7 @@ class JsonFilterTest extends FilterTest
      * @since  6.0.0
      * @test
      */
-    public function asJsonReturnsNullIfParamIsTooLong()
+    public function asJsonReturnsNullIfParamIsTooLong(): void
     {
         assertNull($this->readParam(json_encode('foo'))->asJson(1));
     }
@@ -261,7 +259,7 @@ class JsonFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asJsonAddsParamErrorIfParamIsInvalid()
+    public function asJsonAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asJson();
         assertTrue($this->paramErrors->existFor('bar'));
@@ -270,7 +268,8 @@ class JsonFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asJsonReturnsValidValue() {
+    public function asJsonReturnsValidValue(): void
+    {
         $value = ['foo', 'bar'];
         assertThat($this->readParam(json_encode($value))->asJson(), equals($value));
     }

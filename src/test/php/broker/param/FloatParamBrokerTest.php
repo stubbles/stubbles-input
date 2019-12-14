@@ -46,7 +46,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -60,7 +60,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -73,7 +73,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfLowerThanMinValue()
+    public function returnsNullIfLowerThanMinValue(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -86,7 +86,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfGreaterThanMaxValue()
+    public function returnsNullIfGreaterThanMaxValue(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -99,7 +99,7 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsValueIfInRange()
+    public function returnsValueIfInRange(): void
     {
         assertThat(
                 $this->paramBroker->procure(

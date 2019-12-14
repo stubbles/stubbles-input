@@ -24,9 +24,7 @@ use function bovigo\assert\predicate\equals;
 class WeekFilterTest extends FilterTest
 {
     /**
-     * instance to test
-     *
-     * @type  \stubbles\input\filter\WeekFilter
+     * @var  \stubbles\input\filter\WeekFilter
      */
     private $weekFilter;
 
@@ -36,6 +34,9 @@ class WeekFilterTest extends FilterTest
         parent::setUp();
     }
 
+    /**
+     * @return  array<mixed[]>
+     */
     public function getEmptyValues(): array
     {
         return [[''],
@@ -48,7 +49,7 @@ class WeekFilterTest extends FilterTest
      * @test
      * @dataProvider  getEmptyValues
      */
-    public function emptyParamsAreReturnedAsNull($value)
+    public function emptyParamsAreReturnedAsNull($value): void
     {
         assertNull($this->weekFilter->apply($this->createParam($value))[0]);
     }
@@ -56,7 +57,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function validParamsAreReturnedAsWeekInstance()
+    public function validParamsAreReturnedAsWeekInstance(): void
     {
         assertThat(
                 $this->weekFilter->apply($this->createParam('2008-W09'))[0],
@@ -67,7 +68,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function applyReturnsNullForInvalidMonth()
+    public function applyReturnsNullForInvalidMonth(): void
     {
         assertNull($this->weekFilter->apply($this->createParam('invalid day'))[0]);
     }
@@ -75,7 +76,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function applyAddsErrorForInvalidDay()
+    public function applyAddsErrorForInvalidDay(): void
     {
         $param = $this->createParam('invalid week');
         list($_, $errors) = $this->weekFilter->apply($param);
@@ -85,7 +86,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asMonthReturnsNullIfParamIsNullAndNotRequired()
+    public function asMonthReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asMonth());
     }
@@ -93,7 +94,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asWeekReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = Week::fromString('2015-W22');
         assertThat(
@@ -105,7 +106,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekReturnsNullIfParamIsNullAndRequired()
+    public function asWeekReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asWeek());
     }
@@ -113,7 +114,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekAddsParamErrorIfParamIsNullAndRequired()
+    public function asWeekAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asWeek();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -122,7 +123,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekReturnsNullIfParamIsInvalid()
+    public function asWeekReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asWeek());
     }
@@ -130,7 +131,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekAddsParamErrorIfParamIsInvalid()
+    public function asWeekAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asWeek();
         assertTrue($this->paramErrors->existFor('bar'));
@@ -139,7 +140,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekReturnsValidValue()
+    public function asWeekReturnsValidValue(): void
     {
         $week = $this->readParam('2012-W03')->asWeek();
         assertThat(
@@ -152,7 +153,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekReturnsNullIfParamIsOutOfRange()
+    public function asWeekReturnsNullIfParamIsOutOfRange(): void
     {
         assertNull(
                 $this->readParam((new Week(new Date('this monday')))->asString())
@@ -163,7 +164,7 @@ class WeekFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asWeekAddsParamErrorIfParamIsOutOfRange()
+    public function asWeekAddsParamErrorIfParamIsOutOfRange(): void
     {
         $this->readParam((new Week(new Date('this monday')))->asString())
                 ->asWeek(new DatespanRange(Date::now()->change()->byDays(8), null));

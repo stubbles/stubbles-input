@@ -24,15 +24,11 @@ use function bovigo\callmap\verify;
 class PasswordFilterTest extends FilterTest
 {
     /**
-     * the instance to test
-     *
-     * @type  PasswordFilter
+     * @var  PasswordFilter
      */
     private $passwordFilter;
     /**
-     * mocked password checker
-     *
-     * @type  \bovigo\callmap\Proxy
+     * @var  PasswordChecker&\bovigo\callmap\ClassProxy
      */
     private $passwordChecker;
 
@@ -47,7 +43,7 @@ class PasswordFilterTest extends FilterTest
      * @param  string  $expectedPassword
      * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword = null)
+    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword = null): void
     {
         $actual = $actualPassword !== null ? $actualPassword->unveil() : null;
         assertThat($actual, equals($expectedPassword));
@@ -56,7 +52,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsValueWhenCheckerDoesNotObject()
+    public function returnsValueWhenCheckerDoesNotObject(): void
     {
         $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(
@@ -68,7 +64,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForNull()
+    public function returnsNullForNull(): void
     {
         assertNull($this->passwordFilter->apply($this->createParam(null))[0]);
         verify($this->passwordChecker, 'check')->wasNeverCalled();
@@ -78,7 +74,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForEmptyString()
+    public function returnsNullForEmptyString(): void
     {
         assertNull($this->passwordFilter->apply($this->createParam(''))[0]);
         verify($this->passwordChecker, 'check')->wasNeverCalled();
@@ -87,7 +83,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsPasswordIfBothArrayValuesAreEqual()
+    public function returnsPasswordIfBothArrayValuesAreEqual(): void
     {
         $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(
@@ -99,7 +95,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfBothArrayValuesAreDifferent()
+    public function returnsNullIfBothArrayValuesAreDifferent(): void
     {
         assertNull(
                 $this->passwordFilter->apply($this->createParam(['foo', 'bar']))[0]
@@ -110,7 +106,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenBothArrayValuesAreDifferent()
+    public function addsErrorToParamWhenBothArrayValuesAreDifferent(): void
     {
         $param = $this->createParam(['foo', 'bar']);
         list($_, $errors) = $this->passwordFilter->apply($param);
@@ -121,7 +117,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfCheckerReportsErrors()
+    public function returnsNullIfCheckerReportsErrors(): void
     {
         $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
@@ -132,7 +128,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenValueIsNotAllowed()
+    public function addsErrorToParamWhenValueIsNotAllowed(): void
     {
         $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
@@ -146,7 +142,7 @@ class PasswordFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asPasswordReturnsNullIfParamIsNullAndRequired()
+    public function asPasswordReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull(
                 $this->readParam(null)
@@ -158,7 +154,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asPasswordWithDefaultValueThrowsBadMethodCallException()
+    public function asPasswordWithDefaultValueThrowsBadMethodCallException(): void
     {
         expect(function() {
                 $this->readParam(null)
@@ -171,7 +167,7 @@ class PasswordFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asPasswordAddsParamErrorIfParamIsNullAndRequired()
+    public function asPasswordAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asPassword($this->passwordChecker);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -181,7 +177,7 @@ class PasswordFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asPasswordReturnsNullIfParamIsInvalid()
+    public function asPasswordReturnsNullIfParamIsInvalid(): void
     {
         $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
@@ -193,7 +189,7 @@ class PasswordFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asPasswordAddsParamErrorIfParamIsInvalid()
+    public function asPasswordAddsParamErrorIfParamIsInvalid(): void
     {
         $this->passwordChecker->returns(
                 ['check' => ['PASSWORD_TOO_SHORT' => ['minLength' => 8]]]
@@ -205,7 +201,7 @@ class PasswordFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asPasswordReturnsValidValue()
+    public function asPasswordReturnsValidValue(): void
     {
         $this->passwordChecker->returns(['check' => []]);
         $this->assertPasswordEquals(

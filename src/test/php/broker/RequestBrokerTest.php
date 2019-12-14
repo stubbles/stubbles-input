@@ -30,15 +30,11 @@ use function stubbles\reflect\annotationsOf;
 class RequestBrokerTest extends TestCase
 {
     /**
-     * instance to test
-     *
-     * @type  \stubbles\input\broker\RequestBroker
+     * @var  \stubbles\input\broker\RequestBroker
      */
     private $requestBroker;
     /**
-     * mocked request instance
-     *
-     * @type  \bovigo\callmap\Proxy
+     * @var  Request&\bovigo\callmap\ClassProxy
      */
     private $request;
 
@@ -51,7 +47,7 @@ class RequestBrokerTest extends TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnClass()
+    public function annotationsPresentOnClass(): void
     {
         assertTrue(
                 annotationsOf($this->requestBroker)->contain('Singleton')
@@ -61,7 +57,7 @@ class RequestBrokerTest extends TestCase
     /**
      * @test
      */
-    public function procuresOnlyThoseInGivenGroup()
+    public function procuresOnlyThoseInGivenGroup(): void
     {
         $this->request->returns(
                 ['readParam' => ValueReader::forValue('just some string value')]
@@ -76,7 +72,7 @@ class RequestBrokerTest extends TestCase
     /**
      * @test
      */
-    public function procuresAllIfNoGroupGiven()
+    public function procuresAllIfNoGroupGiven(): void
     {
 
         $paramBroker = NewInstance::of(ParamBroker::class)

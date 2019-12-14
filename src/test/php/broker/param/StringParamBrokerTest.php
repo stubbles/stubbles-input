@@ -46,7 +46,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -62,7 +62,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -75,7 +75,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfShorterThanMinLength()
+    public function returnsNullIfShorterThanMinLength(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -88,7 +88,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfLongerThanMaxLength()
+    public function returnsNullIfLongerThanMaxLength(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -101,7 +101,7 @@ class StringParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsValueIfInRange()
+    public function returnsValueIfInRange(): void
     {
         assertThat(
                 $this->paramBroker->procure(

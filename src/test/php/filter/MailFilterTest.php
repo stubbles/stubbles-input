@@ -21,9 +21,7 @@ use function bovigo\assert\predicate\equals;
 class MailFilterTest extends FilterTest
 {
     /**
-     * instance to test
-     *
-     * @type  Filter
+     * @var  \stubbles\input\Filter
      */
     private $mailFilter;
 
@@ -36,7 +34,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenValueIsNull()
+    public function returnsNullWhenValueIsNull(): void
     {
         assertNull($this->mailFilter->apply($this->createParam(null))[0]);
     }
@@ -44,7 +42,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenValueIsEmpty()
+    public function returnsNullWhenValueIsEmpty(): void
     {
         assertNull($this->mailFilter->apply($this->createParam(''))[0]);
     }
@@ -52,7 +50,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsFilteredValue()
+    public function returnsFilteredValue(): void
     {
         assertThat(
                 $this->mailFilter->apply($this->createParam('example@example.org'))[0],
@@ -63,7 +61,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullIfParamIsNullAndRequired()
+    public function returnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asMailAddress());
     }
@@ -71,7 +69,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsParamErrorIfParamIsNullAndRequired()
+    public function addsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asMailAddress();
         assertTrue(
@@ -82,7 +80,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenSpaceInValue()
+    public function returnsNullWhenSpaceInValue(): void
     {
         assertNull(
                 $this->mailFilter->apply($this->createParam('space in@mailadre.ss'))[0]
@@ -92,7 +90,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenSpaceInValue()
+    public function addsErrorToParamWhenSpaceInValue(): void
     {
         $param = $this->createParam('space in@mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -102,7 +100,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenGermanUmlautInValue()
+    public function returnsNullWhenGermanUmlautInValue(): void
     {
         assertNull(
                 $this->mailFilter->apply($this->createParam('föö@mailadre.ss'))[0]
@@ -112,7 +110,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenGermanUmlautInValue()
+    public function addsErrorToParamWhenGermanUmlautInValue(): void
     {
         $param = $this->createParam('föö@mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -122,7 +120,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenMoreThanOneAtCharacterInValue()
+    public function returnsNullWhenMoreThanOneAtCharacterInValue(): void
     {
         assertNull(
                 $this->mailFilter->apply($this->createParam('foo@bar@mailadre.ss'))[0]
@@ -132,7 +130,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenMoreThanOneAtCharacterInValue()
+    public function addsErrorToParamWhenMoreThanOneAtCharacterInValue(): void
     {
         $param = $this->createParam('foo@bar@mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -142,7 +140,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenDotBeforeAtSign()
+    public function returnsNullWhenDotBeforeAtSign(): void
     {
         assertNull($this->mailFilter->apply(
                 $this->createParam('foo.@mailadre.ss')
@@ -152,7 +150,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenDotBeforeAtSign()
+    public function addsErrorToParamWhenDotBeforeAtSign(): void
     {
         $param = $this->createParam('foo.@mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -162,7 +160,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenDotAfterAtSign()
+    public function returnsNullWhenDotAfterAtSign(): void
     {
         assertNull($this->mailFilter->apply(
                 $this->createParam('foo@.mailadre.ss')
@@ -172,7 +170,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenDotAfterAtSign()
+    public function addsErrorToParamWhenDotAfterAtSign(): void
     {
         $param = $this->createParam('foo@.mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -182,7 +180,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullWhenTwoFollowingDotsInValue()
+    public function returnsNullWhenTwoFollowingDotsInValue(): void
     {
         assertNull(
                 $this->mailFilter->apply($this->createParam('foo..bar@mailadre.ss'))[0]
@@ -192,7 +190,7 @@ class MailFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamWhenTwoFollowingDotsInValue()
+    public function addsErrorToParamWhenTwoFollowingDotsInValue(): void
     {
         $param = $this->createParam('foo..bar@mailadre.ss');
         list($_, $errors) = $this->mailFilter->apply($param);
@@ -203,7 +201,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressReturnsEmptyStringIfParamIsNullAndNotRequired()
+    public function asMailAddressReturnsEmptyStringIfParamIsNullAndNotRequired(): void
     {
         assertEmptyString($this->readParam(null)->asMailAddress());
     }
@@ -212,7 +210,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asMailAddressReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat(
                 $this->readParam(null)
@@ -226,7 +224,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressReturnsNullIfParamIsNullAndRequired()
+    public function asMailAddressReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asMailAddress());
     }
@@ -235,7 +233,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressAddsParamErrorIfParamIsNullAndRequired()
+    public function asMailAddressAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asMailAddress();
         assertTrue(
@@ -247,7 +245,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asStringReturnsNullIfParamIsInvalid()
+    public function asStringReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asMailAddress());
     }
@@ -256,7 +254,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressAddsParamErrorIfParamIsInvalid()
+    public function asMailAddressAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asMailAddress();
         assertTrue($this->paramErrors->existFor('bar'));
@@ -266,7 +264,7 @@ class MailFilterTest extends FilterTest
      * @since  3.0.0
      * @test
      */
-    public function asMailAddressReturnsValidValue()
+    public function asMailAddressReturnsValidValue(): void
     {
         assertThat(
                 $this->readParam('foo@example.org')->asMailAddress(),

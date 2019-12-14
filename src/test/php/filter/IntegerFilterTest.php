@@ -20,6 +20,9 @@ use function bovigo\assert\predicate\equals;
  */
 class IntegerFilterTest extends FilterTest
 {
+    /**
+     * @return  array<mixed[]>
+     */
     public function getValueResultTuples(): array
     {
         return [[8, 8],
@@ -34,11 +37,11 @@ class IntegerFilterTest extends FilterTest
 
     /**
      * @param  scalar  $value
-     * @param  float   $expected
+     * @param  int     $expected
      * @test
      * @dataProvider  getValueResultTuples
      */
-    public function value($value, $expected)
+    public function value($value, ?int $expected): void
     {
         $integerFilter = IntegerFilter::instance();
         assertThat(
@@ -51,7 +54,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntReturnsNullIfParamIsNullAndNotRequired()
+    public function asIntReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asInt());
     }
@@ -60,7 +63,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asIntReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat($this->readParam(null)->defaultingTo(303)->asInt(), equals(303));
     }
@@ -69,7 +72,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntReturnsNullIfParamIsNullAndRequired()
+    public function asIntReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asInt());
     }
@@ -78,7 +81,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntAddsParamErrorIfParamIsNullAndRequired()
+    public function asIntAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asInt();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -88,7 +91,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntReturnsNullIfParamIsInvalid()
+    public function asIntReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam(4)->asInt(new NumberRange(5, null)));
     }
@@ -97,7 +100,7 @@ class IntegerFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asIntAddsParamErrorIfParamIsInvalid()
+    public function asIntAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam(4)->asInt(new NumberRange(5, null)
         );
@@ -107,7 +110,7 @@ class IntegerFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asIntReturnsValidValue()
+    public function asIntReturnsValidValue(): void
     {
         assertThat($this->readParam('313')->asInt(), equals(313));
 

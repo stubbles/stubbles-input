@@ -44,7 +44,7 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(

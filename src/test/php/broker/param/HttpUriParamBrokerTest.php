@@ -48,7 +48,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -62,7 +62,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsValueIfDnsCheckEnabledAndSuccessful()
+    public function returnsValueIfDnsCheckEnabledAndSuccessful(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -76,7 +76,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -89,7 +89,7 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullForInvalidHttpUri()
+    public function returnsNullForInvalidHttpUri(): void
     {
         assertNull(
                 $this->paramBroker->procure(

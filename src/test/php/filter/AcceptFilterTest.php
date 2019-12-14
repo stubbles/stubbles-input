@@ -36,7 +36,7 @@ class AcceptFilterTest extends TestCase
     /**
      * @test
      */
-    public function returnsEmptyAcceptHeaderWhenParamValueIsNull()
+    public function returnsEmptyAcceptHeaderWhenParamValueIsNull(): void
     {
         assertEmpty($this->apply(null));
     }
@@ -44,7 +44,7 @@ class AcceptFilterTest extends TestCase
     /**
      * @test
      */
-    public function returnsEmptyAcceptHeaderWhenParamValueIsEmpty()
+    public function returnsEmptyAcceptHeaderWhenParamValueIsEmpty(): void
     {
         assertEmpty($this->apply(''));
     }
@@ -52,7 +52,7 @@ class AcceptFilterTest extends TestCase
     /**
      * @test
      */
-    public function returnsEmptyAcceptHeaderWhenParamValueIsInvalid()
+    public function returnsEmptyAcceptHeaderWhenParamValueIsInvalid(): void
     {
         assertEmpty($this->apply('text/plain;q=5'));
     }
@@ -60,7 +60,7 @@ class AcceptFilterTest extends TestCase
     /**
      * @test
      */
-    public function returnsFilledAcceptHeaderWhenParamValueIsValid()
+    public function returnsFilledAcceptHeaderWhenParamValueIsValid(): void
     {
         assertThat($this->apply('text/plain;q=0.5'), isOfSize(1));
     }

@@ -27,9 +27,7 @@ use function bovigo\callmap\onConsecutiveCalls;
 class CustomDatespanParamBrokerTest extends TestCase
 {
     /**
-     * instance to test
-     *
-     * @type  CustomDatespanParamBroker
+     * @var  CustomDatespanParamBroker
      */
     private $customDatespanParamBroker;
 
@@ -41,7 +39,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * creates filter annotation
      *
-     * @param   array  $values
+     * @param   array<string,mixed>  $values
      * @return  Annotation
      */
     private function createRequestAnnotation(array $values = []): Annotation
@@ -51,13 +49,7 @@ class CustomDatespanParamBrokerTest extends TestCase
         return new Annotation('CustomDatespan', 'foo', $values, 'Request');
     }
 
-    /**
-     * creates mocked request
-     *
-     * @param   mixed  $startValue
-     * @return  Request
-     */
-    private function createRequest($startValue, $endValue): Request
+    private function createRequest(?string $startValue, ?string $endValue): Request
     {
         return NewInstance::of(Request::class)
                 ->returns(['readParam' => onConsecutiveCalls(
@@ -70,7 +62,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsDatespan()
+    public function returnsDatespan(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(
@@ -84,7 +76,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfStartDateInvalid()
+    public function returnsNullIfStartDateInvalid(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -97,7 +89,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfEndDateInvalid()
+    public function returnsNullIfEndDateInvalid(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -110,7 +102,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfStartDateIsMissing()
+    public function returnsNullIfStartDateIsMissing(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -123,7 +115,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfEndDateIsMissing()
+    public function returnsNullIfEndDateIsMissing(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -136,7 +128,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfBothDatesAreMissing()
+    public function returnsNullIfBothDatesAreMissing(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -149,7 +141,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsDefaultStartDateIfStartDateIsMissingAndDefaultGiven()
+    public function returnsDefaultStartDateIfStartDateIsMissingAndDefaultGiven(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(
@@ -163,7 +155,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsDefaultEndDateIfEndDateIsMissingAndDefaultGiven()
+    public function returnsDefaultEndDateIfEndDateIsMissingAndDefaultGiven(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(
@@ -177,7 +169,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsDefaultIfBothDatesAreMissingAndDefaultGiven()
+    public function returnsDefaultIfBothDatesAreMissingAndDefaultGiven(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(
@@ -195,7 +187,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfBeforeMinStartDate()
+    public function returnsNullIfBeforeMinStartDate(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -208,7 +200,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfAfterMaxStartDate()
+    public function returnsNullIfAfterMaxStartDate(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -221,7 +213,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsValueIfStartInRange()
+    public function returnsValueIfStartInRange(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(
@@ -239,7 +231,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfBeforeMinEndDate()
+    public function returnsNullIfBeforeMinEndDate(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -252,7 +244,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfAfterMaxEndDate()
+    public function returnsNullIfAfterMaxEndDate(): void
     {
         assertNull(
                 $this->customDatespanParamBroker->procure(
@@ -265,7 +257,7 @@ class CustomDatespanParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsValueIfEndInRange()
+    public function returnsValueIfEndInRange(): void
     {
         assertThat(
                 $this->customDatespanParamBroker->procure(

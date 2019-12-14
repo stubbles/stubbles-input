@@ -21,7 +21,7 @@ abstract class FilterTest extends TestCase
     /**
      * list of param errors
      *
-     * @type  ParamErrors
+     * @var  ParamErrors
      */
     protected $paramErrors;
 

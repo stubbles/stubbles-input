@@ -24,7 +24,7 @@ class ParamErrorTest extends TestCase
     /**
      * instance to test
      *
-     * @type  ParamError
+     * @var  ParamError
      */
     private $paramError;
 
@@ -36,7 +36,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function returnsGivenId()
+    public function returnsGivenId(): void
     {
         assertThat($this->paramError->id(), equals('id'));
     }
@@ -45,7 +45,7 @@ class ParamErrorTest extends TestCase
      * @test
      * @since  5.1.0
      */
-    public function returnsGivenDetails()
+    public function returnsGivenDetails(): void
     {
         assertThat($this->paramError->details(), equals(['foo' => 'bar']));
     }
@@ -53,7 +53,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function replacesPlaceHolderInMessagesWithDetails()
+    public function replacesPlaceHolderInMessagesWithDetails(): void
     {
 
         assertThat(
@@ -72,7 +72,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails()
+    public function replacesPlaceHolderInMessagesWithFlattenedArrayDetails(): void
     {
         $this->paramError = new ParamError('id', ['foo' => ['bar', 'baz']]);
         assertThat(
@@ -91,7 +91,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function replacesPlaceHolderInMessagesWithObjectDetails()
+    public function replacesPlaceHolderInMessagesWithObjectDetails(): void
     {
         $this->paramError = new ParamError('id', ['foo' => new \stdClass()]);
         assertThat(
@@ -110,7 +110,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet()
+    public function doesNotReplacePlaceHolderInMessagesIfDetailsNotSet(): void
     {
         $this->paramError = new ParamError('id');
         assertThat(
@@ -129,7 +129,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnClass()
+    public function annotationsPresentOnClass(): void
     {
         assertTrue(annotationsOf($this->paramError)->contain('XmlTag'));
     }
@@ -137,7 +137,7 @@ class ParamErrorTest extends TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnIdMethod()
+    public function annotationsPresentOnIdMethod(): void
     {
         assertTrue(
                 annotationsOf($this->paramError, 'id')->contain('XmlAttribute')

@@ -48,7 +48,7 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -62,7 +62,7 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -75,7 +75,7 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfBeforeMinStartDate()
+    public function returnsNullIfBeforeMinStartDate(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -88,7 +88,7 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfAfterMaxStartDate()
+    public function returnsNullIfAfterMaxStartDate(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -101,7 +101,7 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsValueIfInRange()
+    public function returnsValueIfInRange(): void
     {
         assertThat(
                 $this->paramBroker->procure(

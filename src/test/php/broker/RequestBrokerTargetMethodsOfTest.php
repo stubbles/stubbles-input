@@ -21,6 +21,9 @@ use function stubbles\reflect\reflect;
  */
 class RequestBrokerTargetMethodsOfTest extends TestCase
 {
+    /**
+     * @return  array<mixed[]>
+     */
     public function allowedValues(): array
     {
         return [
@@ -31,10 +34,11 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
     }
 
     /**
+     * @param  object|class-string<object>|\ReflectionClass<object>  $allowedValue
      * @test
      * @dataProvider  allowedValues
      */
-    public function returnsListOfAllMethodsWithRequestAnnotation($allowedValue)
+    public function returnsListOfAllMethodsWithRequestAnnotation($allowedValue): void
     {
         $paramNames = [];
         foreach (RequestBroker::targetMethodsOf($allowedValue) as $targetMethod) {
@@ -45,10 +49,11 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
     }
 
     /**
+     * @param  object|class-string<object>|\ReflectionClass<object>  $allowedValue
      * @test
      * @dataProvider  allowedValues
      */
-    public function returnsListOfAllMethodsWithRequestAnnotationInGivenGroup($allowedValue)
+    public function returnsListOfAllMethodsWithRequestAnnotationInGivenGroup($allowedValue): void
     {
         $paramNames = [];
         foreach (RequestBroker::targetMethodsOf($allowedValue, 'main') as $targetMethod) {
@@ -61,7 +66,7 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
     /**
      * @test
      */
-    public function targetMethodsOfThrowsExceptionOnInvalidValue()
+    public function targetMethodsOfThrowsExceptionOnInvalidValue(): void
     {
         expect(function() {
                 RequestBroker::targetMethodsOf(404);

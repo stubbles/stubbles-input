@@ -22,9 +22,7 @@ use function bovigo\assert\predicate\equals;
 class SimplePasswordCheckerTest extends TestCase
 {
     /**
-     * instance to test
-     *
-     * @type  SimplePasswordChecker
+     * @var  SimplePasswordChecker
      */
     private $simplePasswordChecker;
 
@@ -36,7 +34,7 @@ class SimplePasswordCheckerTest extends TestCase
     /**
      * @test
      */
-    public function doesNotReportErrorsWithDefaultValuesAndSatisfyingPassword()
+    public function doesNotReportErrorsWithDefaultValuesAndSatisfyingPassword(): void
     {
         assertEmptyArray(
                 $this->simplePasswordChecker->check(Secret::create('topsecret'))
@@ -46,7 +44,7 @@ class SimplePasswordCheckerTest extends TestCase
     /**
      * @test
      */
-    public function reportsErrorsWithDefaultValuesAndNonSatisfyingPassword()
+    public function reportsErrorsWithDefaultValuesAndNonSatisfyingPassword(): void
     {
         assertThat(
                 $this->simplePasswordChecker->check(Secret::create('ooo')),
@@ -60,7 +58,7 @@ class SimplePasswordCheckerTest extends TestCase
     /**
      * @test
      */
-    public function reportsErrorsWithChangedValuesAndNonSatisfyingPassword()
+    public function reportsErrorsWithChangedValuesAndNonSatisfyingPassword(): void
     {
         assertThat(
                 $this->simplePasswordChecker->minLength(10)
@@ -76,7 +74,7 @@ class SimplePasswordCheckerTest extends TestCase
     /**
      * @test
      */
-    public function reportsErrorsWithDisallowedValues()
+    public function reportsErrorsWithDisallowedValues(): void
     {
         assertThat(
                 $this->simplePasswordChecker->disallowValues(['topsecret'])

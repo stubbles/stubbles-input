@@ -54,7 +54,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -70,7 +70,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -83,7 +83,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullForInvalidJson()
+    public function returnsNullForInvalidJson(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -97,7 +97,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         assertThat(
                 $this->paramBroker->procureParam(
@@ -111,7 +111,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -125,7 +125,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -139,7 +139,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')
@@ -156,7 +156,7 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')

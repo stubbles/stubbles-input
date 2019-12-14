@@ -28,7 +28,7 @@ use function bovigo\assert\predicate\equals;
 class PasswordParamBrokerTest extends TestCase
 {
     /**
-     * @type  PasswordParamBroker
+     * @var  PasswordParamBroker
      */
     private $paramBroker;
 
@@ -41,7 +41,7 @@ class PasswordParamBrokerTest extends TestCase
      * @param  string  $expectedPassword
      * @param  Secret  $actualPassword
      */
-    private function assertPasswordEquals($expectedPassword, Secret $actualPassword)
+    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword): void
     {
         assertThat($actualPassword->unveil(), equals($expectedPassword));
     }
@@ -49,7 +49,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * creates request annotation
      *
-     * @param   array  $values
+     * @param   array<string,mixed>  $values
      * @return  Annotation
      */
     protected function createRequestAnnotation(array $values = []): Annotation
@@ -67,7 +67,7 @@ class PasswordParamBrokerTest extends TestCase
      * creates mocked request
      *
      * @param   mixed  $value
-     * @return  \bovigo\callmap\Proxy
+     * @return  Request&\bovigo\callmap\ClassProxy
      */
     protected function createRequest($value): Request
     {
@@ -79,7 +79,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function failsForUnknownSource()
+    public function failsForUnknownSource(): void
     {
         expect(function() {
                 $this->paramBroker->procure(
@@ -93,7 +93,7 @@ class PasswordParamBrokerTest extends TestCase
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         $this->assertPasswordEquals(
                 'topsecret',
@@ -107,7 +107,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         $this->assertPasswordEquals(
                 'topsecret',
@@ -121,7 +121,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         $this->assertPasswordEquals(
                 'topsecret',
@@ -135,7 +135,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('topsecret')
@@ -152,7 +152,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request =  NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue('topsecret')
@@ -169,7 +169,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -182,7 +182,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndNotRequired()
+    public function returnsNullIfParamNotSetAndNotRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -195,7 +195,7 @@ class PasswordParamBrokerTest extends TestCase
     /**
      * @test
      */
-    public function returnsNullIfTooLessMinDiffChars()
+    public function returnsNullIfTooLessMinDiffChars(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -209,7 +209,7 @@ class PasswordParamBrokerTest extends TestCase
      * @test
      * @since  3.0.0
      */
-    public function returnsNullIfTooShort()
+    public function returnsNullIfTooShort(): void
     {
         assertNull(
                 $this->paramBroker->procure(

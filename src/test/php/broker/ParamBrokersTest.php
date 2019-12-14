@@ -26,9 +26,7 @@ use function stubbles\reflect\annotationsOfConstructor;
 class ParamBrokersTest extends TestCase
 {
     /**
-     * instance to test
-     *
-     * @type  \stubbles\input\broker\RequestBroker
+     * @var  \stubbles\input\broker\RequestBroker
      */
     private $requestBroker;
 
@@ -40,13 +38,16 @@ class ParamBrokersTest extends TestCase
     /**
      * @test
      */
-    public function annotationsPresentOnAddParamBrokersMethod()
+    public function annotationsPresentOnAddParamBrokersMethod(): void
     {
         assertTrue(
                 annotationsOfConstructor($this->requestBroker)->contain('Map')
         );
     }
 
+    /**
+     * @return  array<string[]>
+     */
     public function defaultBrokerList(): array
     {
         $defaultBroker = [];
@@ -61,7 +62,7 @@ class ParamBrokersTest extends TestCase
      * @test
      * @dataProvider  defaultBrokerList
      */
-    public function returnsBroker($key, $brokerClass)
+    public function returnsBroker(string $key, string $brokerClass): void
     {
         assertThat(
                 $this->requestBroker->paramBroker($key),
@@ -75,7 +76,7 @@ class ParamBrokersTest extends TestCase
      * @since  2.3.3
      * @group  issue_45
      */
-    public function returnsBrokerWithLowerCaseKey($key, $brokerClass)
+    public function returnsBrokerWithLowerCaseKey(string $key, string $brokerClass): void
     {
         assertThat(
                 $this->requestBroker->paramBroker(strtolower($key)),
@@ -86,7 +87,7 @@ class ParamBrokersTest extends TestCase
     /**
      * @test
      */
-    public function requestUnknownParamBrokerTypeThrowsRuntimeException()
+    public function requestUnknownParamBrokerTypeThrowsRuntimeException(): void
     {
         expect(function() {
                 $this->requestBroker->paramBroker('doesNotExist');
@@ -97,7 +98,7 @@ class ParamBrokersTest extends TestCase
      * @test
      * @dataProvider  defaultBrokerList
      */
-    public function addingBrokersDoesNotOverrideDefaultBrokers($key, $brokerClass)
+    public function addingBrokersDoesNotOverrideDefaultBrokers(string $key, string $brokerClass): void
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['mock' => $paramBroker]);
@@ -110,7 +111,7 @@ class ParamBrokersTest extends TestCase
     /**
      * @test
      */
-    public function returnsAddedBroker()
+    public function returnsAddedBroker(): void
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
@@ -123,7 +124,7 @@ class ParamBrokersTest extends TestCase
     /**
      * @test
      */
-    public function canOverwriteDefaultBroker()
+    public function canOverwriteDefaultBroker(): void
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['string' => $paramBroker]);

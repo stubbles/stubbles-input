@@ -60,7 +60,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -76,7 +76,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSetWithAllowedSource()
+    public function usesDefaultFromAnnotationIfParamNotSetWithAllowedSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -93,7 +93,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -109,7 +109,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @since  8.0.0
      */
-    public function throwsRuntimeExceptionWhenAllowedSourceIsNoValidCallback()
+    public function throwsRuntimeExceptionWhenAllowedSourceIsNoValidCallback(): void
     {
         expect(function() {
             $this->paramBroker->procure(
@@ -126,7 +126,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequiredWithAllowedSource()
+    public function returnsNullIfParamNotSetAndRequiredWithAllowedSource(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -142,7 +142,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function failsForUnknownSource()
+    public function failsForUnknownSource(): void
     {
         expect(function() {
                 $this->paramBroker->procure(
@@ -156,7 +156,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         assertThat(
                 $this->paramBroker->procureParam(
@@ -171,7 +171,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParamWithAllowedSource()
+    public function canWorkWithParamWithAllowedSource(): void
     {
         assertThat(
                 $this->paramBroker->procureParam(
@@ -187,7 +187,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -201,7 +201,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsDefaultSourceWithAllowedSource()
+    public function usesParamAsDefaultSourceWithAllowedSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -217,7 +217,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -233,7 +233,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsSourceWithAllowedSource()
+    public function usesParamAsSourceWithAllowedSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -250,7 +250,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
@@ -269,7 +269,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequestWithAllowedSource()
+    public function canUseHeaderAsSourceForWebRequestWithAllowedSource(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
@@ -289,7 +289,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
@@ -308,7 +308,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequestWithAllowedSource()
+    public function canUseCookieAsSourceForWebRequestWithAllowedSource(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
@@ -329,7 +329,7 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @since  3.0.0
      */
-    public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing()
+    public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing(): void
     {
         expect(function() {
             $this->paramBroker->procure(

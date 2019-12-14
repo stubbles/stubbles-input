@@ -31,7 +31,7 @@ class PropertyBasedParamErrorMessagesTest extends TestCase
     /**
      * instance to test
      *
-     * @type  PropertyBasedParamErrorMessages
+     * @var  PropertyBasedParamErrorMessages
      */
     private $errorMessages;
 
@@ -72,7 +72,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function hasMessagesForErrorsFromBothSources()
+    public function hasMessagesForErrorsFromBothSources(): void
     {
         assertTrue(
                 $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
@@ -85,7 +85,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsTrueOnCheckForExistingError()
+    public function returnsTrueOnCheckForExistingError(): void
     {
         assertTrue(
                 $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
@@ -95,7 +95,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsFalseOnCheckForNonExistingError()
+    public function returnsFalseOnCheckForNonExistingError(): void
     {
         assertFalse(
                 $this->errorMessages->existFor(new ParamError('doesNotExist'))
@@ -105,7 +105,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsListOfLocalesForExistingError()
+    public function returnsListOfLocalesForExistingError(): void
     {
 
         assertThat(
@@ -119,7 +119,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsEmptyListOfLocalesForNonExistingError()
+    public function returnsEmptyListOfLocalesForNonExistingError(): void
     {
 
         assertEmptyArray(
@@ -130,7 +130,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsListOfLocalizedMessagesForExistingError()
+    public function returnsListOfLocalizedMessagesForExistingError(): void
     {
 
         assertThat(
@@ -146,7 +146,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsEmptyMessageListForNonExistingError()
+    public function returnsEmptyMessageListForNonExistingError(): void
     {
 
         assertEmptyArray(
@@ -157,7 +157,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsMessageInExistingLocale()
+    public function returnsMessageInExistingLocale(): void
     {
 
         assertThat(
@@ -172,7 +172,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsMessageInExistingBaseLocale()
+    public function returnsMessageInExistingBaseLocale(): void
     {
 
         assertThat(
@@ -187,7 +187,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsMessageInDefaultLocale()
+    public function returnsMessageInDefaultLocale(): void
     {
         $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
         assertThat(
@@ -202,7 +202,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsMessageInDefaultLocaleIfNoLocaleGiven()
+    public function returnsMessageInDefaultLocaleIfNoLocaleGiven(): void
     {
         $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
         assertThat(
@@ -215,7 +215,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
      * @test
      * @since  8.0.1
      */
-    public function returnsMessageInBaseLocaleIfNoLocaleGivenAndNoSpecificLocaleMessageAvailable()
+    public function returnsMessageInBaseLocaleIfNoLocaleGivenAndNoSpecificLocaleMessageAvailable(): void
     {
         $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_EN');
         assertThat(
@@ -227,7 +227,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsMessageInFallbackLocale()
+    public function returnsMessageInFallbackLocale(): void
     {
 
         assertThat(
@@ -242,7 +242,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function returnsEmptyMessageForNonExistingError()
+    public function returnsEmptyMessageForNonExistingError(): void
     {
 
         assertThat(
@@ -257,7 +257,7 @@ de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
     /**
      * @test
      */
-    public function annotationsPresentOnConstructor()
+    public function annotationsPresentOnConstructor(): void
     {
         $annotations = annotationsOfConstructorParameter(
                 'defaultLocale',

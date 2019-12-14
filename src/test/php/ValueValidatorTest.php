@@ -45,7 +45,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function containsReturnsTrueIfValidatorSatisfied()
+    public function containsReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('foo')->contains('o'));
     }
@@ -53,7 +53,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function containsReturnsFalseIfValidatorNotSatisfied()
+    public function containsReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->contains('u'));
     }
@@ -62,7 +62,7 @@ class ValueValidatorTest extends TestCase
      * @test
      * @since  4.3.0
      */
-    public function containsAnyOfReturnsTrueIfValidatorSatisfied()
+    public function containsAnyOfReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('foo')->containsAnyOf(['bar', 'o', 'baz']));
     }
@@ -71,7 +71,7 @@ class ValueValidatorTest extends TestCase
      * @test
      * @since  4.3.0
      */
-    public function containsAnyOfReturnsFalseIfValidatorNotSatisfied()
+    public function containsAnyOfReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->containsAnyOf(['bar', 'baz']));
     }
@@ -79,7 +79,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isEqualToReturnsTrueIfValidatorSatisfied()
+    public function isEqualToReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('foo')->isEqualTo('foo'));
     }
@@ -87,7 +87,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isEqualToReturnsFalseIfValidatorNotSatisfied()
+    public function isEqualToReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isEqualTo('bar'));
     }
@@ -95,7 +95,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isHttpUriReturnsTrueIfValidatorSatisfied()
+    public function isHttpUriReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('http://example.net/')->isHttpUri());
     }
@@ -103,7 +103,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isHttpUriReturnsFalseIfValidatorNotSatisfied()
+    public function isHttpUriReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isHttpUri());
     }
@@ -111,7 +111,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isExistingHttpUriReturnsTrueIfValidatorSatisfied()
+    public function isExistingHttpUriReturnsTrueIfValidatorSatisfied(): void
     {
         Value::defineCheck('isExistingHttpUri', function(): bool { return true; });
         assertTrue($this->validate('http://localhost/')->isExistingHttpUri());
@@ -120,7 +120,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfied()
+    public function isExistingHttpUriReturnsFalseIfValidatorNotSatisfied(): void
     {
         Value::defineCheck('isExistingHttpUri', function(): bool { return false; });
         assertFalse($this->validate('foo')->isExistingHttpUri());
@@ -131,7 +131,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV4Address()
+    public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV4Address(): void
     {
         assertTrue($this->validate('127.0.0.1')->isIpAddress());
     }
@@ -141,7 +141,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV6Address()
+    public function isIpAddressReturnsTrueIfValidatorSatisfiedWithIpV6Address(): void
     {
         assertTrue(
                 $this->validate('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
@@ -152,7 +152,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isIpAddressReturnsFalseIfValidatorNotSatisfied()
+    public function isIpAddressReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isIpAddress());
     }
@@ -162,7 +162,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV4AddressReturnsTrueIfValidatorSatisfied()
+    public function isIpV4AddressReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('127.0.0.1')->isIpV4Address());
     }
@@ -172,7 +172,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV4AddressReturnsFalseIfValidatorNotSatisfied()
+    public function isIpV4AddressReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isIpV4Address());
     }
@@ -182,7 +182,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV4AddressReturnsFalseForIpV6Addresses()
+    public function isIpV4AddressReturnsFalseForIpV6Addresses(): void
     {
         assertFalse(
                 $this->validate('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
@@ -195,7 +195,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV6AddressReturnsTrueIfValidatorSatisfied()
+    public function isIpV6AddressReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue(
                 $this->validate('2001:8d8f:1fe:5:abba:dbff:fefe:7755')
@@ -208,7 +208,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV6AddressReturnsFalseIfValidatorNotSatisfied()
+    public function isIpV6AddressReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isIpV6Address());
     }
@@ -218,7 +218,7 @@ class ValueValidatorTest extends TestCase
      * @since  1.7.0
      * @group  bug258
      */
-    public function isIpV6AddressReturnsFalseForIpV4Addresses()
+    public function isIpV6AddressReturnsFalseForIpV4Addresses(): void
     {
         assertFalse($this->validate('127.0.0.1')->isIpV6Address());
     }
@@ -226,7 +226,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isMailAddressReturnsTrueIfValidatorSatisfied()
+    public function isMailAddressReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('mail@example.net')->isMailAddress());
     }
@@ -234,7 +234,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isMailAddressReturnsFalseIfValidatorNotSatisfied()
+    public function isMailAddressReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isMailAddress());
     }
@@ -242,7 +242,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isOneOfReturnsTrueIfValidatorSatisfied()
+    public function isOneOfReturnsTrueIfValidatorSatisfied(): void
     {
         assertTrue($this->validate('foo')->isOneOf(['foo', 'bar', 'baz']));
     }
@@ -250,7 +250,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function isOneOfReturnsFalseIfValidatorNotSatisfied()
+    public function isOneOfReturnsFalseIfValidatorNotSatisfied(): void
     {
         assertFalse($this->validate('foo')->isOneOf(['bar', 'baz']));
     }
@@ -258,7 +258,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function matchesReturnsTrueIfPatternMatchesValue()
+    public function matchesReturnsTrueIfPatternMatchesValue(): void
     {
         assertTrue($this->validate('foo')->matches('/foo/'));
     }
@@ -266,7 +266,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function matchesReturnsFalseIfPatternDoesNotMatchValue()
+    public function matchesReturnsFalseIfPatternDoesNotMatchValue(): void
     {
         assertFalse($this->validate('foo')->matches('/bar/'));
     }
@@ -275,7 +275,7 @@ class ValueValidatorTest extends TestCase
      * @test
      * @since  3.0.0
      */
-    public function withPredicateReturnsPredicateResult()
+    public function withPredicateReturnsPredicateResult(): void
     {
         assertTrue($this->validate('foo')->with(
                 function(Value $value) { return 'foo' === $value->value(); }
@@ -285,7 +285,7 @@ class ValueValidatorTest extends TestCase
     /**
      * @test
      */
-    public function canBeCreatedAsMock()
+    public function canBeCreatedAsMock(): void
     {
         assertThat(
                 ValueValidator::forValue('bar'),

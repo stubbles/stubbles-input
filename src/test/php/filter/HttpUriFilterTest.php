@@ -23,7 +23,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsUriWithoutPortIfItIsDefaultPort()
+    public function returnsUriWithoutPortIfItIsDefaultPort(): void
     {
         assertThat(
                 $this->readParam('http://example.org')->asHttpUri(),
@@ -36,7 +36,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsUriWithPortIfItIsNonDefaultPort()
+    public function returnsUriWithPortIfItIsNonDefaultPort(): void
     {
         assertThat(
                 $this->readParam('http://example.org:45')->asHttpUri(),
@@ -47,7 +47,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForNull()
+    public function returnsNullForNull(): void
     {
         assertNull($this->readParam(null)->asHttpUri());
     }
@@ -55,7 +55,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForEmptyValue()
+    public function returnsNullForEmptyValue(): void
     {
         assertNull($this->readParam('')->asHttpUri());
     }
@@ -63,7 +63,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullForInvalidUri()
+    public function returnsNullForInvalidUri(): void
     {
         assertNull($this->readParam('ftp://foobar.de/')->asHttpUri());
     }
@@ -71,7 +71,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function addsErrorToParamForInvalidUri()
+    public function addsErrorToParamForInvalidUri(): void
     {
         $this->readParam('ftp://foobar.de/')->asHttpUri();
         assertTrue(
@@ -82,7 +82,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function doesNotPerformDnsCheck()
+    public function doesNotPerformDnsCheck(): void
     {
         assertThat(
                 $this->readParam('http://doesnotexist')->asHttpUri(),
@@ -94,7 +94,7 @@ class HttpUriFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asHttpUriReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat(
                  $this->readParam(null)
@@ -108,7 +108,7 @@ class HttpUriFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asHttpUriReturnsNullIfParamIsNullAndRequired()
+    public function asHttpUriReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asHttpUri());
     }
@@ -117,7 +117,7 @@ class HttpUriFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asHttpUriAddsParamErrorIfParamIsNullAndRequired()
+    public function asHttpUriAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asHttpUri();
         assertTrue($this->paramErrors->existForWithId('bar', 'HTTP_URI_MISSING'));
@@ -127,7 +127,7 @@ class HttpUriFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asHttpUriReturnsNullIfParamIsInvalid()
+    public function asHttpUriReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asHttpUri());
     }
@@ -136,7 +136,7 @@ class HttpUriFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asHttpUriAddsParamErrorIfParamIsInvalid()
+    public function asHttpUriAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asHttpUri();
         assertTrue($this->paramErrors->existFor('bar'));
@@ -145,7 +145,7 @@ class HttpUriFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asHttpUriReturnsValidValue()
+    public function asHttpUriReturnsValidValue(): void
     {
         assertThat(
                 $this->readParam('http://example.com/')->asHttpUri(),

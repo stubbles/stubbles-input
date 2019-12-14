@@ -22,9 +22,7 @@ use function bovigo\assert\predicate\equals;
 class TextFilterTest extends FilterTest
 {
     /**
-     * the instance to test
-     *
-     * @type  TextFilter
+     * @var  TextFilter
      */
     private $textFilter;
 
@@ -37,7 +35,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsEmptyStringWhenParamIsNull()
+    public function returnsEmptyStringWhenParamIsNull(): void
     {
         assertEmptyString($this->textFilter->apply($this->createParam(null))[0]);
     }
@@ -45,25 +43,30 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsEmptyStringWhenParamIsEmptyString()
+    public function returnsEmptyStringWhenParamIsEmptyString(): void
     {
         assertEmptyString($this->textFilter->apply($this->createParam(''))[0]);
     }
 
+    /**
+     * @return  array<mixed[]>
+     */
     public function allowedTags(): array
     {
-        return [[[], 'this is bold and cursive and underlined with a link'],
-                [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],
-                [['b', 'i', 'a'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a <a href="http://example.org/">link</a>']
-
+        return [
+            [[], 'this is bold and cursive and underlined with a link'],
+            [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],
+            [['b', 'i', 'a'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a <a href="http://example.org/">link</a>']
         ];
     }
 
     /**
+     * @param  string[]  $allowedTags
+     * @param  string    $expected
      * @test
      * @dataProvider  allowedTags
      */
-    public function removesTags(array $allowedTags, string $expected)
+    public function removesTags(array $allowedTags, string $expected): void
     {
         assertThat(
                 $this->textFilter->allowTags($allowedTags)
@@ -77,7 +80,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesSlashes()
+    public function removesSlashes(): void
     {
         assertThat(
                 $this->textFilter->apply($this->createParam("\'kkk"))[0],
@@ -88,7 +91,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function removesCarriageReturn()
+    public function removesCarriageReturn(): void
     {
         assertThat(
                 $this->textFilter->apply($this->createParam("cde\rkkk"))[0],
@@ -99,7 +102,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function doesNotRemoveLineBreaks()
+    public function doesNotRemoveLineBreaks(): void
     {
         assertThat(
                 $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
@@ -111,7 +114,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired()
+    public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired(): void
     {
         assertEmptyString($this->readParam(null)->asText());
     }
@@ -120,7 +123,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asTextReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat(
                 $this->readParam(null)->defaultingTo('baz')->asText(),
@@ -132,7 +135,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextReturnsNullIfParamIsNullAndRequired()
+    public function asTextReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asText());
     }
@@ -141,7 +144,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextAddsParamErrorIfParamIsNullAndRequired()
+    public function asTextAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asText();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -151,7 +154,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextReturnsNullIfParamIsInvalid()
+    public function asTextReturnsNullIfParamIsInvalid(): void
     {
         assertNull(
                 $this->readParam('foo')->asText(new StringLength(5, null))
@@ -162,7 +165,7 @@ class TextFilterTest extends FilterTest
      * @since  2.0.0
      * @test
      */
-    public function asTextAddsParamErrorIfParamIsInvalid()
+    public function asTextAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asText(new StringLength(5, null));
         assertTrue($this->paramErrors->existFor('bar'));
@@ -171,7 +174,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asTextReturnsValidValue()
+    public function asTextReturnsValidValue(): void
     {
         assertThat($this->readParam('foo<b>')->asText(), equals('foo'));
 
@@ -180,7 +183,7 @@ class TextFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asTextWithAllowedTagsReturnsValidValue()
+    public function asTextWithAllowedTagsReturnsValidValue(): void
     {
         assertThat($this->readParam('foo<b>')->asText(null, ['b']), equals('foo<b>'));
     }

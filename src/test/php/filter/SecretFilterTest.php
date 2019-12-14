@@ -24,9 +24,7 @@ use function bovigo\assert\predicate\equals;
 class SecretFilterTest extends FilterTest
 {
     /**
-     * the instance to test
-     *
-     * @type  SecretFilter
+     * @var  SecretFilter
      */
     private $secretFilter;
 
@@ -36,7 +34,7 @@ class SecretFilterTest extends FilterTest
         parent::setUp();
     }
 
-    private function assertSecretEquals(?string $expected, Secret $actualSecret = null)
+    private function assertSecretEquals(?string $expected, Secret $actualSecret = null): void
     {
         $actual = $actualSecret !== null ? $actualSecret->unveil() : null;
         assertThat($actual, equals($expected));
@@ -45,7 +43,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullSecretWhenParamIsNull()
+    public function returnsNullSecretWhenParamIsNull(): void
     {
         $this->assertSecretEquals(
                 null,
@@ -56,7 +54,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function returnsNullSecretWhenParamIsEmptyString()
+    public function returnsNullSecretWhenParamIsEmptyString(): void
     {
         $this->assertSecretEquals(
                 null,
@@ -67,7 +65,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretReturnsNullSecretIfParamIsNullAndNotRequired()
+    public function asSecretReturnsNullSecretIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asSecret());
     }
@@ -75,7 +73,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asSecretReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $this->assertSecretEquals(
                 'baz',
@@ -88,7 +86,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecret()
+    public function asSecretThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecret(): void
     {
         expect(function() {
                 $this->readParam(null)->defaultingTo('baz')->asSecret();
@@ -98,7 +96,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretReturnsNullIfParamIsNullAndRequired()
+    public function asSecretReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asSecret());
     }
@@ -106,7 +104,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretAddsParamErrorIfParamIsNullAndRequired()
+    public function asSecretAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asSecret();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
@@ -115,7 +113,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretReturnsNullIfParamIsInvalid()
+    public function asSecretReturnsNullIfParamIsInvalid(): void
     {
         assertNull(
                 $this->readParam('foo')->asSecret(new SecretMinLength(5))
@@ -125,7 +123,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretAddsParamErrorIfParamIsInvalid()
+    public function asSecretAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asSecret(new SecretMinLength(5));
         assertTrue($this->paramErrors->existFor('bar'));
@@ -134,7 +132,7 @@ class SecretFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asSecretReturnsValidValue()
+    public function asSecretReturnsValidValue(): void
     {
         $secret = $this->readParam('foo')->asSecret();
         assertThat($secret !== null ? $secret->unveil() : null, equals('foo'));

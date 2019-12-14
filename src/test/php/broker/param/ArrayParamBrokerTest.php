@@ -41,7 +41,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * returns expected filtered value
      *
-     * @return  array
+     * @return  string[]
      */
     protected function expectedValue(): array
     {
@@ -51,7 +51,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesDefaultFromAnnotationIfParamNotSet()
+    public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -65,7 +65,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsValueWithDifferentSeparator()
+    public function returnsValueWithDifferentSeparator(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -79,7 +79,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsNullIfParamNotSetAndRequired()
+    public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
                 $this->paramBroker->procure(
@@ -92,7 +92,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function returnsEmptyArrayForEmptyValue()
+    public function returnsEmptyArrayForEmptyValue(): void
     {
         assertEmptyArray(
                 $this->paramBroker->procure(
@@ -106,7 +106,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
      * @test
      * @deprecated  since 7.0.0, will be removed with 8.0.0
      */
-    public function canWorkWithParam()
+    public function canWorkWithParam(): void
     {
         assertThat(
                 $this->paramBroker->procureParam(
@@ -120,7 +120,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsDefaultSource()
+    public function usesParamAsDefaultSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -134,7 +134,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function usesParamAsSource()
+    public function usesParamAsSource(): void
     {
         assertThat(
                 $this->paramBroker->procure(
@@ -148,7 +148,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseHeaderAsSourceForWebRequest()
+    public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readHeader' => ValueReader::forValue('foo, bar')
@@ -165,7 +165,7 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTest
     /**
      * @test
      */
-    public function canUseCookieAsSourceForWebRequest()
+    public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
                 'readCookie' => ValueReader::forValue('foo, bar')

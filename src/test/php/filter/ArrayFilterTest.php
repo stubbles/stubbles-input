@@ -23,6 +23,9 @@ use function bovigo\assert\{
  */
 class ArrayFilterTest extends FilterTest
 {
+    /**
+     * @return  array<mixed[]>
+     */
     public function valueResultTuples(): array
     {
         return [[null, null],
@@ -34,10 +37,12 @@ class ArrayFilterTest extends FilterTest
     }
 
     /**
+     * @param  mixed  $value
+     * @param  mixed  $expected
      * @test
      * @dataProvider  valueResultTuples
      */
-    public function value($value, $expected)
+    public function value($value, $expected): void
     {
         assertThat($this->readParam($value)->asArray(), equals($expected));
     }
@@ -45,7 +50,7 @@ class ArrayFilterTest extends FilterTest
     /**
      * @test
      */
-    public function usingDifferentSeparator()
+    public function usingDifferentSeparator(): void
     {
         assertThat($this->readParam('foo|bar')->asArray('|'), equals(['foo', 'bar']));
     }
@@ -53,7 +58,7 @@ class ArrayFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asArrayReturnsDefaultIfParamIsNullAndNotRequired()
+    public function asArrayReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = ['foo' => 'bar'];
         assertThat(
@@ -67,7 +72,7 @@ class ArrayFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asArrayReturnsNullIfParamIsNullAndRequired()
+    public function asArrayReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asArray());
     }
@@ -75,7 +80,7 @@ class ArrayFilterTest extends FilterTest
     /**
      * @test
      */
-    public function asArrayAddsParamErrorIfParamIsNullAndRequired()
+    public function asArrayAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asArray();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
