@@ -25,9 +25,9 @@ trait ReusableFilter
     /**
      * returns reusable filter instance
      *
-     * @return  \stubbles\input\Filter
+     * @return  self
      */
-    public static function instance(): Filter
+    public static function instance(): self
     {
         if (null === self::$instance) {
             self::$instance = new self();
