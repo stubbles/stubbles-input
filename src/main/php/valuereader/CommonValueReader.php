@@ -33,7 +33,7 @@ interface CommonValueReader
      * read as array value
      *
      * @param   string  $separator  optional  character to split input value with
-     * @return  array
+     * @return  mixed[]
      */
     public function asArray(string $separator = self::ARRAY_SEPARATOR): ?array;
 
@@ -90,7 +90,7 @@ interface CommonValueReader
      * read as json value
      *
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array|null
+     * @return  \stdClass|array<mixed>|null
      */
     public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH);
 
@@ -216,9 +216,9 @@ interface CommonValueReader
      * If value does not satisfy the predicate return value will be null.
      *
      * @api
-     * @param   callable  $predicate  predicate to use
-     * @param   string    $errorId    error id to be used in case validation fails
-     * @param   array     $details    optional  details for param error in case validation fails
+     * @param   callable              $predicate  predicate to use
+     * @param   string                $errorId    error id to be used in case validation fails
+     * @param   array<string,scalar>  $details    optional  details for param error in case validation fails
      * @return  string
      * @since   3.0.0
      */
