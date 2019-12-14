@@ -31,7 +31,7 @@ class PredicateFilter extends Filter
     /**
      * details for param error in case validation fails
      *
-     * @var  array
+     * @var  array<string,scalar>
      */
     private $details;
 
@@ -53,7 +53,7 @@ class PredicateFilter extends Filter
      * apply filter on given value
      *
      * @param   \stubbles\values\Value  $value
-     * @return  array
+     * @return  mixed[]
      */
     public function apply(Value $value): array
     {

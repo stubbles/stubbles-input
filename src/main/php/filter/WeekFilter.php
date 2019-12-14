@@ -32,7 +32,7 @@ class WeekFilter extends Filter
      * the return value is null.
      *
      * @param   \stubbles\values\Value  $value
-     * @return  array
+     * @return  mixed[]
      */
     public function apply(Value $value): array
     {

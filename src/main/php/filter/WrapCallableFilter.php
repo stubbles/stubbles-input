@@ -37,7 +37,7 @@ class WrapCallableFilter extends Filter
      * apply filter on given value
      *
      * @param   \stubbles\values\Value  $value
-     * @return  array
+     * @return  mixed[]
      */
     public function apply(Value $value): array
     {
