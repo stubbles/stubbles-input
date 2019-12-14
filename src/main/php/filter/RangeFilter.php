@@ -18,13 +18,13 @@ class RangeFilter extends Filter
     /**
      * decorated filter
      *
-     * @var  \stubbles\input\filter\NumberFilter
+     * @var  \stubbles\input\Filter
      */
     private $filter;
     /**
      * range definition
      *
-     * @var  \stubbles\input\filter\rangeRange
+     * @var  \stubbles\input\filter\range\Range
      */
     private $range;
 
@@ -45,7 +45,7 @@ class RangeFilter extends Filter
      *
      * @param   \stubbles\input\Filter              $filter  decorated filter
      * @param   \stubbles\input\filter\range\Range  $range   range definition
-     * @return  \stubbles\input\Filter
+     * @return  self
      */
     public static function wrap(Filter $filter, Range $range = null)
     {

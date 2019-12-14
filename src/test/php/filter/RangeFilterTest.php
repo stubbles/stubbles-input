@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewInstance;
-use stubbles\input\Filter;
 use stubbles\input\filter\range\Range;
 use stubbles\values\Value;
 
@@ -29,7 +28,7 @@ class RangeFilterTest extends FilterTest
      */
     private $rangeFilter;
     /**
-     * @var  Filter&\bovigo\callmap\ClassProxy
+     * @var  NumberFilter&\bovigo\callmap\ClassProxy
      */
     private $filter;
     /**
@@ -39,7 +38,7 @@ class RangeFilterTest extends FilterTest
 
     protected function setUp(): void
     {
-        $this->filter      = NewInstance::of(Filter::class);
+        $this->filter      = NewInstance::of(NumberFilter::class);
         $this->range       = NewInstance::of(Range::class);
         $this->rangeFilter = new RangeFilter($this->filter, $this->range);
     }

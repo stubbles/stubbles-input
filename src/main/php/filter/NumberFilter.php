@@ -7,10 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+use stubbles\input\Filter;
 /**
  * Marker interface for filters of type float and int.
  */
-interface NumberFilter
+abstract class NumberFilter extends Filter
 {
     // intentionally empty
 }

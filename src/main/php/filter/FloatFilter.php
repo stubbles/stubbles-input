@@ -7,7 +7,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
-use stubbles\input\Filter;
 use stubbles\values\Value;
 /**
  * Filters on request variables of type double / float.
@@ -17,7 +16,7 @@ use stubbles\values\Value;
  * operations for accuracy. If no value for x is given the value to filter is
  * returned as is after the cast.
  */
-class FloatFilter extends Filter implements NumberFilter
+class FloatFilter extends NumberFilter
 {
     /**
      * number of decimals

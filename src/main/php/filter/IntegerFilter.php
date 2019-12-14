@@ -7,14 +7,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
-use stubbles\input\Filter;
 use stubbles\values\Value;
 /**
  * Basic class for filters on request variables of type integer.
  *
  * This filter takes any value and casts it to int.
  */
-class IntegerFilter extends Filter implements NumberFilter
+class IntegerFilter extends NumberFilter
 {
     use ReusableFilter;
 
