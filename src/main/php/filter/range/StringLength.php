@@ -19,19 +19,19 @@ class StringLength extends AbstractRange
     /**
      * minimum length
      *
-     * @type  int
+     * @var  int
      */
     private $minLength;
     /**
      * maximum length
      *
-     * @type  int
+     * @var  int
      */
     private $maxLength;
     /**
      * whether string can be truncated to maximum length
      *
-     * @type  bool
+     * @var  bool
      */
     private $allowsTruncate = false;
 

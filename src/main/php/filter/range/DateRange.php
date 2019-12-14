@@ -20,13 +20,13 @@ class DateRange extends AbstractRange
     /**
      * minimum date
      *
-     * @type  \stubbles\date\Date
+     * @var  \stubbles\date\Date
      */
     private $minDate;
     /**
      * maximum date
      *
-     * @type  \stubbles\date\Date
+     * @var  \stubbles\date\Date
      */
     private $maxDate;
 

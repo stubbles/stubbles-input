@@ -22,7 +22,7 @@ class TextFilter extends StringFilter
     /**
      * list of allowed tags
      *
-     * @type  string[]
+     * @var  string[]
      */
     private $allowedTags = [];
 

@@ -37,13 +37,13 @@ class SimplePasswordChecker implements PasswordChecker
     /**
      * list of values that are not allowed as password
      *
-     * @type  string[]
+     * @var  string[]
      */
     private $disallowedValues    = [];
     /**
      * minimum length of password
      *
-     * @type  int
+     * @var  int
      */
     private $minLength           = self::DEFAULT_MINLENGTH;
 

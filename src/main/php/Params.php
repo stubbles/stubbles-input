@@ -21,13 +21,13 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * list of parameters
      *
-     * @type  array<string,string>
+     * @var  array<string,string>
      */
     private $params;
     /**
      * list of errors for parameters
      *
-     * @type  ParamErrors
+     * @var  ParamErrors
      */
     private $errors;
 

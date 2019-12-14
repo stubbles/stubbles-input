@@ -19,7 +19,7 @@ class WrapCallableFilter extends Filter
     /**
      * actual filter logic
      *
-     * @type  callable
+     * @var  callable
      */
     private $filter;
 

@@ -21,13 +21,13 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * loader for master.xsl resource file
      *
-     * @type  \stubbles\values\ResourceLoader
+     * @var  \stubbles\values\ResourceLoader
      */
     private $resourceLoader;
     /**
      * default locale to be used
      *
-     * @type  string
+     * @var  string
      */
     private $defaultLocale;
 

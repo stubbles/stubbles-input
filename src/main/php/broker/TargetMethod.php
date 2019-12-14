@@ -18,13 +18,13 @@ class TargetMethod
     /**
      * method which expects the parameter value
      *
-     * @type  \ReflectionMethod
+     * @var  \ReflectionMethod
      */
     private $method;
     /**
      * metadata about the param
      *
-     * @type  \stubbles\reflect\annotation\Annotation
+     * @var  \stubbles\reflect\annotation\Annotation
      */
     private $annotation;
 

@@ -18,7 +18,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * list of errors that occurred while applying a filter on a param
      *
-     * @type  array<string,array<string,ParamError>>
+     * @var  array<string,array<string,ParamError>>
      */
     private $errors = [];
 

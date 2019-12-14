@@ -19,19 +19,19 @@ class PredicateFilter extends Filter
     /**
      * predicate to be used
      *
-     * @type  callable
+     * @var  callable
      */
     private $predicate;
     /**
      * error id to be used in case validation fails
      *
-     * @type  string
+     * @var  string
      */
     private $errorId;
     /**
      * details for param error in case validation fails
      *
-     * @type  array
+     * @var  array
      */
     private $details;
 

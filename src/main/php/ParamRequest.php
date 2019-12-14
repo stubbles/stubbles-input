@@ -16,7 +16,7 @@ abstract class ParamRequest implements Request
     /**
      * list of params
      *
-     * @type  Params
+     * @var  Params
      */
     private $params;
 

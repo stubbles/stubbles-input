@@ -24,7 +24,7 @@ class PasswordFilter extends Filter
     /**
      * actual algorithm to check the password with
      *
-     * @type  \stubbles\input\filter\PasswordChecker
+     * @var  \stubbles\input\filter\PasswordChecker
      */
     private $checker;
 

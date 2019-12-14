@@ -19,13 +19,13 @@ class LocalizedMessage
     /**
      * locale of the message
      *
-     * @type  string
+     * @var  string
      */
     private $locale;
     /**
      * content of the message
      *
-     * @type  string
+     * @var  string
      */
     private $message;
 

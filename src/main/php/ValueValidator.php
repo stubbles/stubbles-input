@@ -16,7 +16,7 @@ use stubbles\values\Value;
 class ValueValidator
 {
     /**
-     * @type  \stubbles\values\Value
+     * @var  \stubbles\values\Value
      */
     private $value;
 

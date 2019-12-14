@@ -18,19 +18,19 @@ class Param
     /**
      * name of param
      *
-     * @type  string
+     * @var  string
      */
     private $name;
     /**
      * original value
      *
-     * @type  string|array
+     * @var  string|array
      */
     private $value;
     /**
      * list of error ids for this param
      *
-     * @type  ParamError[]
+     * @var  ParamError[]
      */
     private $errors = [];
 

@@ -21,7 +21,7 @@ class SecretMinLength extends AbstractRange
     /**
      * minimum length
      *
-     * @type  int
+     * @var  int
      */
     private $minLength;
 

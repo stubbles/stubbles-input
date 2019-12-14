@@ -24,7 +24,7 @@ class RequestBroker
     /**
      * list of build in param brokers
      *
-     * @type  \stubbles\input\broker\param\ParamBroker[]
+     * @var  \stubbles\input\broker\param\ParamBroker[]
      */
     private static $buildInParamBroker;
 

@@ -19,13 +19,13 @@ class NumberRange extends AbstractRange
     /**
      * minimum value
      *
-     * @type  number
+     * @var  number
      */
     private $minValue;
     /**
      * maximum value
      *
-     * @type  number
+     * @var  number
      */
     private $maxValue;
 

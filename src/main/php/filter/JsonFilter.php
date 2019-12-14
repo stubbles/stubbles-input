@@ -22,7 +22,7 @@ class JsonFilter extends Filter
      */
     const DEFAULT_MAX_LENGTH = 20000;
     /**
-     * @type  int
+     * @var  int
      */
     private $maxLength;
 

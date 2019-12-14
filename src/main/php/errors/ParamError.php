@@ -18,13 +18,13 @@ class ParamError implements \JsonSerializable
     /**
      * id of the current param error
      *
-     * @type  string
+     * @var  string
      */
     private $id;
     /**
      * details of what caused the error
      *
-     * @type  array
+     * @var  array
      */
     private $details;
 

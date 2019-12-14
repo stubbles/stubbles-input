@@ -18,13 +18,13 @@ class RangeFilter extends Filter
     /**
      * decorated filter
      *
-     * @type  \stubbles\input\filter\NumberFilter
+     * @var  \stubbles\input\filter\NumberFilter
      */
     private $filter;
     /**
      * range definition
      *
-     * @type  \stubbles\input\filter\rangeRange
+     * @var  \stubbles\input\filter\rangeRange
      */
     private $range;
 
