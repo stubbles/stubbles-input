@@ -38,9 +38,9 @@ class PredicateFilter extends Filter
     /**
      * constructor
      *
-     * @param  callable  $predicate  validator to be used
-     * @param  string    $errorId    error id to be used in case predicate fails
-     * @param  array     $details    details for param error in case predicate fails
+     * @param  callable              $predicate  validator to be used
+     * @param  string                $errorId    error id to be used in case predicate fails
+     * @param  array<string,scalar>  $details    details for param error in case predicate fails
      */
     public function __construct(callable $predicate, string $errorId, array $details = [])
     {
