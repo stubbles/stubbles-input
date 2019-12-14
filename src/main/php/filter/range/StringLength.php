@@ -132,7 +132,7 @@ class StringLength extends AbstractRange
     /**
      * returns error details for violations of lower border
      *
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     protected function minBorderViolation(): array
     {
@@ -142,7 +142,7 @@ class StringLength extends AbstractRange
     /**
      * returns error details for violations of upper border
      *
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     protected function maxBorderViolation(): array
     {

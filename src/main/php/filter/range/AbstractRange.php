@@ -37,7 +37,7 @@ abstract class AbstractRange implements Range
      * returns list of errors when range does not contain given value
      *
      * @param   mixed  $value
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     public function errorsOf($value): array
     {
@@ -71,14 +71,14 @@ abstract class AbstractRange implements Range
     /**
      * returns error details for violations of lower border
      *
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     protected abstract function minBorderViolation(): array;
 
     /**
      * returns error details for violations of upper border
      *
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     protected abstract function maxBorderViolation(): array;
 }

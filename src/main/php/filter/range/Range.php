@@ -28,7 +28,7 @@ interface Range
      * returns list of errors when range does not contain given value
      *
      * @param   mixed  $value
-     * @return  array
+     * @return  array<string,array<string,scalar>>
      */
     public function errorsOf($value): array;
 
