@@ -45,9 +45,9 @@ class RangeFilter extends Filter
      *
      * @param   \stubbles\input\Filter              $filter  decorated filter
      * @param   \stubbles\input\filter\range\Range  $range   range definition
-     * @return  self
+     * @return  \stubbles\input\Filter
      */
-    public static function wrap(Filter $filter, Range $range = null)
+    public static function wrap(Filter $filter, Range $range = null): Filter
     {
         if (null === $range) {
             return $filter;
