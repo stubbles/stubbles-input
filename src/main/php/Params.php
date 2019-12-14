@@ -14,6 +14,7 @@ use stubbles\values\Value;
  *
  * @since  2.0.0
  * @internal
+ * @implements  \IteratorAggregate<string,string>
  */
 class Params implements \IteratorAggregate, \Countable
 {
@@ -100,9 +101,9 @@ class Params implements \IteratorAggregate, \Countable
      * provides an iterator to iterate over all errors
      *
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  \Traversable
+     * @return  \Iterator<string,string>
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->params);
     }
