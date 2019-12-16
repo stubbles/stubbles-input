@@ -19,13 +19,13 @@ class StringLength extends AbstractRange
     /**
      * minimum length
      *
-     * @var  int
+     * @var  int|null
      */
     private $minLength;
     /**
      * maximum length
      *
-     * @var  int
+     * @var  int|null
      */
     private $maxLength;
     /**
@@ -126,6 +126,10 @@ class StringLength extends AbstractRange
             throw new \LogicException('Truncate value to max length not allowed');
         }
 
+        if (null === $this->maxLength) {
+            return $value;
+        }
+
         return substr($value, 0, $this->maxLength);
     }
 
@@ -136,6 +140,10 @@ class StringLength extends AbstractRange
      */
     protected function minBorderViolation(): array
     {
+        if (null === $this->minLength) {
+            return [];
+        }
+
         return ['STRING_TOO_SHORT' => ['minLength' => $this->minLength]];
     }
 
@@ -146,6 +154,10 @@ class StringLength extends AbstractRange
      */
     protected function maxBorderViolation(): array
     {
+        if (null === $this->maxLength) {
+            return [];
+        }
+
         return ['STRING_TOO_LONG' => ['maxLength' => $this->maxLength]];
     }
 }

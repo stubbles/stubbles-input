@@ -19,13 +19,13 @@ class NumberRange extends AbstractRange
     /**
      * minimum value
      *
-     * @var  number
+     * @var  number|null
      */
     private $minValue;
     /**
      * maximum value
      *
-     * @var  number
+     * @var  number|null
      */
     private $maxValue;
 
@@ -78,6 +78,10 @@ class NumberRange extends AbstractRange
      */
     protected function minBorderViolation(): array
     {
+        if (null === $this->minValue) {
+            return [];
+        }
+
         return ['VALUE_TOO_SMALL' => ['minNumber' => $this->minValue]];
     }
 
@@ -88,6 +92,10 @@ class NumberRange extends AbstractRange
      */
     protected function maxBorderViolation(): array
     {
+        if (null === $this->maxValue) {
+            return [];
+        }
+
         return ['VALUE_TOO_GREAT' => ['maxNumber' => $this->maxValue]];
     }
 }

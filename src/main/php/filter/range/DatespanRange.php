@@ -21,13 +21,13 @@ class DatespanRange extends AbstractRange
     /**
      * minimum date
      *
-     * @var  \stubbles\date\Date
+     * @var  \stubbles\date\Date|null
      */
     private $minDate;
     /**
      * maximum date
      *
-     * @var  \stubbles\date\Date
+     * @var  \stubbles\date\Date|null
      */
     private $maxDate;
 
@@ -90,6 +90,10 @@ class DatespanRange extends AbstractRange
      */
     protected function minBorderViolation(): array
     {
+        if (null === $this->minDate) {
+            return [];
+        }
+
         return ['DATE_TOO_EARLY' => ['earliestDate' => $this->minDate->asString()]];
     }
 
@@ -100,6 +104,10 @@ class DatespanRange extends AbstractRange
      */
     protected function maxBorderViolation(): array
     {
+        if (null === $this->maxDate) {
+            return [];
+        }
+
         return ['DATE_TOO_LATE' => ['latestDate' => $this->maxDate->asString()]];
     }
 }

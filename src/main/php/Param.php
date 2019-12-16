@@ -24,7 +24,7 @@ class Param
     /**
      * original value
      *
-     * @var  string|string[]
+     * @var  string|string[]|null
      */
     private $value;
     /**
@@ -99,7 +99,7 @@ class Param
      */
     public function length(): int
     {
-        if ($this->isNull() || (is_string($this->value) && strlen($this->value) === 0)) {
+        if (null === $this->value || (is_string($this->value) && strlen($this->value) === 0)) {
             return 0;
         }
 

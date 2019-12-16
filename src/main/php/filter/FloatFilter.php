@@ -21,7 +21,7 @@ class FloatFilter extends NumberFilter
     /**
      * number of decimals
      *
-     * @var  int
+     * @var  int|null
      */
     private $decimals = null;
 
