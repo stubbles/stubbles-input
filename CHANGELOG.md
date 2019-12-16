@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.0.2 (2019-12-16)
+
+* added more phpstan related type hints
+* fixed minor bugs due to type offenses
+
 ## 8.0.1 (2019-12-06)
 
 * Fixed problem that setting `stubbles.locale` to something like `de_DE` didn't fall back to using messages with `de_*`
