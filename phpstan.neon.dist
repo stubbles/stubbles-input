@@ -10,6 +10,8 @@ parameters:
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::#'
     - '#Call to an undefined method stubbles\\values\\Value::#'
     - '#Property stubbles\\input\\filter\\[A-Za-z]+Filter::\$instance has no typehint specified#'
+    # phpstan and traits, not a love story
+    - '#Method stubbles\\input\\filter\\IntegerFilter::instance\(\) should return stubbles\\input\\filter\\IntegerFilter but returns stubbles\\input\\Filter#'
     # errors array must be accepted by reference, so after callable call it might not be empty
     - '#Comparison operation ">" between 0 and 0 is always false#'
     # Explicit tests
