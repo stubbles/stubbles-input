@@ -8,6 +8,7 @@ parameters:
   ignoreErrors:
     # False positive
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::#'
+    - '#Call to an undefined method stubbles\\values\\Value::#'
     - '#Property stubbles\\input\\filter\\[A-Za-z]+Filter::\$instance has no typehint specified#'
     # Explicit tests
     - '#stubbles\\input\\Param::addError\(\) expects string\|stubbles\\input\\errors\\ParamError, int given#'
