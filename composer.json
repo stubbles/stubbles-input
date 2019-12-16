@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.3",
         "ext-iconv": "*",
-        "stubbles/values": "^9.0",
+        "stubbles/values": "^9.1.1",
         "stubbles/reflect": "^9.0"
     },
     "require-dev": {

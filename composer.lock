@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fb7cef3dd9caedf411bf9da0d245815",
+    "content-hash": "5fa3cb3d10b85b9bc77794552b26f426",
     "packages": [
         {
             "name": "stubbles/reflect",
@@ -97,16 +97,16 @@
         },
         {
             "name": "stubbles/values",
-            "version": "v9.0.1",
+            "version": "v9.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "24901407a79f57b2293fd1005e57b0f9dae8ecc7"
+                "reference": "053188e8d06f3d51d26f4b2fd20ec7f83ca53cd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/24901407a79f57b2293fd1005e57b0f9dae8ecc7",
-                "reference": "24901407a79f57b2293fd1005e57b0f9dae8ecc7",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/053188e8d06f3d51d26f4b2fd20ec7f83ca53cd7",
+                "reference": "053188e8d06f3d51d26f4b2fd20ec7f83ca53cd7",
                 "shasum": ""
             },
             "require": {
@@ -114,15 +114,15 @@
                 "php": "^7.3"
             },
             "require-dev": {
-                "bovigo/assert": "^5.0",
-                "bovigo/callmap": "^5.0.1",
-                "mikey179/vfsstream": "^1.6.7",
+                "bovigo/assert": "^5.1.1",
+                "bovigo/callmap": "^5.2",
+                "mikey179/vfsstream": "^1.6.8",
                 "phpunit/phpunit": "^8.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "9.0.x-dev"
+                    "dev-master": "9.1.x-dev"
                 }
             },
             "autoload": {
@@ -139,7 +139,7 @@
             ],
             "description": "Useful classes to ease the work with values.",
             "homepage": "http://stubbles.net/",
-            "time": "2019-10-29T15:59:41+00:00"
+            "time": "2019-12-16T10:45:02+00:00"
         }
     ],
     "packages-dev": [
