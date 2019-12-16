@@ -24,15 +24,15 @@ class ParamError implements \JsonSerializable
     /**
      * details of what caused the error
      *
-     * @var  array
+     * @var  array<string,mixed>
      */
     private $details;
 
     /**
      * constructor
      *
-     * @param  string  $id       id of the current param error
-     * @param  array   $details  details of what caused the error
+     * @param  string                $id       id of the current param error
+     * @param  array<string,mixed>  $details  details of what caused the error
      */
     public function __construct(string $id, array $details = [])
     {
@@ -47,7 +47,7 @@ class ParamError implements \JsonSerializable
      * returned.
      *
      * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
-     * @param   array                                     $details  details of what caused the error
+     * @param   array<string,mixed>                      $details  details of what caused the error
      * @return  \stubbles\input\errors\ParamError
      * @throws  \InvalidArgumentException
      */
@@ -78,7 +78,7 @@ class ParamError implements \JsonSerializable
     /**
      * returns details of what caused the error
      *
-     * @return  array
+     * @return  array<string,mixed>
      * @since   5.1.0
      * @XmlIgnore
      */
@@ -90,7 +90,7 @@ class ParamError implements \JsonSerializable
     /**
      * fills given list of messages with details
      *
-     * @param   array  $templates  map of locales and message templates
+     * @param   array<string,string>  $templates  map of locales and message templates
      * @return  \stubbles\input\errors\messages\LocalizedMessage[]
      */
     public function fillMessages(array $templates): array
@@ -139,7 +139,7 @@ class ParamError implements \JsonSerializable
     /**
      * returns something that is suitable for json_encode()
      *
-     * @return  array
+     * @return  array<string,mixed>
      * @since   4.5.0
      * @XmlIgnore
      */

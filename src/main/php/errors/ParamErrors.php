@@ -27,7 +27,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @param   string                                    $paramName  name of parameter to add error for
      * @param   \stubbles\input\errors\ParamError|string  $error      id of error or an instance of ParamError
-     * @param   array                                     $details    details of what caused the error
+     * @param   array<string,mixed>                       $details    details of what caused the error
      * @return  \stubbles\input\errors\ParamError
      * @since   2.3.3
      */
@@ -135,7 +135,7 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * returns something that is suitable for json_encode()
      *
-     * @return  array
+     * @return  array<string,mixed>
      * @since   4.5.0
      * @XmlIgnore
      */
