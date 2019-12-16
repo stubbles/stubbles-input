@@ -45,10 +45,12 @@ class PropertyBasedParamErrorMessagesTest extends TestCase
     private function createResourceLoader(): ResourceLoader
     {
         $root = vfsStream::setup();
-        $dir1 = vfsStream::newDirectory('package1/input/error');
-        $dir1->at($root);
-        $dir2 = vfsStream::newDirectory('package2/input/error');
-        $dir2->at($root);
+        vfsStream::newDirectory('package1/input/error')->at($root);
+        /** @var  \org\bovigo\vfs\vfsStreamDirectory  $dir1 */
+        $dir1 = $root->getChild('package1/input/error');
+        vfsStream::newDirectory('package2/input/error')->at($root);
+        /** @var  \org\bovigo\vfs\vfsStreamDirectory  $dir2 */
+        $dir2 = $root->getChild('package2/input/error');
         vfsStream::newFile('message.ini')
                  ->withContent('[id]
 default = An error of type {foo} occurred.
