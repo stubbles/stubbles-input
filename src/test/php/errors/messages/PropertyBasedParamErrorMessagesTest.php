@@ -45,22 +45,24 @@ class PropertyBasedParamErrorMessagesTest extends TestCase
     private function createResourceLoader(): ResourceLoader
     {
         $root = vfsStream::setup();
-        vfsStream::newDirectory('package1/input/error')->at($root);
-        vfsStream::newDirectory('package2/input/error')->at($root);
+        $dir1 = vfsStream::newDirectory('package1/input/error');
+        $dir1->at($root);
+        $dir2 = vfsStream::newDirectory('package2/input/error');
+        $dir2->at($root);
         vfsStream::newFile('message.ini')
                  ->withContent('[id]
 default = An error of type {foo} occurred.
 en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
-                 ->at($root->getChild('package1/input/error'));
+                 ->at($dir1);
         vfsStream::newFile('message.ini')
                  ->withContent('[id2]
 default = An error of type {foo} occurred.
 en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
-                 ->at($root->getChild('package2/input/error'));
+                 ->at($dir2);
         return NewInstance::of(ResourceLoader::class)
                 ->returns(['availableResourceUris' => [
                         vfsStream::url('root/package1/input/error/message.ini'),

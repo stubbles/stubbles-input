@@ -9,6 +9,6 @@ parameters:
     # False positive
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::#'
     - '#Property stubbles\\input\\filter\\[A-Za-z]+Filter::\$instance has no typehint specified#'
+    # Explicit tests
     - '#stubbles\\input\\Param::addError\(\) expects string\|stubbles\\input\\errors\\ParamError, int given#'
     - '#static method stubbles\\input\\broker\\RequestBroker::targetMethodsOf\(\) expects object\|string, int given#'
-    - '#expects org\\bovigo\\vfs\\vfsStreamContainer, org\\bovigo\\vfs\\vfsStreamContent given#'
