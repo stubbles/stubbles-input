@@ -19,7 +19,7 @@ class ArrayParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  array|null
+     * @return  mixed[]|null
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
@@ -30,7 +30,7 @@ class ArrayParamBroker extends MultipleSourceParamBroker
      * parses default value
      *
      * @param   string  $value
-     * @return  array
+     * @return  mixed[]
      */
     protected function parseDefault($value): array
     {

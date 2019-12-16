@@ -19,7 +19,7 @@ class JsonParamBroker extends MultipleSourceParamBroker
      *
      * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
      * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stdClass|array|null
+     * @return  \stdClass|array<mixed>|null
      */
     protected function filter(CommonValueReader $valueReader, Annotation $annotation)
     {
@@ -30,7 +30,7 @@ class JsonParamBroker extends MultipleSourceParamBroker
      * parses default value from annotation
      *
      * @param   string  $value
-     * @return  \stdClass|array
+     * @return  \stdClass|array<mixed>
      */
     protected function parseDefault($value)
     {

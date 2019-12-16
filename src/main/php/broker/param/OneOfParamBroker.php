@@ -30,7 +30,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
      * reads default value
      *
      * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  array
+     * @return  string[]
      * @throws  \RuntimeException
      */
     private function allowedValues(Annotation $annotation): array
