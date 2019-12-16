@@ -23,14 +23,14 @@ abstract class Filter
      * apply filter on given value
      *
      * @param   \stubbles\values\Value  $value
-     * @return  array  filtered value
+     * @return  mixed[]  filtered value
      */
     abstract public function apply(Value $value): array;
 
     /**
      * helper function to return null and no errors
      *
-     * @return  array
+     * @return  mixed[]
      */
     protected function null(): array
     {
@@ -40,7 +40,8 @@ abstract class Filter
     /**
      * helper function to return filtered value and no errors
      *
-     * @return  array
+     * @param   mixed  $filtered
+     * @return  mixed[]
      */
     protected function filtered($filtered): array
     {
@@ -50,7 +51,8 @@ abstract class Filter
     /**
      * helper function to return null and list of errors
      *
-     * @return  array
+     * @param   array<ParamError|array<string,array<string,mixed>>>  $errors
+     * @return  mixed[]
      */
     protected function errors(array $errors): array
     {
@@ -69,7 +71,9 @@ abstract class Filter
     /**
      * helper function to return null and one error
      *
-     * @return  array
+     * @param   string               $error
+     * @param   array<string,mixed>  $details
+     * @return  mixed[]
      */
     protected function error($error, array $details = []): array
     {

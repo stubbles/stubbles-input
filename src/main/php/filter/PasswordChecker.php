@@ -23,7 +23,7 @@ interface PasswordChecker
      * error ids with error details.
      *
      * @param   \stubbles\values\Secret  $proposedPassword
-     * @return  array<string,array<string,scalar>>
+     * @return  array<string,array<string,mixed>>
      */
     public function check(Secret $proposedPassword): array;
 }

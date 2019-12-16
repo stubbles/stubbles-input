@@ -102,7 +102,7 @@ class SimplePasswordChecker implements PasswordChecker
      * error ids.
      *
      * @param   \stubbles\values\Secret  $proposedPassword
-     * @return  array<string,array<string,scalar>>
+     * @return  array<string,array<string,mixed>>
      */
     public function check(Secret $proposedPassword): array
     {
