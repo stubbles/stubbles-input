@@ -89,7 +89,7 @@ class RequestBroker
      * @param   object                   $object   the object instance to fill with values
      * @param   string                   $group    restrict procurement to given group
      */
-    public function procure(Request $request, object $object, string $group = null)
+    public function procure(Request $request, object $object, string $group = null): void
     {
         foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
             $targetMethod->invoke(
@@ -119,9 +119,9 @@ class RequestBroker
     /**
      * returns all methods of given instance which are applicable for brokerage
      *
-     * @param   object|string|\ReflectionClass  $object
-     * @param   string                          $group   optional  restrict list to given group
-     * @return  \stubbles\sequence\Sequence
+     * @param   object|string|\ReflectionClass<object>  $object
+     * @param   string                                  $group   optional  restrict list to given group
+     * @return  \stubbles\sequence\Sequence<TargetMethod>
      */
     public static function targetMethodsOf($object, string $group = null): Sequence
     {
