@@ -1,6 +1,8 @@
 includes:
   - vendor/bovigo/assert/src/main/resources/phpstan/bovigo-assert.neon
 parameters:
+  # Difficulties with some warnings not present on Travis
+  reportUnmatchedIgnoredErrors: false
   inferPrivatePropertyTypeFromConstructor: true
   level: max
   paths:
