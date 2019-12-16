@@ -24,7 +24,7 @@ class Param
     /**
      * original value
      *
-     * @var  string|array
+     * @var  string|string[]
      */
     private $value;
     /**
@@ -38,7 +38,7 @@ class Param
      * constructor
      *
      * @param  string        $name   name of param
-     * @param  string|array|null  $value  original value
+     * @param  string|string[]|null  $value  original value
      */
     public function __construct(string $name, $value)
     {
@@ -60,7 +60,7 @@ class Param
     /**
      * returns value of param
      *
-     * @return  string|array|null
+     * @return  string|string[]|null
      * @since   3.0.0
      */
     public function value()
@@ -114,7 +114,7 @@ class Param
      * adds error with given id
      *
      * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
-     * @param   array                                     $details  details of what caused the error
+     * @param   array<string,mixed>                       $details  details of what caused the error
      * @return  \stubbles\input\errors\ParamError
      */
     public function addError($error, array $details = []): ParamError

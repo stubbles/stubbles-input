@@ -23,7 +23,7 @@ abstract class ParamRequest implements Request
     /**
      * constructor
      *
-     * @param  array  $params
+     * @param  array<string,string>  $params
      */
     public function __construct(array $params)
     {

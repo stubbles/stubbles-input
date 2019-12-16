@@ -66,7 +66,7 @@ class Params implements \IteratorAggregate, \Countable
     /**
      * return an array of all param names registered in this request
      *
-     * @return  array
+     * @return  string[]
      */
     public function names(): array
     {
