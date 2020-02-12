@@ -10,7 +10,6 @@ namespace stubbles\input\broker;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
-use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\reflect;
 /**
