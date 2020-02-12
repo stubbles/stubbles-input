@@ -62,14 +62,4 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
 
         assertThat($paramNames, equals(['bar']));
     }
-
-    /**
-     * @test
-     */
-    public function targetMethodsOfThrowsExceptionOnInvalidValue(): void
-    {
-        expect(function() {
-                RequestBroker::targetMethodsOf(404);
-        })->throws(\InvalidArgumentException::class);
-    }
 }
