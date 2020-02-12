@@ -119,8 +119,9 @@ class RequestBroker
     /**
      * returns all methods of given instance which are applicable for brokerage
      *
-     * @param   object|string|\ReflectionClass<object>  $object
-     * @param   string                                  $group   optional  restrict list to given group
+     * @template T of object
+     * @param   T|class-string<T>|\ReflectionClass<T>  $object
+     * @param   string                                 $group   optional  restrict list to given group
      * @return  \stubbles\sequence\Sequence<TargetMethod>
      */
     public static function targetMethodsOf($object, string $group = null): Sequence
