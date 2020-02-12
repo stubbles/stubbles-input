@@ -8,32 +8,32 @@
     "packages": [
         {
             "name": "stubbles/reflect",
-            "version": "v9.0.1",
+            "version": "v9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-reflect.git",
-                "reference": "02dc86cffead215549f3f60abbc8fc66209b7fb7"
+                "reference": "76147ce73e6e398e8be1e6853e620da030cc66f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/02dc86cffead215549f3f60abbc8fc66209b7fb7",
-                "reference": "02dc86cffead215549f3f60abbc8fc66209b7fb7",
+                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/76147ce73e6e398e8be1e6853e620da030cc66f9",
+                "reference": "76147ce73e6e398e8be1e6853e620da030cc66f9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3",
                 "stubbles/sequence": "^9.0",
-                "stubbles/values": "^9.0.1"
+                "stubbles/values": "^9.1"
             },
             "require-dev": {
-                "bovigo/assert": "^5.0",
-                "mikey179/vfsstream": "^1.6.7",
+                "bovigo/assert": "^5.1.1",
+                "mikey179/vfsstream": "^1.6.8",
                 "phpunit/phpunit": "^8.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "9.0.x-dev"
+                    "dev-master": "9.1.x-dev"
                 }
             },
             "autoload": {
@@ -49,7 +49,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Reflection helper functions and annotations.",
-            "time": "2019-11-18T12:28:20+00:00"
+            "time": "2019-12-11T13:26:29+00:00"
         },
         {
             "name": "stubbles/sequence",
@@ -1767,16 +1767,16 @@
         },
         {
             "name": "stubbles/peer",
-            "version": "v9.0.1",
+            "version": "v9.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-peer.git",
-                "reference": "f9d11cd515a2c3f9e606b062e480dd071e8d8824"
+                "reference": "a7312563063ad6d24ca85a896f884cd056f07ec7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/f9d11cd515a2c3f9e606b062e480dd071e8d8824",
-                "reference": "f9d11cd515a2c3f9e606b062e480dd071e8d8824",
+                "url": "https://api.github.com/repos/stubbles/stubbles-peer/zipball/a7312563063ad6d24ca85a896f884cd056f07ec7",
+                "reference": "a7312563063ad6d24ca85a896f884cd056f07ec7",
                 "shasum": ""
             },
             "require": {
@@ -1812,7 +1812,7 @@
             ],
             "description": "Help with socket operations.",
             "homepage": "http://stubbles.net/",
-            "time": "2019-12-12T09:52:25+00:00"
+            "time": "2020-01-04T12:01:55+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
