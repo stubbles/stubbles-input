@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cd53ad8f99a6557f33b4388d50506bf",
+    "content-hash": "becac51b59b362d14b33564691494fb0",
     "packages": [
         {
             "name": "stubbles/reflect",
@@ -1968,7 +1968,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.3",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
