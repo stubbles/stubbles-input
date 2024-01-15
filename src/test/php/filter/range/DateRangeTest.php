@@ -40,7 +40,7 @@ class DateRangeTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function outOfRangeValues(): array
+    public static function outOfRangeValues(): array
     {
         return [
             ['2012-03-16'],
@@ -60,7 +60,7 @@ class DateRangeTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function withinRangeValues(): array
+    public static function withinRangeValues(): array
     {
         return [
             ['2012-03-17'],
@@ -99,7 +99,7 @@ class DateRangeTest extends TestCase
     /**
      * @return  array<DateRange[]>
      */
-    public function ranges(): array
+    public static function ranges(): array
     {
         return [
             [new DateRange('2012-03-17', '2012-03-19')],

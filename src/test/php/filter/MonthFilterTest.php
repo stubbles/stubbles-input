@@ -37,7 +37,7 @@ class MonthFilterTest extends FilterTest
     /**
      * @return  array<mixed[]>
      */
-    public function getEmptyValues(): array
+    public static function getEmptyValues(): array
     {
         return [[''],
                 [null]

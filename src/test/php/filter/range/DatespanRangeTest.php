@@ -43,7 +43,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @return  array<Day[]>
      */
-    public function outOfRangeValues(): array
+    public static function outOfRangeValues(): array
     {
         return [
             [new Day('2012-03-16')],
@@ -63,7 +63,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @return  array<Day[]>
      */
-    public function withinRangeValues(): array
+    public static function withinRangeValues(): array
     {
         return [
             [new Day('2012-03-17')],
@@ -102,7 +102,7 @@ class DatespanRangeTest extends TestCase
     /**
      * @return  array<DatespanRange[]>
      */
-    public function ranges(): array
+    public static function ranges(): array
     {
         return [
             [new DatespanRange('2012-03-17', '2012-03-19')],

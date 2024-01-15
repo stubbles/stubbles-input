@@ -23,7 +23,7 @@ class IntegerFilterTest extends FilterTest
     /**
      * @return  array<mixed[]>
      */
-    public function getValueResultTuples(): array
+    public static function getValueResultTuples(): array
     {
         return [[8, 8],
                 ['8', 8],

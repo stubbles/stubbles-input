@@ -23,7 +23,7 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
     /**
      * @return  array<mixed[]>
      */
-    public function allowedValues(): array
+    public static function allowedValues(): array
     {
         return [
             [new BrokerClass()],

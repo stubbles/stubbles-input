@@ -51,7 +51,7 @@ class TextFilterTest extends FilterTest
     /**
      * @return  array<mixed[]>
      */
-    public function allowedTags(): array
+    public static function allowedTags(): array
     {
         return [
             [[], 'this is bold and cursive and underlined with a link'],

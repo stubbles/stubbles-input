@@ -23,7 +23,7 @@ class FloatFilterTest extends FilterTest
     /**
      * @return  array<mixed[]>
      */
-    public function getValueResultTuples(): array
+    public static function getValueResultTuples(): array
     {
         return [['8.4533', 8453],
                 ['8.4538', 8453],

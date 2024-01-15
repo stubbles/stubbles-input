@@ -39,7 +39,7 @@ class NumberRangeTest extends TestCase
     /**
      * @return  array<int[]>
      */
-    public function outOfRangeValues(): array
+    public static function outOfRangeValues(): array
     {
         return [
             [0],
@@ -59,7 +59,7 @@ class NumberRangeTest extends TestCase
     /**
      * @return  array<int[]>
      */
-    public function withinRangeValues(): array
+    public static function withinRangeValues(): array
     {
         return [
             [1],
@@ -99,7 +99,7 @@ class NumberRangeTest extends TestCase
     /**
      * @return  array<NumberRange[]>
      */
-    public function ranges(): array
+    public static function ranges(): array
     {
         return [
             [new NumberRange(1, 10)],

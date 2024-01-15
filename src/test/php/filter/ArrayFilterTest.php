@@ -26,7 +26,7 @@ class ArrayFilterTest extends FilterTest
     /**
      * @return  array<mixed[]>
      */
-    public function valueResultTuples(): array
+    public static function valueResultTuples(): array
     {
         return [[null, null],
                 ['', []],

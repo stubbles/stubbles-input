@@ -39,7 +39,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function outOfRangeValues(): array
+    public static function outOfRangeValues(): array
     {
         return [
             [''],
@@ -59,7 +59,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function withinRangeValues(): array
+    public static function withinRangeValues(): array
     {
         return [
             ['a'],
@@ -81,7 +81,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function lowValues(): array
+    public static function lowValues(): array
     {
         return [['']];
     }
@@ -99,7 +99,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function highValues(): array
+    public static function highValues(): array
     {
         return [[str_pad('a', 100)]];
     }
@@ -117,7 +117,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<StringLength[]>
      */
-    public function ranges(): array
+    public static function ranges(): array
     {
         return [
             [new StringLength(1, 10)],
@@ -168,7 +168,7 @@ class StringLengthTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function truncateValues(): array
+    public static function truncateValues(): array
     {
         return [['foobar']];
     }

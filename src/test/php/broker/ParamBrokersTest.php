@@ -48,7 +48,7 @@ class ParamBrokersTest extends TestCase
     /**
      * @return  array<string[]>
      */
-    public function defaultBrokerList(): array
+    public static function defaultBrokerList(): array
     {
         $defaultBroker = [];
         foreach (RequestBroker::buildInTypes() as $name => $paramBroker) {
