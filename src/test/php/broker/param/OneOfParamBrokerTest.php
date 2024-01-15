@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
-use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 
@@ -150,38 +149,6 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTestBase
                         $this->createRequestAnnotation(['source' => 'foo'])
                 );
         })->throws(\RuntimeException::class);
-    }
-
-    /**
-     * @test
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function canWorkWithParam(): void
-    {
-        assertThat(
-                $this->paramBroker->procureParam(
-                        new Param('name', ((string) $this->expectedValue())),
-                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
-                ),
-                equals($this->expectedValue())
-        );
-    }
-
-    /**
-     * @test
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function canWorkWithParamWithAllowedSource(): void
-    {
-        assertThat(
-                $this->paramBroker->procureParam(
-                        new Param('name', ((string) $this->expectedValue())),
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()'
-                        ])
-                ),
-                equals($this->expectedValue())
-        );
     }
 
     /**

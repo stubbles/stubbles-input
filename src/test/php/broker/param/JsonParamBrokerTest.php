@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
-use stubbles\input\Param;
 use stubbles\input\ValueReader;
 
 use function bovigo\assert\assertThat;
@@ -90,21 +89,6 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTestBase
                         $this->createRequest('{invalid'),
                         $this->createRequestAnnotation([])
                 )
-        );
-    }
-
-    /**
-     * @test
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function canWorkWithParam(): void
-    {
-        assertThat(
-                $this->paramBroker->procureParam(
-                        new Param('name', '{"method":"add","params":[1,2],"id":1}'),
-                        $this->createRequestAnnotation([])
-                ),
-                equals($this->expectedValue())
         );
     }
 

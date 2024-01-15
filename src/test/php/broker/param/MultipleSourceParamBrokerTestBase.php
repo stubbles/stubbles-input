@@ -11,7 +11,6 @@ namespace stubbles\input\broker\param;
 use bovigo\callmap\ClassProxy;
 use bovigo\callmap\NewInstance;
 use PHPUnit\Framework\TestCase;
-use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
@@ -76,21 +75,6 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
                 $this->createRequestAnnotation(['source' => 'foo'])
             );
         })->throws(\RuntimeException::class);
-    }
-
-    /**
-     * @test
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function canWorkWithParam(): void
-    {
-        assertThat(
-            $this->paramBroker->procureParam(
-                new Param('name', ((string) $this->expectedValue())),
-                $this->createRequestAnnotation()
-            ),
-            equals($this->expectedValue())
-        );
     }
 
     /**

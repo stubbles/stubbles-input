@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace stubbles\input\broker\param;
 use stubbles\date\Date;
 use stubbles\date\span\CustomDatespan;
-use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\valuereader\CommonValueReader;
@@ -35,18 +34,6 @@ class CustomDatespanParamBroker implements ParamBroker
         }
 
         return null;
-    }
-
-    /**
-     * handles a single param
-     *
-     * @param   \stubbles\input\Param                         $param
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  mixed
-     */
-    public function procureParam(Param $param, Annotation $annotation)
-    {
-        throw new \BadMethodCallException('Can not procure a single param');
     }
 
     /**

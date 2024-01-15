@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
 use PHPUnit\Framework\TestCase;
-use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
@@ -87,21 +86,6 @@ class PasswordParamBrokerTest extends TestCase
                         $this->createRequestAnnotation(['source' => 'foo'])
                 );
         })->throws(\RuntimeException::class);
-    }
-
-    /**
-     * @test
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function canWorkWithParam(): void
-    {
-        $this->assertPasswordEquals(
-                'topsecret',
-                $this->paramBroker->procureParam(
-                        new Param('name', 'topsecret'),
-                        $this->createRequestAnnotation()
-                )
-        );
     }
 
     /**

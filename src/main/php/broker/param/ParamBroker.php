@@ -7,7 +7,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\Param;
 use stubbles\input\Request;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -25,14 +24,4 @@ interface ParamBroker
      * @return  mixed
      */
     public function procure(Request $request, Annotation $annotation);
-
-    /**
-     * handles a single param
-     *
-     * @param   \stubbles\input\Param                    $param
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  mixed
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public function procureParam(Param $param, Annotation $annotation);
 }

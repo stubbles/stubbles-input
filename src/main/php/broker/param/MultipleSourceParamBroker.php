@@ -7,12 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
-use stubbles\input\Param;
 use stubbles\input\Request;
-use stubbles\input\ValueReader;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
-use stubbles\values\Value;
 /**
  * Broker to be used to retrieve parameters based on annotations.
  */
@@ -66,18 +63,6 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     protected function parseDefault($value)
     {
         return $value;
-    }
-
-    /**
-     * handles a single param
-     *
-     * @param   \stubbles\input\Param                    $param
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  mixed
-     */
-    public function procureParam(Param $param, Annotation $annotation)
-    {
-        return $this->filter(ValueReader::forValue($param->value()), $annotation);
     }
 
     /**

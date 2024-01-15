@@ -5,6 +5,12 @@
 ### BC breaks
 
 * raised minimum required PHP version to 8.2
+* removed classes and methods deprecated since 7.0.0
+  * `stubbles\input\Param`
+  * `stubbles\input\ValueReader::forParam()`
+  * `stubbles\input\broker\param\ParamBroker::procureParam()`
+    * `stubbles\input\broker\param\CustomDatespanParamBroker::procureParam()`
+    * `stubbles\input\broker\param\ultipleSourceParamBroker::procureParam()`
 
 ## 8.0.2 (2019-12-16)
 

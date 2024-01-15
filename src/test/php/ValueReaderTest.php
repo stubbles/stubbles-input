@@ -400,17 +400,6 @@ class ValueReaderTest extends FilterTestBase
     }
 
     /**
-     * @test
-     */
-    public function canBeCreatedforParam(): void
-    {
-        assertThat(
-                ValueReader::forParam(new Param('foo', 'bar')),
-                isInstanceOf(ValueReader::class)
-        );
-    }
-
-    /**
      * create a simple callable which filters a param value
      *
      * @return  callable

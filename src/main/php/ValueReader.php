@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace stubbles\input;
 use stubbles\input\errors\ParamErrors;
 use stubbles\input\filter\{
-    ArrayFilter,
     PasswordChecker,
     range\DateRange,
     range\DatespanRange,
@@ -73,18 +72,6 @@ class ValueReader implements valuereader\CommonValueReader
     public static function forValue($paramValue): self
     {
         return new self(new ParamErrors(), 'mock', Value::of($paramValue));
-    }
-
-    /**
-     * create instance as mock with empty param errors
-     *
-     * @param   \stubbles\input\Param  $param  param to use
-     * @return  \stubbles\input\ValueReader
-     * @deprecated  since 7.0.0, will be removed with 8.0.0
-     */
-    public static function forParam(Param $param): self
-    {
-        return self::forValue($param->value());
     }
 
     /**
