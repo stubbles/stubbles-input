@@ -165,7 +165,7 @@ class DayFilterTest extends FilterTest
     public function asDayReturnsNullIfParamIsOutOfRange(): void
     {
         assertNull(
-                $this->readParam(new Day('yesterday'))
+                $this->readParam('yesterday')
                         ->asDay(new DatespanRange(Date::now(), null))
         );
     }
@@ -176,7 +176,7 @@ class DayFilterTest extends FilterTest
      */
     public function asDayAddsParamErrorIfParamIsOutOfRange(): void
     {
-        $this->readParam(new Day('yesterday'))
+        $this->readParam('yesterday')
              ->asDay(new DatespanRange(Date::now(), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
