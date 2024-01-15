@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -14,14 +16,8 @@ use stubbles\reflect\annotation\Annotation;
  */
 class BoolParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  bool|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?bool
     {
         return $valueReader->asBool();
     }

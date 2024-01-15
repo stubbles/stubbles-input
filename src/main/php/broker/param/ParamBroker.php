@@ -18,10 +18,6 @@ interface ParamBroker
 {
     /**
      * handles single param
-     *
-     * @param   \stubbles\input\Request                  $request     instance to handle value with
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
-     * @return  mixed
      */
-    public function procure(Request $request, Annotation $annotation);
+    public function procure(Request $request, Annotation $annotation): mixed;
 }

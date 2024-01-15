@@ -7,9 +7,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
+use stubbles\values\Secret;
+
 /**
  * Filter boolean values based on a @Request[Secret] annotation.
  *
@@ -17,14 +21,8 @@ use stubbles\reflect\annotation\Annotation;
  */
 class SecretParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation       $annotation   annotation which contains filter metadata
-     * @return  \stubbles\values\Secret|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Secret
     {
         if ($annotation->hasMinLength()) {
             return $valueReader->asSecret(new SecretMinLength($annotation->getMinLength()));
@@ -33,11 +31,7 @@ class SecretParamBroker extends MultipleSourceParamBroker
         return $valueReader->asSecret();
     }
 
-    /**
-     * whether a default value for this param is supported
-     *
-     * @return  bool
-     */
+    #[Override]
     protected function supportsDefault(): bool
     {
         return false;

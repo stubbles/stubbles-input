@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\date\Date;
 use stubbles\date\span\Datespan;
 use stubbles\input\filter\range\DatespanRange;
@@ -21,39 +23,22 @@ use function stubbles\date\span\parse;
  */
 class DatespanParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\span\Datespan|null
-     */
+    #[Override]
     protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Datespan
     {
         return $valueReader->asDatespan(new DatespanRange(
-                $this->createDate($annotation->getMinStartDate()),
-                $this->createDate($annotation->getMaxEndDate())
+            $this->createDate($annotation->getMinStartDate()),
+            $this->createDate($annotation->getMaxEndDate())
         ));
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\span\Datespan|null
-     */
-    protected function parseDefault($value): ?Datespan
+    #[Override]
+    protected function parseDefault(mixed $value): ?Datespan
     {
         return parse($value);
     }
 
-    /**
-     * creates date from value
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\Date|null
-     */
-    private function createDate($value): ?Date
+    private function createDate(?string $value): ?Date
     {
         if (empty($value)) {
             return null;

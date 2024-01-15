@@ -7,22 +7,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\input\filter\SimplePasswordChecker;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
+use stubbles\values\Secret;
+
 /**
  * Filter passwords based on a @Request[Password] annotation.
  */
 class PasswordParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\values\Secret|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Secret
     {
         return $valueReader->asPassword(SimplePasswordChecker::create()
                 ->minDiffChars($annotation->getMinDiffChars(SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS))
@@ -30,11 +28,7 @@ class PasswordParamBroker extends MultipleSourceParamBroker
         );
     }
 
-    /**
-     * whether a default value for this param is supported
-     *
-     * @return  bool
-     */
+    #[Override]
     protected function supportsDefault(): bool
     {
         return false;

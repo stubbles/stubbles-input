@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -14,25 +16,14 @@ use stubbles\reflect\annotation\Annotation;
  */
 class ArrayParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  mixed[]|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?array
     {
         return $valueReader->asArray($annotation->getSeparator(CommonValueReader::ARRAY_SEPARATOR));
     }
 
-    /**
-     * parses default value
-     *
-     * @param   string  $value
-     * @return  mixed[]
-     */
-    protected function parseDefault($value): array
+    #[Override]
+    protected function parseDefault(mixed $value): array
     {
         return array_map('trim', explode('|', $value));
     }

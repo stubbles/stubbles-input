@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\date\Date;
 use stubbles\date\span\CustomDatespan;
 use stubbles\input\Request;
@@ -18,13 +20,7 @@ use stubbles\reflect\annotation\Annotation;
  */
 class CustomDatespanParamBroker implements ParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\Request                  $request     instance to handle value with
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
-     * @return  \stubbles\date\span\CustomDatespan
-     */
+    #[Override]
     public function procure(Request $request, Annotation $annotation): ?CustomDatespan
     {
         $startDate = $this->getDate($request, $annotation, 'Start');
@@ -36,38 +32,21 @@ class CustomDatespanParamBroker implements ParamBroker
         return null;
     }
 
-    /**
-     * retrieves start date
-     *
-     * @param   \stubbles\input\Request                       $request
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @param   string      $type
-     * @return  \stubbles\date\Date
-     */
-    private function getDate(Request $request, Annotation $annotation, $type): ?Date
+    private function getDate(Request $request, Annotation $annotation, string $type): ?Date
     {
         $nameMethod = 'get' . $type . 'Name';
         return $this->readValue(
-                        $request,
-                        $annotation->$nameMethod(),
-                        $annotation->isRequired(),
-                        $this->parseDate($annotation, 'default' . $type)
-                )
-                ->asDate(new DateRange(
-                        $this->parseDate($annotation, "min{$type}Date"),
-                        $this->parseDate($annotation, "max{$type}Date")
-                )
+            $request,
+            $annotation->$nameMethod(),
+            $annotation->isRequired(),
+            $this->parseDate($annotation, 'default' . $type)
+        )->asDate(new DateRange(
+            $this->parseDate($annotation, "min{$type}Date"),
+            $this->parseDate($annotation, "max{$type}Date")
+        )
         );
     }
 
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\Request  $request
-     * @param   string                   $paramName
-     * @param   bool                     $required
-     * @return  \stubbles\input\valuereader\CommonValueReader
-     */
     private function readValue(
             Request $request,
             string $paramName,
@@ -84,13 +63,6 @@ class CustomDatespanParamBroker implements ParamBroker
         return $valueFilter;
     }
 
-    /**
-     * reads default value from annotation
-     *
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @param   string                                        $field
-     * @return  \stubbles\date\Date
-     */
     private function parseDate(Annotation $annotation, string $field): ?Date
     {
         if ($annotation->hasValueByName($field)) {

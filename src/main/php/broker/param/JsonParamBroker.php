@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
+use stdClass;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -14,25 +17,14 @@ use stubbles\reflect\annotation\Annotation;
  */
 class JsonParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stdClass|array<mixed>|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): stdClass|array|null
     {
         return $valueReader->asJson();
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stdClass|array<mixed>
-     */
-    protected function parseDefault($value)
+    #[Override]
+    protected function parseDefault(mixed $value): stdClass|array|null
     {
         return json_decode($value);
     }

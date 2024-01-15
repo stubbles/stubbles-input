@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\date\Date;
 use stubbles\input\filter\range\DateRange;
 use stubbles\input\valuereader\CommonValueReader;
@@ -16,39 +18,22 @@ use stubbles\reflect\annotation\Annotation;
  */
 class DateParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\Date
-     */
+    #[Override]
     protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Date
     {
         return $valueReader->asDate(new DateRange(
-                $this->createDate($annotation->getMinDate()),
-                $this->createDate($annotation->getMaxDate())
+            $this->createDate($annotation->getMinDate()),
+            $this->createDate($annotation->getMaxDate())
         ));
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\Date
-     */
-    protected function parseDefault($value): ?Date
+    #[Override]
+    protected function parseDefault(mixed $value): ?Date
     {
         return $this->createDate($value);
     }
 
-    /**
-     * creates date from value
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\Date
-     */
-    private function createDate($value): ?Date
+    private function createDate(?string $value): ?Date
     {
         if (empty($value)) {
             return null;

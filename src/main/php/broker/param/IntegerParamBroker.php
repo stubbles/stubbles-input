@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\input\filter\range\NumberRange;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
@@ -15,28 +17,17 @@ use stubbles\reflect\annotation\Annotation;
  */
 class IntegerParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  int|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?int
     {
         return $valueReader->asInt(new NumberRange(
-                $annotation->getMinValue(),
-                $annotation->getMaxValue()
+            $annotation->getMinValue(),
+            $annotation->getMaxValue()
         ));
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  int
-     */
-    protected function parseDefault($value): int
+    #[Override]
+    protected function parseDefault(mixed $value): int
     {
         return (int) $value;
     }

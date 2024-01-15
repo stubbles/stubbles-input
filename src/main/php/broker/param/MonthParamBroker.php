@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\date\Date;
 use stubbles\date\span\Month;
 use stubbles\input\filter\range\DatespanRange;
@@ -19,39 +21,22 @@ use stubbles\reflect\annotation\Annotation;
  */
 class MonthParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\span\Month
-     */
+    #[Override]
     protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Month
     {
         return $valueReader->asMonth(new DatespanRange(
-                $this->createDate($annotation->getMinStartDate()),
-                $this->createDate($annotation->getMaxEndDate())
+            $this->createDate($annotation->getMinStartDate()),
+            $this->createDate($annotation->getMaxEndDate())
         ));
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\span\Month
-     */
-    protected function parseDefault($value): Month
+    #[Override]
+    protected function parseDefault(mixed $value): Month
     {
         return Month::fromString($value);
     }
 
-    /**
-     * creates date from value
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\Date
-     */
-    private function createDate($value): ?Date
+    private function createDate(?string $value): ?Date
     {
         if (empty($value)) {
             return null;

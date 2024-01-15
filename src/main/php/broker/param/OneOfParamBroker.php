@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
+use RuntimeException;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
 /**
@@ -14,24 +17,15 @@ use stubbles\reflect\annotation\Annotation;
  */
 class OneOfParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  string|null
-     */
-    protected function filter(CommonValueReader $valueReader, Annotation $annotation)
+    #[Override]
+    protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?string
     {
         return $valueReader->ifIsOneOf($this->allowedValues($annotation));
     }
 
     /**
-     * reads default value
-     *
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
      * @return  string[]
-     * @throws  \RuntimeException
+     * @throws  RuntimeException
      */
     private function allowedValues(Annotation $annotation): array
     {
@@ -43,7 +37,7 @@ class OneOfParamBroker extends MultipleSourceParamBroker
               str_replace('()', '', $annotation->getAllowedSource())
             ));
             if (!is_callable($callable)) {
-              throw new \RuntimeException(
+              throw new RuntimeException(
                   'Defined source "' . $annotation->getAllowedSource() . '" for allowed values in @Request[OneOf] on '
                   . $annotation->target() . ' is not callable.'
               );
@@ -52,9 +46,9 @@ class OneOfParamBroker extends MultipleSourceParamBroker
             return call_user_func($callable);
         }
 
-        throw new \RuntimeException(
-                'No list of allowed values in annotation @Request[OneOf] on '
-                . $annotation->target()
+        throw new RuntimeException(
+            'No list of allowed values in annotation @Request[OneOf] on '
+            . $annotation->target()
         );
     }
 }

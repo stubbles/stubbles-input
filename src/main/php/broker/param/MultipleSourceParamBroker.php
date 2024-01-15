@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use RuntimeException;
 use stubbles\input\Request;
 use stubbles\input\valuereader\CommonValueReader;
 use stubbles\reflect\annotation\Annotation;
@@ -17,27 +19,23 @@ abstract class MultipleSourceParamBroker implements ParamBroker
 {
     /**
      * extracts parameter from request and handles it
-     *
-     * @param   \stubbles\input\Request                  $request     instance to handle value with
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation  annotation which contains request param metadata
-     * @return  mixed
      */
-    public function procure(Request $request, Annotation $annotation)
+    public function procure(Request $request, Annotation $annotation): mixed
     {
         $read        = $this->readSourceMethod($request, $annotation);
         $valueReader = $request->$read($annotation->getParamName());
         /* @var $valueReader \stubbles\input\ValueReader */
         if ($annotation->isRequired()) {
             return $this->filter(
-                    $valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')),
-                    $annotation
+                $valueReader->required($annotation->getRequiredErrorId('FIELD_EMPTY')),
+                $annotation
             );
         }
 
         if ($this->supportsDefault() && $annotation->hasValueByName('default')) {
             return $this->filter(
-                    $valueReader->defaultingTo($this->parseDefault($annotation->getDefault())),
-                    $annotation
+                $valueReader->defaultingTo($this->parseDefault($annotation->getDefault())),
+                $annotation
             );
         }
 
@@ -46,8 +44,6 @@ abstract class MultipleSourceParamBroker implements ParamBroker
 
     /**
      * whether a default value for this param is supported
-     *
-     * @return  bool
      */
     protected function supportsDefault(): bool
     {
@@ -56,11 +52,8 @@ abstract class MultipleSourceParamBroker implements ParamBroker
 
     /**
      * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  mixed
      */
-    protected function parseDefault($value)
+    protected function parseDefault(mixed $value): mixed
     {
         return $value;
     }
@@ -68,18 +61,15 @@ abstract class MultipleSourceParamBroker implements ParamBroker
     /**
      * retrieves method to call on request instance
      *
-     * @param   \stubbles\input\Request                  $request
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  string
-     * @throws  \RuntimeException
+     * @throws  RuntimeException
      */
     private function readSourceMethod(Request $request, Annotation $annotation): string
     {
         $method = 'read' . $this->source($annotation);
         if (!method_exists($request, $method)) {
-            throw new \RuntimeException(
-                    'Unknown source ' . $annotation->getSource() . ' for '
-                    . $annotation . ' on ' . get_class($request)
+            throw new RuntimeException(
+                'Unknown source ' . $annotation->getSource() . ' for '
+                . $annotation . ' on ' . get_class($request)
             );
         }
 
@@ -88,9 +78,6 @@ abstract class MultipleSourceParamBroker implements ParamBroker
 
     /**
      * returns source from where to read value
-     *
-     * @param   \stubbles\reflect\annotation\Annotation  $annotation
-     * @return  string
      */
     private function source(Annotation $annotation): string
     {
@@ -103,10 +90,9 @@ abstract class MultipleSourceParamBroker implements ParamBroker
 
     /**
      * filters single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation   $annotation   annotation which contains filter metadata
-     * @return  mixed|null
      */
-    protected abstract function filter(CommonValueReader $valueReader, Annotation $annotation);
+    abstract protected function filter(
+        CommonValueReader $valueReader,
+        Annotation $annotation
+    ): mixed;
 }

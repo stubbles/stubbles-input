@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use Override;
 use stubbles\date\Date;
 use stubbles\date\span\Week;
 use stubbles\input\filter\range\DatespanRange;
@@ -19,13 +21,7 @@ use stubbles\reflect\annotation\Annotation;
  */
 class WeekParamBroker extends MultipleSourceParamBroker
 {
-    /**
-     * handles single param
-     *
-     * @param   \stubbles\input\valuereader\CommonValueReader  $valueReader  instance to filter value with
-     * @param   \stubbles\reflect\annotation\Annotation        $annotation   annotation which contains filter metadata
-     * @return  \stubbles\date\span\Week
-     */
+    #[Override]
     protected function filter(CommonValueReader $valueReader, Annotation $annotation): ?Week
     {
         return $valueReader->asWeek(new DatespanRange(
@@ -34,24 +30,13 @@ class WeekParamBroker extends MultipleSourceParamBroker
         ));
     }
 
-    /**
-     * parses default value from annotation
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\span\Week
-     */
-    protected function parseDefault($value): Week
+    #[Override]
+    protected function parseDefault(mixed $value): Week
     {
         return Week::fromString($value);
     }
 
-    /**
-     * creates date from value
-     *
-     * @param   string  $value
-     * @return  \stubbles\date\Date
-     */
-    private function createDate($value): ?Date
+    private function createDate(?string $value): ?Date
     {
         if (empty($value)) {
             return null;
