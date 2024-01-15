@@ -16,59 +16,31 @@ namespace stubbles\input\filter\range;
 class NumberRange extends AbstractRange
 {
     use NonTruncatingRange;
-    /**
-     * minimum value
-     *
-     * @var  number|null
-     */
-    private $minValue;
-    /**
-     * maximum value
-     *
-     * @var  number|null
-     */
-    private $maxValue;
 
-    /**
-     * constructor
-     *
-     * @param  int  $minValue
-     * @param  int  $maxValue
-     */
-    public function __construct(?int $minValue, ?int $maxValue)
-    {
-        $this->minValue = $minValue;
-        $this->maxValue = $maxValue;
-    }
+    public function __construct(private ?int $minValue, private ?int $maxValue = null) { }
 
     /**
      * checks if given value is below min border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function belowMinBorder($value): bool
+    protected function belowMinBorder(mixed $value): bool
     {
         if (null === $this->minValue) {
             return false;
         }
 
-        return ($value < $this->minValue);
+        return $value < $this->minValue;
     }
 
     /**
      * checks if given value is above max border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function aboveMaxBorder($value): bool
+    protected function aboveMaxBorder(mixed $value): bool
     {
         if (null === $this->maxValue) {
             return false;
         }
 
-        return ($value > $this->maxValue);
+        return $value > $this->maxValue;
     }
 
     /**

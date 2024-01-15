@@ -7,7 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
 use stubbles\input\Filter;
+
 /**
  * Trait for filters which can be reused.
  *
@@ -15,18 +17,8 @@ use stubbles\input\Filter;
  */
 trait ReusableFilter
 {
-    /**
-     * reusable instance
-     *
-     * @var  Filter
-     */
-    private static $instance;
+    private static ?Filter $instance = null;
 
-    /**
-     * returns reusable filter instance
-     *
-     * @return  self
-     */
     public static function instance(): self
     {
         if (null === self::$instance) {

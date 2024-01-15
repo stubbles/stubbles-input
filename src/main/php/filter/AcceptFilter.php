@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use InvalidArgumentException;
 use stubbles\input\Filter;
 use stubbles\peer\http\AcceptHeader;
 use stubbles\values\Value;
@@ -22,7 +24,6 @@ class AcceptFilter extends Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -33,7 +34,7 @@ class AcceptFilter extends Filter
 
         try {
             return $this->filtered(AcceptHeader::parse($value->value()));
-        } catch (\InvalidArgumentException $iae) {
+        } catch (InvalidArgumentException $iae) {
             return $this->filtered(new AcceptHeader());
         }
     }

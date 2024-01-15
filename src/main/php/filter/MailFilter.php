@@ -25,7 +25,6 @@ class MailFilter extends Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -42,18 +41,13 @@ class MailFilter extends Filter
         return $this->filtered($mailAddress);
     }
 
-    /**
-     * detects the error
-     * @param   string  $value
-     * @return  string
-     */
     private function detectErrorId(string $value): string
     {
-        if (preg_match('/\s/i', $value) != false) {
+        if (preg_match('/\s/i', $value)) {
             return 'MAILADDRESS_CANNOT_CONTAIN_SPACES';
         }
 
-        if (preg_match('/[äüöß]/i', $value) != false) {
+        if (preg_match('/[äüöß]/i', $value)) {
             return 'MAILADDRESS_CANNOT_CONTAIN_UMLAUTS';
         }
 

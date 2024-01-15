@@ -18,18 +18,10 @@ use stubbles\values\Value;
  */
 class FloatFilter extends NumberFilter
 {
-    /**
-     * number of decimals
-     *
-     * @var  int|null
-     */
-    private $decimals = null;
+    private ?int $decimals = null;
 
     /**
      * sets number of decimals
-     *
-     * @param   int  $decimals
-     * @return  \stubbles\input\filter\FloatFilter
      */
     public function setDecimals(int $decimals = null): self
     {
@@ -40,7 +32,6 @@ class FloatFilter extends NumberFilter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array

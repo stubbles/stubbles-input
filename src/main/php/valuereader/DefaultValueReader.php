@@ -7,6 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\valuereader;
+
+use BadMethodCallException;
+use Closure;
+use LogicException;
+use stdClass;
 use stubbles\date\Date;
 use stubbles\date\span\Datespan;
 use stubbles\date\span\Day;
@@ -20,6 +25,7 @@ use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\peer\http\HttpUri;
 use stubbles\values\Secret;
 
 use function stubbles\values\typeOf;
@@ -31,35 +37,23 @@ use function stubbles\values\typeOf;
 class DefaultValueReader implements CommonValueReader
 {
     /**
-     * a default value to return if value is not present
-     *
-     * @var  mixed
+     * @param  mixed  $default  default value to return if value is not present
      */
-    private $default;
-
-    /**
-     * constructor
-     *
-     * @param  mixed  $default
-     */
-    public function __construct($default)
-    {
-        $this->default = $default;
-    }
+    public function __construct(private mixed $default) { }
 
     /**
      * checks type of default value
      *
-     * @param   \Closure  $isCorrectType         check to be executed when default value is not null
-     * @param   string    $expectedType  expected type of default value
-     * @throws  \LogicException
+     * @param   Closure  $isCorrectType  check to be executed when default value is not null
+     * @param   string   $expectedType   expected type of default value
+     * @throws  LogicException
      */
-    private function checkDefaultType(\Closure $isCorrectType, string $expectedType): void
+    private function checkDefaultType(Closure $isCorrectType, string $expectedType): void
     {
         if (!$isCorrectType()) {
-            throw new \LogicException(
-                    'Default value is not of type ' . $expectedType
-                    . ' but of type ' . typeOf($this->default)
+            throw new LogicException(
+                'Default value is not of type ' . $expectedType
+                . ' but of type ' . typeOf($this->default)
             );
         }
     }
@@ -75,7 +69,7 @@ class DefaultValueReader implements CommonValueReader
      */
     public function asArray(string $separator = self::ARRAY_SEPARATOR): ?array
     {
-        $this->checkDefaultType(function() { return is_array($this->default);}, 'array');
+        $this->checkDefaultType(fn(): bool => is_array($this->default), 'array');
         return $this->default;
     }
 
@@ -83,8 +77,6 @@ class DefaultValueReader implements CommonValueReader
      * read as boolean value
      *
      * Will cast any default value to bool.
-     *
-     * @return  bool
      */
     public function asBool(): ?bool
     {
@@ -94,39 +86,29 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as integer value
      *
-     * In case the default value is not of type int an IllegalStateException
+     * In case the default value is not of type int an LogicException
      * will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\NumberRange  $range
-     * @return  int
      */
     public function asInt(NumberRange $range = null): ?int
     {
-        $this->checkDefaultType(function() { return is_int($this->default);}, 'int');
+        $this->checkDefaultType(fn(): bool => is_int($this->default), 'int');
         return $this->default;
     }
 
     /**
      * read as float value
      *
-     * In case the default value is not of type float an IllegalStateException
+     * In case the default value is not of type float an LogicException
      * will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\NumberRange  $range
-     * @param   int                                       $decimals  number of decimals
-     * @return  float
      */
     public function asFloat(NumberRange $range = null, int $decimals = null): ?float
     {
-        $this->checkDefaultType(function() { return is_float($this->default);}, 'float');
+        $this->checkDefaultType(fn(): bool => is_float($this->default), 'float');
         return $this->default;
     }
 
     /**
      * read as string value
-     *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  string
      */
     public function asString(StringLength $length = null): ?string
     {
@@ -135,22 +117,17 @@ class DefaultValueReader implements CommonValueReader
 
     /**
      * read as string value
-     *
-     * @param   \stubbles\input\filter\range\SecretMinLength  $length
-     * @return  \stubbles\values\Secret
      */
     public function asSecret(SecretMinLength $length = null): ?Secret
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof Secret); }, Secret::class);
+        $this->checkDefaultType(fn(): bool => $this->default instanceof Secret, Secret::class);
         return $this->default;
     }
 
     /**
      * read as text value
      *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @param   string[]                                   $allowedTags  list of allowed tags
-     * @return  string
+     * @param   string[]  $allowedTags  list of allowed tags
      */
     public function asText(StringLength $length = null, array $allowedTags = []): ?string
     {
@@ -161,9 +138,9 @@ class DefaultValueReader implements CommonValueReader
      * read as json value
      *
      * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array<mixed>|null
+     * @return  stdClass|array<mixed>|null
      */
-    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH)
+    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH): stdClass|array|null
     {
         return $this->default;
     }
@@ -172,28 +149,24 @@ class DefaultValueReader implements CommonValueReader
      * read as password value
      *
      * Default values for passwords make no sense, therefor all calls to this
-     * method trigger a MethodNotSupportedException.
+     * method trigger a BadMethodCallException.
      *
-     * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\values\Secret
-     * @throws  \BadMethodCallException
+     * @throws  BadMethodCallException
      */
     public function asPassword(PasswordChecker $checker): ?Secret
     {
-        throw new \BadMethodCallException('Default passwords are not supported');
+        throw new BadMethodCallException('Default passwords are not supported');
     }
 
     /**
      * read as http uri
      *
      * In case the default value is not of type stubbles\peer\http\HttpUri an
-     * IllegalStateException will be thrown.
-     *
-     * @return  \stubbles\peer\http\HttpUri|null
+     * LogicException will be thrown.
      */
-    public function asHttpUri()
+    public function asHttpUri(): ?HttpUri
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof \stubbles\peer\http\HttpUri); }, 'stubbles\peer\http\HttpUri');
+        $this->checkDefaultType(fn(): bool => $this->default instanceof HttpUri, HttpUri::class);
         return $this->default;
     }
 
@@ -201,20 +174,15 @@ class DefaultValueReader implements CommonValueReader
      * read as http uri if it does exist
      *
      * In case the default value is not of type stubbles\peer\http\HttpUri an
-     * IllegalStateException will be thrown.
-     *
-     * @return  \stubbles\peer\http\HttpUri|null
+     * LogicException will be thrown.
      */
-    public function asExistingHttpUri()
+    public function asExistingHttpUri(): ?HttpUri
     {
-        $this->checkDefaultType(function() { return ($this->default instanceof \stubbles\peer\http\HttpUri); }, 'stubbles\peer\http\HttpUri');
-        return $this->default;
+        return $this->asHttpUri();
     }
 
     /**
      * returns value if it is a mail address, and null otherwise
-     *
-     * @return  string
      */
     public function asMailAddress(): ?string
     {
@@ -223,16 +191,10 @@ class DefaultValueReader implements CommonValueReader
 
     /**
      * read as date value
-     *
-     * In case the default value is not of type stubbles\date\Date an IllegalStateException
-     * will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DateRange  $range
-     * @return  \stubbles\date\Date|null
      */
-    public function asDate(DateRange $range = null)
+    public function asDate(DateRange $range = null): ?Date
     {
-        $this->default = (null === $this->default) ? (null) : (Date::castFrom($this->default, 'default'));
+        $this->default = null === $this->default ? null : Date::castFrom($this->default, 'default');
         return $this->default;
     }
 
@@ -240,14 +202,11 @@ class DefaultValueReader implements CommonValueReader
      * read as day
      *
      * In case the default value is not of type stubbles\date\span\Day an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Day|null
+     * LogicException will be thrown.
      */
-    public function asDay(DatespanRange $range = null)
+    public function asDay(DatespanRange $range = null): ?Day
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Day;}, Day::class);
+        $this->checkDefaultType(fn(): bool => $this->default instanceof Day, Day::class);
         return $this->default;
     }
 
@@ -255,15 +214,13 @@ class DefaultValueReader implements CommonValueReader
      * read as week
      *
      * In case the default value is not of type stubbles\date\span\Week an
-     * IllegalStateException will be thrown.
+     * LogicException will be thrown.
      *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Week|null
      * @since   4.5.0
      */
-    public function asWeek(DatespanRange $range = null)
+    public function asWeek(DatespanRange $range = null): ?Week
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Week;}, Week::class);
+        $this->checkDefaultType(fn(): bool => $this->default instanceof Week, Week::class);
         return $this->default;
     }
 
@@ -271,14 +228,11 @@ class DefaultValueReader implements CommonValueReader
      * read as month
      *
      * In case the default value is not of type stubbles\date\span\Month an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Month|null
+     * LogicException will be thrown.
      */
-    public function asMonth(DatespanRange $range = null)
+    public function asMonth(DatespanRange $range = null): ?Month
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Month;}, Month::class);
+        $this->checkDefaultType(fn(): bool => $this->default instanceof Month, Month::class);
         return $this->default;
     }
 
@@ -286,22 +240,18 @@ class DefaultValueReader implements CommonValueReader
      * read as datespan
      *
      * In case the default value is not of type stubbles\date\span\Datespan an
-     * IllegalStateException will be thrown.
+     * LogicException will be thrown.
      *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Datespan|null
-     * @since   4.3.0
+     * @since  4.3.0
      */
-    public function asDatespan(DatespanRange $range = null)
+    public function asDatespan(DatespanRange $range = null): ?Datespan
     {
-        $this->checkDefaultType(function() { return $this->default instanceof Datespan;}, Datespan::class);
+        $this->checkDefaultType(fn() => $this->default instanceof Datespan, Datespan::class);
         return $this->default;
     }
 
     /**
      * returns value if it is an ip address, and null otherwise
-     *
-     * @return  string
      */
     public function ifIsIpAddress(): ?string
     {
@@ -311,8 +261,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * returns value if it is an allowed value according to list of allowed values, and null otherwise
      *
-     * @param   string[]  $allowedValues  list of allowed values
-     * @return  string
+     * @param  string[]  $allowedValues  list of allowed values
      */
     public function ifIsOneOf(array $allowedValues): ?string
     {
@@ -322,9 +271,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * returns value if it is matched by given regular expression
      *
-     * @param   string  $regex  regular expression to apply
-     * @return  string
-     * @since   6.0.0
+     * @since  6.0.0
      */
     public function ifMatches(string $regex): ?string
     {
@@ -337,11 +284,9 @@ class DefaultValueReader implements CommonValueReader
      * If value does not satisfy the predicate return value will be null.
      *
      * @api
-     * @param   callable              $predicate  predicate to use
-     * @param   string                $errorId    error id to be used in case validation fails
-     * @param   array<string,scalar>  $details    optional  details for param error in case validation fails
-     * @return  string
-     * @since   3.0.0
+     * @param  string                $errorId    error id to be used in case validation fails
+     * @param  array<string,scalar>  $details    optional  details for param error in case validation fails
+     * @since  3.0.0
      */
     public function when(callable $predicate, string $errorId, array $details = []): ?string
     {
@@ -355,11 +300,8 @@ class DefaultValueReader implements CommonValueReader
      *
      * If it is required but value is null an error will be added to the list
      * of param errors.
-     *
-     * @param   \stubbles\input\Filter  $filter
-     * @return  mixed
      */
-    public function withFilter(Filter $filter)
+    public function withFilter(Filter $filter): mixed
     {
         return $this->default;
     }
@@ -371,22 +313,19 @@ class DefaultValueReader implements CommonValueReader
      * return the filtered value.
      * <code>
      * $result = $request->readParam('name')
-     *                   ->withCallable(function(Param $param)
-     *                                  {
-     *                                      if ($param->getValue() == 303) {
-     *                                          return 'Roland TB-303';
-     *                                      }
+     *     ->withCallable(
+     *         function(Param $param) {
+     *             if ($param->getValue() == 303) {
+     *                 return 'Roland TB-303';
+     *             }
      *
-     *                                      $param->addErrorWithId('INVALID_303');
-     *                                      return null;
-     *                                  }
-     *                     );
+     *             $param->addErrorWithId('INVALID_303');
+     *             return null;
+     *          }
+     *     );
      * </code>
-     *
-     * @param   callable  $filter
-     * @return  mixed
      */
-    public function withCallable(callable $filter)
+    public function withCallable(callable $filter): mixed
     {
         return $this->default;
     }

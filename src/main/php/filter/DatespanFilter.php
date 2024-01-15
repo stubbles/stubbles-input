@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use InvalidArgumentException;
 use stubbles\date\span;
 use stubbles\input\Filter;
 use stubbles\values\Value;
@@ -25,7 +27,6 @@ class DatespanFilter extends Filter
      * In case the given value can not be transformed into the target type
      * the return value is null.
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -36,7 +37,7 @@ class DatespanFilter extends Filter
 
         try {
             return $this->filtered(span\parse($value->value()));
-        } catch (\InvalidArgumentException $iae) {
+        } catch (InvalidArgumentException $iae) {
             return $this->error('DATESPAN_INVALID');
         }
     }

@@ -7,8 +7,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\valuereader;
+
+use stdClass;
+use stubbles\date\Date;
+use stubbles\date\span\Datespan;
+use stubbles\date\span\Day;
+use stubbles\date\span\Month;
+use stubbles\date\span\Week;
 use stubbles\input\Filter;
-use stubbles\input\filter\ArrayFilter;
 use stubbles\input\filter\JsonFilter;
 use stubbles\input\filter\PasswordChecker;
 use stubbles\input\filter\range\DateRange;
@@ -16,6 +22,7 @@ use stubbles\input\filter\range\DatespanRange;
 use stubbles\input\filter\range\SecretMinLength;
 use stubbles\input\filter\range\StringLength;
 use stubbles\input\filter\range\NumberRange;
+use stubbles\peer\http\HttpUri;
 use stubbles\values\Secret;
 /**
  * Interface for common value readings.
@@ -39,66 +46,46 @@ interface CommonValueReader
 
     /**
      * read as boolean value
-     *
-     * @return  bool
      */
     public function asBool(): ?bool;
 
     /**
      * read as integer value
-     *
-     * @param   \stubbles\input\filter\range\NumberRange  $range
-     * @return  int
      */
     public function asInt(NumberRange $range = null): ?int;
 
     /**
      * read as float value
-     *
-     * @param   \stubbles\input\filter\range\NumberRange  $range
-     * @param   int                                       $decimals  number of decimals
-     * @return  float
      */
     public function asFloat(NumberRange $range = null, int $decimals = null): ?float;
 
     /**
      * read as string value
-     *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @return  string
      */
     public function asString(StringLength $length = null): ?string;
 
     /**
      * read as secret
-     *
-     * @param   \stubbles\input\filter\range\SecretMinLength  $length
-     * @return  \stubbles\values\Secret
      */
     public function asSecret(SecretMinLength $length = null): ?Secret;
 
     /**
      * read as text value
      *
-     * @param   \stubbles\input\filter\range\StringLength  $length
-     * @param   string[]                                   $allowedTags  list of allowed tags
-     * @return  string
+     * @param   string[]  $allowedTags  list of allowed tags
      */
     public function asText(StringLength $length = null, array $allowedTags = []): ?string;
 
     /**
      * read as json value
      *
-     * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
-     * @return  \stdClass|array<mixed>|null
+     * @param   int  $maxLength  maximum allowed length of incoming JSON document in bytes
+     * @return  stdClass|array<mixed>|null
      */
-    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH);
+    public function asJson(int $maxLength = JsonFilter::DEFAULT_MAX_LENGTH): stdClass|array|null;
 
     /**
      * read as password value
-     *
-     * @param   \stubbles\input\filter\PasswordChecker  $checker  checker to be used to ensure a good password
-     * @return  \stubbles\values\Secret
      */
     public function asPassword(PasswordChecker $checker): ?Secret;
 
@@ -106,106 +93,80 @@ interface CommonValueReader
      * read as http uri
      *
      * In case the default value is not of type stubbles\peer\http\HttpUri an
-     * IllegalStateException will be thrown.
-     *
-     * @return  \stubbles\peer\http\HttpUri|null
+     * LogicException will be thrown.
      */
-    public function asHttpUri();
+    public function asHttpUri(): ?HttpUri;
 
     /**
      * read as http uri if it does exist
      *
      * In case the default value is not of type stubbles\peer\http\HttpUri an
-     * IllegalStateException will be thrown.
-     *
-     * @return  \stubbles\peer\http\HttpUri|null
+     * LogicException will be thrown.
      */
-    public function asExistingHttpUri();
+    public function asExistingHttpUri(): ?HttpUri;
 
     /**
      * returns value if it is a mail address, and null otherwise
-     *
-     * @return  string
      */
     public function asMailAddress(): ?string;
 
     /**
      * read as date value
      *
-     * In case the default value is not of type stubbles\date\Date an IllegalStateException
+     * In case the default value is not of type stubbles\date\Date an LogicException
      * will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DateRange  $range
-     * @return  \stubbles\date\Date|null
      */
-    public function asDate(DateRange $range = null);
+    public function asDate(DateRange $range = null): ?Date;
 
     /**
      * read as day
      *
      * In case the default value is not of type stubbles\date\span\Day an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Day|null
+     * LogicException will be thrown.
      */
-    public function asDay(DatespanRange $range = null);
+    public function asDay(DatespanRange $range = null): ?Day;
 
     /**
      * read as week
      *
      * In case the default value is not of type stubbles\date\span\Week an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Week|null
+     * LogicException will be thrown.
      * @since   4.5.0
      */
-    public function asWeek(DatespanRange $range = null);
+    public function asWeek(DatespanRange $range = null): ?Week;
 
     /**
      * read as month
      *
      * In case the default value is not of type stubbles\date\span\Month an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Month|null
+     * LogicException will be thrown.
      */
-    public function asMonth(DatespanRange $range = null);
+    public function asMonth(DatespanRange $range = null): ?Month;
 
     /**
      * read as datespan
      *
      * In case the default value is not of type stubbles\date\span\Datespan an
-     * IllegalStateException will be thrown.
-     *
-     * @param   \stubbles\input\filter\range\DatespanRange  $range
-     * @return  \stubbles\date\span\Datespan|null
+     * LogicException will be thrown.
      * @since   4.3.0
      */
-    public function asDatespan(DatespanRange $range = null);
+    public function asDatespan(DatespanRange $range = null): ?Datespan;
 
     /**
      * returns value if it is an ip address, and null otherwise
-     *
-     * @return  string
      */
     public function ifIsIpAddress(): ?string;
 
     /**
      * returns value if it is an allowed value according to list of allowed values, and null otherwise
      *
-     * @param   string[]  $allowedValues  list of allowed values
-     * @return  string
+     * @param  string[]  $allowedValues  list of allowed values
      */
     public function ifIsOneOf(array $allowedValues): ?string;
 
     /**
      * returns value if it is matched by given regular expression
      *
-     * @param   string  $regex  regular expression to apply
-     * @return  string
      * @since   6.0.0
      */
     public function ifMatches(string $regex): ?string;
@@ -219,7 +180,6 @@ interface CommonValueReader
      * @param   callable              $predicate  predicate to use
      * @param   string                $errorId    error id to be used in case validation fails
      * @param   array<string,scalar>  $details    optional  details for param error in case validation fails
-     * @return  string
      * @since   3.0.0
      */
     public function when(callable $predicate, string $errorId, array $details = []): ?string;
@@ -231,11 +191,8 @@ interface CommonValueReader
      *
      * If it is required but value is null an error will be added to the list
      * of param errors.
-     *
-     * @param   \stubbles\input\Filter  $filter
-     * @return  mixed
      */
-    public function withFilter(Filter $filter);
+    public function withFilter(Filter $filter): mixed;
 
     /**
      * checks value with given callable
@@ -244,20 +201,17 @@ interface CommonValueReader
      * return the filtered value.
      * <code>
      * $result = $request->readParam('name')
-     *                   ->withCallable(function(Param $param)
-     *                                  {
-     *                                      if ($param->getValue() == 303) {
-     *                                          return 'Roland TB-303';
-     *                                      }
+     *     ->withCallable(
+     *         function(Param $param) {
+     *             if ($param->getValue() == 303) {
+     *                 return 'Roland TB-303';
+     *             }
      *
-     *                                      $param->addErrorWithId('INVALID_303');
-     *                                      return null;
-     *                                  }
-     *                     );
+     *             $param->addErrorWithId('INVALID_303');
+     *             return null;
+     *          }
+     *     );
      * </code>
-     *
-     * @param   callable  $filter
-     * @return  mixed
      */
-    public function withCallable(callable $filter);
+    public function withCallable(callable $filter): mixed;
 }

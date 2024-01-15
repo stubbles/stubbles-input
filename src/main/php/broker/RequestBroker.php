@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker;
+
+use ReflectionMethod;
+use RuntimeException;
 use stubbles\input\Request;
 use stubbles\input\broker\param\ParamBroker;
 use stubbles\sequence\Sequence;
@@ -24,38 +27,38 @@ class RequestBroker
     /**
      * list of build in param brokers
      *
-     * @var  \stubbles\input\broker\param\ParamBroker[]
+     * @var  ParamBroker[]
      */
-    private static $buildInParamBroker;
+    private static array $buildInParamBroker = [];
 
     /**
      * returns list of build in param brokers
      *
-     * @return  \stubbles\input\broker\param\ParamBroker[]
+     * @return  ParamBroker[]
      */
     public static function buildInTypes(): array
     {
-        if (null === self::$buildInParamBroker) {
+        if (empty(self::$buildInParamBroker)) {
             self::$buildInParamBroker = [
-                    'array'          => new param\ArrayParamBroker(),
-                    'bool'           => new param\BoolParamBroker(),
-                    'customdatespan' => new param\CustomDatespanParamBroker(),
-                    'date'           => new param\DateParamBroker(),
-                    'datespan'       => new param\DatespanParamBroker(),
-                    'day'            => new param\DayParamBroker(),
-                    'float'          => new param\FloatParamBroker(),
-                    'httpuri'        => new param\HttpUriParamBroker(),
-                    'integer'        => new param\IntegerParamBroker(),
-                    'json'           => new param\JsonParamBroker(),
-                    'mail'           => new param\MailParamBroker(),
-                    'month'          => new param\MonthParamBroker(),
-                    'oneof'          => new param\OneOfParamBroker(),
-                    'password'       => new param\PasswordParamBroker(),
-                    'string'         => new param\StringParamBroker(),
-                    'secret'         => new param\SecretParamBroker(),
-                    'text'           => new param\TextParamBroker(),
-                    'week'           => new param\WeekParamBroker(),
-                ];
+                'array'          => new param\ArrayParamBroker(),
+                'bool'           => new param\BoolParamBroker(),
+                'customdatespan' => new param\CustomDatespanParamBroker(),
+                'date'           => new param\DateParamBroker(),
+                'datespan'       => new param\DatespanParamBroker(),
+                'day'            => new param\DayParamBroker(),
+                'float'          => new param\FloatParamBroker(),
+                'httpuri'        => new param\HttpUriParamBroker(),
+                'integer'        => new param\IntegerParamBroker(),
+                'json'           => new param\JsonParamBroker(),
+                'mail'           => new param\MailParamBroker(),
+                'month'          => new param\MonthParamBroker(),
+                'oneof'          => new param\OneOfParamBroker(),
+                'password'       => new param\PasswordParamBroker(),
+                'string'         => new param\StringParamBroker(),
+                'secret'         => new param\SecretParamBroker(),
+                'text'           => new param\TextParamBroker(),
+                'week'           => new param\WeekParamBroker(),
+            ];
         }
 
         return self::$buildInParamBroker;
@@ -64,14 +67,14 @@ class RequestBroker
     /**
      * map of param brokers
      *
-     * @type  \stubbles\input\broker\ParamBrokers
+     * @type  ParamBroker[]
      */
-    private $paramBrokers;
+    private array $paramBrokers;
 
     /**
      * constructor
      *
-     * @param   \stubbles\input\broker\param\ParamBroker[]  $paramBrokers  optional
+     * @param  ParamBroker[]  $paramBrokers  optional
      * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
     public function __construct(array $paramBrokers = [])
@@ -85,17 +88,16 @@ class RequestBroker
     /**
      * fills given object with values from request
      *
-     * @param   \stubbles\input\Request  $request
-     * @param   object                   $object   the object instance to fill with values
-     * @param   string                   $group    restrict procurement to given group
+     * @param   object   $object  the object instance to fill with values
+     * @param   string   $group   restrict procurement to given group
      */
     public function procure(Request $request, object $object, string $group = null): void
     {
         foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
             $targetMethod->invoke(
-                    $object,
-                    $this->paramBroker($targetMethod->expectedType())
-                         ->procure($request, $targetMethod->annotation())
+                $object,
+                $this->paramBroker($targetMethod->expectedType())
+                    ->procure($request, $targetMethod->annotation())
             );
         }
     }
@@ -103,9 +105,7 @@ class RequestBroker
     /**
      * returns param broker for requested type
      *
-     * @param   string  $type
-     * @return  \stubbles\input\broker\param\ParamBroker
-     * @throws  \RuntimeException
+     * @throws  RuntimeException
      */
     public function paramBroker(string $type): ParamBroker
     {
@@ -113,7 +113,7 @@ class RequestBroker
             return $this->paramBrokers[$type];
         }
 
-        throw new \RuntimeException('No param broker found for ' . $type);
+        throw new RuntimeException('No param broker found for ' . $type);
     }
 
     /**
@@ -126,31 +126,34 @@ class RequestBroker
      */
     public static function targetMethodsOf($object, string $group = null): Sequence
     {
-        return methodsOf($object, \ReflectionMethod::IS_PUBLIC)->filter(
-                function(\ReflectionMethod $method) use ($group)
-                {
-                    if ($method->isStatic() || $method->isConstructor() || $method->isDestructor()) {
-                        return false;
-                    }
-
-                    if (!annotationsOf($method)->contain('Request')) {
-                        return false;
-                    }
-
-                    if (empty($group) || annotationsOf($method)->firstNamed('Request')->paramGroup() === $group) {
-                        return true;
-                    }
-
+        return methodsOf($object, ReflectionMethod::IS_PUBLIC)->filter(
+            function(ReflectionMethod $method) use ($group): bool
+            {
+                if (
+                    $method->isStatic()
+                    || $method->isConstructor()
+                    || $method->isDestructor()
+                    || !annotationsOf($method)->contain('Request')
+                ) {
                     return false;
                 }
-        )->map(
-                function(\ReflectionMethod $method)
-                {
-                    return new TargetMethod(
-                            $method,
-                            annotationsOf($method)->firstNamed('Request')
-                    );
+
+                if (
+                    empty($group)
+                    || annotationsOf($method)->firstNamed('Request')->paramGroup() === $group
+                ) {
+                    return true;
                 }
+
+                return false;
+            }
+        )->map(
+            function(ReflectionMethod $method): TargetMethod {
+                return new TargetMethod(
+                    $method,
+                    annotationsOf($method)->firstNamed('Request')
+                );
+            }
         );
     }
 }

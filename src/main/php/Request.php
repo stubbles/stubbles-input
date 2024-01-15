@@ -17,8 +17,6 @@ interface Request
 {
     /**
      * returns the request method
-     *
-     * @return  string
      */
     public function method(): string;
 
@@ -32,35 +30,28 @@ interface Request
     /**
      * returns list of errors for request parameters
      *
-     * @return  \stubbles\input\errors\ParamErrors
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function paramErrors(): ParamErrors;
 
     /**
      * checks whether a request param is set
      *
-     * @param   string  $paramName
-     * @return  bool
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function hasParam(string $paramName): bool;
 
     /**
      * checks whether a request value from parameters is valid or not
      *
-     * @param   string  $paramName  name of request value
-     * @return  \stubbles\input\ValueValidator
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function validateParam(string $paramName): ValueValidator;
 
     /**
      * returns request value from params for validation
      *
-     * @param   string  $paramName  name of request value
-     * @return  \stubbles\input\ValueReader
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function readParam(string $paramName): ValueReader;
 }

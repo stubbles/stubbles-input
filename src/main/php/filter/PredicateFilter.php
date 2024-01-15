@@ -16,24 +16,8 @@ use stubbles\values\Value;
  */
 class PredicateFilter extends Filter
 {
-    /**
-     * predicate to be used
-     *
-     * @var  callable
-     */
+    /** @var  callable */
     private $predicate;
-    /**
-     * error id to be used in case validation fails
-     *
-     * @var  string
-     */
-    private $errorId;
-    /**
-     * details for param error in case validation fails
-     *
-     * @var  array<string,scalar>
-     */
-    private $details;
 
     /**
      * constructor
@@ -42,17 +26,17 @@ class PredicateFilter extends Filter
      * @param  string                $errorId    error id to be used in case predicate fails
      * @param  array<string,scalar>  $details    details for param error in case predicate fails
      */
-    public function __construct(callable $predicate, string $errorId, array $details = [])
-    {
+    public function __construct(
+        callable $predicate,
+        private string $errorId,
+        private array $details = []
+    ) {
         $this->predicate = $predicate;
-        $this->errorId   = $errorId;
-        $this->details   = $details;
     }
 
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array

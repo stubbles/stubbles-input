@@ -7,39 +7,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input;
+
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use stubbles\input\errors\ParamErrors;
 use stubbles\values\Value;
+use Traversable;
+
 /**
  * Wrapper for parameters and their errors.
  *
  * @since  2.0.0
  * @internal
- * @implements  \IteratorAggregate<string,string>
+ * @implements  IteratorAggregate<string,string>
  */
-class Params implements \IteratorAggregate, \Countable
+class Params implements IteratorAggregate, Countable
 {
-    /**
-     * list of parameters
-     *
-     * @var  array<string,string>
-     */
-    private $params;
-    /**
-     * list of errors for parameters
-     *
-     * @var  ParamErrors
-     */
-    private $errors;
+    private ?ParamErrors $errors = null;
 
     /**
      * constructor
      *
      * @param  array<string,string>  $params
      */
-    public function __construct(array $params)
-    {
-        $this->params = $params;
-    }
+    public function __construct(private array $params) { }
 
     /**
      * checks whether a request param is set
@@ -75,8 +67,6 @@ class Params implements \IteratorAggregate, \Countable
 
     /**
      * returns error collection for request parameters
-     *
-     * @return  \stubbles\input\errors\ParamErrors
      */
     public function errors(): ParamErrors
     {
@@ -89,8 +79,6 @@ class Params implements \IteratorAggregate, \Countable
 
     /**
      * returns number of available params
-     *
-     * @return  int
      */
     public function count(): int
     {
@@ -101,10 +89,10 @@ class Params implements \IteratorAggregate, \Countable
      * provides an iterator to iterate over all errors
      *
      * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  \Iterator<string,string>
+     * @return  Traversable<string,string>
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->params);
+        return new ArrayIterator($this->params);
     }
 }

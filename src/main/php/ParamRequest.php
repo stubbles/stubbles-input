@@ -13,16 +13,9 @@ use stubbles\input\errors\ParamErrors;
  */
 abstract class ParamRequest implements Request
 {
-    /**
-     * list of params
-     *
-     * @var  Params
-     */
-    private $params;
+    private Params $params;
 
     /**
-     * constructor
-     *
      * @param  array<string,string>  $params
      */
     public function __construct(array $params)
@@ -43,8 +36,7 @@ abstract class ParamRequest implements Request
     /**
      * returns list of errors for request parameters
      *
-     * @return  \stubbles\input\errors\ParamErrors
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function paramErrors(): ParamErrors
     {
@@ -54,9 +46,7 @@ abstract class ParamRequest implements Request
     /**
      * checks whether a request param is set
      *
-     * @param   string  $paramName
-     * @return  bool
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function hasParam(string $paramName): bool
     {
@@ -66,9 +56,7 @@ abstract class ParamRequest implements Request
     /**
      * checks whether a request value from parameters is valid or not
      *
-     * @param   string  $paramName  name of parameter
-     * @return  \stubbles\input\ValueValidator
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function validateParam(string $paramName): ValueValidator
     {
@@ -78,16 +66,14 @@ abstract class ParamRequest implements Request
     /**
      * returns request value from params for filtering or validation
      *
-     * @param   string  $paramName  name of parameter
-     * @return  \stubbles\input\ValueReader
-     * @since   1.3.0
+     * @since  1.3.0
      */
     public function readParam(string $paramName): ValueReader
     {
         return new ValueReader(
-                $this->params->errors(),
-                $paramName,
-                $this->params->value($paramName)
+            $this->params->errors(),
+            $paramName,
+            $this->params->value($paramName)
         );
     }
 }

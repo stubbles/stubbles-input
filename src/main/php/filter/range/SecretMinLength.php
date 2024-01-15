@@ -7,7 +7,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use LogicException;
 use stubbles\values\Secret;
+
+use function stubbles\values\typeOf;
+
 /**
  * Ensures a secret has a minimum length.
  *
@@ -18,41 +23,32 @@ class SecretMinLength extends AbstractRange
 {
     use NonTruncatingRange;
 
-    /**
-     * minimum length
-     *
-     * @var  int
-     */
-    private $minLength;
-
-    /**
-     * constructor
-     *
-     * @param  int  $minLength
-     */
-    public function __construct(int $minLength)
-    {
-        $this->minLength = $minLength;
-    }
+    public function __construct(private int $minLength) { }
 
     /**
      * checks if given value is below min border of range
      *
-     * @param   \stubbles\values\Secret  $value
-     * @return  bool
+     * @throws LogicException
      */
-    protected function belowMinBorder($value): bool
+    protected function belowMinBorder(mixed $value): bool
     {
+        if (!$value instanceof Secret) {
+            throw new LogicException(
+                sprintf(
+                    'Given value is not an of instance %s but of type %s',
+                    Secret::class,
+                    typeOf($value)
+                )
+            );
+        }
+
         return $this->minLength > $value->length();
     }
 
     /**
      * checks if given value is above max border of range
-     *
-     * @param   \stubbles\values\Secret  $value
-     * @return  bool
      */
-    protected function aboveMaxBorder($value): bool
+    protected function aboveMaxBorder(mixed $value): bool
     {
         return false;
     }

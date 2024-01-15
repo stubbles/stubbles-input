@@ -19,36 +19,14 @@ use stubbles\values\ResourceLoader;
 class PropertyBasedParamErrorMessages implements ParamErrorMessages
 {
     /**
-     * loader for master.xsl resource file
-     *
-     * @var  \stubbles\values\ResourceLoader
-     */
-    private $resourceLoader;
-    /**
-     * default locale to be used
-     *
-     * @var  string
-     */
-    private $defaultLocale;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\values\ResourceLoader  $resourceLoader
-     * @param  string                           $defaultLocale
      * @Property{defaultLocale}('stubbles.locale')
      */
-    public function __construct(ResourceLoader $resourceLoader, string $defaultLocale = 'default')
-    {
-        $this->resourceLoader = $resourceLoader;
-        $this->defaultLocale  = $defaultLocale;
-    }
+    public function __construct(
+        private ResourceLoader $resourceLoader,
+        private string $defaultLocale = 'default') { }
 
     /**
      * checks if any messages are known for given error
-     *
-     * @param   \stubbles\input\errors\ParamError  $error
-     * @return  bool
      */
     public function existFor(ParamError $error): bool
     {
@@ -58,7 +36,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * returns a list of available locales for given error
      *
-     * @param   \stubbles\input\errors\ParamError  $error
      * @return  string[]
      */
     public function localesFor(ParamError $error): array
@@ -69,8 +46,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * creates a list of message for given param error
      *
-     * @param   \stubbles\input\errors\ParamError  $error
-     * @return  \stubbles\input\errors\messages\LocalizedMessage[]
+     * @return  LocalizedMessage[]
      */
     public function messagesFor(ParamError $error): array
     {
@@ -81,10 +57,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      * creates message for given param error in given locale
      *
      * If no locale is given the method falls back to a default locale.
-     *
-     * @param   \stubbles\input\errors\ParamError  $error
-     * @param   string                             $locale
-     * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
     public function messageFor(ParamError $error, string $locale = null): LocalizedMessage
     {
@@ -97,10 +69,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
 
     /**
      * selects locale based on availability of translations
-     *
-     * @param   string  $errorId
-     * @param   string  $requestedLocale
-     * @return  string
      */
     private function selectLocale(string $errorId, string $requestedLocale = null): string
     {
@@ -133,11 +101,6 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
        return substr($locale, 0, (int) strpos($locale, '_')) . '_*';
     }
 
-    /**
-     * parses properties from property files
-     *
-     * @return  \stubbles\values\Properties
-     */
     private function properties(): Properties
     {
         static $properties = null;

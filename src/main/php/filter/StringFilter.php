@@ -22,7 +22,6 @@ class StringFilter extends Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -32,12 +31,12 @@ class StringFilter extends Filter
         }
 
         return $this->filtered(strip_tags(
-                str_replace(
-                        $this->nonAllowedCharacters(),
-                        '',
-                        stripslashes($value->value())
-                ),
-                $this->allowedTags()
+            str_replace(
+                $this->nonAllowedCharacters(),
+                '',
+                stripslashes($value->value())
+            ),
+            $this->allowedTags()
         ));
     }
 
@@ -53,8 +52,6 @@ class StringFilter extends Filter
 
     /**
      * returns allowed tags for use with strip_tags()
-     *
-     * @return  string
      */
     protected function allowedTags(): string
     {

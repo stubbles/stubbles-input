@@ -7,6 +7,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\errors;
+
+use ArrayIterator;
+use Traversable;
+
 /**
  * Container for a filter error list.
  *
@@ -20,19 +24,19 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @var  array<string,array<string,ParamError>>
      */
-    private $errors = [];
+    private array $errors = [];
 
     /**
      * appends an error to the list of errors for given param name
      *
-     * @param   string                                    $paramName  name of parameter to add error for
-     * @param   \stubbles\input\errors\ParamError|string  $error      id of error or an instance of ParamError
-     * @param   array<string,mixed>                       $details    details of what caused the error
-     * @return  \stubbles\input\errors\ParamError
+     * @param   array<string,mixed>  $details    details of what caused the error
      * @since   2.3.3
      */
-    public function append(string $paramName, $error, array $details = []): ParamError
-    {
+    public function append(
+        string $paramName,
+        ParamError|string $error,
+        array $details = []
+    ): ParamError {
         $error = ParamError::fromData($error, $details);
         if (!isset($this->errors[$paramName])) {
             $this->errors[$paramName] = [$error->id() => $error];
@@ -45,8 +49,6 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
 
     /**
      * returns number of collected errors
-     *
-     * @return  int
      */
     public function count(): int
     {
@@ -57,19 +59,16 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * checks whether there are any errors at all
      *
      * @api
-     * @return  bool
      */
     public function exist(): bool
     {
-        return ($this->count() > 0);
+        return $this->count() > 0;
     }
 
     /**
      * checks whether a param has any error
      *
      * @api
-     * @param   string  $paramName  name of parameter
-     * @return  bool
      */
     public function existFor(string $paramName): bool
     {
@@ -80,20 +79,16 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
      * checks whether a param has a specific error
      *
      * @api
-     * @param   string  $paramName  name of parameter
-     * @param   string  $errorId    id of error
-     * @return  bool
      */
     public function existForWithId(string $paramName, string $errorId): bool
     {
-        return (isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId]));
+        return isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId]);
     }
 
     /**
      * returns a list of errors for given param
      *
-     * @param   string  $paramName
-     * @return  \stubbles\input\errors\ParamError[]
+     * @return  ParamError[]
      */
     public function getFor(string $paramName): array
     {
@@ -106,12 +101,8 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
 
     /**
      * returns the error for given param and error id
-     *
-     * @param   string  $paramName  name of param
-     * @param   string  $errorId    id of error
-     * @return  \stubbles\input\errors\ParamError|null
      */
-    public function getForWithId(string $paramName, string $errorId)
+    public function getForWithId(string $paramName, string $errorId): ?ParamError
     {
         if (isset($this->errors[$paramName]) && isset($this->errors[$paramName][$errorId])) {
             return $this->errors[$paramName][$errorId];
@@ -123,13 +114,12 @@ class ParamErrors implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * provides an iterator to iterate over all errors
      *
-     * @link    http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return  \Iterator<string,array<string,ParamError>>
+     * @return  Traversable<string,array<string,ParamError>>
      * @since   2.0.0
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->errors);
+        return new ArrayIterator($this->errors);
     }
 
     /**

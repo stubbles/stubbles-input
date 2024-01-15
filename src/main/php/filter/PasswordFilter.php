@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use SensitiveParameter;
 use stubbles\input\Filter;
 use stubbles\values\Secret;
 use stubbles\values\Value;
@@ -21,27 +23,12 @@ use stubbles\values\Value;
  */
 class PasswordFilter extends Filter
 {
-    /**
-     * actual algorithm to check the password with
-     *
-     * @var  \stubbles\input\filter\PasswordChecker
-     */
-    private $checker;
 
-    /**
-     * constructor
-     *
-     * @param  \stubbles\input\filter\PasswordChecker  $checker
-     */
-    public function __construct(PasswordChecker $checker)
-    {
-        $this->checker = $checker;
-    }
+    public function __construct(private PasswordChecker $checker) { }
 
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -73,7 +60,7 @@ class PasswordFilter extends Filter
      * @param   string|string[]  $value
      * @return  mixed[]
      */
-    private function parse($value): array
+    private function parse(#[SensitiveParameter] mixed $value): array
     {
         if (is_array($value)) {
             if ($value[0] !== $value[1]) {

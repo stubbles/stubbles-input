@@ -15,37 +15,10 @@ use stubbles\values\Value;
  */
 class RangeFilter extends Filter
 {
-    /**
-     * decorated filter
-     *
-     * @var  \stubbles\input\Filter
-     */
-    private $filter;
-    /**
-     * range definition
-     *
-     * @var  \stubbles\input\filter\range\Range
-     */
-    private $range;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\input\Filter              $filter  decorated filter
-     * @param  \stubbles\input\filter\range\Range  $range   range definition
-     */
-    public function __construct(Filter $filter, Range $range)
-    {
-        $this->filter = $filter;
-        $this->range  = $range;
-    }
+    public function __construct(private Filter $filter, private Range $range) { }
 
     /**
      * utility method that wraps given filter with given range
-     *
-     * @param   \stubbles\input\Filter              $filter  decorated filter
-     * @param   \stubbles\input\filter\range\Range  $range   range definition
-     * @return  \stubbles\input\Filter
      */
     public static function wrap(Filter $filter, Range $range = null): Filter
     {
@@ -59,7 +32,6 @@ class RangeFilter extends Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array

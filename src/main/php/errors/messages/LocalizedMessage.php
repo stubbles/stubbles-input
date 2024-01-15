@@ -16,36 +16,12 @@ namespace stubbles\input\errors\messages;
  */
 class LocalizedMessage
 {
-    /**
-     * locale of the message
-     *
-     * @var  string
-     */
-    private $locale;
-    /**
-     * content of the message
-     *
-     * @var  string
-     */
-    private $message;
-
-    /**
-     * constructor
-     *
-     * @param  string  $locale
-     * @param  string  $message
-     */
-    public function __construct(string $locale, string $message)
-    {
-        $this->locale  = $locale;
-        $this->message = $message;
-    }
+    public function __construct(private string $locale, private string $message) { }
 
     /**
      * returns the locale of the message
      *
      * @XmlAttribute(attributeName='locale')
-     * @return  string
      */
     public function locale(): string
     {
@@ -56,18 +32,12 @@ class LocalizedMessage
      * returns the content of the message
      *
      * @XmlTag(tagName='content')
-     * @return  string
      */
     public function message(): string
     {
         return $this->message;
     }
 
-    /**
-     * returns a string representation
-     *
-     * @return  string
-     */
     public function __toString(): string
     {
         return $this->message();

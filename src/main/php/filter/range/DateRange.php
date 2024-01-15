@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use DateTime;
 use stubbles\date\Date;
 /**
  * Description of a date range.
@@ -17,38 +19,22 @@ use stubbles\date\Date;
 class DateRange extends AbstractRange
 {
     use NonTruncatingRange;
-    /**
-     * minimum date
-     *
-     * @var  \stubbles\date\Date|null
-     */
-    private $minDate;
-    /**
-     * maximum date
-     *
-     * @var  \stubbles\date\Date|null
-     */
-    private $maxDate;
+    private ?Date $minDate;
 
-    /**
-     * constructor
-     *
-     * @param  int|string|\DateTime|\stubbles\date\Date  $minDate
-     * @param  int|string|\DateTime|\stubbles\date\Date  $maxDate
-     */
-    public function __construct($minDate = null, $maxDate = null)
-    {
-        $this->minDate = (null === $minDate) ? (null) : (Date::castFrom($minDate, 'minDate'));
-        $this->maxDate = (null === $maxDate) ? (null) : (Date::castFrom($maxDate, 'maxDate'));
+    private ?Date $maxDate;
+
+    public function __construct(
+        int|string|DateTime|Date $minDate = null,
+        int|string|DateTime|Date $maxDate = null
+    ) {
+        $this->minDate = null === $minDate ? null : Date::castFrom($minDate, 'minDate');
+        $this->maxDate = null === $maxDate ? null : Date::castFrom($maxDate, 'maxDate');
     }
 
     /**
      * checks if given value is below min border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function belowMinBorder($value): bool
+    protected function belowMinBorder(mixed $value): bool
     {
         if (null === $this->minDate) {
             return false;
@@ -59,11 +45,8 @@ class DateRange extends AbstractRange
 
     /**
      * checks if given value is above max border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function aboveMaxBorder($value): bool
+    protected function aboveMaxBorder(mixed $value): bool
     {
         if (null === $this->maxDate) {
             return false;

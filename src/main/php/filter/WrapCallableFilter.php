@@ -16,18 +16,9 @@ use stubbles\values\Value;
  */
 class WrapCallableFilter extends Filter
 {
-    /**
-     * actual filter logic
-     *
-     * @var  callable
-     */
+    /** @var  callable */
     private $filter;
 
-    /**
-     * constructor
-     *
-     * @param  callable  $filter
-     */
     public function __construct(callable $filter)
     {
         $this->filter = $filter;
@@ -36,7 +27,6 @@ class WrapCallableFilter extends Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array

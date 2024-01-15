@@ -22,7 +22,6 @@ abstract class Filter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]  filtered value
      */
     abstract public function apply(Value $value): array;
@@ -40,10 +39,9 @@ abstract class Filter
     /**
      * helper function to return filtered value and no errors
      *
-     * @param   mixed  $filtered
      * @return  mixed[]
      */
-    protected function filtered($filtered): array
+    protected function filtered(mixed $filtered): array
     {
         return [$filtered, []];
     }
@@ -58,7 +56,7 @@ abstract class Filter
     {
         $final = [];
         foreach ($errors as $errorId => $details) {
-            if ($details instanceOf ParamError) {
+            if ($details instanceof ParamError) {
                 $final[$errorId] = $details;
             } else {
                 $final[$errorId] = ParamError::fromData($errorId, $details);
@@ -71,11 +69,10 @@ abstract class Filter
     /**
      * helper function to return null and one error
      *
-     * @param   string               $error
      * @param   array<string,mixed>  $details
      * @return  mixed[]
      */
-    protected function error($error, array $details = []): array
+    protected function error(string $error, array $details = []): array
     {
         $error = ParamError::fromData($error, $details);
         return [null, [$error->id() => $error]];

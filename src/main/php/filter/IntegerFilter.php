@@ -20,7 +20,6 @@ class IntegerFilter extends NumberFilter
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array

@@ -19,12 +19,8 @@ namespace stubbles\input\filter;
  */
 class TextFilter extends StringFilter
 {
-    /**
-     * list of allowed tags
-     *
-     * @var  string[]
-     */
-    private $allowedTags = [];
+    /** @var  string[] */
+    private array $allowedTags = [];
 
     /**
      * set the list of allowed tags
@@ -33,7 +29,6 @@ class TextFilter extends StringFilter
      * possible XSS attacks!
      *
      * @param   string[]  $allowedTags
-     * @return  \stubbles\input\filter\TextFilter
      */
     public function allowTags(array $allowedTags): self
     {
@@ -53,8 +48,6 @@ class TextFilter extends StringFilter
 
     /**
      * returns allowed tags for use with strip_tags()
-     *
-     * @return  string
      */
     protected function allowedTags(): string
     {

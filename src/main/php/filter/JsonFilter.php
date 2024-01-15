@@ -21,25 +21,17 @@ class JsonFilter extends Filter
      * maximum default allowed length of incoming JSON document in bytes
      */
     const DEFAULT_MAX_LENGTH = 20000;
-    /**
-     * @var  int
-     */
-    private $maxLength;
 
     /**
      * constructor
      *
-     * @param  int  $maxLength  maximum allowed length of incoming JSON document in bytes  optional
+     * @param  int  $maxLength  maximum allowed length of incoming JSON document in bytes
      */
-    public function __construct(int $maxLength = self::DEFAULT_MAX_LENGTH)
-    {
-        $this->maxLength = $maxLength;
-    }
+    public function __construct(private int $maxLength = self::DEFAULT_MAX_LENGTH) { }
 
     /**
      * apply filter on given value
      *
-     * @param   \stubbles\values\Value  $value
      * @return  mixed[]
      */
     public function apply(Value $value): array
@@ -61,10 +53,11 @@ class JsonFilter extends Filter
         $errorCode   = json_last_error();
         if (JSON_ERROR_NONE !== $errorCode) {
             return $this->error(
-                    'JSON_SYNTAX_ERROR',
-                    ['errorCode' => $errorCode,
-                     'errorMsg'  => json_last_error_msg()
-                    ]
+                'JSON_SYNTAX_ERROR',
+                [
+                    'errorCode' => $errorCode,
+                    'errorMsg'  => json_last_error_msg()
+                ]
             );
         }
 
@@ -76,20 +69,21 @@ class JsonFilter extends Filter
      *
      * JSON can only be an object or an array structure (see JSON spec & RFC),
      * but json_decode() lacks this restriction.
-     *
-     * @param   string  $json
-     * @return  bool
      */
     private function isValidJsonStructure(string $json): bool
     {
-        if ('{' === $json[0] && $json[strlen($json) - 1] !== '}') {
-            return false;
-        } elseif ('[' === $json[0] && $json[strlen($json) - 1] !== ']') {
-            return false;
-        } elseif ('{' !== $json[0] && '[' !== $json[0]) {
+        if (
+            !$this->startsAndEndsWith($json, '{', '}')
+            && !$this->startsAndEndsWith($json, '[', ']')
+        ) {
             return false;
         }
 
         return true;
+    }
+
+    private function startsAndEndsWith(string &$json, string $start, string $end): bool
+    {
+        return $start === $json[0] && $json[strlen($json) - 1] === $end;
     }
 }

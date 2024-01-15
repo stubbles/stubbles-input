@@ -16,11 +16,8 @@ abstract class AbstractRange implements Range
 {
     /**
      * checks if range contains given value
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    public function contains($value): bool
+    public function contains(mixed $value): bool
     {
         if (null === $value) {
             return false;
@@ -36,10 +33,9 @@ abstract class AbstractRange implements Range
     /**
      * returns list of errors when range does not contain given value
      *
-     * @param   mixed  $value
      * @return  array<string,array<string,mixed>>
      */
-    public function errorsOf($value): array
+    public function errorsOf(mixed $value): array
     {
         if ($this->belowMinBorder($value)) {
             return $this->minBorderViolation();
@@ -54,31 +50,25 @@ abstract class AbstractRange implements Range
 
     /**
      * checks if given value is below min border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected abstract function belowMinBorder($value): bool;
+    abstract protected function belowMinBorder(mixed $value): bool;
 
     /**
      * checks if given value is above max border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected abstract function aboveMaxBorder($value): bool;
+    abstract protected function aboveMaxBorder(mixed $value): bool;
 
     /**
      * returns error details for violations of lower border
      *
      * @return  array<string,array<string,scalar>>
      */
-    protected abstract function minBorderViolation(): array;
+    abstract protected function minBorderViolation(): array;
 
     /**
      * returns error details for violations of upper border
      *
      * @return  array<string,array<string,scalar>>
      */
-    protected abstract function maxBorderViolation(): array;
+    abstract protected function maxBorderViolation(): array;
 }

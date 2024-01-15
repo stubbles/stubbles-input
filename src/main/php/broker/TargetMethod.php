@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker;
+
+use ReflectionMethod;
 use stubbles\reflect\annotation\Annotation;
 /**
  * Represents a target method for which a param value should be brokered.
@@ -15,36 +17,15 @@ use stubbles\reflect\annotation\Annotation;
  */
 class TargetMethod
 {
-    /**
-     * method which expects the parameter value
-     *
-     * @var  \ReflectionMethod
-     */
-    private $method;
-    /**
-     * metadata about the param
-     *
-     * @var  \stubbles\reflect\annotation\Annotation
-     */
-    private $annotation;
-
-    /**
-     * constructor
-     *
-     * @param  \ReflectionMethod                        $method
-     * @param  \stubbles\reflect\annotation\Annotation  $annotation
-     */
-    public function __construct(\ReflectionMethod $method, Annotation $annotation)
-    {
-        $this->method     = $method;
-        $this->annotation = $annotation;
-    }
+    public function __construct(
+        private ReflectionMethod $method,
+        private Annotation $annotation
+    ) { }
 
     /**
      * returns param name
      *
      * @api
-     * @return  string
      */
     public function paramName(): string
     {
@@ -55,7 +36,6 @@ class TargetMethod
      * returns description of param
      *
      * @api
-     * @return  string
      */
     public function paramDescription(): ?string
     {
@@ -70,7 +50,6 @@ class TargetMethod
      * returns description for the value
      *
      * @api
-     * @return  string
      */
     public function valueDescription(): ?string
     {
@@ -83,8 +62,6 @@ class TargetMethod
 
     /**
      * returns type the method expects
-     *
-     * @return  string
      */
     public function expectedType(): string
     {
@@ -95,7 +72,6 @@ class TargetMethod
      * returns the request annotation with which the method is annotated
      *
      * @api
-     * @return  \stubbles\reflect\annotation\Annotation
      */
     public function annotation(): Annotation
     {
@@ -106,7 +82,6 @@ class TargetMethod
      * checks if param is required
      *
      * @api
-     * @return  bool
      */
     public function isRequired(): bool
     {
@@ -121,7 +96,6 @@ class TargetMethod
      * Then the simple presence of the parameter is sufficient.
      *
      * @api
-     * @return  bool
      */
     public function requiresParameter(): bool
     {
@@ -132,10 +106,8 @@ class TargetMethod
      * passes procured value to the instance
      *
      * @api
-     * @param  object  $object  instance to invoke the method on
-     * @param  mixed   $value   value to pass to the method
      */
-    public function invoke($object, $value): void
+    public function invoke(object $object, mixed $value): void
     {
         if (null !== $value) {
             $this->method->invoke($object, $value);

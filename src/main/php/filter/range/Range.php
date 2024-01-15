@@ -18,65 +18,28 @@ interface Range
 {
     /**
      * checks if range contains given value
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    public function contains($value): bool;
+    public function contains(mixed $value): bool;
 
     /**
      * returns list of errors when range does not contain given value
      *
-     * @param   mixed  $value
      * @return  array<string,array<string,mixed>>
      */
-    public function errorsOf($value): array;
+    public function errorsOf(mixed $value): array;
 
     /**
      * checks whether value can be truncated to maximum value
      *
-     * @param   mixed  $value
      * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate($value): bool;
+    public function allowsTruncate(mixed $value): bool;
 
     /**
      * truncates given value to max border
      *
-     * @param   string  $value
-     * @return  string
      * @since   2.3.1
      */
-    public function truncateToMaxBorder($value);
-}
-/**
- * Trait for ranges that don't support truncation.
- *
- * @since  3.0.0
- */
-trait NonTruncatingRange
-{
-    /**
-     * checks whether value can be truncated to maximum value
-     *
-     * @param   mixed  $value
-     * @return  bool
-     */
-    public function allowsTruncate($value): bool
-    {
-        return false;
-    }
-
-    /**
-     * truncates given value to max border, which is not supported for numbers
-     *
-     * @param   string  $value
-     * @return  string
-     * @throws  \BadMethodCallException
-     */
-    public function truncateToMaxBorder($value)
-    {
-        throw new \BadMethodCallException('Truncating is not supported');
-    }
+    public function truncateToMaxBorder(string $value): string;
 }

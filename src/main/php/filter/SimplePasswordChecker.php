@@ -30,27 +30,21 @@ class SimplePasswordChecker implements PasswordChecker
     const DEFAULT_MINLENGTH      = 8;
     /**
      * minimum amount of different characters in the password
-     *
-     * @var  int
      */
-    private $minDiffChars        = self::DEFAULT_MIN_DIFF_CHARS;
+    private int $minDiffChars = self::DEFAULT_MIN_DIFF_CHARS;
     /**
      * list of values that are not allowed as password
      *
      * @var  string[]
      */
-    private $disallowedValues    = [];
+    private array $disallowedValues = [];
     /**
      * minimum length of password
-     *
-     * @var  int
      */
-    private $minLength           = self::DEFAULT_MINLENGTH;
+    private int $minLength = self::DEFAULT_MINLENGTH;
 
     /**
      * static constructor
-     *
-     * @return  \stubbles\input\filter\SimplePasswordChecker
      */
     public static function create(): self
     {
@@ -60,8 +54,7 @@ class SimplePasswordChecker implements PasswordChecker
     /**
      * set a list of values that are not allowed as password
      *
-     * @param   string[]  $values  list of values that are not allowed as password
-     * @return  \stubbles\input\filter\SimplePasswordChecker
+     * @param  string[]  $values  list of values that are not allowed as password
      */
     public function disallowValues(array $values): self
     {
@@ -73,9 +66,6 @@ class SimplePasswordChecker implements PasswordChecker
      * set minimum amount of different characters within password
      *
      * Set the value with NULL to disable the check.
-     *
-     * @param   int  $minDiffChars
-     * @return  \stubbles\input\filter\SimplePasswordChecker
      */
     public function minDiffChars(int $minDiffChars): self
     {
@@ -85,9 +75,6 @@ class SimplePasswordChecker implements PasswordChecker
 
     /**
      * sets minimum length of password
-     *
-     * @param   int  $minLength
-     * @return  \stubbles\input\filter\SimplePasswordChecker
      */
     public function minLength(int $minLength): self
     {
@@ -101,7 +88,6 @@ class SimplePasswordChecker implements PasswordChecker
      * In case the password does not satisfy the return value is a list of
      * error ids.
      *
-     * @param   \stubbles\values\Secret  $proposedPassword
      * @return  array<string,array<string,mixed>>
      */
     public function check(Secret $proposedPassword): array

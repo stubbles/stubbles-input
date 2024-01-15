@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use InvalidArgumentException;
+use LogicException;
 use stubbles\values\Secret;
 /**
  * String length limitation.
@@ -16,52 +19,25 @@ use stubbles\values\Secret;
  */
 class StringLength extends AbstractRange
 {
-    /**
-     * minimum length
-     *
-     * @var  int|null
-     */
-    private $minLength;
-    /**
-     * maximum length
-     *
-     * @var  int|null
-     */
-    private $maxLength;
-    /**
-     * whether string can be truncated to maximum length
-     *
-     * @var  bool
-     */
-    private $allowsTruncate = false;
+    private bool $allowsTruncate = false;
 
-    /**
-     * constructor
-     *
-     * @param  int  $minLength
-     * @param  int  $maxLength
-     */
-    public function __construct(int $minLength = null, int $maxLength = null)
-    {
-        $this->minLength = $minLength;
-        $this->maxLength = $maxLength;
-    }
+    public function __construct(
+        private ?int $minLength,
+        private ?int $maxLength = null
+    ) { }
 
     /**
      * create instance which treats above max border not as error, but will lead
      * to a truncated value only
      *
-     * @param   int  $minLength
-     * @param   int  $maxLength
-     * @return  StringLength
-     * @throws  \InvalidArgumentException
+     * @throws  InvalidArgumentException
      * @since   2.3.1
      */
-    public static function truncate(int $minLength = null, int $maxLength = null)
+    public static function truncate(?int $minLength, ?int $maxLength = null)
     {
         if (0 >= $maxLength) {
-            throw new \InvalidArgumentException(
-                    'Max length must be greater than 0, otherwise truncation doesn\'t make sense'
+            throw new InvalidArgumentException(
+                'Max length must be greater than 0, otherwise truncation doesn\'t make sense'
             );
         }
 
@@ -72,42 +48,34 @@ class StringLength extends AbstractRange
 
     /**
      * checks if given value is below min border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function belowMinBorder($value): bool
+    protected function belowMinBorder(mixed $value): bool
     {
         if (null === $this->minLength) {
             return false;
         }
 
-        return \iconv_strlen($value) < $this->minLength;
+        return iconv_strlen((string) $value) < $this->minLength;
     }
 
     /**
      * checks if given value is above max border of range
-     *
-     * @param   mixed  $value
-     * @return  bool
      */
-    protected function aboveMaxBorder($value): bool
+    protected function aboveMaxBorder(mixed $value): bool
     {
         if (null === $this->maxLength) {
             return false;
         }
 
-        return \iconv_strlen($value) > $this->maxLength;
+        return iconv_strlen((string) $value) > $this->maxLength;
     }
 
     /**
      * checks whether string can be truncated to maximum length
      *
-     * @param   mixed  $value
-     * @return  bool
      * @since   2.3.1
      */
-    public function allowsTruncate($value): bool
+    public function allowsTruncate(mixed $value): bool
     {
         return $this->allowsTruncate && $this->aboveMaxBorder($value);
     }
@@ -115,15 +83,13 @@ class StringLength extends AbstractRange
     /**
      * truncates given value to max length
      *
-     * @param   string  $value
-     * @return  string
-     * @throws  \LogicException
+     * @throws  LogicException
      * @since   2.3.1
      */
-    public function truncateToMaxBorder($value)
+    public function truncateToMaxBorder(string $value): string
     {
         if (!$this->allowsTruncate($value)) {
-            throw new \LogicException('Truncate value to max length not allowed');
+            throw new LogicException('Truncate value to max length not allowed');
         }
 
         if (null === $this->maxLength) {

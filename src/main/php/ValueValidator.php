@@ -15,28 +15,12 @@ use stubbles\values\Value;
  */
 class ValueValidator
 {
-    /**
-     * @var  \stubbles\values\Value
-     */
-    private $value;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\values\Value  $value  original value
-     */
-    public function __construct(Value $value)
-    {
-        $this->value = $value;
-    }
+    public function __construct(private Value $value) { }
 
     /**
      * create instance as mock with empty param errors
-     *
-     * @param   string  $paramValue
-     * @return  \stubbles\input\ValueValidator
      */
-    public static function forValue($paramValue): self
+    public static function forValue(string $paramValue): self
     {
         return new self(Value::of($paramValue));
     }
@@ -45,10 +29,8 @@ class ValueValidator
      * checks whether value contains given string
      *
      * @api
-     * @param   string  $needle  byte sequence the value must contain
-     * @return  bool
      */
-    public function contains($needle): bool
+    public function contains(string $needle): bool
     {
         return $this->value->contains($needle);
     }
@@ -58,7 +40,6 @@ class ValueValidator
      *
      * @api
      * @param   string[]  $elements
-     * @return  bool
      * @since   4.3.0
      */
     public function containsAnyOf(array $elements): bool
@@ -71,10 +52,8 @@ class ValueValidator
      * checks whether value equals given string
      *
      * @api
-     * @param   string  $expected   byte sequence the value must be equal to
-     * @return  bool
      */
-    public function isEqualTo($expected): bool
+    public function isEqualTo(string $expected): bool
     {
         return $this->value->equals($expected);
     }
@@ -83,7 +62,6 @@ class ValueValidator
      * checks whether value is an http uri
      *
      * @api
-     * @return  bool
      */
     public function isHttpUri(): bool
     {
@@ -94,7 +72,6 @@ class ValueValidator
      * checks whether value is an existing http uri
      *
      * @api
-     * @return  bool
      * @since   2.0.0
      */
     public function isExistingHttpUri(): bool
@@ -106,7 +83,6 @@ class ValueValidator
      * checks whether value is an ip address, where both IPv4 and IPv6 are valid
      *
      * @api
-     * @return  bool
      */
     public function isIpAddress(): bool
     {
@@ -117,8 +93,7 @@ class ValueValidator
      * checks whether value is an ip v4 address
      *
      * @api
-     * @return  bool
-     * @since   1.7.0
+     * @since  1.7.0
      */
     public function isIpV4Address(): bool
     {
@@ -129,8 +104,7 @@ class ValueValidator
      * checks whether value is an ip v6 address
      *
      * @api
-     * @return  bool
-     * @since   1.7.0
+     * @since  1.7.0
      */
     public function isIpV6Address(): bool
     {
@@ -141,7 +115,6 @@ class ValueValidator
      * checks whether value is a mail address
      *
      * @api
-     * @return  bool
      */
     public function isMailAddress(): bool
     {
@@ -152,8 +125,7 @@ class ValueValidator
      * checks whether value is in a list of allowed values
      *
      * @api
-     * @param   string[]  $allowedValues  list of allowed values
-     * @return  bool
+     * @param  string[]  $allowedValues  list of allowed values
      */
     public function isOneOf(array $allowedValues): bool
     {
@@ -164,9 +136,7 @@ class ValueValidator
      * checks whether value satisfies given regular expression
      *
      * @api
-     * @param   string  $regex  regular expression to apply
-     * @return  bool
-     * @since   6.0.0
+     * @since  6.0.0
      */
     public function matches(string $regex): bool
     {
@@ -180,9 +150,7 @@ class ValueValidator
      * stubbles\values\Value and returns a boolean value.
      *
      * @api
-     * @param   callable  $predicate  predicate to use
-     * @return  bool
-     * @since   3.0.0
+     * @since  3.0.0
      */
     public function with(callable $predicate): bool
     {

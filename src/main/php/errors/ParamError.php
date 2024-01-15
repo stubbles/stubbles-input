@@ -16,29 +16,10 @@ use stubbles\input\errors\messages\LocalizedMessage;
 class ParamError implements \JsonSerializable
 {
     /**
-     * id of the current param error
-     *
-     * @var  string
-     */
-    private $id;
-    /**
-     * details of what caused the error
-     *
-     * @var  array<string,mixed>
-     */
-    private $details;
-
-    /**
-     * constructor
-     *
-     * @param  string                $id       id of the current param error
+     * @param  string               $id       id of the current param error
      * @param  array<string,mixed>  $details  details of what caused the error
      */
-    public function __construct(string $id, array $details = [])
-    {
-        $this->id      = $id;
-        $this->details = $details;
-    }
+    public function __construct(private string $id, private array $details = []) { }
 
     /**
      * creates an instance from given error id and details
@@ -46,19 +27,12 @@ class ParamError implements \JsonSerializable
      * In case given error is already an instance of ParamError it is simply
      * returned.
      *
-     * @param   \stubbles\input\errors\ParamError|string  $error    id of error or an instance of ParamError
-     * @param   array<string,mixed>                      $details  details of what caused the error
-     * @return  \stubbles\input\errors\ParamError
-     * @throws  \InvalidArgumentException
+     * @param  array<string,mixed>  $details  details of what caused the error
      */
-    public static function fromData($error, array $details = []): self
+    public static function fromData(self|string $error, array $details = []): self
     {
         if ($error instanceof self) {
             return $error;
-        }
-
-        if (!is_string($error)) {
-            throw new \InvalidArgumentException('Given error must either be an error id or an instance of ' . __CLASS__);
         }
 
         return new self($error, $details);
@@ -68,7 +42,6 @@ class ParamError implements \JsonSerializable
      * returns the id of the current param error
      *
      * @XmlAttribute(attributeName='id')
-     * @return  string
      */
     public function id(): string
     {
@@ -91,7 +64,7 @@ class ParamError implements \JsonSerializable
      * fills given list of messages with details
      *
      * @param   array<string,string>  $templates  map of locales and message templates
-     * @return  \stubbles\input\errors\messages\LocalizedMessage[]
+     * @return  LocalizedMessage[]
      */
     public function fillMessages(array $templates): array
     {
@@ -105,10 +78,6 @@ class ParamError implements \JsonSerializable
 
     /**
      * fills given message with details
-     *
-     * @param   string  $message  message template to fill up
-     * @param   string  $locale   locale of the message
-     * @return  \stubbles\input\errors\messages\LocalizedMessage
      */
     public function fillMessage(string $message, string $locale): LocalizedMessage
     {
@@ -121,11 +90,8 @@ class ParamError implements \JsonSerializable
 
     /**
      * flattens the given detail to be used within a message
-     *
-     * @param   mixed   $detail
-     * @return  string
      */
-    private function flattenDetail($detail): string
+    private function flattenDetail(mixed $detail): string
     {
         if (is_array($detail)) {
             return join(', ', $detail);
