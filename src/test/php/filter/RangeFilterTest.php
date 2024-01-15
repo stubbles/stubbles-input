@@ -21,7 +21,7 @@ use function bovigo\callmap\verify;
  *
  * @group  filter
  */
-class RangeFilterTest extends FilterTest
+class RangeFilterTest extends FilterTestBase
 {
     /**
      * @var  RangeFilter

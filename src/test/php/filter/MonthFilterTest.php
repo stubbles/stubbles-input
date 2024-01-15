@@ -21,7 +21,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @since  2.5.1
  */
-class MonthFilterTest extends FilterTest
+class MonthFilterTest extends FilterTestBase
 {
     /**
      * @var  MonthFilter

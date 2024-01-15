@@ -21,7 +21,7 @@ use function bovigo\callmap\verify;
  *
  * @group  filter
  */
-class PasswordFilterTest extends FilterTest
+class PasswordFilterTest extends FilterTestBase
 {
     /**
      * @var  PasswordFilter

@@ -16,7 +16,7 @@ use function bovigo\assert\assertTrue;
  * @since  1.2.0
  * @group  filter
  */
-class BoolFilterTest extends FilterTest
+class BoolFilterTest extends FilterTestBase
 {
     /**
      * @test

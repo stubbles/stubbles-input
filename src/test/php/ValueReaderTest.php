@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
 use stubbles\input\errors\ParamError;
+use stubbles\input\filter\FilterTestBase;
 use stubbles\values\Value;
 
 use function bovigo\assert\assertThat;
@@ -18,14 +19,13 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\callmap\verify;
 
-require_once __DIR__ . '/filter/FilterTest.php';
 /**
  * Tests for stubbles\input\ValueFilter.
  *
  * @since  1.3.0
  * @group  filter
  */
-class ValueReaderTest extends filter\FilterTest
+class ValueReaderTest extends FilterTestBase
 {
     /**
      * @test

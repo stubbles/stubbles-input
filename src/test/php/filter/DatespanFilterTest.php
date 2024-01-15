@@ -21,7 +21,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @since  4.3.0
  */
-class DatespanFilterTest extends FilterTest
+class DatespanFilterTest extends FilterTestBase
 {
     /**
      * instance to test

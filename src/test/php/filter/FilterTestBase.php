@@ -16,14 +16,9 @@ use stubbles\values\Value;
  *
  * @since  2.0.0
  */
-abstract class FilterTest extends TestCase
+abstract class FilterTestBase extends TestCase
 {
-    /**
-     * list of param errors
-     *
-     * @var  ParamErrors
-     */
-    protected $paramErrors;
+    protected ParamErrors $paramErrors;
 
     protected function setUp(): void
     {
@@ -32,31 +27,22 @@ abstract class FilterTest extends TestCase
 
     /**
      * creates param
-     *
-     * @param   mixed $value
-     * @return  Value
      */
-    protected function createParam($value): Value
+    protected function createParam(mixed $value): Value
     {
         return Value::of($value);
     }
 
     /**
      * helper function to create request value instance
-     *
-     * @param   mixed  $value
-     * @return  ValueReader
      */
-    protected function readParam($value): ValueReader
+    protected function readParam(mixed $value): ValueReader
     {
         return $this->read(Value::of($value));
     }
 
     /**
      * helper function to create request value instance
-     *
-     * @param   Value  $value
-     * @return  ValueReader
      */
     protected function read(Value $value): ValueReader
     {

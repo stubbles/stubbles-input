@@ -18,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  filter
  */
-class HttpUriFilterTest extends FilterTest
+class HttpUriFilterTest extends FilterTestBase
 {
     /**
      * @test

@@ -18,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  filter
  */
-class FloatFilterTest extends FilterTest
+class FloatFilterTest extends FilterTestBase
 {
     /**
      * @return  array<mixed[]>

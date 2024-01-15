@@ -10,7 +10,6 @@ namespace stubbles\input\filter;
 
 use function bovigo\assert\{
     assertThat,
-    assertEmptyArray,
     assertNull,
     assertTrue,
     predicate\equals
@@ -21,7 +20,7 @@ use function bovigo\assert\{
  * @since  2.0.0
  * @group  filter
  */
-class ArrayFilterTest extends FilterTest
+class ArrayFilterTest extends FilterTestBase
 {
     /**
      * @return  array<mixed[]>

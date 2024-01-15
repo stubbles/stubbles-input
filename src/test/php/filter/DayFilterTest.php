@@ -20,7 +20,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  filter
  */
-class DayFilterTest extends FilterTest
+class DayFilterTest extends FilterTestBase
 {
     /**
      * instance to test

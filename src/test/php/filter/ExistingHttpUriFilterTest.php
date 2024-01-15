@@ -24,7 +24,7 @@ use function bovigo\assert\{
  * @group  filter
  * @since  3.0.0
  */
-class ExistingHttpUriFilterTest extends FilterTest
+class ExistingHttpUriFilterTest extends FilterTestBase
 {
     /**
      * @var  callable&\bovigo\callmap\FunctionProxy

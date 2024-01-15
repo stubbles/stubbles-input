@@ -19,7 +19,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  filter
  */
-class StringFilterTest extends FilterTest
+class StringFilterTest extends FilterTestBase
 {
     /**
      * @var  StringFilter

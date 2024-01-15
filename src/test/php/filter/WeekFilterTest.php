@@ -21,7 +21,7 @@ use function bovigo\assert\predicate\equals;
  * @group  filter
  * @since  4.5.0
  */
-class WeekFilterTest extends FilterTest
+class WeekFilterTest extends FilterTestBase
 {
     /**
      * @var  \stubbles\input\filter\WeekFilter

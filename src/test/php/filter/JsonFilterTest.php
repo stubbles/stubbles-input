@@ -19,7 +19,7 @@ use function bovigo\assert\predicate\hasKey;
  * @group  filter
  * @group  json
  */
-class JsonFilterTest extends FilterTest
+class JsonFilterTest extends FilterTestBase
 {
     /**
      * @var  JsonFilter

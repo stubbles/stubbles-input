@@ -18,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  filter
  */
-class MailFilterTest extends FilterTest
+class MailFilterTest extends FilterTestBase
 {
     /**
      * @var  \stubbles\input\Filter
