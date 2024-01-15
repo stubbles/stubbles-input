@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.0.0 (2024)
+
+### BC breaks
+
+* raised minimum required PHP version to 8.2
+
 ## 8.0.2 (2019-12-16)
 
 * added more phpstan related type hints
