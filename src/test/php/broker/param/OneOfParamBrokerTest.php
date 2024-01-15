@@ -22,7 +22,7 @@ use function bovigo\assert\predicate\equals;
  * @group  broker
  * @group  broker_param
  */
-class OneOfParamBrokerTest extends MultipleSourceParamBrokerTest
+class OneOfParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     /**
      * @return  string[]

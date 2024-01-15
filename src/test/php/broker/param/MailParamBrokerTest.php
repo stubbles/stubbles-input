@@ -14,7 +14,7 @@ use function bovigo\assert\assertNull;
  * @group  broker
  * @group  broker_param
  */
-class MailParamBrokerTest extends MultipleSourceParamBrokerTest
+class MailParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
     {

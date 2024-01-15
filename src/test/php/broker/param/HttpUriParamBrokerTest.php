@@ -18,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  * @group  broker
  * @group  broker_param
  */
-class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTest
+class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
     {

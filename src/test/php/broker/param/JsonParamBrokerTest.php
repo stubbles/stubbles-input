@@ -20,7 +20,7 @@ use function bovigo\assert\predicate\equals;
  * @group  broker
  * @group  broker_param
  */
-class JsonParamBrokerTest extends MultipleSourceParamBrokerTest
+class JsonParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
     {

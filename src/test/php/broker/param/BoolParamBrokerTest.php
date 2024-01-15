@@ -14,7 +14,7 @@ use function bovigo\assert\assertTrue;
  * @group  broker
  * @group  broker_param
  */
-class BoolParamBrokerTest extends MultipleSourceParamBrokerTest
+class BoolParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
     {
