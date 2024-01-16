@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\peer\http\HttpUri;
 
 use function bovigo\assert\assertThat;
@@ -14,10 +17,9 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\HttpUriParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -27,8 +29,6 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -37,65 +37,55 @@ class HttpUriParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  HttpUri
      */
     protected function expectedValue(): HttpUri
     {
         return HttpUri::fromString('http://localhost/');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => 'http://localhost/'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => 'http://localhost/'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfDnsCheckEnabledAndSuccessful(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('http://localhost/'),
-                        $this->createRequestAnnotation(['dnsCheck' => true])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest('http://localhost/'),
+                $this->createRequestAnnotation(['dnsCheck' => true])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForInvalidHttpUri(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('invalid'),
-                        $this->createRequestAnnotation()
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('invalid'),
+                $this->createRequestAnnotation()
+            )
         );
     }
 }

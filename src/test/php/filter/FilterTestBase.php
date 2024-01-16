@@ -25,9 +25,6 @@ abstract class FilterTestBase extends TestCase
         $this->paramErrors = new ParamErrors();
     }
 
-    /**
-     * creates param
-     */
     protected function createParam(mixed $value): Value
     {
         return Value::of($value);

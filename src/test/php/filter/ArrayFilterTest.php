@@ -8,6 +8,11 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+
 use function bovigo\assert\{
     assertThat,
     assertNull,
@@ -18,67 +23,51 @@ use function bovigo\assert\{
  * Tests for stubbles\input\ValueReader::asArray().
  *
  * @since  2.0.0
- * @group  filter
  */
+#[Group('filter')]
 class ArrayFilterTest extends FilterTestBase
 {
-    /**
-     * @return  array<mixed[]>
-     */
-    public static function valueResultTuples(): array
+    public static function valueResultTuples(): Generator
     {
-        return [[null, null],
-                ['', []],
-                ['foo', ['foo']],
-                [' foo ', ['foo']],
-                ['foo, bar', ['foo', 'bar']],
-        ];
+        yield [null, null];
+        yield ['', []];
+        yield ['foo', ['foo']];
+        yield [' foo ', ['foo']];
+        yield ['foo, bar', ['foo', 'bar']];
     }
 
-    /**
-     * @param  mixed  $value
-     * @param  mixed  $expected
-     * @test
-     * @dataProvider  valueResultTuples
-     */
-    public function value($value, $expected): void
+    #[Test]
+    #[DataProvider('valueResultTuples')]
+    public function value(?string $value, ?array $expected): void
     {
         assertThat($this->readParam($value)->asArray(), equals($expected));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usingDifferentSeparator(): void
     {
         assertThat($this->readParam('foo|bar')->asArray('|'), equals(['foo', 'bar']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asArrayReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = ['foo' => 'bar'];
         assertThat(
-                $this->readParam(null)
-                        ->defaultingTo($default)
-                        ->asArray(),
-                equals($default)
+            $this->readParam(null)
+                ->defaultingTo($default)
+                ->asArray(),
+            equals($default)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asArrayReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asArrayAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asArray();

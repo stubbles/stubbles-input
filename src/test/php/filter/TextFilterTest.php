@@ -7,6 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\filter\range\StringLength;
 
 use function bovigo\assert\assertThat;
@@ -16,15 +21,11 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\TextFilter.
- *
- * @group  filter
  */
+#[Group('filter')]
 class TextFilterTest extends FilterTestBase
 {
-    /**
-     * @var  TextFilter
-     */
-    private $textFilter;
+    private TextFilter $textFilter;
 
     protected function setUp(): void
     {
@@ -32,17 +33,13 @@ class TextFilterTest extends FilterTestBase
         parent::setUp();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyStringWhenParamIsNull(): void
     {
         assertEmptyString($this->textFilter->apply($this->createParam(null))[0]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyStringWhenParamIsEmptyString(): void
     {
         assertEmptyString($this->textFilter->apply($this->createParam(''))[0]);
@@ -51,69 +48,65 @@ class TextFilterTest extends FilterTestBase
     /**
      * @return  array<mixed[]>
      */
-    public static function allowedTags(): array
+    public static function allowedTags(): Generator
     {
-        return [
-            [[], 'this is bold and cursive and underlined with a link'],
-            [['b', 'i'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a link'],
-            [['b', 'i', 'a'], 'this is <b>bold</b> and <i>cursive</i> and underlined with a <a href="http://example.org/">link</a>']
+        yield [[], 'bold and cursive and underlined with link'];
+        yield [
+            ['b', 'i'],
+            '<b>bold</b> and <i>cursive</i> and underlined with link'
+        ];
+        yield [
+            ['b', 'i', 'a'],
+            '<b>bold</b> and <i>cursive</i> and underlined with <a href="http://example.org/">link</a>'
         ];
     }
 
     /**
      * @param  string[]  $allowedTags
-     * @param  string    $expected
-     * @test
-     * @dataProvider  allowedTags
      */
+    #[Test]
+    #[DataProvider('allowedTags')]
     public function removesTags(array $allowedTags, string $expected): void
     {
+        $value = '<b>bold</b> and <i>cursive</i> and <u>underlined</u> with <a href="http://example.org/">link</a>';
         assertThat(
-                $this->textFilter->allowTags($allowedTags)
-                        ->apply($this->createParam(
-                                'this is <b>bold</b> and <i>cursive</i> and <u>underlined</u> with a <a href="http://example.org/">link</a>'
-                        ))[0],
-                equals($expected)
+            $this->textFilter->allowTags($allowedTags)
+                ->apply($this->createParam($value))[0],
+            equals($expected)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function removesSlashes(): void
     {
         assertThat(
-                $this->textFilter->apply($this->createParam("\'kkk"))[0],
-                equals("'kkk")
+            $this->textFilter->apply($this->createParam("\'kkk"))[0],
+            equals("'kkk")
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function removesCarriageReturn(): void
     {
         assertThat(
-                $this->textFilter->apply($this->createParam("cde\rkkk"))[0],
-                equals("cdekkk")
+            $this->textFilter->apply($this->createParam("cde\rkkk"))[0],
+            equals("cdekkk")
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function doesNotRemoveLineBreaks(): void
     {
         assertThat(
-                $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
-                equals("ab\ncde\nkkk")
+            $this->textFilter->apply($this->createParam("ab\ncde\nkkk"))[0],
+            equals("ab\ncde\nkkk")
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextReturnsEmptyStringIfParamIsNullAndNotRequired(): void
     {
         assertEmptyString($this->readParam(null)->asText());
@@ -121,20 +114,20 @@ class TextFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat(
-                $this->readParam(null)->defaultingTo('baz')->asText(),
-                equals('baz')
+            $this->readParam(null)->defaultingTo('baz')->asText(),
+            equals('baz')
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asText());
@@ -142,8 +135,8 @@ class TextFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asText();
@@ -152,37 +145,33 @@ class TextFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextReturnsNullIfParamIsInvalid(): void
     {
         assertNull(
-                $this->readParam('foo')->asText(new StringLength(5, null))
+            $this->readParam('foo')->asText(new StringLength(5, null))
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asTextAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asText(new StringLength(5, null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asTextReturnsValidValue(): void
     {
         assertThat($this->readParam('foo<b>')->asText(), equals('foo'));
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asTextWithAllowedTagsReturnsValidValue(): void
     {
         assertThat($this->readParam('foo<b>')->asText(null, ['b']), equals('foo<b>'));

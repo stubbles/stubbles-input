@@ -7,13 +7,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\values\Value;
 
 use function bovigo\assert\{
     assertThat,
     assertFalse,
-    assertNull,
     assertTrue,
     predicate\equals,
     predicate\isOfSize,
@@ -21,82 +23,60 @@ use function bovigo\assert\{
 };
 /**
  * Tests for stubbles\input\Params.
- *
- * @group  core
  */
+#[Group('core')]
 class ParamsTest extends TestCase
 {
-    /**
-     * instanct to test
-     *
-     * @var  Params
-     */
-    private $params;
+    private Params $params;
 
     protected function setUp(): void
     {
         $this->params = new Params(['foo' => 'bar', 'baz' => 'value']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsFalseIfParamDoesNotExist(): void
     {
         assertFalse($this->params->contain('doesNotExist'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsTrueIfParamDoesExist(): void
     {
         assertTrue($this->params->contain('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullValueIfParamDoesNotExist(): void
     {
         assertThat($this->params->value('doesNotExist'), isSameAs(Value::of(null)));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfParamExists(): void
     {
         assertThat($this->params->value('foo'), equals(Value::of('bar')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsListOfParamNames(): void
     {
         assertThat($this->params->names(), equals(['foo', 'baz']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function listOfParamErrorsIsInitiallyEmpty(): void
     {
         assertFalse($this->params->errors()->exist());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paramsCanBeCounted(): void
     {
         assertThat($this->params, isOfSize(2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canIterateOverParams(): void
     {
         $i = 0;

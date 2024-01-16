@@ -7,6 +7,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\filter\range\NumberRange;
 
 use function bovigo\assert\assertThat;
@@ -20,55 +24,43 @@ use function bovigo\assert\predicate\equals;
  */
 class FloatFilterTest extends FilterTestBase
 {
-    /**
-     * @return  array<mixed[]>
-     */
-    public static function getValueResultTuples(): array
+    public static function valueResultTuples(): Generator
     {
-        return [['8.4533', 8453],
-                ['8.4538', 8453],
-                ['8.45', 8450],
-                ['8', 8000],
-                [8.4533, 8453],
-                [8.4538, 8453],
-                [8.45, 8450],
-                [8, 8000],
-                [null, null],
-                [true, 1000],
-                [false, 0]
-        ];
+        yield ['8.4533', 8453];
+        yield ['8.4538', 8453];
+        yield ['8.45', 8450];
+        yield ['8', 8000];
+        yield [8.4533, 8453];
+        yield [8.4538, 8453];
+        yield [8.45, 8450];
+        yield [8, 8000];
+        yield [null, null];
+        yield [true, 1000];
+        yield [false, 0];
     }
 
-    /**
-     * @param  scalar  $value
-     * @param  float   $expected
-     * @test
-     * @dataProvider  getValueResultTuples
-     */
-    public function value($value, ?float $expected): void
+    #[Test]
+    #[DataProvider('valueResultTuples')]
+    public function value(mixed $value, ?float $expected): void
     {
         $floatFilter = new FloatFilter();
         assertThat(
-                $floatFilter->setDecimals(3)->apply($this->createParam($value))[0],
-                equals($expected)
+            $floatFilter->setDecimals(3)->apply($this->createParam($value))[0],
+            equals($expected)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function float(): void
     {
         $floatFilter = new FloatFilter();
         assertThat(
-                $floatFilter->setDecimals(2)->apply($this->createParam('1.564'))[0],
-                equals(156)
+            $floatFilter->setDecimals(2)->apply($this->createParam('1.564'))[0],
+            equals(156)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decimalsNotSet(): void
     {
         $floatFilter = new FloatFilter();
@@ -77,8 +69,8 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asFloat());
@@ -86,8 +78,8 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat($this->readParam(null)->defaultingTo(3.03)->asFloat(), equals(3.03));
@@ -95,8 +87,8 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asFloat());
@@ -104,8 +96,8 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asFloat();
@@ -114,8 +106,8 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam(2.5)->asFloat(new NumberRange(5, null)));
@@ -123,25 +115,21 @@ class FloatFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asFloatAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam(2.5)->asFloat(new NumberRange(5, null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asFloatReturnsValidValue(): void
     {
         assertThat($this->readParam('3.13')->asFloat(), equals(3.13));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asFloatReturnsValidValueUsingDecimals(): void
     {
         assertThat($this->readParam('3.13')->asFloat(null, 2), equals(313));

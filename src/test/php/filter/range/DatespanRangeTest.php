@@ -7,6 +7,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use Generator;
+use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
@@ -23,159 +29,130 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\input\filter\range\DatespanRange.
  *
  * @since  2.0.0
- * @group  filter
- * @group  filter_range
  */
+#[Group('filter')]
+#[Group('filter_range')]
 class DatespanRangeTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  DatespanRange
-     */
-    private $datespanRange;
+    private DatespanRange $datespanRange;
 
     protected function setUp(): void
     {
         $this->datespanRange = new DatespanRange('2012-03-17', '2012-03-19');
     }
 
-    /**
-     * @return  array<Day[]>
-     */
-    public static function outOfRangeValues(): array
+    public static function outOfRangeValues(): Generator
     {
-        return [
-            [new Day('2012-03-16')],
-            [new Day('2012-03-20')]
-        ];
+        yield [new Day('2012-03-16')];
+        yield [new Day('2012-03-20')];
     }
 
-    /**
-     * @test
-     * @dataProvider  outOfRangeValues
-     */
+    #[Test]
+    #[DataProvider('outOfRangeValues')]
     public function valueOutOfRangeIsNotContainedInRange(Day $value): void
     {
         assertFalse($this->datespanRange->contains($value));
     }
 
-    /**
-     * @return  array<Day[]>
-     */
-    public static function withinRangeValues(): array
+    public static function withinRangeValues(): Generator
     {
-        return [
-            [new Day('2012-03-17')],
-            [new Day('2012-03-18')],
-            [new Day('2012-03-19')]
-        ];
+        yield [new Day('2012-03-17')];
+        yield [new Day('2012-03-18')];
+        yield [new Day('2012-03-19')];
     }
 
-    /**
-     * @test
-     * @dataProvider  withinRangeValues
-     */
+    #[Test]
+    #[DataProvider('withinRangeValues')]
     public function valueWithinRangeIsContainedInRange(Day $value): void
     {
         assertTrue($this->datespanRange->contains($value));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rangeContainsLowValuesIfMinValueIsNull(): void
     {
         $numberRange = new DatespanRange(null, '2012-03-19');
         assertTrue($numberRange->contains(new Month('1970-12')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rangeContainsHighValuesIfMaxValueIsNull(): void
     {
         $numberRange = new DatespanRange('2012-03-17', null);
         assertTrue($numberRange->contains(new Year(2037)));
     }
 
-    /**
-     * @return  array<DatespanRange[]>
-     */
-    public static function ranges(): array
+    public static function ranges(): Generator
     {
-        return [
-            [new DatespanRange('2012-03-17', '2012-03-19')],
-            [new DatespanRange(null, '2012-03-19')],
-            [new DatespanRange('2012-03-17', null)]
-        ];
+        yield [new DatespanRange('2012-03-17', '2012-03-19')];
+        yield [new DatespanRange(null, '2012-03-19')];
+        yield [new DatespanRange('2012-03-17', null)];
     }
 
-    /**
-     * @test
-     * @dataProvider  ranges
-     */
+    #[Test]
+    #[DataProvider('ranges')]
     public function rangeDoesNotContainNull(DatespanRange $range): void
     {
         assertFalse($range->contains(null));
     }
 
-    /**
-     * @text
-     * @dataProvider  ranges
-     */
-    public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(DatespanRange $range): void
-    {
+    #[Test]
+    #[DataProvider('ranges')]
+    public function containsThrowsRuntimeExceptionWhenValueIsNoDatespan(
+        DatespanRange $range
+    ): void {
         expect(function() use ($range) {
-                $range->contains('foo');
-        })->throws(\LogicException::class);
+            $range->contains('foo');
+        })->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->datespanRange->errorsOf(new Day('2012-03-17')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
-                $this->datespanRange->errorsOf(new Day('2012-03-16')),
-                equals(['DATE_TOO_EARLY' => ['earliestDate' => Date::castFrom('2012-03-17')->asString()]])
+            $this->datespanRange->errorsOf(new Day('2012-03-16')),
+            equals([
+                'DATE_TOO_EARLY' => [
+                    'earliestDate' => Date::castFrom('2012-03-17')->asString()
+                ]
+            ])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
-                $this->datespanRange->errorsOf(new Day('2012-03-20')),
-                equals(['DATE_TOO_LATE' => ['latestDate' => Date::castFrom('2012-03-19')->asString()]])
+            $this->datespanRange->errorsOf(new Day('2012-03-20')),
+            equals([
+                'DATE_TOO_LATE' => [
+                    'latestDate' => Date::castFrom('2012-03-19')->asString()
+                ]
+            ])
         );
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function doesNotAllowToTruncate(): void
     {
         assertFalse($this->datespanRange->allowsTruncate(new Day('2012-03-20')));
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function tryingToTruncateThrowsMethodNotSupportedException(): void
     {
         expect(function() { $this->datespanRange->truncateToMaxBorder('2012-03-20'); })

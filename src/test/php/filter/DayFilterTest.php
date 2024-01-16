@@ -7,6 +7,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\date\Date;
 use stubbles\date\span\Day;
 use stubbles\input\filter\range\DatespanRange;
@@ -17,17 +21,11 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\DayFilter.
- *
- * @group  filter
  */
+#[Group('filter')]
 class DayFilterTest extends FilterTestBase
 {
-    /**
-     * instance to test
-     *
-     * @var  DayFilter
-     */
-    private $dayFilter;
+    private DayFilter $dayFilter;
 
     protected function setUp(): void
     {
@@ -35,47 +33,30 @@ class DayFilterTest extends FilterTestBase
         parent::setUp();
     }
 
-    /**
-     * @return  array<mixed[]>
-     */
-    public static function getEmptyValues(): array
-    {
-        return [[''], [null]];
-    }
-
-    /**
-     * @param  mixed  $value
-     * @test
-     * @dataProvider  getEmptyValues
-     */
+    #[Test]
+    #[DataProviderExternal(EmptyValuesDataProvider::class, 'provideStrings')]
     public function emptyParamsAreReturnedAsNull($value): void
     {
         assertNull($this->dayFilter->apply($this->createParam($value))[0]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validParamsAreReturnedAsDateInstance(): void
     {
         assertThat(
-                $this->dayFilter->apply($this->createParam('2008-09-27'))[0],
-                equals(new Day('2008-09-27'))
+            $this->dayFilter->apply($this->createParam('2008-09-27'))[0],
+            equals(new Day('2008-09-27'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function applyReturnsNullForInvalidDay(): void
     {
 
         assertNull($this->dayFilter->apply($this->createParam('invalid day'))[0]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function applyAddsErrorForInvalidDay(): void
     {
         $param = $this->createParam('invalid day');
@@ -85,8 +66,8 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asDay());
@@ -94,8 +75,8 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $default = new Day();
@@ -109,8 +90,8 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asDay());
@@ -118,8 +99,8 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asDay();
@@ -128,8 +109,8 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam('foo')->asDay());
@@ -137,17 +118,15 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asDay();
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asDayReturnsValidValue(): void
     {
         $day = $this->readParam('2012-03-11')->asDay();
@@ -160,24 +139,24 @@ class DayFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayReturnsNullIfParamIsOutOfRange(): void
     {
         assertNull(
-                $this->readParam('yesterday')
-                        ->asDay(new DatespanRange(Date::now(), null))
+            $this->readParam('yesterday')
+                ->asDay(new DatespanRange(Date::now(), null))
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asDayAddsParamErrorIfParamIsOutOfRange(): void
     {
         $this->readParam('yesterday')
-             ->asDay(new DatespanRange(Date::now(), null));
+            ->asDay(new DatespanRange(Date::now(), null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 }

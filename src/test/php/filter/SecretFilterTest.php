@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\filter\range\SecretMinLength;
 use stubbles\values\Secret;
 
@@ -18,15 +21,12 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\SecretFilter.
  *
- * @group  filter
  * @since  3.0.0
  */
+#[Group('filter')]
 class SecretFilterTest extends FilterTestBase
 {
-    /**
-     * @var  SecretFilter
-     */
-    private $secretFilter;
+    private SecretFilter $secretFilter;
 
     protected function setUp(): void
     {
@@ -40,98 +40,78 @@ class SecretFilterTest extends FilterTestBase
         assertThat($actual, equals($expected));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullSecretWhenParamIsNull(): void
     {
         $this->assertSecretEquals(
-                null,
-                $this->secretFilter->apply($this->createParam(null))[0]
+            null,
+            $this->secretFilter->apply($this->createParam(null))[0]
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullSecretWhenParamIsEmptyString(): void
     {
         $this->assertSecretEquals(
-                null,
-                $this->secretFilter->apply($this->createParam(''))[0]
+            null,
+            $this->secretFilter->apply($this->createParam(''))[0]
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretReturnsNullSecretIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asSecret());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $this->assertSecretEquals(
-                'baz',
-                $this->readParam(null)
-                     ->defaultingTo(Secret::create('baz'))
-                     ->asSecret()
+            'baz',
+            $this->readParam(null)
+                ->defaultingTo(Secret::create('baz'))
+                ->asSecret()
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretThrowsLogicExceptionWhenDefaultValueNoInstanceOfSecret(): void
     {
         expect(function() {
-                $this->readParam(null)->defaultingTo('baz')->asSecret();
+            $this->readParam(null)->defaultingTo('baz')->asSecret();
         })->throws(\LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asSecret());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asSecret();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretReturnsNullIfParamIsInvalid(): void
     {
         assertNull(
-                $this->readParam('foo')->asSecret(new SecretMinLength(5))
+            $this->readParam('foo')->asSecret(new SecretMinLength(5))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretAddsParamErrorIfParamIsInvalid(): void
     {
         $this->readParam('foo')->asSecret(new SecretMinLength(5));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asSecretReturnsValidValue(): void
     {
         $secret = $this->readParam('foo')->asSecret();

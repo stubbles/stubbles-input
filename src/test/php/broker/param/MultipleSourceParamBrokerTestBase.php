@@ -10,6 +10,7 @@ namespace stubbles\input\broker\param;
 
 use bovigo\callmap\ClassProxy;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
@@ -27,8 +28,6 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     abstract protected function getRequestAnnotationName(): string;
 
@@ -64,9 +63,7 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function failsForUnknownSource(): void
     {
         expect(function() {
@@ -77,9 +74,7 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
         })->throws(\RuntimeException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         assertThat(
@@ -91,9 +86,7 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         assertThat(
@@ -105,9 +98,7 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
@@ -122,9 +113,7 @@ abstract class MultipleSourceParamBrokerTestBase extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([

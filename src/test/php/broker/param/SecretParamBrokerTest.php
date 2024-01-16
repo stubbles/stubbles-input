@@ -8,7 +8,10 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 use stubbles\reflect\annotation\Annotation;
@@ -21,175 +24,143 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\SecretParamBroker.
  *
- * @group  broker
- * @group  broker_param
  * @since  3.0.0
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class SecretParamBrokerTest extends TestCase
 {
-    /**
-     * @var  SecretParamBroker
-     */
-    private $paramBroker;
+    private SecretParamBroker $paramBroker;
 
     protected function setUp(): void
     {
         $this->paramBroker = new SecretParamBroker();
     }
 
-    /**
-     * @param  string  $expected
-     * @param  Secret  $actual
-     */
     private function assertSecretEquals(string $expected, Secret $actual): void
     {
         assertThat($actual->unveil(), equals($expected));
     }
 
     /**
-     * creates request annotation
-     *
-     * @param   array<string,mixed>  $values
-     * @return  Annotation
+     * @param  array<string,mixed>  $values
      */
     protected function createRequestAnnotation(array $values = []): Annotation
     {
         $values['paramName'] = 'foo';
         return new Annotation(
-                'Secret',
-                'foo',
-                array_map(function($value) { return (string) $value; }, $values),
-                'Request'
+            'Secret',
+            'foo',
+            array_map(fn($value): string => (string) $value, $values),
+            'Request'
         );
     }
 
-    /**
-     * creates mocked request
-     *
-     * @param   mixed  $value
-     * @return  Request
-     */
-    protected function createRequest($value): Request
+    protected function createRequest(mixed $value): Request
     {
         return NewInstance::of(Request::class)->returns([
-                'readParam' => ValueReader::forValue($value)
+            'readParam' => ValueReader::forValue($value)
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function failsForUnknownSource(): void
     {
         expect(function() {
-                $this->paramBroker->procure(
-                        NewInstance::of(Request::class),
-                        $this->createRequestAnnotation(['source' => 'foo'])
-                );
-        })->throws(\RuntimeException::class);
+            $this->paramBroker->procure(
+                NewInstance::of(Request::class),
+                $this->createRequestAnnotation(['source' => 'foo'])
+            );
+        })->throws(RuntimeException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         $this->assertSecretEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation()
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation()
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         $this->assertSecretEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation(['source' => 'param'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation(['source' => 'param'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue('topsecret')
+            'readHeader' => ValueReader::forValue('topsecret')
         ]);
         $this->assertSecretEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'header'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'header'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request =  NewInstance::of(WebRequest::class)->returns([
             'readCookie' => ValueReader::forValue('topsecret')
         ]);
         $this->assertSecretEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'cookie'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'cookie'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfShorterThanMinLength(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do you expect me to talk?'),
-                        $this->createRequestAnnotation(['minLength' => 30])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('Do you expect me to talk?'),
+                $this->createRequestAnnotation(['minLength' => 30])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfLongerThenMinLength(): void
     {
         $this->assertSecretEquals(
-                'Do you expect me to talk?',
-                $this->paramBroker->procure(
-                        $this->createRequest('Do you expect me to talk?'),
-                        $this->createRequestAnnotation(
-                                ['minLength' => 10]
-                        )
+            'Do you expect me to talk?',
+            $this->paramBroker->procure(
+                $this->createRequest('Do you expect me to talk?'),
+                $this->createRequestAnnotation(
+                    ['minLength' => 10]
                 )
+            )
         );
     }
 }

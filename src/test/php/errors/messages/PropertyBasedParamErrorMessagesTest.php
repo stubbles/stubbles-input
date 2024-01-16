@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\ParamError;
 use stubbles\values\ResourceLoader;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
@@ -23,22 +25,17 @@ use function stubbles\reflect\annotationsOfConstructorParameter;
  * Tests for stubbles\input\errors\messages\PropertyBasedParamErrorMessages.
  *
  * @since  1.3.0
- * @group  errors
- * @group  errors_message
  */
+#[Group('errors')]
+#[Group('errors_message')]
 class PropertyBasedParamErrorMessagesTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  PropertyBasedParamErrorMessages
-     */
-    private $errorMessages;
+    private PropertyBasedParamErrorMessages $errorMessages;
 
     protected function setUp(): void
     {
         $this->errorMessages = new PropertyBasedParamErrorMessages(
-                $this->createResourceLoader()
+            $this->createResourceLoader()
         );
     }
 
@@ -52,225 +49,206 @@ class PropertyBasedParamErrorMessagesTest extends TestCase
         /** @var  \org\bovigo\vfs\vfsStreamDirectory  $dir2 */
         $dir2 = $root->getChild('package2/input/error');
         vfsStream::newFile('message.ini')
-                 ->withContent('[id]
+            ->withContent('[id]
 default = An error of type {foo} occurred.
 en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
-                 ->at($dir1);
+            ->at($dir1);
         vfsStream::newFile('message.ini')
-                 ->withContent('[id2]
+            ->withContent('[id2]
 default = An error of type {foo} occurred.
 en_* = An error of type {foo} occurred.
 de_DE = Es ist ein Fehler vom Typ {foo} aufgetreten.
 ')
-                 ->at($dir2);
+            ->at($dir2);
         return NewInstance::of(ResourceLoader::class)
-                ->returns(['availableResourceUris' => [
-                        vfsStream::url('root/package1/input/error/message.ini'),
-                        vfsStream::url('root/package2/input/error/message.ini')
-                ]]
+            ->returns(['availableResourceUris' => [
+                vfsStream::url('root/package1/input/error/message.ini'),
+                vfsStream::url('root/package2/input/error/message.ini')
+            ]]
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasMessagesForErrorsFromBothSources(): void
     {
         assertTrue(
-                $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
+            $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
         );
         assertTrue(
-                $this->errorMessages->existFor(new ParamError('id2', ['foo' => 'bar']))
+            $this->errorMessages->existFor(new ParamError('id2', ['foo' => 'bar']))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsTrueOnCheckForExistingError(): void
     {
         assertTrue(
-                $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
+            $this->errorMessages->existFor(new ParamError('id', ['foo' => 'bar']))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsFalseOnCheckForNonExistingError(): void
     {
         assertFalse(
-                $this->errorMessages->existFor(new ParamError('doesNotExist'))
+            $this->errorMessages->existFor(new ParamError('doesNotExist'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsListOfLocalesForExistingError(): void
     {
 
         assertThat(
-                $this->errorMessages->localesFor(
-                        new ParamError('id', ['foo' => 'bar'])
-                ),
-                equals(['default', 'en_*', 'de_DE'])
+            $this->errorMessages->localesFor(
+                new ParamError('id', ['foo' => 'bar'])
+            ),
+            equals(['default', 'en_*', 'de_DE'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyListOfLocalesForNonExistingError(): void
     {
 
         assertEmptyArray(
-                $this->errorMessages->localesFor(new ParamError('doesNotExist'))
+            $this->errorMessages->localesFor(new ParamError('doesNotExist'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsListOfLocalizedMessagesForExistingError(): void
     {
 
         assertThat(
-                $this->errorMessages->messagesFor(new ParamError('id', ['foo' => 'bar'])),
-                equals([
-                        new LocalizedMessage('default', 'An error of type bar occurred.'),
-                        new LocalizedMessage('en_*', 'An error of type bar occurred.'),
-                        new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
-                ])
+            $this->errorMessages->messagesFor(new ParamError('id', ['foo' => 'bar'])),
+            equals([
+                new LocalizedMessage('default', 'An error of type bar occurred.'),
+                new LocalizedMessage('en_*', 'An error of type bar occurred.'),
+                new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.')
+            ])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyMessageListForNonExistingError(): void
     {
 
         assertEmptyArray(
-                $this->errorMessages->messagesFor(new ParamError('doesNotExist'))
+            $this->errorMessages->messagesFor(new ParamError('doesNotExist'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsMessageInExistingLocale(): void
     {
 
         assertThat(
-                $this->errorMessages->messageFor(
-                        new ParamError('id', ['foo' => 'bar']),
-                        'de_DE'
-                ),
-                equals(new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'))
+            $this->errorMessages->messageFor(
+                new ParamError('id', ['foo' => 'bar']),
+                'de_DE'
+            ),
+            equals(new LocalizedMessage('de_DE', 'Es ist ein Fehler vom Typ bar aufgetreten.'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsMessageInExistingBaseLocale(): void
     {
 
         assertThat(
-                $this->errorMessages->messageFor(
-                        new ParamError('id', ['foo' => 'bar']),
-                        'en_UK'
-                ),
-                equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
+            $this->errorMessages->messageFor(
+                new ParamError('id', ['foo' => 'bar']),
+                'en_UK'
+            ),
+            equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsMessageInDefaultLocale(): void
     {
-        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
+        $errorMessages = new PropertyBasedParamErrorMessages(
+            $this->createResourceLoader(),
+            'en_*'
+        );
         assertThat(
-                $errorMessages->messageFor(
-                        new ParamError('id', ['foo' => 'bar']),
-                        'fr_FR'
-                ),
-                equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
+            $errorMessages->messageFor(
+                new ParamError('id', ['foo' => 'bar']),
+                'fr_FR'
+            ),
+            equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsMessageInDefaultLocaleIfNoLocaleGiven(): void
     {
-        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_*');
+        $errorMessages = new PropertyBasedParamErrorMessages(
+            $this->createResourceLoader(),
+            'en_*'
+        );
         assertThat(
-                $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
-                equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
+            $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
+            equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
         );
     }
 
     /**
-     * @test
      * @since  8.0.1
      */
+    #[Test]
     public function returnsMessageInBaseLocaleIfNoLocaleGivenAndNoSpecificLocaleMessageAvailable(): void
     {
-        $errorMessages = new PropertyBasedParamErrorMessages($this->createResourceLoader(), 'en_EN');
+        $errorMessages = new PropertyBasedParamErrorMessages(
+            $this->createResourceLoader(),
+            'en_EN'
+        );
         assertThat(
-                $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
-                equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
+            $errorMessages->messageFor(new ParamError('id', ['foo' => 'bar'])),
+            equals(new LocalizedMessage('en_*', 'An error of type bar occurred.'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsMessageInFallbackLocale(): void
     {
 
         assertThat(
-                $this->errorMessages->messageFor(
-                        new ParamError('id', ['foo' => 'bar']),
-                        'fr_FR'
-                ),
-                equals(new LocalizedMessage('default', 'An error of type bar occurred.'))
+            $this->errorMessages->messageFor(
+                new ParamError('id', ['foo' => 'bar']),
+                'fr_FR'
+            ),
+            equals(new LocalizedMessage('default', 'An error of type bar occurred.'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyMessageForNonExistingError(): void
     {
 
         assertThat(
-                $this->errorMessages->messageFor(
-                        new ParamError('doesNotExist'),
-                        'en_*'
-                ),
-                equals(new LocalizedMessage('default', ''))
+            $this->errorMessages->messageFor(
+                new ParamError('doesNotExist'),
+                'en_*'
+            ),
+            equals(new LocalizedMessage('default', ''))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function annotationsPresentOnConstructor(): void
     {
         $annotations = annotationsOfConstructorParameter(
-                'defaultLocale',
-                $this->errorMessages
+            'defaultLocale',
+            $this->errorMessages
         );
         assertTrue($annotations->contain('Property'));
         assertThat(
-                $annotations->firstNamed('Property')->getValue(),
-                equals('stubbles.locale')
+            $annotations->firstNamed('Property')->getValue(),
+            equals('stubbles.locale')
         );
     }
 }

@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+use stdClass;
 use stubbles\input\ValueReader;
 
 use function bovigo\assert\assertThat;
@@ -15,12 +18,13 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\JsonParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class JsonParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
+    private const REQUEST_PARAM_VALUE = '{"method":"add","params":[1,2],"id":1}';
+
     protected function setUp(): void
     {
         $this->paramBroker = new JsonParamBroker();
@@ -28,8 +32,6 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -38,119 +40,103 @@ class JsonParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  \stdClass
      */
-    protected function expectedValue(): \stdClass
+    protected function expectedValue(): stdClass
     {
-        $phpJsonObj = new \stdClass();
+        $phpJsonObj = new stdClass();
         $phpJsonObj->method = 'add';
         $phpJsonObj->params = [1, 2];
         $phpJsonObj->id = 1;
         return $phpJsonObj;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(
-                                ['default' => '{"method":"add","params":[1,2],"id":1}']
-                        )
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(
+                    ['default' => self::REQUEST_PARAM_VALUE]
+                )
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForInvalidJson(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('{invalid'),
-                        $this->createRequestAnnotation([])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('{invalid'),
+                $this->createRequestAnnotation([])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('{"method":"add","params":[1,2],"id":1}'),
-                        $this->createRequestAnnotation([])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(self::REQUEST_PARAM_VALUE),
+                $this->createRequestAnnotation([])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('{"method":"add","params":[1,2],"id":1}'),
-                        $this->createRequestAnnotation(['source' => 'param'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(self::REQUEST_PARAM_VALUE),
+                $this->createRequestAnnotation(['source' => 'param'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')
+            'readHeader' => ValueReader::forValue(self::REQUEST_PARAM_VALUE)
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'header'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'header'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readCookie' => ValueReader::forValue('{"method":"add","params":[1,2],"id":1}')
+            'readCookie' => ValueReader::forValue(self::REQUEST_PARAM_VALUE)
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'cookie'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'cookie'])
+            ),
+            equals($this->expectedValue())
         );
     }
 }

@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
 
@@ -17,10 +20,9 @@ use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\OneOfParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class OneOfParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     /**
@@ -38,8 +40,6 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -48,263 +48,237 @@ class OneOfParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  string
      */
     protected function expectedValue(): string
     {
         return 'foo';
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(
-                                ['allowed' => 'foo|bar', 'default' => 'baz']
-                        )
-                ),
-                equals('baz')
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(
+                    ['allowed' => 'foo|bar', 'default' => 'baz']
+                )
+            ),
+            equals('baz')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSetWithAllowedSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()',
-                                'default' => 'baz'
-                        ])
-                ),
-                equals('baz')
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()',
+                    'default' => 'baz'
+                ])
+            ),
+            equals('baz')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(
-                                ['allowed' => 'foo|bar', 'required' => true]
-                        )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(
+                    ['allowed' => 'foo|bar', 'required' => true]
                 )
+            )
         );
     }
 
     /**
-     * @test
      * @since  8.0.0
      */
+    #[Test]
     public function throwsRuntimeExceptionWhenAllowedSourceIsNoValidCallback(): void
     {
         expect(function() {
             $this->paramBroker->procure(
                 $this->createRequest(null),
                 $this->createRequestAnnotation([
-                        'allowedSource' => __CLASS__ . '::doesNotExist()',
-                        'required' => true
+                    'allowedSource' => __CLASS__ . '::doesNotExist()',
+                    'required' => true
                 ])
             );
         })
         ->throws(\RuntimeException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequiredWithAllowedSource(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()',
-                                'required' => true
-                        ])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()',
+                    'required' => true
+                ])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function failsForUnknownSource(): void
     {
         expect(function() {
-                $this->paramBroker->procure(
-                        NewInstance::of(Request::class),
-                        $this->createRequestAnnotation(['source' => 'foo'])
-                );
-        })->throws(\RuntimeException::class);
+            $this->paramBroker->procure(
+                NewInstance::of(Request::class),
+                $this->createRequestAnnotation(['source' => 'foo'])
+            );
+        })->throws(RuntimeException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(((string) $this->expectedValue())),
-                        $this->createRequestAnnotation(['allowed' => 'foo|bar'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation(['allowed' => 'foo|bar'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSourceWithAllowedSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(((string) $this->expectedValue())),
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()'
-                        ])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()'
+                ])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(((string) $this->expectedValue())),
-                        $this->createRequestAnnotation(
-                                ['allowed' => 'foo|bar', 'source'  => 'param']
-                        )
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation(
+                    ['allowed' => 'foo|bar', 'source'  => 'param']
+                )
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSourceWithAllowedSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(((string) $this->expectedValue())),
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()',
-                                'source'  => 'param'
-                        ])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()',
+                    'source'  => 'param'
+                ])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
+            'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(
-                                ['allowed' => 'foo|bar', 'source'  => 'header']
-                        )
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(
+                    ['allowed' => 'foo|bar', 'source'  => 'header']
+                )
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequestWithAllowedSource(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
+            'readHeader' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()',
-                                'source'  => 'header'
-                        ])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()',
+                    'source'  => 'header'
+                ])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
+            'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(
-                                ['allowed' => 'foo|bar', 'source'  => 'cookie']
-                        )
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(
+                    ['allowed' => 'foo|bar', 'source'  => 'cookie']
+                )
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequestWithAllowedSource(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
+            'readCookie' => ValueReader::forValue(((string) $this->expectedValue()))
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation([
-                                'allowedSource' => __CLASS__ . '::allowedSource()',
-                                'source'  => 'cookie'
-                        ])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation([
+                    'allowedSource' => __CLASS__ . '::allowedSource()',
+                    'source'  => 'cookie'
+                ])
+            ),
+            equals($this->expectedValue())
         );
     }
 
     /**
-     * @test
      * @since  3.0.0
      */
+    #[Test]
     public function throwsRuntimeAnnotationWhenListOfAllowedValuesIsMissing(): void
     {
         expect(function() {
             $this->paramBroker->procure(
-                    $this->createRequest(((string) $this->expectedValue())),
-                    $this->createRequestAnnotation()
+                $this->createRequest(((string) $this->expectedValue())),
+                $this->createRequestAnnotation()
             );
         })
-        ->throws(\RuntimeException::class)
-        ->withMessage('No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()');
+            ->throws(RuntimeException::class)
+            ->withMessage(
+                'No list of allowed values in annotation @Request[OneOf] on SomeClass::someMethod()'
+            );
     }
 }

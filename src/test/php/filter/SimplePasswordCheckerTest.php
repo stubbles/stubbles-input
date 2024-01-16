@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\values\Secret;
 
@@ -16,70 +19,59 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\SimplePasswordChecker.
  *
- * @group  filter
  * @since  3.0.0
  */
+#[Group('filter')]
 class SimplePasswordCheckerTest extends TestCase
 {
-    /**
-     * @var  SimplePasswordChecker
-     */
-    private $simplePasswordChecker;
+    private SimplePasswordChecker $simplePasswordChecker;
 
     protected function setUp(): void
     {
         $this->simplePasswordChecker = SimplePasswordChecker::create();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function doesNotReportErrorsWithDefaultValuesAndSatisfyingPassword(): void
     {
         assertEmptyArray(
-                $this->simplePasswordChecker->check(Secret::create('topsecret'))
+            $this->simplePasswordChecker->check(Secret::create('topsecret'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reportsErrorsWithDefaultValuesAndNonSatisfyingPassword(): void
     {
         assertThat(
-                $this->simplePasswordChecker->check(Secret::create('ooo')),
-                equals([
-                        'PASSWORD_TOO_SHORT'           => ['minLength' => SimplePasswordChecker::DEFAULT_MINLENGTH],
-                        'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS]
-                ])
+            $this->simplePasswordChecker->check(Secret::create('ooo')),
+            equals([
+                'PASSWORD_TOO_SHORT'           => ['minLength' => SimplePasswordChecker::DEFAULT_MINLENGTH],
+                'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => SimplePasswordChecker::DEFAULT_MIN_DIFF_CHARS]
+            ])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reportsErrorsWithChangedValuesAndNonSatisfyingPassword(): void
     {
         assertThat(
-                $this->simplePasswordChecker->minLength(10)
-                        ->minDiffChars(8)
-                        ->check(Secret::create('topsecret')),
-                equals([
-                        'PASSWORD_TOO_SHORT'           => ['minLength' => 10],
-                        'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => 8]
-                ])
+            $this->simplePasswordChecker->minLength(10)
+                ->minDiffChars(8)
+                ->check(Secret::create('topsecret')),
+            equals([
+                'PASSWORD_TOO_SHORT'           => ['minLength' => 10],
+                'PASSWORD_TOO_LESS_DIFF_CHARS' => ['minDiff'   => 8]
+            ])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reportsErrorsWithDisallowedValues(): void
     {
         assertThat(
-                $this->simplePasswordChecker->disallowValues(['topsecret'])
-                        ->check(Secret::create('topsecret')),
-                equals(['PASSWORD_DISALLOWED' => []])
+            $this->simplePasswordChecker->disallowValues(['topsecret'])
+                ->check(Secret::create('topsecret')),
+            equals(['PASSWORD_DISALLOWED' => []])
         );
     }
 }

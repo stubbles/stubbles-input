@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker\param;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\ValueReader;
 
 use function bovigo\assert\assertThat;
@@ -16,10 +18,9 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\ArrayParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class ArrayParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -29,8 +30,6 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -47,119 +46,103 @@ class ArrayParamBrokerTest extends MultipleSourceParamBrokerTestBase
         return ['foo', 'bar'];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => 'foo|bar'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => 'foo|bar'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueWithDifferentSeparator(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('foo|bar'),
-                        $this->createRequestAnnotation(['separator' => '|'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest('foo|bar'),
+                $this->createRequestAnnotation(['separator' => '|'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsEmptyArrayForEmptyValue(): void
     {
         assertEmptyArray(
-                $this->paramBroker->procure(
-                        $this->createRequest(''),
-                        $this->createRequestAnnotation([])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(''),
+                $this->createRequestAnnotation([])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('foo, bar'),
-                        $this->createRequestAnnotation([])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest('foo, bar'),
+                $this->createRequestAnnotation([])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('foo, bar'),
-                        $this->createRequestAnnotation(['source' => 'param'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $this->createRequest('foo, bar'),
+                $this->createRequestAnnotation(['source' => 'param'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue('foo, bar')
+            'readHeader' => ValueReader::forValue('foo, bar')
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'header'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'header'])
+            ),
+            equals($this->expectedValue())
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readCookie' => ValueReader::forValue('foo, bar')
+            'readCookie' => ValueReader::forValue('foo, bar')
         ]);
         assertThat(
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'cookie'])
-                ),
-                equals($this->expectedValue())
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'cookie'])
+            ),
+            equals($this->expectedValue())
         );
     }
 }

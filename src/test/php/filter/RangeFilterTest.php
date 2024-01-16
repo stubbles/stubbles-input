@@ -7,7 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use bovigo\callmap\ClassProxy;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\filter\range\Range;
 use stubbles\values\Value;
 
@@ -18,23 +22,13 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
  * Tests for stubbles\input\filter\RangeFilter.
- *
- * @group  filter
  */
+#[Group('filter')]
 class RangeFilterTest extends FilterTestBase
 {
-    /**
-     * @var  RangeFilter
-     */
-    private $rangeFilter;
-    /**
-     * @var  NumberFilter&\bovigo\callmap\ClassProxy
-     */
-    private $filter;
-    /**
-     * @var  Range&\bovigo\callmap\ClassProxy
-     */
-    private $range;
+    private RangeFilter $rangeFilter;
+    private NumberFilter&ClassProxy $filter;
+    private Range&ClassProxy $range;
 
     protected function setUp(): void
     {
@@ -43,22 +37,14 @@ class RangeFilterTest extends FilterTestBase
         $this->rangeFilter = new RangeFilter($this->filter, $this->range);
     }
 
-    /**
-     * creates param
-     *
-     * @param   mixed  $value
-     * @return  Value
-     */
-    protected function createParam($value): Value
+    protected function createParam(mixed $value): Value
     {
         $param = parent::createParam($value);
         $this->filter->returns(['apply' => [$value, []]]);
         return $param;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfDecoratedFilterReturnsNull(): void
     {
         assertNull($this->rangeFilter->apply($this->createParam(null))[0]);
@@ -66,29 +52,25 @@ class RangeFilterTest extends FilterTestBase
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         $this->range->returns(['contains' => true]);
         assertThat(
-                $this->rangeFilter->apply($this->createParam(303))[0],
-                equals(303)
+            $this->rangeFilter->apply($this->createParam(303))[0],
+            equals(303)
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfValueNotInRange(): void
     {
         $param = $this->createParam(303);
         $this->range->returns([
-                'contains'       => false,
-                'allowsTruncate' => false,
-                'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
+            'contains'       => false,
+            'allowsTruncate' => false,
+            'errorsOf'       => ['LOWER_BORDER_VIOLATION' => []]
         ]);
         list($result, $errors) = $this->rangeFilter->apply($param);
         assertNull($result);
@@ -96,20 +78,20 @@ class RangeFilterTest extends FilterTestBase
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function returnsTruncatedValueIfValueAboveMaxBorderAndTruncateAllowed(): void
     {
         $this->range->returns([
-                'contains'            => false,
-                'allowsTruncate'      => true,
-                'truncateToMaxBorder' => 'foo'
+            'contains'            => false,
+            'allowsTruncate'      => true,
+            'truncateToMaxBorder' => 'foo'
         ]);
         assertThat(
-                $this->rangeFilter->apply($this->createParam('foobar'))[0],
-                equals('foo')
+            $this->rangeFilter->apply($this->createParam('foobar'))[0],
+            equals('foo')
         );
         verify($this->range, 'errorsOf')->wasNeverCalled();
     }

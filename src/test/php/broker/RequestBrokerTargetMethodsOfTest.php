@@ -7,17 +7,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function stubbles\reflect\reflect;
 /**
  * Tests for stubbles\input\broker\RequestBroker::targetMethodsOf().
- *
- * @group  broker
- * @group  broker_core
  */
+#[Group('broker')]
+#[Group('broker_core')]
 class RequestBrokerTargetMethodsOfTest extends TestCase
 {
     /**
@@ -33,31 +37,31 @@ class RequestBrokerTargetMethodsOfTest extends TestCase
     }
 
     /**
-     * @param  object|class-string<object>|\ReflectionClass<object>  $allowedValue
-     * @test
-     * @dataProvider  allowedValues
+     * @param  object|class-string<object>|ReflectionClass<object>  $allowedValue
      */
-    public function returnsListOfAllMethodsWithRequestAnnotation($allowedValue): void
-    {
-        $paramNames = [];
-        foreach (RequestBroker::targetMethodsOf($allowedValue) as $targetMethod) {
-            $paramNames[] = $targetMethod->paramName();
-        }
+    #[Test]
+    #[DataProvider('allowedValues')]
+    public function returnsListOfAllMethodsWithRequestAnnotation(
+        string|object $allowedValue
+    ): void {
+        $paramNames = RequestBroker::targetMethodsOf($allowedValue)
+            ->map(fn(TargetMethod $targetMethod): string => $targetMethod->paramName())
+            ->values();
 
         assertThat($paramNames, equals(['verbose', 'bar', 'baz']));
     }
 
     /**
-     * @param  object|class-string<object>|\ReflectionClass<object>  $allowedValue
-     * @test
-     * @dataProvider  allowedValues
+     * @param  object|class-string<object>|ReflectionClass<object>  $allowedValue
      */
-    public function returnsListOfAllMethodsWithRequestAnnotationInGivenGroup($allowedValue): void
-    {
-        $paramNames = [];
-        foreach (RequestBroker::targetMethodsOf($allowedValue, 'main') as $targetMethod) {
-            $paramNames[] = $targetMethod->paramName();
-        }
+    #[Test]
+    #[DataProvider('allowedValues')]
+    public function returnsListOfAllMethodsWithRequestAnnotationInGivenGroup(
+        string|object $allowedValue
+    ): void {
+        $paramNames = RequestBroker::targetMethodsOf($allowedValue, 'main')
+            ->map(fn(TargetMethod $targetMethod): string => $targetMethod->paramName())
+            ->values();
 
         assertThat($paramNames, equals(['bar']));
     }

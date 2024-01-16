@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\errors;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -19,152 +22,116 @@ use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\isSameAs;
 /**
  * Tests for stubbles\input\errors\ParamErrors.
- *
- * @group  errors
  */
+#[Group('errors')]
 class ParamErrorsTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  ParamErrors
-     */
-    private $paramErrors;
+    private ParamErrors $paramErrors;
 
     protected function setUp(): void
     {
         $this->paramErrors = new ParamErrors();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasNoErrorsInitially(): void
     {
         assertFalse($this->paramErrors->exist());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function initialErrorCountIsZero(): void
     {
         assertThat($this->paramErrors, isOfSize(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paramErrorsExistIfOneAppended(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->exist());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function appendedErrorExistsForGivenParamName(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->existFor('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function appendedErrorExistsForGivenParamNameAndErrorId(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertTrue($this->paramErrors->existForWithId('foo', 'errorid'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function appendingAnErrorIncreasesErrorCount(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertThat($this->paramErrors, isOfSize(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function appendedErrorIsContainedInListForParam(): void
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
         assertThat(
-                $this->paramErrors->getFor('foo'),
-                equals(['errorid' => $paramError])
+            $this->paramErrors->getFor('foo'),
+            equals(['errorid' => $paramError])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function appendedErrorIsReturnedWhenRequested(): void
     {
         $paramError = $this->paramErrors->append('foo', 'errorid');
         assertThat(
-                $this->paramErrors->getForWithId('foo', 'errorid'),
-                isSameAs($paramError)
+            $this->paramErrors->getForWithId('foo', 'errorid'),
+            isSameAs($paramError)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function existForReturnsFalseIfNoErrorAddedBefore(): void
     {
         assertFalse($this->paramErrors->existFor('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getForReturnsEmptyArrayIfNoErrorAddedBefore(): void
     {
         assertEmptyArray($this->paramErrors->getFor('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function existForWithIdReturnsFalseIfNoErrorAddedBefore(): void
     {
         assertFalse($this->paramErrors->existForWithId('foo', 'id'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getForWithIdReturnsNullIfNoErrorAddedBefore(): void
     {
         assertNull($this->paramErrors->getForWithId('foo', 'id'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function existForWithIdReturnsFalseIfNoErrorOfThisNameAddedBefore(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertFalse($this->paramErrors->existForWithId('foo', 'baz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getForWithIdReturnsNullIfNoErrorOfThisNameAddedBefore(): void
     {
         $this->paramErrors->append('foo', 'errorid');
         assertNull($this->paramErrors->getForWithId('foo', 'baz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canIterateOverParamErrors(): void
     {
         $paramError1 = $this->paramErrors->append('foo', 'id1');
@@ -175,8 +142,8 @@ class ParamErrorsTest extends TestCase
             if (0 === $i) {
                 assertThat($paramName, equals('foo'));
                 assertThat(
-                        $paramErrors,
-                        equals(['id1' => $paramError1, 'id2' => $paramError2])
+                    $paramErrors,
+                    equals(['id1' => $paramError1, 'id2' => $paramError2])
                 );
             } else {
                 assertThat($paramName, equals('bar'));

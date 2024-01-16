@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\date\span\Day;
 
 use function bovigo\assert\assertThat;
@@ -14,10 +17,9 @@ use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\DayParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class DayParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -27,8 +29,6 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -37,82 +37,69 @@ class DayParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  Day
      */
     protected function expectedValue(): Day
     {
         return new Day('2012-04-21');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => '2012-04-21'])
-                ),
-                equals(new Day('2012-04-21'))
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => '2012-04-21'])
+            ),
+            equals(new Day('2012-04-21'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfBeforeMinStartDate(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('yesterday'),
-                        $this->createRequestAnnotation(['minStartDate' => 'today'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('yesterday'),
+                $this->createRequestAnnotation(['minStartDate' => 'today'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfAfterMaxStartDate(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('today'),
-                        $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('today'),
+                $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('today'),
-                        $this->createRequestAnnotation(
-                                ['minStartDate' => 'yesterday',
-                                 'maxEndDate'   => 'tomorrow'
-                                ]
-                        )
-                ),
-                equals(new Day('today'))
+            $this->paramBroker->procure(
+                $this->createRequest('today'),
+                $this->createRequestAnnotation([
+                    'minStartDate' => 'yesterday',
+                    'maxEndDate'   => 'tomorrow'
+                ])
+            ),
+            equals(new Day('today'))
         );
     }
 }

@@ -7,15 +7,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\TextParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class TextParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -25,8 +28,6 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -35,101 +36,86 @@ class TextParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  string
      */
     protected function expectedValue(): string
     {
         return 'Do you expect me to talk?';
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(
-                                ['default' => 'No Mr Bond, I expect you to die!']
-                        )
-                ),
-                equals('No Mr Bond, I expect you to die!')
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(
+                    ['default' => 'No Mr Bond, I expect you to die!']
+                )
+            ),
+            equals('No Mr Bond, I expect you to die!')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfShorterThanMinLength(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                        $this->createRequestAnnotation(['minLength' => 40])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
+                $this->createRequestAnnotation(['minLength' => 40])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfLongerThanMaxLength(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                        $this->createRequestAnnotation(['maxLength' => 10])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
+                $this->createRequestAnnotation(['maxLength' => 10])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                        $this->createRequestAnnotation(
-                                ['minLength' => 10, 'maxLength' => 40]
-                        )
-                ),
-                equals('Do you expect me to talk?')
+            $this->paramBroker->procure(
+                $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
+                $this->createRequestAnnotation(
+                    ['minLength' => 10, 'maxLength' => 40]
+                )
+            ),
+            equals('Do you expect me to talk?')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueWithTagsIfAllowed(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
-                        $this->createRequestAnnotation(
-                                ['minLength'   => 10,
-                                 'maxLength'   => 40,
-                                 'allowedTags' => 'b, u'
-                                ]
-                        )
-                ),
-                equals('Do <u>you</u> expect me to <b>talk</b>?')
+            $this->paramBroker->procure(
+                $this->createRequest('Do <u>you</u> expect me to <b>talk</b>?'),
+                $this->createRequestAnnotation([
+                    'minLength'   => 10,
+                    'maxLength'   => 40,
+                    'allowedTags' => 'b, u'
+                ])
+            ),
+            equals('Do <u>you</u> expect me to <b>talk</b>?')
         );
     }
 }

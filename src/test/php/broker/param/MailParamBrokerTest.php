@@ -7,13 +7,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Test;
+
 use function bovigo\assert\assertNull;
 /**
  * Tests for stubbles\input\broker\param\MailParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class MailParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -23,8 +25,6 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -33,24 +33,20 @@ class MailParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  string
      */
     protected function expectedValue(): string
     {
         return 'me@example.com';
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 }

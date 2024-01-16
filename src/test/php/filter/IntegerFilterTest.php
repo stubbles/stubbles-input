@@ -7,6 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\filter\range\NumberRange;
 
 use function bovigo\assert\assertThat;
@@ -15,45 +20,36 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\filter\IntegerFilter.
- *
- * @group  filter
  */
+#[Group('filter')]
 class IntegerFilterTest extends FilterTestBase
 {
-    /**
-     * @return  array<mixed[]>
-     */
-    public static function getValueResultTuples(): array
+    public static function valueResultTuples(): Generator
     {
-        return [[8, 8],
-                ['8', 8],
-                ['', 0],
-                [null, null],
-                [true, 1],
-                [false, 0],
-                [1.564, 1]
-        ];
+        yield [8, 8];
+        yield ['8', 8];
+        yield ['', 0];
+        yield [null, null];
+        yield [true, 1];
+        yield [false, 0];
+        yield [1.564, 1];
     }
 
-    /**
-     * @param  scalar  $value
-     * @param  int     $expected
-     * @test
-     * @dataProvider  getValueResultTuples
-     */
-    public function value($value, ?int $expected): void
+    #[Test]
+    #[DataProvider('valueResultTuples')]
+    public function value(mixed $value, ?int $expected): void
     {
         $integerFilter = IntegerFilter::instance();
         assertThat(
-                $integerFilter->apply($this->createParam($value))[0],
-                equals($expected)
+            $integerFilter->apply($this->createParam($value))[0],
+            equals($expected)
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntReturnsNullIfParamIsNullAndNotRequired(): void
     {
         assertNull($this->readParam(null)->asInt());
@@ -61,8 +57,8 @@ class IntegerFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         assertThat($this->readParam(null)->defaultingTo(303)->asInt(), equals(303));
@@ -70,8 +66,8 @@ class IntegerFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asInt());
@@ -79,8 +75,8 @@ class IntegerFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asInt();
@@ -89,8 +85,8 @@ class IntegerFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntReturnsNullIfParamIsInvalid(): void
     {
         assertNull($this->readParam(4)->asInt(new NumberRange(5, null)));
@@ -98,21 +94,17 @@ class IntegerFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asIntAddsParamErrorIfParamIsInvalid(): void
     {
-        $this->readParam(4)->asInt(new NumberRange(5, null)
-        );
+        $this->readParam(4)->asInt(new NumberRange(5, null));
         assertTrue($this->paramErrors->existFor('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function asIntReturnsValidValue(): void
     {
         assertThat($this->readParam('313')->asInt(), equals(313));
-
     }
 }

@@ -7,6 +7,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use Generator;
+use InvalidArgumentException;
+use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -19,217 +27,174 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\input\filter\range\StringLength.
  *
  * @since  2.0.0
- * @group  filter
- * @group  filter_range
  */
+#[Group('filter')]
+#[Group('filter_range')]
 class StringLengthTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  StringLength
-     */
-    private $stringLength;
+    private StringLength $stringLength;
 
     protected function setUp(): void
     {
         $this->stringLength = new StringLength(1, 10);
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function outOfRangeValues(): array
+    public static function outOfRangeValues(): Generator
     {
-        return [
-            [''],
-            ['abcdefghijk']
-        ];
+        yield [''];
+        yield ['abcdefghijk'];
     }
 
-    /**
-     * @test
-     * @dataProvider  outOfRangeValues
-     */
+    #[Test]
+    #[DataProvider('outOfRangeValues')]
     public function valueOutOfRangeIsNotContainedInRange(string $value): void
     {
         assertFalse($this->stringLength->contains($value));
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function withinRangeValues(): array
+    public static function withinRangeValues(): Generator
     {
-        return [
-            ['a'],
-            ['ab'],
-            ['abcdefghi'],
-            ['abcdefghij']
-        ];
+        yield ['a'];
+        yield ['ab'];
+        yield ['abcdefghi'];
+        yield ['abcdefghij'];
     }
 
-    /**
-     * @test
-     * @dataProvider  withinRangeValues
-     */
+    #[Test]
+    #[DataProvider('withinRangeValues')]
     public function valueWithinRangeIsContainedInRange(string $value): void
     {
         assertTrue($this->stringLength->contains($value));
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function lowValues(): array
+    public static function lowValues(): Generator
     {
-        return [['']];
+        yield [''];
     }
 
-    /**
-     * @test
-     * @dataProvider  lowValues
-     */
+    #[Test]
+    #[DataProvider('lowValues')]
     public function rangeContainsLowValuesIfMinValueIsNull(string $value): void
     {
         $numberRange = new StringLength(null, 10);
         assertTrue($numberRange->contains($value));
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function highValues(): array
+    public static function highValues(): Generator
     {
-        return [[str_pad('a', 100)]];
+        yield [str_pad('a', 100)];
     }
 
-    /**
-     * @test
-     * @dataProvider  highValues
-     */
+    #[Test]
+    #[DataProvider('highValues')]
     public function rangeContainsHighValuesIfMaxValueIsNull(string $value): void
     {
         $numberRange = new StringLength(1, null);
         assertTrue($numberRange->contains($value));
     }
 
-    /**
-     * @return  array<StringLength[]>
-     */
-    public static function ranges(): array
+    public static function ranges(): Generator
     {
-        return [
-            [new StringLength(1, 10)],
-            [new StringLength(null, 10)],
-            [new StringLength(1, null)]
-        ];
+        yield [new StringLength(1, 10)];
+        yield [new StringLength(null, 10)];
+        yield [new StringLength(1, null)];
     }
 
-    /**
-     * @test
-     * @dataProvider  ranges
-     */
+    #[Test]
+    #[DataProvider('ranges')]
     public function rangeDoesNotContainNull(StringLength $range): void
     {
         assertFalse($range->contains(null));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->stringLength->errorsOf('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
-                $this->stringLength->errorsOf(''),
-                equals(['STRING_TOO_SHORT' => ['minLength' => 1]])
+            $this->stringLength->errorsOf(''),
+            equals(['STRING_TOO_SHORT' => ['minLength' => 1]])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
-                $this->stringLength->errorsOf('abcdefghijk'),
-                equals(['STRING_TOO_LONG' => ['maxLength' => 10]])
+            $this->stringLength->errorsOf('abcdefghijk'),
+            equals(['STRING_TOO_LONG' => ['maxLength' => 10]])
         );
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function truncateValues(): array
+    public static function truncateValues(): Generator
     {
-        return [['foobar']];
+        yield ['foobar'];
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
-     * @dataProvider  truncateValues
      */
+    #[Test]
+    #[Group('issue41')]
+    #[DataProvider('truncateValues')]
     public function doesNotAllowTruncateByDefault(string $value): void
     {
         assertFalse($this->stringLength->allowsTruncate($value));
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
-     * @dataProvider  truncateValues
      */
+    #[Test]
+    #[Group('issue41')]
+    #[DataProvider('truncateValues')]
     public function truncateValueWhenNotAllowedThrowsLogicException(string $value): void
     {
         expect(function() use ($value) {
-                $this->stringLength->truncateToMaxBorder($value);
-        })->throws(\LogicException::class);
+            $this->stringLength->truncateToMaxBorder($value);
+        })->throws(LogicException::class);
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
-     * @dataProvider  truncateValues
      */
+    #[Test]
+    #[Group('issue41')]
+    #[DataProvider('truncateValues')]
     public function allowsTruncateWhenCreatedThisWay(string $value): void
     {
         assertTrue(StringLength::truncate(null, 3)->allowsTruncate($value));
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
-    public function createWithTruncateAndNoMaxLengthThrowsIllegalArgumentException(): void
-    {
-        expect(function() {
-                StringLength::truncate(50, null);
-        })->throws(\InvalidArgumentException::class);
+    #[Test]
+    #[TestWith([0])]
+    #[TestWith([-1])]
+    #[Group('issue41')]
+    public function createWithTruncateAndZeroMaxLengthThrowsIllegalArgumentException(
+        int $maxLength
+    ): void {
+        expect(fn() => StringLength::truncate(50, $maxLength))
+            ->throws(InvalidArgumentException::class);
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function truncateToMaxBorderReturnsSubstringWithMaxLength(): void
     {
         assertThat(
-                StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),
-                equals('foo')
+            StringLength::truncate(null, 3)->truncateToMaxBorder('foobar'),
+            equals('foo')
         );
     }
 }

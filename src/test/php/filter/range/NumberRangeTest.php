@@ -7,6 +7,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter\range;
+
+use BadMethodCallException;
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -19,152 +25,116 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\input\filter\range\NumberRange.
  *
  * @since  2.0.0
- * @group  filter
- * @group  filter_range
  */
+#[Group('filter')]
+#[Group('filter_range')]
 class NumberRangeTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  NumberRange
-     */
-    private $numberRange;
+    private NumberRange $numberRange;
 
     protected function setUp(): void
     {
         $this->numberRange = new NumberRange(1, 10);
     }
 
-    /**
-     * @return  array<int[]>
-     */
-    public static function outOfRangeValues(): array
+    public static function outOfRangeValues(): Generator
     {
-        return [
-            [0],
-            [11]
-        ];
+        yield [0];
+        yield [11];
     }
 
-    /**
-     * @test
-     * @dataProvider  outOfRangeValues
-     */
+    #[Test]
+    #[DataProvider('outOfRangeValues')]
     public function valueOutOfRangeIsNotContainedInRange(int $value): void
     {
         assertFalse($this->numberRange->contains($value));
     }
 
-    /**
-     * @return  array<int[]>
-     */
-    public static function withinRangeValues(): array
+    public static function withinRangeValues(): Generator
     {
-        return [
-            [1],
-            [4],
-            [8],
-            [10]
-        ];
+        yield [1];
+        yield [4];
+        yield [8];
+        yield [10];
     }
 
-    /**
-     * @test
-     * @dataProvider  withinRangeValues
-     */
+    #[Test]
+    #[DataProvider('withinRangeValues')]
     public function valueWithinRangeIsContainedInRange(int $value): void
     {
         assertTrue($this->numberRange->contains($value));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rangeContainsLowValuesIfMinValueIsNull(): void
     {
         $numberRange = new NumberRange(null, 10);
         assertTrue($numberRange->contains(PHP_INT_MAX * -1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rangeContainsHighValuesIfMaxValueIsNull(): void
     {
         $numberRange = new NumberRange(1, null);
         assertTrue($numberRange->contains(PHP_INT_MAX));
     }
 
-    /**
-     * @return  array<NumberRange[]>
-     */
-    public static function ranges(): array
+    public static function ranges(): Generator
     {
-        return [
-            [new NumberRange(1, 10)],
-            [new NumberRange(null, 10)],
-            [new NumberRange(1, null)]
-        ];
+        yield [new NumberRange(1, 10)];
+        yield [new NumberRange(null, 10)];
+        yield [new NumberRange(1, null)];
     }
 
-    /**
-     * @test
-     * @dataProvider  ranges
-     */
+    #[Test]
+    #[DataProvider('ranges')]
     public function rangeDoesNotContainNull(NumberRange $range): void
     {
         assertFalse($range->contains(null));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListIsEmptyIfValueContainedInRange(): void
     {
         assertEmptyArray($this->numberRange->errorsOf(3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMinBorderErrorWhenValueBelowRange(): void
     {
         assertThat(
-                $this->numberRange->errorsOf(0),
-                equals(['VALUE_TOO_SMALL' => ['minNumber' => 1]])
+            $this->numberRange->errorsOf(0),
+            equals(['VALUE_TOO_SMALL' => ['minNumber' => 1]])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function errorListContainsMaxBorderErrorWhenValueAboveRange(): void
     {
         assertThat(
-                $this->numberRange->errorsOf(11),
-                equals(['VALUE_TOO_GREAT' => ['maxNumber' => 10]])
+            $this->numberRange->errorsOf(11),
+            equals(['VALUE_TOO_GREAT' => ['maxNumber' => 10]])
         );
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function doesNotAllowToTruncate(): void
     {
         assertFalse($this->numberRange->allowsTruncate(11));
     }
 
     /**
-     * @test
      * @since  2.3.1
-     * @group  issue41
      */
+    #[Test]
+    #[Group('issue41')]
     public function tryingToTruncateThrowsMethodNotSupportedException(): void
     {
-        expect(function() { $this->numberRange->truncateToMaxBorder('11'); })
-            ->throws(\BadMethodCallException::class);
+        expect(fn(): never => $this->numberRange->truncateToMaxBorder('11'))
+            ->throws(BadMethodCallException::class);
     }
 }

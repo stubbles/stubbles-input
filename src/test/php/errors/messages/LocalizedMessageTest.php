@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\errors\messages;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -17,84 +20,71 @@ use function stubbles\reflect\annotationsOf;
  * Tests for stubbles\input\errors\messages\LocalizedMessage.
  *
  * @since  3.0.0
- * @group  errors
- * @group  errors_message
  */
+#[Group('errors')]
+#[Group('errors_message')]
 class LocalizedMessageTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  LocalizedMessage
-     */
-    private $localizedMessage;
+    private const TEST_STRING = 'This is a localized string.';
+
+    private LocalizedMessage $localizedMessage;
 
     protected function setUp(): void
     {
         $this->localizedMessage = new LocalizedMessage(
-                'en_EN',
-                'This is a localized string.'
+            'en_EN',
+            self::TEST_STRING
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function annotationPresentOnClass(): void
     {
         assertTrue(annotationsOf($this->localizedMessage)->contain('XmlTag'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function annotationPresentOnGetLocaleMethod(): void
     {
         assertTrue(
-                annotationsOf($this->localizedMessage, 'locale')
-                        ->contain('XmlAttribute')
+            annotationsOf($this->localizedMessage, 'locale')
+                ->contain('XmlAttribute')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function annotationPresentOngetMessageMethod(): void
     {
         assertTrue(
-                annotationsOf($this->localizedMessage, 'message')
-                        ->contain('XmlTag')
+            annotationsOf($this->localizedMessage, 'message')
+                ->contain('XmlTag')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function localeAttributeEqualsGivenLocale(): void
     {
         assertThat($this->localizedMessage->locale(), equals('en_EN'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function contentOfStringEqualsGivenString(): void
     {
         assertThat(
-                $this->localizedMessage->message(),
-                equals('This is a localized string.')
+            $this->localizedMessage->message(),
+            equals(self::TEST_STRING)
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function conversionToStringYieldsMessage(): void
     {
         assertThat(
-                (string) $this->localizedMessage,
-                equals('This is a localized string.')
+            (string) $this->localizedMessage,
+            equals(self::TEST_STRING)
         );
     }
 }

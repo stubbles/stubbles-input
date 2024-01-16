@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\input\errors\ParamErrors;
 
@@ -19,17 +22,11 @@ use function bovigo\assert\{
 };
 /**
  * Tests for stubbles\input\ParamRequest.
- *
- * @group  core
  */
+#[Group('core')]
 class ParamRequestTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  ParamRequest
-     */
-    private $paramRequest;
+    private ParamRequest $paramRequest;
 
     protected function setUp(): void
     {
@@ -43,85 +40,69 @@ class ParamRequestTest extends TestCase
         };
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsListOfParamNames(): void
     {
         assertThat(
-                $this->paramRequest->paramNames(),
-                equals(['foo', 'roland'])
+            $this->paramRequest->paramNames(),
+            equals(['foo', 'roland'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsParamErrors(): void
     {
         assertThat(
-                $this->paramRequest->paramErrors(),
-                isInstanceOf(ParamErrors::class)
+            $this->paramRequest->paramErrors(),
+            isInstanceOf(ParamErrors::class)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsFalseOnCheckForNonExistingParam(): void
     {
         assertFalse($this->paramRequest->hasParam('baz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsTrueOnCheckForExistingParam(): void
     {
         assertTrue($this->paramRequest->hasParam('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateParamReturnsValueValidator(): void
     {
         assertThat(
-                $this->paramRequest->validateParam('foo'),
-                isInstanceOf(ValueValidator::class)
+            $this->paramRequest->validateParam('foo'),
+            isInstanceOf(ValueValidator::class)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validateParamReturnsValueValidatorForNonExistingParam(): void
     {
         assertThat(
-                $this->paramRequest->validateParam('baz'),
-                isInstanceOf(ValueValidator::class)
+            $this->paramRequest->validateParam('baz'),
+            isInstanceOf(ValueValidator::class)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readParamReturnsValueReader(): void
     {
         assertThat(
-                $this->paramRequest->readParam('foo'),
-                isInstanceOf(ValueReader::class)
+            $this->paramRequest->readParam('foo'),
+            isInstanceOf(ValueReader::class)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readParamReturnsValueReaderForNonExistingParam(): void
     {
         assertThat(
-                $this->paramRequest->readParam('baz'),
-                isInstanceOf(ValueReader::class)
+            $this->paramRequest->readParam('baz'),
+            isInstanceOf(ValueReader::class)
         );
     }
 }

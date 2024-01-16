@@ -7,15 +7,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
+
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\FloatParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class FloatParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -25,8 +28,6 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -35,80 +36,68 @@ class FloatParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  float
      */
     protected function expectedValue(): float
     {
         return 3.03;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => 3.03])
-                ),
-                equals(3.03)
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => 3.03])
+            ),
+            equals(3.03)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfLowerThanMinValue(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('3.03'),
-                        $this->createRequestAnnotation(['minValue' => 4])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('3.03'),
+                $this->createRequestAnnotation(['minValue' => 4])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfGreaterThanMaxValue(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('3.03'),
-                        $this->createRequestAnnotation(['maxValue' => 3])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('3.03'),
+                $this->createRequestAnnotation(['maxValue' => 3])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('3.03'),
-                        $this->createRequestAnnotation(
-                                ['minValue' => 3, 'maxValue' => 4]
-                        )
-                ),
-                equals(3.03)
+            $this->paramBroker->procure(
+                $this->createRequest('3.03'),
+                $this->createRequestAnnotation(
+                    ['minValue' => 3, 'maxValue' => 4]
+                )
+            ),
+            equals(3.03)
         );
     }
 }

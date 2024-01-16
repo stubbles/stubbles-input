@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter;
 use bovigo\callmap\NewCallable;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\peer\http\HttpUri;
 
 use function bovigo\callmap\verify;
@@ -21,9 +23,9 @@ use function bovigo\assert\{
 /**
  * Tests for stubbles\input\filter\ExistingHttpUriFilter.
  *
- * @group  filter
  * @since  3.0.0
  */
+#[Group('filter')]
 class ExistingHttpUriFilterTest extends FilterTestBase
 {
     /**
@@ -37,57 +39,47 @@ class ExistingHttpUriFilterTest extends FilterTestBase
         parent::setUp();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsUriWithoutPortIfItIsDefaultPort(): void
     {
         $this->checkdnsrr->returns(true);
         assertThat(
-                $this->readParam('http://example.org')->asExistingHttpUri($this->checkdnsrr),
-                equals(HttpUri::fromString('http://example.org/'))
+            $this->readParam('http://example.org')->asExistingHttpUri($this->checkdnsrr),
+            equals(HttpUri::fromString('http://example.org/'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsUriWithPortIfItIsNonDefaultPort(): void
     {
         $this->checkdnsrr->returns(true);
         assertThat(
-                $this->readParam('http://example.org:45')->asExistingHttpUri($this->checkdnsrr),
-                equals(HttpUri::fromString('http://example.org:45/'))
+            $this->readParam('http://example.org:45')->asExistingHttpUri($this->checkdnsrr),
+            equals(HttpUri::fromString('http://example.org:45/'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForNull(): void
     {
         assertNull($this->readParam(null)->asExistingHttpUri());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForEmptyValue(): void
     {
         assertNull($this->readParam('')->asExistingHttpUri());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForInvalidUri(): void
     {
-        assertNull($this->readParam('ftp://foobar.de/')->asExistingHttpUri($this->checkdnsrr));
+        assertNull(
+            $this->readParam('ftp://foobar.de/')->asExistingHttpUri($this->checkdnsrr)
+        );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addsErrorToParamForInvalidUri(): void
     {
         $this->readParam('ftp://foobar.de/')->asExistingHttpUri($this->checkdnsrr);
@@ -96,68 +88,60 @@ class ExistingHttpUriFilterTest extends FilterTestBase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function doesNotActuallyCheckDnsRecordWhenUriIsInvalidAnyway(): void
     {
         $this->readParam('ftp://foobar.de/')->asExistingHttpUri($this->checkdnsrr);
         assertTrue(verify($this->checkdnsrr)->wasNeverCalled());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsHttpUriIfUriHasDnsRecoed(): void
     {
         $this->checkdnsrr->returns(true);
         assertThat(
-                $this->readParam('http://stubbles.net/')->asExistingHttpUri($this->checkdnsrr),
-                equals(HttpUri::fromString('http://stubbles.net/'))
+            $this->readParam('http://stubbles.net/')->asExistingHttpUri($this->checkdnsrr),
+            equals(HttpUri::fromString('http://stubbles.net/'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfUriHasNoDnsRecord(): void
     {
         assertNull(
-                $this->readParam('http://doesnotexist')
-                        ->asExistingHttpUri($this->checkdnsrr)
+            $this->readParam('http://doesnotexist')
+                ->asExistingHttpUri($this->checkdnsrr)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function addsErrorToParamIfUriHasNoDnsRecoed(): void
     {
         $this->readParam('http://doesnotexist')->asExistingHttpUri($this->checkdnsrr);
         assertTrue(
-                $this->paramErrors->existForWithId('bar', 'HTTP_URI_NOT_AVAILABLE')
+            $this->paramErrors->existForWithId('bar', 'HTTP_URI_NOT_AVAILABLE')
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asExistingHttpUriReturnsDefaultIfParamIsNullAndNotRequired(): void
     {
         $httpUri = HttpUri::fromString('http://example.com/');
         assertThat(
-                $this->readParam(null)
-                        ->defaultingTo($httpUri)
-                        ->asExistingHttpUri(),
-                isSameAs($httpUri)
+            $this->readParam(null)
+                ->defaultingTo($httpUri)
+                ->asExistingHttpUri(),
+            isSameAs($httpUri)
         );
     }
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asExistingHttpUriReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->asExistingHttpUri());
@@ -165,8 +149,8 @@ class ExistingHttpUriFilterTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function asExistingHttpUriAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->asExistingHttpUri();

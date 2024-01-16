@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\date\Date;
 use stubbles\date\span\Week;
 
@@ -16,10 +18,10 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\WeekParamBroker.
  *
- * @group  broker
- * @group  broker_param
  * @since  4.5.0
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class WeekParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -29,8 +31,6 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -39,84 +39,71 @@ class WeekParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  \stubbles\date\span\Week
      */
     protected function expectedValue(): Week
     {
         return Week::fromString('2015-W22');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => '2015-W22'])
-                ),
-                equals(Week::fromString('2015-W22'))
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => '2015-W22'])
+            ),
+            equals(Week::fromString('2015-W22'))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfBeforeMinStartDate(): void
     {
         $currentWeek = new Week(new Date('previous monday'));
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest($currentWeek->asString()),
-                        $this->createRequestAnnotation(['minStartDate' => 'next monday'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest($currentWeek->asString()),
+                $this->createRequestAnnotation(['minStartDate' => 'next monday'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfAfterMaxStartDate(): void
     {
         $currentWeek = new Week(new Date('tomorrow'));
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest($currentWeek->asString()),
-                        $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest($currentWeek->asString()),
+                $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('2015-W22'),
-                        $this->createRequestAnnotation(
-                                ['minStartDate' => '2015-05-01',
-                                 'maxEndDate'   => '2015-05-31'
-                                ]
-                        )
-                ),
-                equals(Week::fromString('2015-W22'))
+            $this->paramBroker->procure(
+                $this->createRequest('2015-W22'),
+                $this->createRequestAnnotation([
+                    'minStartDate' => '2015-05-01',
+                    'maxEndDate'   => '2015-05-31'
+                ])
+            ),
+            equals(Week::fromString('2015-W22'))
         );
     }
 }

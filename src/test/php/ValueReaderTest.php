@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\input;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\input\errors\ParamError;
 use stubbles\input\filter\FilterTestBase;
 use stubbles\values\Value;
@@ -23,265 +25,218 @@ use function bovigo\callmap\verify;
  * Tests for stubbles\input\ValueFilter.
  *
  * @since  1.3.0
- * @group  filter
  */
+#[Group('filter')]
 class ValueReaderTest extends FilterTestBase
 {
-    /**
-     * @test
-     */
+    private const LOCALHOST_IP = '127.0.0.1';
+
+    #[Test]
     public function ifIsIpAddressReturnsValidatedValue(): void
     {
         assertThat(
-                $this->readParam('127.0.0.1')->ifIsIpAddress(),
-                equals('127.0.0.1')
+            $this->readParam(self::LOCALHOST_IP)->ifIsIpAddress(),
+            equals(self::LOCALHOST_IP)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressReturnsDefaultValueIfParamIsNull(): void
     {
         assertThat(
-                $this->readParam(null)->defaultingTo('127.0.0.1')->ifIsIpAddress(),
-                equals('127.0.0.1')
+            $this->readParam(null)->defaultingTo(self::LOCALHOST_IP)->ifIsIpAddress(),
+            equals(self::LOCALHOST_IP)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressReturnsNullIfValidationFails(): void
     {
         assertNull(
-                $this->readParam('invalid')
-                        ->defaultingTo('127.0.0.1')
-                        ->ifIsIpAddress()
+            $this->readParam('invalid')
+                ->defaultingTo(self::LOCALHOST_IP)
+                ->ifIsIpAddress()
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressReturnsNullIfValidationFailsAndNoDefaultValueGiven(): void
     {
         assertNull($this->readParam('invalid')->ifIsIpAddress());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressReturnsNullIfValidationFailsAndDefaultValueGiven(): void
     {
         assertNull($this->readParam('invalid')->required()->ifIsIpAddress());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressAddsParamErrorIfValidationFails(): void
     {
         $this->readParam('invalid')->ifIsIpAddress();
         assertTrue($this->paramErrors->existForWithId('bar', 'INVALID_IP_ADDRESS'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull($this->readParam(null)->required()->ifIsIpAddress());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsIpAddressAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->ifIsIpAddress();
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsValidatedValue(): void
     {
         assertThat(
-                $this->readParam('Hardfloor')->ifIsOneOf(['Hardfloor', 'Dr DNA']),
-                equals('Hardfloor')
+            $this->readParam('Hardfloor')->ifIsOneOf(['Hardfloor', 'Dr DNA']),
+            equals('Hardfloor')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsDefaultValueIfParamIsNull(): void
     {
         assertThat(
-                $this->readParam(null)
-                        ->defaultingTo('Moby')
-                        ->ifIsOneOf(['Hardfloor', 'Dr DNA']),
-                equals('Moby')
+            $this->readParam(null)
+                ->defaultingTo('Moby')
+                ->ifIsOneOf(['Hardfloor', 'Dr DNA']),
+            equals('Moby')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsNullIfValidationFails(): void
     {
         assertNull(
-                $this->readParam('invalid')
-                        ->defaultingTo('Moby')
-                        ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+            $this->readParam('invalid')
+                ->defaultingTo('Moby')
+                ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsNullIfValidationFailsAndNoDefaultValueGiven(): void
     {
         assertNull(
-                $this->readParam('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+            $this->readParam('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsNullIfValidationFailsAndDefaultValueGiven(): void
     {
         assertNull(
-                $this->readParam('invalid')
-                        ->required()
-                        ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+            $this->readParam('invalid')
+                ->required()
+                ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfAddsParamErrorIfValidationFails(): void
     {
         $this->readParam('invalid')->ifIsOneOf(['Hardfloor', 'Dr DNA']);
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_NO_SELECT'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull(
-                $this->readParam(null)
-                        ->required()
-                        ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
+            $this->readParam(null)
+                ->required()
+                ->ifIsOneOf(['Hardfloor', 'Dr DNA'])
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifIsOneOfAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)
-                ->required()
-                ->ifIsOneOf(['Hardfloor', 'Dr DNA']);
+            ->required()
+            ->ifIsOneOf(['Hardfloor', 'Dr DNA']);
+
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsValidatedValue(): void
     {
         assertThat(
-                $this->readParam('Hardfloor')->ifMatches('/[a-zA-Z]{9}/'),
-                equals('Hardfloor')
+            $this->readParam('Hardfloor')->ifMatches('/[a-zA-Z]{9}/'),
+            equals('Hardfloor')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsDefaultValueIfParamIsNull(): void
     {
         assertThat(
-                $this->readParam(null)
-                        ->defaultingTo('Moby')
-                        ->ifMatches('/[a-zA-Z]{9}/'),
-                equals('Moby')
+            $this->readParam(null)
+                ->defaultingTo('Moby')
+                ->ifMatches('/[a-zA-Z]{9}/'),
+            equals('Moby')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsNullIfValidationFails(): void
     {
         assertNull(
-                $this->readParam('invalid')
-                        ->defaultingTo('Moby')
-                        ->ifMatches('/[a-zA-Z]{9}/')
+            $this->readParam('invalid')
+                ->defaultingTo('Moby')
+                ->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsNullIfValidationFailsAndNoDefaultValueGiven(): void
     {
         assertNull(
-                $this->readParam('invalid')->ifMatches('/[a-zA-Z]{9}/')
+            $this->readParam('invalid')->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsNullIfValidationFailsAndDefaultValueGiven(): void
     {
         assertNull(
-                $this->readParam('invalid')
-                        ->required()
-                        ->ifMatches('/[a-zA-Z]{9}/')
+            $this->readParam('invalid')
+                ->required()
+                ->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesAddsParamErrorIfValidationFails(): void
     {
         $this->readParam('invalid')->ifMatches('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_WRONG_VALUE'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesReturnsNullIfParamIsNullAndRequired(): void
     {
         assertNull(
-                $this->readParam(null)->required()->ifMatches('/[a-zA-Z]{9}/')
+            $this->readParam(null)->required()->ifMatches('/[a-zA-Z]{9}/')
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesAddsParamErrorIfParamIsNullAndRequired(): void
     {
         $this->readParam(null)->required()->ifMatches('/[a-zA-Z]{9}/');
         assertTrue($this->paramErrors->existForWithId('bar', 'FIELD_EMPTY'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ifMatchesAddsParamErrorWithDifferentErrorId(): void
     {
         $this->readParam(null)->required('OTHER')->ifMatches('/[a-zA-Z]{9}/');
@@ -289,9 +244,9 @@ class ValueReaderTest extends FilterTestBase
     }
 
     /**
-     * @test
      * @since  3.0.0
      */
+    #[Test]
     public function withFilterReturnsNullIfParameterNotSet(): void
     {
         $value  = Value::of(null);
@@ -301,47 +256,41 @@ class ValueReaderTest extends FilterTestBase
     }
 
     /**
-     * @test
      * @since  3.0.0
      */
+    #[Test]
     public function withFilterReturnsDefaultValueIfParameterNotSet(): void
     {
         $value  = Value::of(null);
         $filter = NewInstance::of(Filter::class);
         assertThat(
-                $this->read($value)->defaultingTo('foo')->withFilter($filter),
-                equals('foo')
+            $this->read($value)->defaultingTo('foo')->withFilter($filter),
+            equals('foo')
         );
         verify($filter, 'apply')->wasNeverCalled();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withFilterReturnsNullIfParamHasErrors(): void
     {
         $filter = NewInstance::of(Filter::class)->returns([
-                'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
+            'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
         ]);
         assertNull($this->read(Value::of('foo'))->withFilter($filter));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withFilterErrorListContainsParamError(): void
     {
         $value = Value::of('foo');
         $filter = NewInstance::of(Filter::class)->returns([
-                'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
+            'apply' => [null, ['SOME_ERROR' => new ParamError('SOME_ERROR')]]
         ]);
         $this->read($value)->withFilter($filter);
         assertTrue($this->paramErrors->existForWithId('bar', 'SOME_ERROR'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withFilterReturnsNullIfParamRequiredButNotSet(): void
     {
         $value  = Value::of(null);
@@ -350,9 +299,7 @@ class ValueReaderTest extends FilterTestBase
         verify($filter, 'apply')->wasNeverCalled();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withFilterAddsRequiredErrorWhenRequiredAndParamNotSet(): void
     {
         $value  = Value::of(null);
@@ -362,9 +309,7 @@ class ValueReaderTest extends FilterTestBase
         verify($filter, 'apply')->wasNeverCalled();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withFilterReturnsValueFromFilter(): void
     {
         $filter = NewInstance::of(Filter::class)->returns(['apply' => ['foo', []]]);
@@ -373,55 +318,46 @@ class ValueReaderTest extends FilterTestBase
 
     /**
      * @since  2.0.0
-     * @test
      */
+    #[Test]
     public function canChangeRequiredParamErrorId(): void
     {
         $this->readParam(null)
-                ->required('OTHER')
-                ->withFilter(NewInstance::of(Filter::class));
+            ->required('OTHER')
+            ->withFilter(NewInstance::of(Filter::class));
         assertTrue($this->paramErrors->existForWithId('bar', 'OTHER'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unsecureReturnsRawValue(): void
     {
         assertThat($this->readParam('a value')->unsecure(), equals('a value'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canBeCreatedWithoutParam(): void
     {
         assertThat(ValueReader::forValue('bar'), isInstanceOf(ValueReader::class));
     }
 
-    /**
-     * create a simple callable which filters a param value
-     *
-     * @return  callable
-     */
     private function createCallable(): callable
     {
-        return function(Value $value, array &$errors)
-               {
-                   if ($value->value() == 303) {
-                       return 'Roland TB-303';
-                   }
+        return function(Value $value, array &$errors): ?string
+        {
+            if ($value->value() == 303) {
+                return 'Roland TB-303';
+            }
 
-                   $errors['INVALID_303'] = [];
-                   return null;
-               };
+            $errors['INVALID_303'] = [];
+            return null;
+        };
     }
 
     /**
      * @since  2.2.0
-     * @group  issue_33
-     * @test
      */
+    #[Test]
+    #[Group('issue_33')]
     public function withCallableReturnsFilteredValue(): void
     {
         assertThat(
@@ -432,30 +368,30 @@ class ValueReaderTest extends FilterTestBase
 
     /**
      * @since  3.0.0
-     * @test
      */
+    #[Test]
     public function withCallableReturnsNullWhenParamNotSet(): void
     {
         assertNull(
-                $this->readParam(null)->withCallable($this->createCallable())
+            $this->readParam(null)->withCallable($this->createCallable())
         );
     }
 
     /**
      * @since  3.0.0
-     * @test
      */
+    #[Test]
     public function withCallableReturnsNullWhenParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->readParam(null)->required()->withCallable($this->createCallable())
+            $this->readParam(null)->required()->withCallable($this->createCallable())
         );
     }
 
     /**
      * @since  3.0.0
-     * @test
      */
+    #[Test]
     public function withCallableAddsErrorWhenParamNotSetAndRequired(): void
     {
         $this->readParam(null)->required()->withCallable($this->createCallable());
@@ -464,35 +400,35 @@ class ValueReaderTest extends FilterTestBase
 
     /**
      * @since  3.0.0
-     * @test
      */
+    #[Test]
     public function withCallableReturnsDefaultValueWhenParamNotSet(): void
     {
         assertThat(
-                $this->readParam(null)
-                        ->defaultingTo('Roland TB-303 w/ Hardfloor Mod')
-                        ->withCallable($this->createCallable()),
-                equals('Roland TB-303 w/ Hardfloor Mod')
+            $this->readParam(null)
+                ->defaultingTo('Roland TB-303 w/ Hardfloor Mod')
+                ->withCallable($this->createCallable()),
+            equals('Roland TB-303 w/ Hardfloor Mod')
         );
     }
 
     /**
      * @since  2.2.0
-     * @group  issue_33
-     * @test
      */
+    #[Test]
+    #[Group('issue_33')]
     public function withCallableReturnsNullOnError(): void
     {
         assertNull(
-                $this->readParam('909')->withCallable($this->createCallable())
+            $this->readParam('909')->withCallable($this->createCallable())
         );
     }
 
     /**
      * @since  2.2.0
-     * @group  issue_33
-     * @test
      */
+    #[Test]
+    #[Group('issue_33')]
     public function withCallableAddsErrorsToErrorList(): void
     {
         $this->readParam('909')->withCallable($this->createCallable());

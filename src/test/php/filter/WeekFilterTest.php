@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\filter;
+
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\date\Date;
 use stubbles\date\span\Week;
 use stubbles\input\filter\range\DatespanRange;
@@ -23,10 +26,7 @@ use function bovigo\assert\predicate\equals;
  */
 class WeekFilterTest extends FilterTestBase
 {
-    /**
-     * @var  \stubbles\input\filter\WeekFilter
-     */
-    private $weekFilter;
+    private WeekFilter $weekFilter;
 
     protected function setUp(): void
     {
@@ -34,22 +34,9 @@ class WeekFilterTest extends FilterTestBase
         parent::setUp();
     }
 
-    /**
-     * @return  array<mixed[]>
-     */
-    public static function getEmptyValues(): array
-    {
-        return [[''],
-                [null]
-        ];
-    }
-
-    /**
-     * @param  scalar  $value
-     * @test
-     * @dataProvider  getEmptyValues
-     */
-    public function emptyParamsAreReturnedAsNull($value): void
+    #[Test]
+    #[DataProviderExternal(EmptyValuesDataProvider::class, 'provideStrings')]
+    public function emptyParamsAreReturnedAsNull(?string $value): void
     {
         assertNull($this->weekFilter->apply($this->createParam($value))[0]);
     }

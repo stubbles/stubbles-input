@@ -8,7 +8,12 @@ declare(strict_types=1);
  */
 namespace stubbles\input\broker;
 use bovigo\callmap\NewInstance;
+use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use stubbles\input\broker\param\ParamBroker;
 
 use function bovigo\assert\assertThat;
@@ -19,118 +24,97 @@ use function bovigo\assert\predicate\isSameAs;
 use function stubbles\reflect\annotationsOfConstructor;
 /**
  * Tests for stubbles\input\broker\RequestBroker.
- *
- * @group  broker
- * @group  broker_core
  */
+#[Group('broker')]
+#[Group('broker_core')]
 class ParamBrokersTest extends TestCase
 {
-    /**
-     * @var  \stubbles\input\broker\RequestBroker
-     */
-    private $requestBroker;
+    private RequestBroker $requestBroker;
 
     protected function setUp(): void
     {
         $this->requestBroker = new RequestBroker();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function annotationsPresentOnAddParamBrokersMethod(): void
     {
         assertTrue(
-                annotationsOfConstructor($this->requestBroker)->contain('Map')
+            annotationsOfConstructor($this->requestBroker)->contain('Map')
         );
     }
 
-    /**
-     * @return  array<string[]>
-     */
-    public static function defaultBrokerList(): array
+    public static function defaultBrokerList(): Generator
     {
-        $defaultBroker = [];
         foreach (RequestBroker::buildInTypes() as $name => $paramBroker) {
-            $defaultBroker[] = [$name, get_class($paramBroker)];
+            yield [$name, get_class($paramBroker)];
         }
-
-        return $defaultBroker;
     }
 
-    /**
-     * @test
-     * @dataProvider  defaultBrokerList
-     */
+    #[Test]
+    #[DataProvider('defaultBrokerList')]
     public function returnsBroker(string $key, string $brokerClass): void
     {
         assertThat(
-                $this->requestBroker->paramBroker($key),
-                isInstanceOf($brokerClass)
+            $this->requestBroker->paramBroker($key),
+            isInstanceOf($brokerClass)
         );
     }
 
     /**
-     * @test
-     * @dataProvider  defaultBrokerList
      * @since  2.3.3
-     * @group  issue_45
      */
+    #[Test]
+    #[DataProvider('defaultBrokerList')]
+    #[Group('issue_45')]
     public function returnsBrokerWithLowerCaseKey(string $key, string $brokerClass): void
     {
         assertThat(
-                $this->requestBroker->paramBroker(strtolower($key)),
-                isInstanceOf($brokerClass)
+            $this->requestBroker->paramBroker(strtolower($key)),
+            isInstanceOf($brokerClass)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function requestUnknownParamBrokerTypeThrowsRuntimeException(): void
     {
-        expect(function() {
-                $this->requestBroker->paramBroker('doesNotExist');
-        })->throws(\RuntimeException::class);
+        expect(fn() => $this->requestBroker->paramBroker('doesNotExist'))
+            ->throws(RuntimeException::class);
     }
 
-    /**
-     * @test
-     * @dataProvider  defaultBrokerList
-     */
-    public function addingBrokersDoesNotOverrideDefaultBrokers(string $key, string $brokerClass): void
-    {
+    #[Test]
+    #[DataProvider('defaultBrokerList')]
+    public function addingBrokersDoesNotOverrideDefaultBrokers(
+        string $key,
+        string $brokerClass
+    ): void {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['mock' => $paramBroker]);
         assertThat(
-                $requestBroker->paramBroker($key),
-                isInstanceOf($brokerClass)
+            $requestBroker->paramBroker($key),
+            isInstanceOf($brokerClass)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsAddedBroker(): void
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['Mock' => $paramBroker]);
         assertThat(
-                $requestBroker->paramBroker('mock'),
-                isSameAs($paramBroker)
+            $requestBroker->paramBroker('mock'),
+            isSameAs($paramBroker)
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canOverwriteDefaultBroker(): void
     {
         $paramBroker   = NewInstance::of(ParamBroker::class);
         $requestBroker = new RequestBroker(['string' => $paramBroker]);
         assertThat(
-                $requestBroker->paramBroker('string'),
-                isSameAs($paramBroker)
+            $requestBroker->paramBroker('string'),
+            isSameAs($paramBroker)
         );
     }
 }

@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\date\span\Month;
 
 use function bovigo\assert\assertThat;
@@ -15,10 +18,10 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\MonthParamBroker.
  *
- * @group  broker
- * @group  broker_param
  * @since  4.3.0
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class MonthParamBrokerTest extends MultipleSourceParamBrokerTestBase
 {
     protected function setUp(): void
@@ -28,8 +31,6 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns name of request annotation
-     *
-     * @return  string
      */
     protected function getRequestAnnotationName(): string
     {
@@ -38,84 +39,71 @@ class MonthParamBrokerTest extends MultipleSourceParamBrokerTestBase
 
     /**
      * returns expected filtered value
-     *
-     * @return  Month
      */
     protected function expectedValue(): Month
     {
         return new Month(2012, 04);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesDefaultFromAnnotationIfParamNotSet(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['default' => '2012-04'])
-                ),
-                equals(new Month(2012, 04))
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['default' => '2012-04'])
+            ),
+            equals(new Month(2012, 04))
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => true])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => true])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfBeforeMinStartDate(): void
     {
         $currentMonth = new Month();
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest($currentMonth->asString()),
-                        $this->createRequestAnnotation(['minStartDate' => 'tomorrow'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest($currentMonth->asString()),
+                $this->createRequestAnnotation(['minStartDate' => 'tomorrow'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfAfterMaxStartDate(): void
     {
         $currentMonth = new Month();
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest($currentMonth->next()->asString()),
-                        $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest($currentMonth->next()->asString()),
+                $this->createRequestAnnotation(['maxEndDate' => 'yesterday'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsValueIfInRange(): void
     {
         assertThat(
-                $this->paramBroker->procure(
-                        $this->createRequest('2015-02'),
-                        $this->createRequestAnnotation(
-                                ['minStartDate' => '2015-01-01',
-                                 'maxEndDate'   => '2015-03-31'
-                                ]
-                        )
-                ),
-                equals(Month::fromString('2015-02'))
+            $this->paramBroker->procure(
+                $this->createRequest('2015-02'),
+                $this->createRequestAnnotation([
+                    'minStartDate' => '2015-01-01',
+                    'maxEndDate'   => '2015-03-31'
+                ])
+            ),
+            equals(Month::fromString('2015-02'))
         );
     }
 }

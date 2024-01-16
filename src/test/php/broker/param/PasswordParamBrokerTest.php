@@ -7,7 +7,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use bovigo\callmap\ClassProxy;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\input\Request;
 use stubbles\input\ValueReader;
@@ -20,36 +24,26 @@ use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\input\broker\param\PasswordParamBroker.
- *
- * @group  broker
- * @group  broker_param
  */
+#[Group('broker')]
+#[Group('broker_param')]
 class PasswordParamBrokerTest extends TestCase
 {
-    /**
-     * @var  PasswordParamBroker
-     */
-    private $paramBroker;
+    private PasswordParamBroker $paramBroker;
 
     protected function setUp(): void
     {
         $this->paramBroker = new PasswordParamBroker();
     }
-
-    /**
-     * @param  string  $expectedPassword
-     * @param  Secret  $actualPassword
-     */
-    private function assertPasswordEquals(string $expectedPassword, Secret $actualPassword): void
-    {
+    private function assertPasswordEquals(
+        string $expectedPassword,
+        Secret $actualPassword
+    ): void {
         assertThat($actualPassword->unveil(), equals($expectedPassword));
     }
 
     /**
-     * creates request annotation
-     *
-     * @param   array<string,mixed>  $values
-     * @return  Annotation
+     * @param  array<string,mixed>  $values
      */
     protected function createRequestAnnotation(array $values = []): Annotation
     {
@@ -62,144 +56,122 @@ class PasswordParamBrokerTest extends TestCase
         );
     }
 
-    /**
-     * creates mocked request
-     *
-     * @param   mixed  $value
-     * @return  Request&\bovigo\callmap\ClassProxy
-     */
-    protected function createRequest($value): Request
+    protected function createRequest(mixed $value): Request&ClassProxy
     {
         return NewInstance::of(Request::class)->returns([
-                'readParam' => ValueReader::forValue($value)
+            'readParam' => ValueReader::forValue($value)
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function failsForUnknownSource(): void
     {
         expect(function() {
-                $this->paramBroker->procure(
-                        NewInstance::of(Request::class),
-                        $this->createRequestAnnotation(['source' => 'foo'])
-                );
+            $this->paramBroker->procure(
+                NewInstance::of(Request::class),
+                $this->createRequestAnnotation(['source' => 'foo'])
+            );
         })->throws(\RuntimeException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsDefaultSource(): void
     {
         $this->assertPasswordEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation()
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation()
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function usesParamAsSource(): void
     {
         $this->assertPasswordEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation(['source' => 'param'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation(['source' => 'param'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseHeaderAsSourceForWebRequest(): void
     {
         $request = NewInstance::of(WebRequest::class)->returns([
-                'readHeader' => ValueReader::forValue('topsecret')
+            'readHeader' => ValueReader::forValue('topsecret')
         ]);
         $this->assertPasswordEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'header'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'header'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canUseCookieAsSourceForWebRequest(): void
     {
         $request =  NewInstance::of(WebRequest::class)->returns([
-                'readCookie' => ValueReader::forValue('topsecret')
+            'readCookie' => ValueReader::forValue('topsecret')
         ]);
         $this->assertPasswordEquals(
-                'topsecret',
-                $this->paramBroker->procure(
-                        $request,
-                        $this->createRequestAnnotation(['source' => 'cookie'])
-                )
+            'topsecret',
+            $this->paramBroker->procure(
+                $request,
+                $this->createRequestAnnotation(['source' => 'cookie'])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation()
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation()
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfParamNotSetAndNotRequired(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest(null),
-                        $this->createRequestAnnotation(['required' => false])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest(null),
+                $this->createRequestAnnotation(['required' => false])
+            )
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullIfTooLessMinDiffChars(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation(['minDiffChars' => 20])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation(['minDiffChars' => 20])
+            )
         );
     }
 
     /**
-     * @test
      * @since  3.0.0
      */
+    #[Test]
     public function returnsNullIfTooShort(): void
     {
         assertNull(
-                $this->paramBroker->procure(
-                        $this->createRequest('topsecret'),
-                        $this->createRequestAnnotation(['minLength' => 20])
-                )
+            $this->paramBroker->procure(
+                $this->createRequest('topsecret'),
+                $this->createRequestAnnotation(['minLength' => 20])
+            )
         );
     }
 }
