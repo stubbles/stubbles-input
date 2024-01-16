@@ -106,16 +106,16 @@
         },
         {
             "name": "stubbles/values",
-            "version": "v11.0.0",
+            "version": "v11.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-values.git",
-                "reference": "4d371844cb01a95f8e163ce48d380df1cd37c27f"
+                "reference": "1d95e730a607b7b5b6000337983809baa8225be1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/4d371844cb01a95f8e163ce48d380df1cd37c27f",
-                "reference": "4d371844cb01a95f8e163ce48d380df1cd37c27f",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/1d95e730a607b7b5b6000337983809baa8225be1",
+                "reference": "1d95e730a607b7b5b6000337983809baa8225be1",
                 "shasum": ""
             },
             "require": {
@@ -150,9 +150,9 @@
             "homepage": "http://stubbles.net/",
             "support": {
                 "issues": "https://github.com/stubbles/stubbles-values/issues",
-                "source": "https://github.com/stubbles/stubbles-values/tree/v11.0.0"
+                "source": "https://github.com/stubbles/stubbles-values/tree/v11.0.1"
             },
-            "time": "2023-12-25T19:36:45+00:00"
+            "time": "2024-01-16T16:16:48+00:00"
         }
     ],
     "packages-dev": [
