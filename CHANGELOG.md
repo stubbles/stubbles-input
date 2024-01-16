@@ -11,6 +11,7 @@
   * `stubbles\input\broker\param\ParamBroker::procureParam()`
     * `stubbles\input\broker\param\CustomDatespanParamBroker::procureParam()`
     * `stubbles\input\broker\param\ultipleSourceParamBroker::procureParam()`
+* `stubbles\input\filter\range\StringLength::truncate()` now throws an `\ValueError` instead of an `\InvalidArgumentException`
 
 ## 8.0.2 (2019-12-16)
 

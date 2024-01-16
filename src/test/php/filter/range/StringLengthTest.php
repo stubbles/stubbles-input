@@ -16,6 +16,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use ValueError;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyArray;
@@ -182,7 +183,7 @@ class StringLengthTest extends TestCase
         int $maxLength
     ): void {
         expect(fn() => StringLength::truncate(50, $maxLength))
-            ->throws(InvalidArgumentException::class);
+            ->throws(ValueError::class);
     }
 
     /**

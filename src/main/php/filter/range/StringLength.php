@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\input\filter\range;
 
-use InvalidArgumentException;
 use LogicException;
-use stubbles\values\Secret;
+use ValueError;
+
 /**
  * String length limitation.
  *
@@ -30,13 +30,13 @@ class StringLength extends AbstractRange
      * create instance which treats above max border not as error, but will lead
      * to a truncated value only
      *
-     * @throws  InvalidArgumentException
+     * @throws  ValueError when $maxLength smaller than 1
      * @since   2.3.1
      */
-    public static function truncate(?int $minLength, ?int $maxLength = null)
+    public static function truncate(?int $minLength, int $maxLength)
     {
         if (0 >= $maxLength) {
-            throw new InvalidArgumentException(
+            throw new ValueError(
                 'Max length must be greater than 0, otherwise truncation doesn\'t make sense'
             );
         }
