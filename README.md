@@ -9,8 +9,7 @@ Request API in order to validate and filter input values.
 Build status
 ------------
 
-[![Build Status](https://secure.travis-ci.org/stubbles/stubbles-input.png)](http://travis-ci.org/stubbles/stubbles-input)
-[![Coverage Status](https://coveralls.io/repos/stubbles/stubbles-input/badge.png?branch=master)](https://coveralls.io/r/stubbles/stubbles-input?branch=master)
+![Tests](https://github.com/stubbles/stubbles-input/workflows/Tests/badge.svg)
 
 [![Latest Stable Version](https://poser.pugx.org/stubbles/input/version.png)](https://packagist.org/packages/stubbles/input)
 [![Latest Unstable Version](https://poser.pugx.org/stubbles/input/v/unstable.png)](//packagist.org/packages/stubbles/input)
@@ -23,13 +22,13 @@ _stubbles/input_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/input": "^8.0"
+    composer require "stubbles/input": "^9.0"
 
 
 Requirements
 ------------
 
-_stubbles/input_ requires at least PHP 7.3.
+_stubbles/input_ requires at least PHP 8.2.
 
 
 Request parameters
