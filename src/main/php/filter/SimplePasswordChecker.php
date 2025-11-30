@@ -23,11 +23,11 @@ class SimplePasswordChecker implements PasswordChecker
     /**
      * default amount of different characters in password
      */
-    const DEFAULT_MIN_DIFF_CHARS = 5;
+    public const int DEFAULT_MIN_DIFF_CHARS = 5;
     /**
      * defailt minimum length of password
      */
-    const DEFAULT_MINLENGTH      = 8;
+    public const int DEFAULT_MINLENGTH      = 8;
     /**
      * minimum amount of different characters in the password
      */

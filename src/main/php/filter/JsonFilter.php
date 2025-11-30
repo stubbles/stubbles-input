@@ -20,7 +20,7 @@ class JsonFilter extends Filter
     /**
      * maximum default allowed length of incoming JSON document in bytes
      */
-    const DEFAULT_MAX_LENGTH = 20000;
+    public const int DEFAULT_MAX_LENGTH = 20000;
 
     /**
      * constructor

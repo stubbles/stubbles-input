@@ -34,7 +34,7 @@ interface CommonValueReader
     /**
      * default separator to be used to split string
      */
-    const ARRAY_SEPARATOR = ',';
+    public const string ARRAY_SEPARATOR = ',';
 
     /**
      * read as array value
