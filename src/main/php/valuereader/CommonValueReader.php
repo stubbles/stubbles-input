@@ -52,29 +52,29 @@ interface CommonValueReader
     /**
      * read as integer value
      */
-    public function asInt(NumberRange $range = null): ?int;
+    public function asInt(?NumberRange $range = null): ?int;
 
     /**
      * read as float value
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null): ?float;
+    public function asFloat(?NumberRange $range = null, ?int $decimals = null): ?float;
 
     /**
      * read as string value
      */
-    public function asString(StringLength $length = null): ?string;
+    public function asString(?StringLength $length = null): ?string;
 
     /**
      * read as secret
      */
-    public function asSecret(SecretMinLength $length = null): ?Secret;
+    public function asSecret(?SecretMinLength $length = null): ?Secret;
 
     /**
      * read as text value
      *
      * @param   string[]  $allowedTags  list of allowed tags
      */
-    public function asText(StringLength $length = null, array $allowedTags = []): ?string;
+    public function asText(?StringLength $length = null, array $allowedTags = []): ?string;
 
     /**
      * read as json value
@@ -116,7 +116,7 @@ interface CommonValueReader
      * In case the default value is not of type stubbles\date\Date an LogicException
      * will be thrown.
      */
-    public function asDate(DateRange $range = null): ?Date;
+    public function asDate(?DateRange $range = null): ?Date;
 
     /**
      * read as day
@@ -124,7 +124,7 @@ interface CommonValueReader
      * In case the default value is not of type stubbles\date\span\Day an
      * LogicException will be thrown.
      */
-    public function asDay(DatespanRange $range = null): ?Day;
+    public function asDay(?DatespanRange $range = null): ?Day;
 
     /**
      * read as week
@@ -133,7 +133,7 @@ interface CommonValueReader
      * LogicException will be thrown.
      * @since   4.5.0
      */
-    public function asWeek(DatespanRange $range = null): ?Week;
+    public function asWeek(?DatespanRange $range = null): ?Week;
 
     /**
      * read as month
@@ -141,7 +141,7 @@ interface CommonValueReader
      * In case the default value is not of type stubbles\date\span\Month an
      * LogicException will be thrown.
      */
-    public function asMonth(DatespanRange $range = null): ?Month;
+    public function asMonth(?DatespanRange $range = null): ?Month;
 
     /**
      * read as datespan
@@ -150,7 +150,7 @@ interface CommonValueReader
      * LogicException will be thrown.
      * @since   4.3.0
      */
-    public function asDatespan(DatespanRange $range = null): ?Datespan;
+    public function asDatespan(?DatespanRange $range = null): ?Datespan;
 
     /**
      * returns value if it is an ip address, and null otherwise

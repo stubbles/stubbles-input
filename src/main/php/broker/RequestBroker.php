@@ -27,14 +27,14 @@ class RequestBroker
     /**
      * list of build in param brokers
      *
-     * @var  ParamBroker[]
+     * @var   array<string,ParamBroker>
      */
     private static array $buildInParamBroker = [];
 
     /**
      * returns list of build in param brokers
      *
-     * @return  ParamBroker[]
+     * @return   array<string,ParamBroker>
      */
     public static function buildInTypes(): array
     {
@@ -67,14 +67,14 @@ class RequestBroker
     /**
      * map of param brokers
      *
-     * @type  ParamBroker[]
+     * @var  array<string,ParamBroker>
      */
     private array $paramBrokers;
 
     /**
      * constructor
      *
-     * @param  ParamBroker[]  $paramBrokers  optional
+     * @param  array<string,ParamBroker>  $paramBrokers  optional
      * @Map(stubbles\input\broker\param\ParamBroker.class)
      */
     public function __construct(array $paramBrokers = [])
@@ -91,7 +91,7 @@ class RequestBroker
      * @param   object   $object  the object instance to fill with values
      * @param   string   $group   restrict procurement to given group
      */
-    public function procure(Request $request, object $object, string $group = null): void
+    public function procure(Request $request, object $object, ?string $group = null): void
     {
         foreach (self::targetMethodsOf($object, $group) as $targetMethod) {
             $targetMethod->invoke(
@@ -124,7 +124,7 @@ class RequestBroker
      * @param   string                                 $group   optional  restrict list to given group
      * @return  \stubbles\sequence\Sequence<TargetMethod>
      */
-    public static function targetMethodsOf($object, string $group = null): Sequence
+    public static function targetMethodsOf($object, ?string $group = null): Sequence
     {
         return methodsOf($object, ReflectionMethod::IS_PUBLIC)->filter(
             function(ReflectionMethod $method) use ($group): bool

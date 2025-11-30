@@ -20,7 +20,7 @@ class RangeFilter extends Filter
     /**
      * utility method that wraps given filter with given range
      */
-    public static function wrap(Filter $filter, Range $range = null): Filter
+    public static function wrap(Filter $filter, ?Range $range = null): Filter
     {
         if (null === $range) {
             return $filter;

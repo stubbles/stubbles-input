@@ -42,7 +42,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @param  string  $errorId  optional
      */
-    private function reportError(string $errorId = null): void
+    private function reportError(?string $errorId = null): void
     {
         $reportError = $this->reportError;
         $reportError($errorId ?? $this->defaultErrorId);
@@ -72,7 +72,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as integer value
      */
-    public function asInt(NumberRange $range = null): ?int
+    public function asInt(?NumberRange $range = null): ?int
     {
         $this->reportError();
         return null;
@@ -81,7 +81,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as float value
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null): ?float
+    public function asFloat(?NumberRange $range = null, ?int $decimals = null): ?float
     {
         $this->reportError();
         return null;
@@ -90,7 +90,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as string value
      */
-    public function asString(StringLength $length = null): ?string
+    public function asString(?StringLength $length = null): ?string
     {
         $this->reportError();
         return null;
@@ -99,7 +99,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as secret
      */
-    public function asSecret(SecretMinLength $length = null): ?Secret
+    public function asSecret(?SecretMinLength $length = null): ?Secret
     {
         $this->reportError();
         return null;
@@ -110,7 +110,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @param   string[]  $allowedTags  list of allowed tags
      */
-    public function asText(StringLength $length = null, array $allowedTags = []): ?string
+    public function asText(?StringLength $length = null, array $allowedTags = []): ?string
     {
         $this->reportError();
         return null;
@@ -174,7 +174,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as date value
      */
-    public function asDate(DateRange $range = null): ?Date
+    public function asDate(?DateRange $range = null): ?Date
     {
         $this->reportError();
         return null;
@@ -183,7 +183,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as day
      */
-    public function asDay(DatespanRange $range = null): ?Day
+    public function asDay(?DatespanRange $range = null): ?Day
     {
         $this->reportError();
         return null;
@@ -194,7 +194,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @since   4.5.0
      */
-    public function asWeek(DatespanRange $range = null): ?Week
+    public function asWeek(?DatespanRange $range = null): ?Week
     {
         $this->reportError();
         return null;
@@ -203,7 +203,7 @@ class MissingValueReader implements CommonValueReader
     /**
      * read as month
      */
-    public function asMonth(DatespanRange $range = null): ?Month
+    public function asMonth(?DatespanRange $range = null): ?Month
     {
         $this->reportError();
         return null;
@@ -217,7 +217,7 @@ class MissingValueReader implements CommonValueReader
      *
      * @since  4.3.0
      */
-    public function asDatespan(DatespanRange $range = null): ?Datespan
+    public function asDatespan(?DatespanRange $range = null): ?Datespan
     {
         $this->reportError();
         return null;

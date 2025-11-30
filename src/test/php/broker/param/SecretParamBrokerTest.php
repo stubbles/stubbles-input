@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\input\broker\param;
+
+use bovigo\callmap\ClassProxy;
 use bovigo\callmap\NewInstance;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
@@ -56,7 +58,7 @@ class SecretParamBrokerTest extends TestCase
         );
     }
 
-    protected function createRequest(mixed $value): Request
+    protected function createRequest(mixed $value): Request&ClassProxy
     {
         return NewInstance::of(Request::class)->returns([
             'readParam' => ValueReader::forValue($value)

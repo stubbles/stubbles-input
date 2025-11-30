@@ -154,7 +154,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      */
-    public function asInt(NumberRange $range = null): ?int
+    public function asInt(?NumberRange $range = null): ?int
     {
         return $this->handleFilter(
             function() use($range): Filter
@@ -172,7 +172,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null): ?float
+    public function asFloat(?NumberRange $range = null, ?int $decimals = null): ?float
     {
         return $this->handleFilter(
             function() use($range, $decimals): Filter
@@ -192,7 +192,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @param   \stubbles\input\filter\range\StringLength  $length  optional  allowed length of string
      * @return  string
      */
-    public function asString(StringLength $length = null): ?string
+    public function asString(?StringLength $length = null): ?string
     {
         return $this->handleFilter(
             function() use($length): Filter
@@ -211,7 +211,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @since  6.0.0
      */
-    public function asSecret(SecretMinLength $length = null): ?Secret
+    public function asSecret(?SecretMinLength $length = null): ?Secret
     {
         return $this->handleFilter(
             function() use($length): Filter
@@ -230,7 +230,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @param  string[]  $allowedTags  optional  list of allowed tags
      */
-    public function asText(StringLength $length = null, array $allowedTags = []): ?string
+    public function asText(?StringLength $length = null, array $allowedTags = []): ?string
     {
         return $this->handleFilter(
             function() use($length, $allowedTags): Filter
@@ -300,7 +300,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @param  callable  $checkdnsrr  optional  function with which to check DNS record, defaults to checkdnsrr()
      */
-    public function asExistingHttpUri(callable $checkdnsrr = null): ?HttpUri
+    public function asExistingHttpUri(?callable $checkdnsrr = null): ?HttpUri
     {
         $httpUri = $this->asHttpUri();
         if (null === $httpUri) {
@@ -330,7 +330,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @api
      */
-    public function asDate(DateRange $range = null): ?Date
+    public function asDate(?DateRange $range = null): ?Date
     {
         return $this->handleFilter(
             function() use($range): Filter
@@ -349,7 +349,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @since  2.0.0
      */
-    public function asDay(DatespanRange $range = null): ?Day
+    public function asDay(?DatespanRange $range = null): ?Day
     {
         return $this->handleFilter(
             function() use($range): Filter
@@ -368,7 +368,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @since  4.5.0
      */
-    public function asWeek(DatespanRange $range = null): ?Week
+    public function asWeek(?DatespanRange $range = null): ?Week
     {
         return $this->handleFilter(
             function() use($range): Filter
@@ -387,7 +387,7 @@ class ValueReader implements valuereader\CommonValueReader
      * @api
      * @since   2.5.1
      */
-    public function asMonth(DatespanRange $range = null): ?Month
+    public function asMonth(?DatespanRange $range = null): ?Month
     {
         return $this->handleFilter(
             function() use($range): Filter
@@ -405,7 +405,7 @@ class ValueReader implements valuereader\CommonValueReader
      *
      * @since   4.3.0
      */
-    public function asDatespan(DatespanRange $range = null): ?Datespan
+    public function asDatespan(?DatespanRange $range = null): ?Datespan
     {
         return $this->handleFilter(
             function() use($range): Filter

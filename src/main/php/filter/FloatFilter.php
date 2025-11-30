@@ -23,7 +23,7 @@ class FloatFilter extends NumberFilter
     /**
      * sets number of decimals
      */
-    public function setDecimals(int $decimals = null): self
+    public function setDecimals(?int $decimals = null): self
     {
         $this->decimals = $decimals;
         return $this;

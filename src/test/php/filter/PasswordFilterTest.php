@@ -39,7 +39,7 @@ class PasswordFilterTest extends FilterTestBase
 
     private function assertPasswordEquals(
         string $expectedPassword,
-        Secret $actualPassword = null
+        ?Secret $actualPassword = null
     ): void {
         assertThat($actualPassword?->unveil(), equals($expectedPassword));
     }

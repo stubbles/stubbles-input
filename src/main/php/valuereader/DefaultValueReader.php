@@ -89,7 +89,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type int an LogicException
      * will be thrown.
      */
-    public function asInt(NumberRange $range = null): ?int
+    public function asInt(?NumberRange $range = null): ?int
     {
         $this->checkDefaultType(fn(): bool => is_int($this->default), 'int');
         return $this->default;
@@ -101,7 +101,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type float an LogicException
      * will be thrown.
      */
-    public function asFloat(NumberRange $range = null, int $decimals = null): ?float
+    public function asFloat(?NumberRange $range = null, ?int $decimals = null): ?float
     {
         $this->checkDefaultType(fn(): bool => is_float($this->default), 'float');
         return $this->default;
@@ -110,7 +110,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as string value
      */
-    public function asString(StringLength $length = null): ?string
+    public function asString(?StringLength $length = null): ?string
     {
         return $this->default;
     }
@@ -118,7 +118,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as string value
      */
-    public function asSecret(SecretMinLength $length = null): ?Secret
+    public function asSecret(?SecretMinLength $length = null): ?Secret
     {
         $this->checkDefaultType(fn(): bool => $this->default instanceof Secret, Secret::class);
         return $this->default;
@@ -129,7 +129,7 @@ class DefaultValueReader implements CommonValueReader
      *
      * @param   string[]  $allowedTags  list of allowed tags
      */
-    public function asText(StringLength $length = null, array $allowedTags = []): ?string
+    public function asText(?StringLength $length = null, array $allowedTags = []): ?string
     {
         return $this->default;
     }
@@ -192,7 +192,7 @@ class DefaultValueReader implements CommonValueReader
     /**
      * read as date value
      */
-    public function asDate(DateRange $range = null): ?Date
+    public function asDate(?DateRange $range = null): ?Date
     {
         $this->default = null === $this->default ? null : Date::castFrom($this->default, 'default');
         return $this->default;
@@ -204,7 +204,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type stubbles\date\span\Day an
      * LogicException will be thrown.
      */
-    public function asDay(DatespanRange $range = null): ?Day
+    public function asDay(?DatespanRange $range = null): ?Day
     {
         $this->checkDefaultType(fn(): bool => $this->default instanceof Day, Day::class);
         return $this->default;
@@ -218,7 +218,7 @@ class DefaultValueReader implements CommonValueReader
      *
      * @since   4.5.0
      */
-    public function asWeek(DatespanRange $range = null): ?Week
+    public function asWeek(?DatespanRange $range = null): ?Week
     {
         $this->checkDefaultType(fn(): bool => $this->default instanceof Week, Week::class);
         return $this->default;
@@ -230,7 +230,7 @@ class DefaultValueReader implements CommonValueReader
      * In case the default value is not of type stubbles\date\span\Month an
      * LogicException will be thrown.
      */
-    public function asMonth(DatespanRange $range = null): ?Month
+    public function asMonth(?DatespanRange $range = null): ?Month
     {
         $this->checkDefaultType(fn(): bool => $this->default instanceof Month, Month::class);
         return $this->default;
@@ -244,7 +244,7 @@ class DefaultValueReader implements CommonValueReader
      *
      * @since  4.3.0
      */
-    public function asDatespan(DatespanRange $range = null): ?Datespan
+    public function asDatespan(?DatespanRange $range = null): ?Datespan
     {
         $this->checkDefaultType(fn() => $this->default instanceof Datespan, Datespan::class);
         return $this->default;

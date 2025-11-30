@@ -58,7 +58,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
      *
      * If no locale is given the method falls back to a default locale.
      */
-    public function messageFor(ParamError $error, string $locale = null): LocalizedMessage
+    public function messageFor(ParamError $error, ?string $locale = null): LocalizedMessage
     {
         $usedLocale = $this->selectLocale($error->id(), $locale);
         return $error->fillMessage(
@@ -70,7 +70,7 @@ class PropertyBasedParamErrorMessages implements ParamErrorMessages
     /**
      * selects locale based on availability of translations
      */
-    private function selectLocale(string $errorId, string $requestedLocale = null): string
+    private function selectLocale(string $errorId, ?string $requestedLocale = null): string
     {
         $properties = $this->properties();
         if (null !== $requestedLocale) {

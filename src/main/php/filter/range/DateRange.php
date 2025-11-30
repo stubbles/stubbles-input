@@ -24,8 +24,8 @@ class DateRange extends AbstractRange
     private ?Date $maxDate;
 
     public function __construct(
-        int|string|DateTime|Date $minDate = null,
-        int|string|DateTime|Date $maxDate = null
+        int|string|DateTime|Date|null $minDate = null,
+        int|string|DateTime|Date|null $maxDate = null
     ) {
         $this->minDate = null === $minDate ? null : Date::castFrom($minDate, 'minDate');
         $this->maxDate = null === $maxDate ? null : Date::castFrom($maxDate, 'maxDate');

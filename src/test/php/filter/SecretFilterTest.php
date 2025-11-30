@@ -34,7 +34,7 @@ class SecretFilterTest extends FilterTestBase
         parent::setUp();
     }
 
-    private function assertSecretEquals(?string $expected, Secret $actualSecret = null): void
+    private function assertSecretEquals(?string $expected, ?Secret $actualSecret = null): void
     {
         $actual = $actualSecret !== null ? $actualSecret->unveil() : null;
         assertThat($actual, equals($expected));

@@ -51,7 +51,7 @@ class CustomDatespanParamBroker implements ParamBroker
             Request $request,
             string $paramName,
             bool $required,
-            Date $default = null
+            ?Date $default = null
     ): CommonValueReader {
         $valueFilter = $request->readParam($paramName);
         if ($required) {

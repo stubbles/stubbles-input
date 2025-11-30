@@ -40,5 +40,5 @@ interface ParamErrorMessages
      *
      * If no locale is given the method falls back to a default locale.
      */
-    public function messageFor(ParamError $error, string $locale = null): LocalizedMessage;
+    public function messageFor(ParamError $error, ?string $locale = null): LocalizedMessage;
 }
